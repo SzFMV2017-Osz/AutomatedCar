@@ -14,10 +14,9 @@ after_success:
   - java -cp ~/codacy-coverage-reporter-assembly-latest.jar com.codacy.CodacyCoverageReporter -l Java -r build/reports/jacoco/test/jacocoTestReport.xml
   - mvn clean test jacoco:report coveralls:report
 notifications:
-  slack: szfmv2017-tavasz:qeEcp0yCS46Tw4CGX98Y3lsZ
   webhooks:
     urls:
-      - https://webhooks.gitter.im/e/c8aa0ca8d653130b2ac8
+      - https://webhooks.gitter.im/e/353a28f3a8c36aa441ba
     on_success: change  # always|never|change
     on_failure: always
     on_start: never
