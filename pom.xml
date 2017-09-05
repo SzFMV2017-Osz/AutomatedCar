@@ -18,10 +18,11 @@
                 </configuration>
             </plugin> -->
             <!-- plugin for coveralls code coverage tracking tool -->
-            <!-- <plugin>
+            <plugin>
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
-            </plugin> -->
+                <version>4.3.0</version>
+            </plugin>
             <!-- plugin for code coverage calculation -->
             <plugin>
                 <groupId>org.jacoco</groupId>
