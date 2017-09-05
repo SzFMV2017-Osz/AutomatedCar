@@ -1,13 +1,22 @@
 language: java
 jdk:
   - oraclejdk8
+  - openjdk8
+dist: trusty
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+before_install:
+  - sudo apt-get install jq
+  - wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)
 after_success:
+  - java -cp ~/codacy-coverage-reporter-assembly-latest.jar com.codacy.CodacyCoverageReporter -l Java -r build/reports/jacoco/test/jacocoTestReport.xml
   - mvn clean test jacoco:report coveralls:report
 notifications:
-  slack: szfmv2017-tavasz:qeEcp0yCS46Tw4CGX98Y3lsZ
   webhooks:
     urls:
-      - https://webhooks.gitter.im/e/c8aa0ca8d653130b2ac8
+      - https://webhooks.gitter.im/e/353a28f3a8c36aa441ba
     on_success: change  # always|never|change
     on_failure: always
     on_start: never
