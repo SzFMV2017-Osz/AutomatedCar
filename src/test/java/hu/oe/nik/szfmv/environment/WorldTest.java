@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv17t.environment;
+package hu.oe.nik.szfmv.environment;
 
 import org.junit.Test;
 

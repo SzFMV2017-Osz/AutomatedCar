@@ -1,6 +1,6 @@
-package hu.oe.nik.szfmv17t.automatedcar;
+package hu.oe.nik.szfmv.automatedcar;
 
-import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 
 /**
  * This interface provides the necessary methods for system components.

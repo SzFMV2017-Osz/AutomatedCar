@@ -1,7 +1,7 @@
-package hu.oe.nik.szfmv17t.automatedcar.powertrainsystem;
+package hu.oe.nik.szfmv.automatedcar.powertrainsystem;
 
-import hu.oe.nik.szfmv17t.automatedcar.SystemComponent;
-import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv.automatedcar.SystemComponent;
+import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 
 public class PowertrainSystem extends SystemComponent {
 

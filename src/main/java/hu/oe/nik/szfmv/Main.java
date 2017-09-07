@@ -1,8 +1,8 @@
-package hu.oe.nik.szfmv17t;
+package hu.oe.nik.szfmv;
 
-import hu.oe.nik.szfmv17t.automatedcar.AutomatedCar;
-import hu.oe.nik.szfmv17t.environment.World;
-import hu.oe.nik.szfmv17t.visualisation.CourseDisplay;
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.environment.World;
+import hu.oe.nik.szfmv.visualisation.CourseDisplay;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,7 +1,7 @@
-package hu.oe.nik.szfmv17t.automatedcar;
+package hu.oe.nik.szfmv.automatedcar;
 
-import hu.oe.nik.szfmv17t.automatedcar.bus.Signal;
-import hu.oe.nik.szfmv17t.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 
 /**
  * This is an example class for the SystemComponent.
