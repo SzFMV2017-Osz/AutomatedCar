@@ -16,7 +16,7 @@
     <module name="EmptyBlock"/>
     <module name="EmptyCatchBlock"/>
     <module name="LeftCurly">
-        <property name="option" value="nl"/>
+        <property name="option" value="eol"/>
         <property name="ignoreEnums" value="false"/>
     </module>
     <module name="NeedBraces"/>
@@ -39,6 +39,7 @@
         <property name="max" value="3"/>
     </module>
     <module name="OneStatementPerLine"/>
+    <!--doesn't allow any return statements in constructors, more than one return statement in all lambda expressions and more than two return statements in methods-->
     <module name="ReturnCount">
         <property name="max" value="0"/>
         <property name="tokens" value="CTOR_DEF"/>
