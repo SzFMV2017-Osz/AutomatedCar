@@ -9,11 +9,12 @@
 
 <module name = "Checker">
     <property name="charset" value="UTF-8"/>
-
     <property name="severity" value="warning"/>
-
     <property name="fileExtensions" value="java, properties, xml"/>
-    <module name="EmptyBlock"/>
+    <module name="TreeWalker">
+    <module name="EmptyBlock">
+        <property name="tokens" value="LITERAL_DEFAULT"/>
+    </module>
     <module name="EmptyCatchBlock"/>
     <module name="LeftCurly">
         <property name="option" value="eol"/>
@@ -66,7 +67,7 @@
     <module name="Indentation">
         <property name="basicOffset" value="4"/>
     </module>
-    <module name="NewlineAtEndOfFile"/>
+
     <module name="OuterTypeFilename"/>
     <module name="TodoComment">
         <property name="format" value="(TODO)|(FIXME)"/>
@@ -101,7 +102,7 @@
        <property name="max" value="5"/>
        <property name="tokens" value="METHOD_DEF"/>
     </module>
-    <module name="FileTabCharacter"/>
+
     <module name="GenericWhitespace"/>
     <module name="ParenPad">
         <property name="option" value="nospace"/>
@@ -111,4 +112,7 @@
     </module>
     <module name="WhitespaceAround"/>
 
+    </module>
+    <module name="NewlineAtEndOfFile"/>
+    <module name="FileTabCharacter"/>
 </module>
