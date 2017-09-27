@@ -10,8 +10,6 @@ package hu.oe.nik.szfmv.automatedcar.bus;
  * <p>
  * For the simulation environment let's assume that each frame contains a single message,
  * so we do not need to bother extracting signal data from frames.
- * <p>
- * Students must not modify this class!
  */
 
 public class Signal {
@@ -20,10 +18,10 @@ public class Signal {
     private int id;
 
     // Signal value
-    private Number data;
+    private Object data;
 
     // Constructor for Signal
-    public Signal(int id, Number data) {
+    public Signal(int id, Object data) {
         this.id = id;
         this.data = data;
     }
@@ -34,7 +32,7 @@ public class Signal {
     }
 
     // Getter for Signal Value
-    public Number getData() {
+    public Object getData() {
         return data;
     }
 }
