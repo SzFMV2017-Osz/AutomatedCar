@@ -12,8 +12,6 @@ import java.util.List;
  * Components are only allowed to collect sensory data exclusively using the VFB.
  * The VFB stores the input and output signals, inputs only have setters,
  * while outputs only have getters respectively.
- * <p>
- * Students must not modify this class!
  */
 public class VirtualFunctionBus {
 
