@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class VirtualFunctionBus {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(VirtualFunctionBus.class);
 
     private static List<ISystemComponent> components = new ArrayList<>();
 
