@@ -1,9 +1,10 @@
 package hu.oe.nik.szfmv.visualisation;
 
-import hu.oe.nik.szfmv.environment.World;
-import hu.oe.nik.szfmv.environment.WorldObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import hu.oe.nik.szfmv.environment.model.World;
+import hu.oe.nik.szfmv.environment.model.WorldObject;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
