@@ -7,18 +7,16 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
 import hu.oe.nik.szfmv.environment.util.Vector;
 
 /**
- * gyalogost reprezentáló osztály
- * TODO: meghajtás bekötése
+ * gyalogost reprezentáló osztály TODO: meghajtás bekötése
+ * 
  * @author hunkak
  *
  */
 public class Pedestrian extends MovingObject {
-	
 
-	public Pedestrian(int x, int y, float rotation, int width, int height,String imageFileName, int weight) {
+	public Pedestrian(int x, int y, float rotation, int width, int height, String imageFileName, int weight) {
 		super(x, y, rotation, width, height, imageFileName, weight, ModelShape.ELLIPSE);
 	}
-
 
 	@Override
 	protected void doOnCollision() {

@@ -15,14 +15,15 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
 public abstract class CollidableObject extends WorldObject {
 
 	private static final Logger log = LogManager.getLogger(CollidableObject.class);
-	
+
 	// mozgó objektum tömege impulzus számításhoz
 	private final int weight;
 	// objektum ütközött-e már
 	// TODO: bináris vagy skálázható érték legyen?
 	private boolean collided;
 
-	public CollidableObject(int x, int y, float rotation, int width, int height, String imageFileName, int weight, ModelShape shape) {
+	public CollidableObject(int x, int y, float rotation, int width, int height, String imageFileName, int weight,
+			ModelShape shape) {
 		super(x, y, rotation, width, height, imageFileName, shape);
 
 		this.weight = weight;
