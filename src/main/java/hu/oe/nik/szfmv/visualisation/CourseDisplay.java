@@ -28,6 +28,7 @@ public class CourseDisplay {
 
         frame.validate();
         setFrameSize(world);
+        frame.setResizable(false);
         frame.setVisible(true);
     }
 
