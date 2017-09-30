@@ -1,16 +1,10 @@
 package hu.oe.nik.szfmv.visualisation;
 
 import hu.oe.nik.szfmv.environment.World;
-import hu.oe.nik.szfmv.environment.WorldObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class CourseDisplay {
 
@@ -25,24 +19,9 @@ public class CourseDisplay {
 
     public void init(World world) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new JPanel() {
-                      private static final long serialVersionUID = 1L;
 
-                      public void paintComponent(Graphics g) {
-
-                          for (WorldObject object : world.getWorldObjects()) {
-                              // draw objects
-                              BufferedImage image;
-                              try {
-                                  image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
-                                  g.drawImage(image, object.getX(), object.getY(), null);
-                              } catch (IOException e) {
-                                  logger.error(e.getMessage());
-                              }
-                          }
-                      }
-                  }
-        );
+        GameDisplayJPanel displayPanel = new GameDisplayJPanel(world);
+        frame.add(displayPanel);
 
         frame.validate();
         frame.setSize(world.getWidth(), world.getHeight());
