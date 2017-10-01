@@ -26,29 +26,41 @@ public class GameDisplayJPanel extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
+        //don't need to typecast inside loop
+        Graphics2D g2d = (Graphics2D) g;
 
         for (WorldObject object : world.getWorldObjects()) {
             // draw objects
-            BufferedImage image;
             try {
-                image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
 
-                Graphics2D g2d = (Graphics2D)g;
-                AffineTransform trans = new AffineTransform();
-                trans.translate(
-                        (int) Math.round(object.getX() *  scale),
-                        (int) Math.round(object.getY() *  scale) );
-                trans.rotate( object.getRotation() );
-                g2d.drawImage(
-                        image.getScaledInstance(
-                                (int) Math.round(image.getWidth()* scale),
-                                (int) Math.round(image.getHeight() * scale),
-                                image.SCALE_DEFAULT),
-                        trans,
-                        this);
+                Image image = getScaledImage(object);
+
+                AffineTransform trans = getTransform(object);
+
+                g2d.drawImage(image, trans, this);
+
             } catch (IOException e) {
                 logger.error(e.getMessage());
             }
         }
+    }
+
+    private Image getScaledImage(WorldObject object) throws IOException {
+        BufferedImage rawImage = //TODO: get this from WorldObject itself
+                ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
+        return rawImage.getScaledInstance(
+                (int) Math.round(rawImage.getWidth() * scale),
+                (int) Math.round(rawImage.getHeight() * scale),
+                BufferedImage.SCALE_DEFAULT);
+
+    }
+
+    private AffineTransform getTransform(WorldObject object) {
+        AffineTransform trans = new AffineTransform();
+        trans.translate(
+                (int) Math.round(object.getX() * scale),
+                (int) Math.round(object.getY() * scale));
+        trans.rotate(object.getRotation());
+        return trans;
     }
 }
