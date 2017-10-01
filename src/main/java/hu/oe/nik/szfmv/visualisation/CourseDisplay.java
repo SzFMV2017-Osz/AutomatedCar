@@ -13,6 +13,7 @@ public class CourseDisplay {
 
     private static final int maxHeight = 700, maxWidth = 1100;
     private static final double idealRatio = (double) maxWidth / (double) maxHeight;
+    private static double scale = 1;
 
     public void refreshFrame() {
         frame.invalidate();
@@ -22,12 +23,12 @@ public class CourseDisplay {
 
     public void init(World world) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setFrameSize(world);
 
-        GameDisplayJPanel displayPanel = new GameDisplayJPanel(world);
+        GameDisplayJPanel displayPanel = new GameDisplayJPanel(world, scale);
         frame.add(displayPanel);
 
         frame.validate();
-        setFrameSize(world);
         frame.setResizable(false);
         frame.setVisible(true);
     }
@@ -51,15 +52,21 @@ public class CourseDisplay {
 
         if (worldRatio > idealRatio) {
             scaledWidth = maxWidth;
+            calculateScale(scaledWidth, world.getWidth());
             scaledHeight = (int) Math.round(
                     world.getHeight() * ((double) maxWidth / (double) world.getWidth()));
 
         } else {
             scaledHeight = maxHeight;
+            calculateScale(scaledHeight, world.getHeight());
             scaledWidth = (int) Math.round(
                     world.getWidth() * ((double) maxHeight / (double) world.getHeight()));
         }
         frame.setSize(scaledWidth, scaledHeight);
+    }
+
+    private void calculateScale(int sizeFrom, int sizeTo) {
+        scale = ((double) sizeTo) / sizeFrom;
     }
 
 }
