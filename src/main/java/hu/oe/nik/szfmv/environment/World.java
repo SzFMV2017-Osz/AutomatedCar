@@ -10,6 +10,7 @@ public class World {
 
     public World(int width, int height) {
         this.width = width;
+        //this.valami;
         this.height = height;
     }
 
