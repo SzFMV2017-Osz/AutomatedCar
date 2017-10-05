@@ -15,7 +15,7 @@ public class PowertrainSystem extends SystemComponent {
 	private final double PEDALMAXVALUE = 100;
 
 	private double positionOnTrack = 0;
-	private int currentSpeed = 0;
+	private double currentSpeed = 0;
 
 	// input signals
 	private int gasPedal = 0;
@@ -37,14 +37,15 @@ public class PowertrainSystem extends SystemComponent {
 
 	@Override
 	public void loop() {
-		// TODO write this
+		// Calculating velocity
 		if (autoTransmission.equals(AutoTransmissionEnum.D)) {
-			this.currentSpeed = (int) Math
-					.round((this.MAXSPEED * (double) this.gasPedal) / (this.PEDALMAXVALUE * this.REFRESHRATE));
+			this.currentSpeed = Math.round((this.MAXSPEED * (double) this.gasPedal) / this.PEDALMAXVALUE);
 		}
 
-		//
-		this.positionOnTrack = (this.positionOnTrack + this.currentSpeed) % this.CIRCULARTRACKLENGTH;
+		// Calculating position on the circular track
+		this.positionOnTrack = (int) Math.round(this.positionOnTrack + (this.currentSpeed / this.REFRESHRATE))
+				% this.CIRCULARTRACKLENGTH;
+
 		this.convertToCircularTrack(this.positionOnTrack);
 	}
 
@@ -71,6 +72,7 @@ public class PowertrainSystem extends SystemComponent {
 	private void convertToCircularTrack(double positionOnTrack) {
 		this.x = CENTERX
 				+ (int) Math.round(TRACKRADIUS * Math.sin(positionOnTrack * 2 * Math.PI / CIRCULARTRACKLENGTH));
+
 		this.y = CENTERY
 				- (int) Math.round(TRACKRADIUS * Math.cos(positionOnTrack * 2 * Math.PI / CIRCULARTRACKLENGTH));
 	}
