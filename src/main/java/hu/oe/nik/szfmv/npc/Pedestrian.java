@@ -22,8 +22,7 @@ public class Pedestrian extends WorldObject implements IMovable {
     public void move() {
         switchDestinations();
         if (actualDest.getX() == this.x) {
-            if ((actualDest.getY() - this.y) > 0)
-            {
+            if ((actualDest.getY() - this.y) > 0) {
                 this.y++;
             } else {
                 this.y--;
@@ -64,27 +63,12 @@ public class Pedestrian extends WorldObject implements IMovable {
     }
 
     @Override
-    public double setMaxSpeed() {
-        return 0;
-    }
-
-    @Override
     public double getMaxTurnAngle() {
         return 0;
     }
 
     @Override
-    public double setMaxTurnAngle() {
-        return 0;
-    }
-
-    @Override
     public double getMass() {
-        return 0;
-    }
-
-    @Override
-    public double setMass() {
         return 0;
     }
 
