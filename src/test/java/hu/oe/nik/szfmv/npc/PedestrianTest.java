@@ -5,17 +5,22 @@ import org.junit.Test;
 import static junit.framework.Assert.assertEquals;
 
 public class PedestrianTest {
+    private static final int MOVE_TEST_X_RESULT = 11;
+    private static final int START_COORD_Y = 10;
+    private static final int START_COORD_X = 10;
+    private static final Vector2D TEST_DESTINATION_1 = new Vector2D(15, 10);
+    private static final Vector2D TEST_DESTINATION_2 = new Vector2D(10, 10);
+
     private Pedestrian pd;
 
     @org.junit.Before
     public void setUp() throws Exception {
-        pd = new Pedestrian(10, 10, new Vector2D(15, 10), new Vector2D(10, 10), null);
+        pd = new Pedestrian(START_COORD_X, START_COORD_Y, TEST_DESTINATION_1, TEST_DESTINATION_2, null);
     }
 
     @Test
-    public void TestCase() throws Exception
-    {
+    public void moveTestCase() throws Exception {
         this.pd.move();
-        assertEquals(pd.getX(), 11);
+        assertEquals(pd.getX(), MOVE_TEST_X_RESULT);
     }
 }

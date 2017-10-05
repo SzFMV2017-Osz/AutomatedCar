@@ -20,15 +20,8 @@ public class Pedestrian extends WorldObject implements IMovable {
 
     @Override
     public void move() {
-        if (toDest2 && this.x == actualDest.getX() && this.y == actualDest.getY()) {
-            toDest2 = false;
-            actualDest = dest1;
-        } else if (this.x == actualDest.getX() && this.y == actualDest.getY()) {
-            toDest2 = true;
-            actualDest = dest2;
-        }
-        if (actualDest.getX() == this.x)
-        {
+        switchDestinations();
+        if (actualDest.getX() == this.x) {
             if ((actualDest.getY() - this.y) > 0)
             {
                 this.y++;
@@ -41,6 +34,16 @@ public class Pedestrian extends WorldObject implements IMovable {
             } else {
                 this.x--;
             }
+        }
+    }
+
+    private void switchDestinations() {
+        if (toDest2 && this.x == actualDest.getX() && this.y == actualDest.getY()) {
+            toDest2 = false;
+            actualDest = dest1;
+        } else if (this.x == actualDest.getX() && this.y == actualDest.getY()) {
+            toDest2 = true;
+            actualDest = dest2;
         }
     }
 
