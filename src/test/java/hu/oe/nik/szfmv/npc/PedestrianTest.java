@@ -9,14 +9,13 @@ public class PedestrianTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-
-        pd = new Pedestrian(10,10,new Vector2D(15,10),new Vector2D(10,10),null);
+        pd = new Pedestrian(10, 10, new Vector2D(15, 10), new Vector2D(10, 10), null);
     }
 
     @Test
     public void TestCase() throws Exception
     {
-         this.pd.move();
-         assertEquals(pd.getX(),11);
+        this.pd.move();
+        assertEquals(pd.getX(), 11);
     }
 }

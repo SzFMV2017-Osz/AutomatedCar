@@ -1,57 +1,47 @@
 package hu.oe.nik.szfmv.npc;
 
-import com.sun.deploy.config.VerboseDefaultConfig;
 import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.environment.WorldObject;
 
 public class Pedestrian extends WorldObject implements IMovable {
 
-    Vector2D dest1;
-    Vector2D dest2;
-    Vector2D actualDest;
-    public Pedestrian(int x, int y,Vector2D dest1,Vector2D dest2, String imageFileName) {
+    private Vector2D dest1;
+    private Vector2D dest2;
+    private Vector2D actualDest;
+    private boolean toDest2;
+
+    public Pedestrian(int x, int y, Vector2D dest1, Vector2D dest2, String imageFileName) {
         super(x, y, imageFileName);
         this.dest1 = dest1;
-        this.dest2= dest2;
+        this.dest2 = dest2;
         toDest2 = true;
         this.actualDest = dest2;
     }
 
-
-    boolean toDest2;
-
-
-
-
     @Override
     public void move() {
-        if(toDest2 && this.x == actualDest.getX() && this.y == actualDest.getY()) {
+        if (toDest2 && this.x == actualDest.getX() && this.y == actualDest.getY()) {
             toDest2 = false;
             actualDest = dest1;
-        }
-        else if(this.x == actualDest.getX() && this.y== actualDest.getY()) {
+        } else if (this.x == actualDest.getX() && this.y == actualDest.getY()) {
             toDest2 = true;
             actualDest = dest2;
         }
         if (actualDest.getX() == this.x)
         {
-            if((actualDest.getY()-this.y)>0)
+            if ((actualDest.getY() - this.y) > 0)
             {
                 this.y++;
-            }
-            else
+            } else {
                 this.y--;
-        }
-        else if (actualDest.getY() == this.y) {
+            }
+        } else if (actualDest.getY() == this.y) {
             if ((actualDest.getX() - this.x) > 0) {
                 this.x++;
-            } else
+            } else {
                 this.x--;
+            }
         }
-
-
-
-
     }
 
     @Override
@@ -87,7 +77,7 @@ public class Pedestrian extends WorldObject implements IMovable {
 
     @Override
     public double getMass() {
-        return 80;
+        return 0;
     }
 
     @Override
@@ -97,7 +87,7 @@ public class Pedestrian extends WorldObject implements IMovable {
 
     @Override
     public Vector2D getPosition() {
-        return new Vector2D(this.x,this.y);
+        return new Vector2D(this.x, this.y);
     }
 
     @Override

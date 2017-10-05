@@ -1,10 +1,8 @@
 package hu.oe.nik.szfmv.npc;
 
-import hu.oe.nik.szfmv.environment.WorldObject;
-
 public abstract class AIController {
 
-    protected IMovable movableObject;
+    private IMovable movableObject;
 
     public AIController() {
     }
