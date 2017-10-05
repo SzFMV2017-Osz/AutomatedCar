@@ -47,16 +47,15 @@ public class Pedestrian extends WorldObject implements IMovable {
     }
 
     @Override
-    public int getX()
-    {
+    public int getX() {
         return this.x;
     }
 
     @Override
-    public int getY()
-    {
+    public int getY() {
         return this.y;
     }
+
     @Override
     public double getMaxSpeed() {
         return 0;
