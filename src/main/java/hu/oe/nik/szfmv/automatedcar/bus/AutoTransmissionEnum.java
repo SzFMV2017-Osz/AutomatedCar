@@ -1,8 +1,8 @@
-package hu.oe.nik.szfmv.automatedcar.powertrainsystem;
+package hu.oe.nik.szfmv.automatedcar.bus;
 
-enum AutoTransmissionEnum {
-    P, // parkolás
-    R, // hátra
-    N, // üres
-    D // előremenet
+public enum AutoTransmissionEnum {
+	P, // parkolás
+	R, // hátra
+	N, // üres
+	D // előremenet
 }

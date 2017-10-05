@@ -1,73 +1,93 @@
 package hu.oe.nik.szfmv.automatedcar.powertrainsystem;
 
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
+import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 
 public class PowertrainSystem extends SystemComponent {
 
-    // signal id table for PowertrainSystem
+	private final double CIRCULARTRACKLENGTH = 1080;
+	private final int CENTERX = 340;
+	private final int CENTERY = 177;
+	private final double TRACKRADIUS = 172;
+	private final double REFRESHRATE = 25;
+	private final double MAXSPEED = 299.34;
+	private final double PEDALMAXVALUE = 100;
 
-    // input signals
-    private int gasPedal = 0;
-    private int breakPedal = 0;
-    private int steeringWheel = 0;
-    private AutoTransmissionEnum autoTransmission = AutoTransmissionEnum.P;
+	private double positionOnTrack = 0;
+	private int currentSpeed = 0;
 
-    // Output signals
-    // Only these are available trough getters
-    private int x = 0;
-    private int y = 0;
-    private double wheelAngle = 0;
+	// input signals
+	private int gasPedal = 0;
+	private int breakPedal = 0;
+	private int steeringWheel = 0;
+	private AutoTransmissionEnum autoTransmission = AutoTransmissionEnum.P;
 
-    public PowertrainSystem(int x, int y) {
-        super();
-        this.x = x;
-        this.y = y;
-    }
+	// Output signals
+	// Only these are available trough getters
+	private int x = 0;
+	private int y = 0;
+	private double wheelAngle = 0;
 
-    @Override
-    public void loop() {
-        //TODO write this
-    }
+	public PowertrainSystem(int x, int y) {
+		super();
+		this.x = x;
+		this.y = y;
+	}
 
-    @Override
-    public void receiveSignal(Signal s) {
-        SignalEnum switchVal = SignalEnum.values()[s.getId()];
-        switch (switchVal) {
-            // Handle demo signal
-            case DEMO:
-                x += (int) s.getData();
-                break;
-            case GASPEDAL: 
-                this.gasPedal = (int)s.getData();
-                break;
-            case BREAKPEDAL: 
-                this.breakPedal = (int)s.getData();
-                break;
-            case STEERINGWHEEL: 
-                this.steeringWheel = (int)s.getData();
-                break;
-            case AUTOTRANSMISSION: 
-                this.autoTransmission = (AutoTransmissionEnum)s.getData();
-                break;
-            default:
-                // ignore other signals
-        }
-    }
+	@Override
+	public void loop() {
+		// TODO write this
+		if (autoTransmission.equals(AutoTransmissionEnum.D)) {
+			this.currentSpeed = (int) Math
+					.round((this.MAXSPEED * (double) this.gasPedal) / (this.PEDALMAXVALUE * this.REFRESHRATE));
+		}
 
-    public int getX() {
-        return x;
-    }
+		//
+		this.positionOnTrack = (this.positionOnTrack + this.currentSpeed) % this.CIRCULARTRACKLENGTH;
+		this.convertToCircularTrack(this.positionOnTrack);
+	}
 
-    public int getY() {
-        return y;
-    }
+	@Override
+	public void receiveSignal(Signal s) {
+		switch (s.getId()) {
+		case GASPEDAL:
+			this.gasPedal = (int) s.getData();
+			break;
+		case BREAKPEDAL:
+			this.breakPedal = (int) s.getData();
+			break;
+		case STEERINGWHEEL:
+			this.steeringWheel = (int) s.getData();
+			break;
+		case AUTOTRANSMISSION:
+			this.autoTransmission = (AutoTransmissionEnum) s.getData();
+			break;
+		default:
+			// ignore other signals
+		}
+	}
 
-    public double getWheelAngle() {
-        return wheelAngle;
-    }
+	private void convertToCircularTrack(double positionOnTrack) {
+		this.x = CENTERX
+				+ (int) Math.round(TRACKRADIUS * Math.sin(positionOnTrack * 2 * Math.PI / CIRCULARTRACKLENGTH));
+		this.y = CENTERY
+				- (int) Math.round(TRACKRADIUS * Math.cos(positionOnTrack * 2 * Math.PI / CIRCULARTRACKLENGTH));
+	}
 
-    public int getGasPedal() {
-        return gasPedal;
-    }
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public double getWheelAngle() {
+		return wheelAngle;
+	}
+
+	public int getGasPedal() {
+		return gasPedal;
+	}
 }

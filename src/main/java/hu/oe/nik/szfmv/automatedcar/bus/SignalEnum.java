@@ -1,5 +1,5 @@
-package hu.oe.nik.szfmv.automatedcar.powertrainsystem;
+package hu.oe.nik.szfmv.automatedcar.bus;
 
 public enum SignalEnum {
-    DEMO, GASPEDAL, BREAKPEDAL, STEERINGWHEEL, AUTOTRANSMISSION
+    GASPEDAL, BREAKPEDAL, STEERINGWHEEL, AUTOTRANSMISSION
 }

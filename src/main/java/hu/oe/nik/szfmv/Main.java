@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 public class Main {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final int CYCLE_PERIOD = 200;
+    private static final int CYCLE_PERIOD = 40;
 
     public static void main(String[] args) {
         CourseDisplay vis = new CourseDisplay();
@@ -17,7 +17,7 @@ public class Main {
         // create the world
         World w = new World(800, 600);
         // create an automated car
-        AutomatedCar car = new AutomatedCar(20, 20, "car_2_white.png");
+        AutomatedCar car = new AutomatedCar(340, 0, "car_2_white.png");
         // add car to the world
         w.addObjectToWorld(car);
         // init visualisation module with the world
