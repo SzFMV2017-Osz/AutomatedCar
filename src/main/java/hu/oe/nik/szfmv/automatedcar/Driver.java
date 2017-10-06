@@ -15,68 +15,70 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
  */
 public class Driver extends SystemComponent {
 
-	private final LocalTime STARTTIME;
-	private int loopCounter = 0;
-	private LocalTime elapsedTime = null;
+	// Variables for test
+	private LocalTime startTime;
+	private int loopCounter;
+	private LocalTime actualTime = null;
+	private boolean testDriveMode = false;
 
-	// LoopCounter as key value
+	// LoopCounter as key
 	private Map<Integer, Integer> gasPedalProgram = new LinkedHashMap<Integer, Integer>();
-
 	private Map<Integer, Integer> brakePedalProgram = new LinkedHashMap<Integer, Integer>();
-
 	private Map<Integer, AutoTransmissionEnum> autoTransmissionProgram = new LinkedHashMap<Integer, AutoTransmissionEnum>();
 
-	public Driver() {
-		super();
-		this.STARTTIME = LocalTime.now();
-
-		// Defining some inputs from HMI
+	// Switching to test drive mode
+	public void runTestDrive() {
+		// Defining some inputs
 		autoTransmissionProgram.put(1, AutoTransmissionEnum.D);
 		gasPedalProgram.put(2, 100);
-		// gasPedalProgram.put(100, 100);
-		// gasPedalProgram.put(90, 0);
-		// brakePedalProgram.put(140, 50);
+
+		this.startTime = LocalTime.now();
+		this.loopCounter = 0;
+		this.testDriveMode = true;
 	}
 
 	@Override
 	public void loop() {
-		// send demo signals
-		this.loopCounter++;
-		this.elapsedTime = LocalTime.now();
+		if (this.testDriveMode) {
 
-		AutoTransmissionEnum autoTransmission = autoTransmissionProgram.get(this.loopCounter);
+			this.loopCounter++;
+			this.actualTime = LocalTime.now();
 
-		// AutoTransmission is changed
-		if (autoTransmission != null) {
-			System.out.format("Elapsed: %1$tM:%1$tS:%1$tL, Loop: %2$d, Autotransmission is switched to: %3$s\n",
-					this.STARTTIME.until(elapsedTime, ChronoUnit.MILLIS), this.loopCounter, autoTransmission);
-			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.AUTOTRANSMISSION, autoTransmission));
-		}
+			// send demo signals
+			AutoTransmissionEnum autoTransmission = autoTransmissionProgram.get(this.loopCounter);
 
-		Integer gasPedal = gasPedalProgram.get(this.loopCounter);
-		
-		// Gas pedal is changed
-		if (gasPedal != null) {
-			System.out.format("Elapsed: %1$tM:%1$tS:%1$tL, Loop: %2$d, Gas pedal value: %3$d\n",
-					this.STARTTIME.until(elapsedTime, ChronoUnit.MILLIS), this.loopCounter, gasPedal);
-			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.GASPEDAL, gasPedal));
-		}
+			// AutoTransmission is changed
+			if (autoTransmission != null) {
+				System.out.format("Elapsed: %1$tM:%1$tS:%1$tL, Loop: %2$d, Autotransmission is switched to: %3$s\n",
+						this.startTime.until(actualTime, ChronoUnit.MILLIS), this.loopCounter, autoTransmission);
+				VirtualFunctionBus.sendSignal(new Signal(SignalEnum.AUTOTRANSMISSION, autoTransmission));
+			}
 
-		Integer brakePedal = brakePedalProgram.get(this.loopCounter);
-		
-		// Brake pedal is changed
-		if (brakePedal != null) {
-			System.out.format("Elapsed: %1$tM:%1$tS:%1$tL, Loop: %2$d, Brake pedal value: %3$d\n",
-					this.STARTTIME.until(elapsedTime, ChronoUnit.MILLIS), this.loopCounter, brakePedal);
-			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.BREAKPEDAL, brakePedal));
+			Integer gasPedal = gasPedalProgram.get(this.loopCounter);
+
+			// Gas pedal is changed
+			if (gasPedal != null) {
+				System.out.format("Elapsed: %1$tM:%1$tS:%1$tL, Loop: %2$d, Gas pedal value: %3$d\n",
+						this.startTime.until(actualTime, ChronoUnit.MILLIS), this.loopCounter, gasPedal);
+				VirtualFunctionBus.sendSignal(new Signal(SignalEnum.GASPEDAL, gasPedal));
+			}
+
+			Integer brakePedal = brakePedalProgram.get(this.loopCounter);
+
+			// Brake pedal is changed
+			if (brakePedal != null) {
+				System.out.format("Elapsed: %1$tM:%1$tS:%1$tL, Loop: %2$d, Brake pedal value: %3$d\n",
+						this.startTime.until(actualTime, ChronoUnit.MILLIS), this.loopCounter, brakePedal);
+				VirtualFunctionBus.sendSignal(new Signal(SignalEnum.BREAKPEDAL, brakePedal));
+			}
 		}
 	}
 
 	@Override
 	public void receiveSignal(Signal s) {
 		// Prints elapsed time to console
-		if (s.getId().equals(SignalEnum.ELAPSEDTIME)) {
-			System.out.format("Elapsed: %1$tM:%1$tS:%1$tL ", this.STARTTIME.until(LocalTime.now(), ChronoUnit.MILLIS));
+		if (s.getId().equals(SignalEnum.ELAPSEDTESTTIME)) {
+			System.out.format("Elapsed: %1$tM:%1$tS:%1$tL ", this.startTime.until(LocalTime.now(), ChronoUnit.MILLIS));
 		}
 	}
 

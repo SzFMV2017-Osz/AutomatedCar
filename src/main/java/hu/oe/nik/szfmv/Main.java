@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.Driver;
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.visualisation.CourseDisplay;
 import org.apache.logging.log4j.LogManager;
@@ -18,11 +19,16 @@ public class Main {
         World w = new World(800, 600);
         // create an automated car
         AutomatedCar car = new AutomatedCar(340, 0, "car_2_white.png");
+        // place a driver into the car for demonstrating the signal sending mechanism
+        Driver testDriver = new Driver();
         // add car to the world
         w.addObjectToWorld(car);
         // init visualisation module with the world
         vis.init(w);
-
+        // Test drive mode 
+        testDriver.runTestDrive();
+        // Enable circular test track
+        car.initTestmode();
         while (true) {
             try {
                 car.drive();

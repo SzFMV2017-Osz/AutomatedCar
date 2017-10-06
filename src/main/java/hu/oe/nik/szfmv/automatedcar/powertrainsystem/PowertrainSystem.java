@@ -10,17 +10,9 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 
 public class PowertrainSystem extends SystemComponent {
 
-	// Circular track attributes
-	private final double CIRCULAR_TRACK_LENGTH = 1080;
-	private final int CENTER_X = 340;
-	private final int CENTER_Y = 177;
-	private final double TRACK_RADIUS = 172;
-	private double positionOnTrack = 0;
-
 	// Parameters needed for drawing
 	private final double REFRESH_RATE = 25;
 	private final double SPEED_CORRECTION = 3.6;
-	private final double VISUAL_CORRECTION = 15;
 
 	// Engine characteristics
 	private final double MAX_SPEED = 284.37;
@@ -41,14 +33,14 @@ public class PowertrainSystem extends SystemComponent {
 
 	// Output signals
 	private int shiftingGrade = 1;
-	private double currentSpeed = 0;
-	private double currentRevolution = 0;
+	private double actualRevolution = 0;
 	private double expectedRevolution = 0;
 	
 	// Only these are available trough getters
 	private int x = 0;
 	private int y = 0;
 	private double wheelAngle = 0;
+	private double actualSpeed = 0;
 
 	public PowertrainSystem(int x, int y) {
 		super();
@@ -69,13 +61,13 @@ public class PowertrainSystem extends SystemComponent {
 		// Calculating shifting grade
 		switch (this.autoTransmission) {
 		case D:
-			while (this.GEAR_LEVEL_LIMITS[this.shiftingGrade + 1] < this.currentSpeed) {
+			while (this.GEAR_LEVEL_LIMITS[this.shiftingGrade + 1] < this.actualSpeed) {
 				this.shiftingGrade++;
-				VirtualFunctionBus.sendSignal(new Signal(SignalEnum.ELAPSEDTIME, 0));
+				VirtualFunctionBus.sendSignal(new Signal(SignalEnum.ELAPSEDTESTTIME, 0));
 				System.out.format("Shifting grade: %d\n", this.shiftingGrade);
 			}
 
-			while (this.GEAR_LEVEL_LIMITS[this.shiftingGrade] > this.currentSpeed) {
+			while (this.GEAR_LEVEL_LIMITS[this.shiftingGrade] > this.actualSpeed) {
 				this.shiftingGrade--;
 				System.out.format("Shifting grade: %d\n", this.shiftingGrade);
 			}
@@ -100,20 +92,14 @@ public class PowertrainSystem extends SystemComponent {
 			deltaSpeed = this.SPEED_CORRECTION * acceleration / this.REFRESH_RATE;
 		}
 
-		// Calculating velocity
-		if (this.currentSpeed < this.MAX_SPEED) {
-			this.currentSpeed += deltaSpeed;
-			if (this.currentSpeed > this.MAX_SPEED) {
-				VirtualFunctionBus.sendSignal(new Signal(SignalEnum.ELAPSEDTIME, 0));
-				this.currentSpeed = this.MAX_SPEED;
+		// Calculating speed
+		if (this.actualSpeed < this.MAX_SPEED) {
+			this.actualSpeed += deltaSpeed;
+			if (this.actualSpeed > this.MAX_SPEED) {
+				VirtualFunctionBus.sendSignal(new Signal(SignalEnum.ELAPSEDTESTTIME, 0));
+				this.actualSpeed = this.MAX_SPEED;
 			}
 		}
-
-		// Calculating position on the circular track
-		this.positionOnTrack = (int) Math.round(this.positionOnTrack + (this.currentSpeed / this.VISUAL_CORRECTION))
-				% this.CIRCULAR_TRACK_LENGTH;
-
-		this.convertToCircularTrack(this.positionOnTrack);
 	}
 
 	@Override
@@ -135,14 +121,6 @@ public class PowertrainSystem extends SystemComponent {
 		}
 	}
 
-	private void convertToCircularTrack(double positionOnTrack) {
-		this.x = CENTER_X
-				+ (int) Math.round(TRACK_RADIUS * Math.sin(positionOnTrack * 2 * Math.PI / CIRCULAR_TRACK_LENGTH));
-
-		this.y = CENTER_Y
-				- (int) Math.round(TRACK_RADIUS * Math.cos(positionOnTrack * 2 * Math.PI / CIRCULAR_TRACK_LENGTH));
-	}
-
 	public int getX() {
 		return x;
 	}
@@ -157,5 +135,9 @@ public class PowertrainSystem extends SystemComponent {
 
 	public int getGasPedal() {
 		return gasPedal;
+	}
+	
+	public double getSpeed(){
+		return this.actualSpeed;
 	}
 }
