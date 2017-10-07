@@ -17,10 +17,9 @@ public class PowertrainSystem extends SystemComponent {
 	// Engine characteristics
 	private final double MAX_SPEED = 284.37;
 	private final double PEDAL_MAX_VALUE = 100;
-	private final double[] GEAR_RATIOS = { -1.9583, 3.2935, 1.9583, 1.4069, 1.1321, 0.9726, 0.8187 };
-	// private final double[] RPM_SPEED_RATIOS = { 0,
+	private final double[] SHIFTING_RATIOS = { -1.9583, 3.2935, 1.9583, 1.4069, 1.1321, 0.9726, 0.8187 };
 	private final double FINAL_DRIVE_RATIO = 3.88;
-	private final double[] GEAR_UP_LEVELS = { -300, 0, 70.8, 119.1, 165.7, 206, 239.8, 300 };
+	private final double[] SHIFTING_UP_LEVELS = { -300, 0, 70.8, 119.1, 165.7, 206, 239.8, 300 };
 	private final double WEIGHT_OF_CAR = 1337.1;
 	private final double ENGINE_TORQUE = 151.2;
 	private final double WHEEL_DIAMETER = 0.66675;
@@ -34,7 +33,7 @@ public class PowertrainSystem extends SystemComponent {
 	private AutoTransmissionEnum autoTransmission = AutoTransmissionEnum.P;
 
 	// Output signals
-	private int gearLevel = 1;
+	private int shiftingLevel = 1;
 	private double deltaSpeed = this.calculateDeltaSpeed();
 	private double actualRevolution = 0;
 	private double expectedRevolution = 600;
@@ -56,25 +55,25 @@ public class PowertrainSystem extends SystemComponent {
 		// Calculating shifting grade
 		switch (this.autoTransmission) {
 		case D:
-			while (this.GEAR_UP_LEVELS[this.gearLevel + 1] <= this.actualSpeed) {
-				this.gearLevel++;
+			while (this.SHIFTING_UP_LEVELS[this.shiftingLevel + 1] <= this.actualSpeed) {
+				this.shiftingLevel++;
 				VirtualFunctionBus.sendSignal(new Signal(SignalEnum.ELAPSEDTESTTIME, 0));
 				this.deltaSpeed = this.calculateDeltaSpeed();
-				System.out.format(", Gear level: %d\n", this.gearLevel);
+				System.out.format(", Gear level: %d\n", this.shiftingLevel);
 			}
 
-			while (this.GEAR_UP_LEVELS[this.gearLevel] > this.actualSpeed) {
-				this.gearLevel--;
+			while (this.SHIFTING_UP_LEVELS[this.shiftingLevel] > this.actualSpeed) {
+				this.shiftingLevel--;
 				this.deltaSpeed = this.calculateDeltaSpeed();
-				System.out.format("Gear level: %d\n", this.gearLevel);
+				System.out.format("Gear level: %d\n", this.shiftingLevel);
 			}
 			break;
 
 		case R:
-			if (this.gearLevel != 0) {
-				this.gearLevel = 0;
+			if (this.shiftingLevel != 0) {
+				this.shiftingLevel = 0;
 				this.deltaSpeed = this.calculateDeltaSpeed();
-				System.out.format("Gear level: %d\n", this.gearLevel);
+				System.out.format("Gear level: %d\n", this.shiftingLevel);
 			}
 			break;
 
@@ -94,7 +93,7 @@ public class PowertrainSystem extends SystemComponent {
 			}
 
 			// Calculating revolution
-			this.actualRevolution = this.RPM_SPEED_RATE * this.GEAR_RATIOS[this.gearLevel] * this.actualSpeed;
+			this.actualRevolution = this.RPM_SPEED_RATE * this.SHIFTING_RATIOS[this.shiftingLevel] * this.actualSpeed;
 			if (this.actualRevolution < 600) {
 				this.actualRevolution = 600;
 			}
@@ -109,7 +108,7 @@ public class PowertrainSystem extends SystemComponent {
 	}
 
 	private double calculateDeltaSpeed() {
-		double netGearRatio = this.GEAR_RATIOS[this.gearLevel] * this.FINAL_DRIVE_RATIO;
+		double netGearRatio = this.SHIFTING_RATIOS[this.shiftingLevel] * this.FINAL_DRIVE_RATIO;
 		double torqueOnWheels = netGearRatio * this.ENGINE_TORQUE;
 		double rotationalForce = torqueOnWheels / (this.WHEEL_DIAMETER / 2);
 		double acceleration = rotationalForce / this.WEIGHT_OF_CAR;
