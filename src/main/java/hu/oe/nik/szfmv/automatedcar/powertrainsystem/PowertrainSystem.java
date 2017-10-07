@@ -1,7 +1,5 @@
 package hu.oe.nik.szfmv.automatedcar.powertrainsystem;
 
-import java.util.Arrays;
-
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
@@ -15,25 +13,30 @@ public class PowertrainSystem extends SystemComponent {
 	private final double MPS_TO_KMPH = 3.6;
 
 	// Engine characteristics
-	private final double MAX_SPEED = 284.37;
+	private final double FORWARD_MAX_SPEED = 284.37;
+	private final double REVERSE_MAX_SPEED = 119.1;
 	private final double PEDAL_MAX_VALUE = 100;
-	private final double[] SHIFTING_RATIOS = { -1.9583, 3.2935, 1.9583, 1.4069, 1.1321, 0.9726, 0.8187 };
+	private final double[] SHIFTING_RATIOS = { 0, 3.2935, 1.9583, 1.4069, 1.1321, 0.9726, 0.8187, -1.9583 };
 	private final double FINAL_DRIVE_RATIO = 3.88;
-	private final double[] SHIFTING_UP_LEVELS = { -300, 0, 70.8, 119.1, 165.7, 206, 239.8, 300 };
+	private final double[] SHIFTING_UP_LEVELS = { -300, 0, 70.5, 119.1, 165.7, 206, 239.8, 300 };
 	private final double WEIGHT_OF_CAR = 1337.1;
 	private final double ENGINE_TORQUE = 151.2;
 	private final double WHEEL_DIAMETER = 0.66675;
 	private final double MIN_RPM = 600;
 	private final double MAX_RPM = 7200;
-	private final double RPM_SPEED_RATE = 30.87;
+	private final double RPM_SPEED_CONV_RATE = 30.87;
+	private final double RPM_LIMIT_EXTENDER = 53;
+
+	private final double BRAKE_FORCE = 14000;
 
 	// input signals
 	private double gasPedal = 0;
-	private int breakPedal = 0;
+	private double breakPedal = 0;
 	private AutoTransmissionEnum autoTransmission = AutoTransmissionEnum.P;
 
 	// Output signals
 	private int shiftingLevel = 1;
+	private byte direction;
 	private double deltaSpeed = this.calculateDeltaSpeed();
 	private double actualRevolution = 0;
 	private double expectedRevolution = 600;
@@ -52,65 +55,85 @@ public class PowertrainSystem extends SystemComponent {
 
 	@Override
 	public void loop() {
-		// Calculating shifting grade
-		switch (this.autoTransmission) {
-		case D:
-			while (this.SHIFTING_UP_LEVELS[this.shiftingLevel + 1] <= this.actualSpeed) {
-				this.shiftingLevel++;
-				VirtualFunctionBus.sendSignal(new Signal(SignalEnum.ELAPSEDTESTTIME, 0));
-				this.deltaSpeed = this.calculateDeltaSpeed();
-				System.out.format(", Gear level: %d\n", this.shiftingLevel);
-			}
+		if (this.expectedRevolution + this.RPM_LIMIT_EXTENDER > this.actualRevolution || this.actualRevolution == 600) {
+			this.deltaSpeed = this.calculateDeltaSpeed();
+			switch (this.autoTransmission) {
+			case D:
+				// Calculating shifting level
+				if (deltaSpeed > 0) {
+					while (this.SHIFTING_UP_LEVELS[this.shiftingLevel + 1] <= this.actualSpeed) {
+						this.shiftingLevel++;
+						System.out.format("Gear level: %d\n", this.shiftingLevel);
+					}
+				} else if (deltaSpeed < 0) {
+					while (this.SHIFTING_UP_LEVELS[this.shiftingLevel] > this.actualSpeed) {
+						this.shiftingLevel--;
+						System.out.format("Gear level: %d\n", this.shiftingLevel);
+					}
+				}
 
-			while (this.SHIFTING_UP_LEVELS[this.shiftingLevel] > this.actualSpeed) {
-				this.shiftingLevel--;
-				this.deltaSpeed = this.calculateDeltaSpeed();
-				System.out.format("Gear level: %d\n", this.shiftingLevel);
-			}
-			break;
+				// Updating actual speed and revolution
+				this.doSpeedAdjustment(this.FORWARD_MAX_SPEED);
+				break;
+			case R:
+				// Sets shifting level
+				if (this.shiftingLevel != 7) {
+					this.shiftingLevel = 7;
+					System.out.format("Gear level: %d\n", this.shiftingLevel);
+				}
 
-		case R:
-			if (this.shiftingLevel != 0) {
-				this.shiftingLevel = 0;
-				this.deltaSpeed = this.calculateDeltaSpeed();
-				System.out.format("Gear level: %d\n", this.shiftingLevel);
-			}
-			break;
+				// Updating actual speed and revolution
+				this.doSpeedAdjustment(this.REVERSE_MAX_SPEED);
+				break;
+			case N:
+				if (this.shiftingLevel != 0) {
+					this.shiftingLevel = 0;
+				}
 
-		default:
-			break;
+				this.doSpeedAdjustment(Double.MAX_VALUE);
+				break;
+			default:
+				break;
+			}
 		}
 
-		// Updating actual speed and revolution
-		if (Arrays.asList(AutoTransmissionEnum.D, AutoTransmissionEnum.R).contains(this.autoTransmission)) {
-			// Calculating speed
-			if (this.actualSpeed < this.MAX_SPEED && this.expectedRevolution > this.actualRevolution) {
-				this.actualSpeed += this.deltaSpeed;
-				if (this.actualSpeed > this.MAX_SPEED) {
-					VirtualFunctionBus.sendSignal(new Signal(SignalEnum.ELAPSEDTESTTIME, 0));
-					this.actualSpeed = this.MAX_SPEED;
-				}
-			}
+		// Sending revolution to Bus
+		VirtualFunctionBus.sendSignal(new Signal(SignalEnum.REVOLUTION, this.actualRevolution));
 
-			// Calculating revolution
-			this.actualRevolution = this.RPM_SPEED_RATE * this.SHIFTING_RATIOS[this.shiftingLevel] * this.actualSpeed;
-			if (this.actualRevolution < 600) {
-				this.actualRevolution = 600;
-			}
+		// Sending speed to Bus
+		VirtualFunctionBus.sendSignal(new Signal(SignalEnum.SPEED, this.actualSpeed));
 
-			// Sending revolution to Bus
-			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.REVOLUTION, this.actualRevolution));
+	}
 
-			// Sending speed to Bus
-			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.SPEED, this.actualSpeed));
+	private void doSpeedAdjustment(double maxSpeed) {
+		// Modifying speed
+		this.actualSpeed += this.deltaSpeed;
 
+		// Brake effect correction
+		if ((this.direction == 1 && this.actualSpeed < 0) || (this.direction == -1 && this.actualSpeed > 0)) {
+			this.actualSpeed = 0;
+		}
+
+		// Max. speed limit
+		if (Math.abs(this.actualSpeed) > maxSpeed) {
+			this.actualSpeed = this.direction * maxSpeed;
+		}
+
+		// Calculating revolution
+		if (this.expectedRevolution + this.RPM_LIMIT_EXTENDER > this.actualRevolution) {
+			this.actualRevolution = this.RPM_SPEED_CONV_RATE * this.SHIFTING_RATIOS[this.shiftingLevel] * this.actualSpeed;
+		}
+
+		if (this.actualRevolution < 600) {
+			this.actualRevolution = 600;
 		}
 	}
 
 	private double calculateDeltaSpeed() {
 		double netGearRatio = this.SHIFTING_RATIOS[this.shiftingLevel] * this.FINAL_DRIVE_RATIO;
 		double torqueOnWheels = netGearRatio * this.ENGINE_TORQUE;
-		double rotationalForce = torqueOnWheels / (this.WHEEL_DIAMETER / 2);
+		double rotationalForce = torqueOnWheels / (this.WHEEL_DIAMETER / 2)
+				- this.direction * (this.BRAKE_FORCE * this.breakPedal / this.PEDAL_MAX_VALUE);
 		double acceleration = rotationalForce / this.WEIGHT_OF_CAR;
 		return this.MPS_TO_KMPH * acceleration / this.REFRESH_RATE;
 	}
@@ -128,6 +151,11 @@ public class PowertrainSystem extends SystemComponent {
 			break;
 		case AUTOTRANSMISSION:
 			this.autoTransmission = (AutoTransmissionEnum) s.getData();
+			if (this.autoTransmission.equals(AutoTransmissionEnum.D)) {
+				this.direction = 1;
+			} else if (this.autoTransmission.equals(AutoTransmissionEnum.R)) {
+				this.direction = -1;
+			}
 			break;
 		default:
 			// ignore other signals
