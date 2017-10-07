@@ -23,7 +23,7 @@ public class Main {
         Driver testDriver = new Driver();
         // add car to the world
         w.addObjectToWorld(car);
-        // init visualisation module with the world
+        // init visualization module with the world
         vis.init(w);
         // Test drive mode 
         testDriver.runTestDrive();

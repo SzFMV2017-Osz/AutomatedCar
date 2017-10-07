@@ -12,13 +12,13 @@ public final class CircularTestTrack {
 	public static int getX(double positionOnTrack) {
 		// Calculating x
 		return CENTER_X
-				+ (int) Math.round(TRACK_RADIUS * Math.sin(positionOnTrack * 2 * Math.PI / CIRCULAR_TRACK_LENGTH));
+				+ (int) Math.round(TRACK_RADIUS * Math.sin(positionOnTrack * 2. * Math.PI / CIRCULAR_TRACK_LENGTH));
 	}
 
 	// Getter for Y
 	public static int getY(double positionOnTrack) {
 		// Calculating y
 		return CENTER_Y
-				- (int) Math.round(TRACK_RADIUS * Math.cos(positionOnTrack * 2 * Math.PI / CIRCULAR_TRACK_LENGTH));
+				- (int) Math.round(TRACK_RADIUS * Math.cos(positionOnTrack * 2. * Math.PI / CIRCULAR_TRACK_LENGTH));
 	}
 }
