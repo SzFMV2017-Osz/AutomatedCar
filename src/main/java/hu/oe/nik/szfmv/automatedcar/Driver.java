@@ -2,7 +2,6 @@ package hu.oe.nik.szfmv.automatedcar;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
