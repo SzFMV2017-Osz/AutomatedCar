@@ -35,16 +35,16 @@ public class Driver extends SystemComponent {
 		autoTransmissionProgram.put(1, AutoTransmissionEnum.D);
 		gasPedalProgram.put(2, 50);
 		gasPedalProgram.put(5 * this.REFRESH_RATE, 100);
-		brakePedalProgram.put(37 * this.REFRESH_RATE, 90);
-		autoTransmissionProgram.put(40 * this.REFRESH_RATE, AutoTransmissionEnum.N);
-		gasPedalProgram.put(41 * this.REFRESH_RATE, 0);
-		brakePedalProgram.put(46 * this.REFRESH_RATE, 0);
-		autoTransmissionProgram.put(47 * this.REFRESH_RATE, AutoTransmissionEnum.R);
-		gasPedalProgram.put(48 * this.REFRESH_RATE, 100);
-		brakePedalProgram.put(60 * this.REFRESH_RATE, 60);
-		autoTransmissionProgram.put(61 * this.REFRESH_RATE, AutoTransmissionEnum.N);
-		gasPedalProgram.put(62 * this.REFRESH_RATE, 0);
+		brakePedalProgram.put(50 * this.REFRESH_RATE, 90);
+		gasPedalProgram.put(53 * this.REFRESH_RATE, 0);
+		autoTransmissionProgram.put(69 * this.REFRESH_RATE, AutoTransmissionEnum.N);
 		brakePedalProgram.put(70 * this.REFRESH_RATE, 0);
+		autoTransmissionProgram.put(71 * this.REFRESH_RATE, AutoTransmissionEnum.R);
+		gasPedalProgram.put(72 * this.REFRESH_RATE, 100);
+		brakePedalProgram.put(80 * this.REFRESH_RATE, 50);
+		autoTransmissionProgram.put(82 * this.REFRESH_RATE, AutoTransmissionEnum.N);
+		gasPedalProgram.put(83 * this.REFRESH_RATE, 0);
+		brakePedalProgram.put(88 * this.REFRESH_RATE, 0);
 
 		this.startTime = LocalTime.now();
 		this.loopCounter = 0;
@@ -115,7 +115,7 @@ public class Driver extends SystemComponent {
 	}
 
 	private void printHMI() {
-		System.out.format("Elapsed time: %1$tM:%1$tS:%1$tL, speed: %2$.2f, rpm: %3$.0f\n",
+		System.out.format("Elapsed time: %1$tM:%1$tS:%1$tL, speed: %2$.3f, rpm: %3$.3f\n",
 				this.startTime.until(LocalTime.now(), ChronoUnit.MILLIS), this.actualSpeed, this.revolution);
 	}
 }
