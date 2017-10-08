@@ -96,11 +96,10 @@ public class PowertrainSystem extends SystemComponent {
 			default:
 				break;
 			}
-			
 			this.sendSignals();
 		} else if (this.gasPedal == 0 && this.actualSpeed != 0) {
 			this.actualSpeed = 0;
-			
+			this.actualRevolution = this.MIN_RPM;
 			this.sendSignals();
 		}
 	}
