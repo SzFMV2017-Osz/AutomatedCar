@@ -35,7 +35,7 @@ public class PowertrainSystem extends SystemComponent {
 	private AutoTransmissionEnum autoTransmission = AutoTransmissionEnum.P;
 
 	// Output signals
-	private int shiftingLevel = 1;
+	private int shiftingLevel = 0;
 	private byte direction;
 	private double deltaSpeed = this.calculateDeltaSpeed();
 	private double actualRevolution = 0;
@@ -157,10 +157,22 @@ public class PowertrainSystem extends SystemComponent {
 			break;
 		case AUTOTRANSMISSION:
 			this.autoTransmission = (AutoTransmissionEnum) s.getData();
-			if (this.autoTransmission.equals(AutoTransmissionEnum.D)) {
+			switch (this.autoTransmission) {
+			case D:
 				this.direction = 1;
-			} else if (this.autoTransmission.equals(AutoTransmissionEnum.R)) {
+				if (this.shiftingLevel == 0 && this.actualSpeed == 0) {
+					this.shiftingLevel++;
+					System.out.format("Shifting level: %d\n", this.shiftingLevel);
+				}
+				break;
+			case R:
 				this.direction = -1;
+				break;
+			case N:
+				this.shiftingLevel = 0;
+				break;
+			default:
+				break;
 			}
 			break;
 		default:
