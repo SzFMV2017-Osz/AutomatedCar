@@ -14,7 +14,7 @@ public class PowertrainSystem extends SystemComponent {
 
 	// Engine characteristics
 	private final double FORWARD_MAX_SPEED = 284.37;
-	private final double REVERSE_MAX_SPEED = 119.1;
+	private final double REVERSE_MAX_SPEED = 118.4;
 	private final double PEDAL_MAX_VALUE = 100;
 	private final double[] SHIFTING_RATIOS = { 0, 3.2935, 1.9583, 1.4069, 1.1321, 0.9726, 0.8187, -1.9583 };
 	private final double FINAL_DRIVE_RATIO = 3.88;
