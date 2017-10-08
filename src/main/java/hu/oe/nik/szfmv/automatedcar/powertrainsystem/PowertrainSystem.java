@@ -72,25 +72,15 @@ public class PowertrainSystem extends SystemComponent {
 						System.out.format("Shifting level: %d\n", this.shiftingLevel);
 					}
 				}
-
 				// Updating actual speed and revolution
 				this.doSpeedAdjustment(this.FORWARD_MAX_SPEED);
 				break;
 			case R:
-				// Sets shifting level
-				if (this.shiftingLevel != 7) {
-					this.shiftingLevel = 7;
-					System.out.format("Shifting level: %d\n", this.shiftingLevel);
-				}
-
 				// Updating actual speed and revolution
 				this.doSpeedAdjustment(this.REVERSE_MAX_SPEED);
 				break;
 			case N:
-				if (this.shiftingLevel != 0) {
-					this.shiftingLevel = 0;
-				}
-
+				// Updating actual speed and revolution
 				this.doSpeedAdjustment(Double.MAX_VALUE);
 				break;
 			default:
@@ -162,11 +152,11 @@ public class PowertrainSystem extends SystemComponent {
 				this.direction = 1;
 				if (this.shiftingLevel == 0 && this.actualSpeed == 0) {
 					this.shiftingLevel++;
-					System.out.format("Shifting level: %d\n", this.shiftingLevel);
 				}
 				break;
 			case R:
 				this.direction = -1;
+				this.shiftingLevel = 7;
 				break;
 			case N:
 				this.shiftingLevel = 0;
@@ -174,6 +164,7 @@ public class PowertrainSystem extends SystemComponent {
 			default:
 				break;
 			}
+			System.out.format("Shifting level: %d\n", this.shiftingLevel);
 			break;
 		default:
 			// ignore other signals
