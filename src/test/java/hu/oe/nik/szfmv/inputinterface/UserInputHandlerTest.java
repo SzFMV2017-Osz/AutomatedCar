@@ -14,7 +14,7 @@ public class UserInputHandlerTest {
     @Before
     public void setUp() throws Exception {
         this.userInputHandler = new UserInputHandler();
-        this.gearShift = new GearShift(userInputHandler);
+        this.gearShift = new GearShift();
     }
 
     @Test
@@ -23,41 +23,11 @@ public class UserInputHandlerTest {
         assertEquals(this.userInputHandler.getUserInput(),"D");
     }
 
-    @Test
-    public void testRegisterMethod() throws Exception {
-        assertEquals(this.userInputHandler.getNumberOfSubscribers(),1);
-        assertEquals(this.userInputHandler.isContainSubscriber(this.gearShift),true);
-    }
-
-    @Test
-    public void testUnRegisterMethod() throws Exception {
-        this.userInputHandler.userInputSubscriberUnRegister(this.gearShift);
-        assertEquals(this.userInputHandler.getNumberOfSubscribers(),0);
-        assertEquals(this.userInputHandler.isContainSubscriber(this.gearShift), false);
-    }
-
-    @Test
-    public void testUpdateSystemComponentStateAndNotifySubscribedSystemComponentIsWorking() throws Exception {
-        this.userInputHandler.setUserInput("R");
-        assertEquals(this.gearShift.getGearState(),"R");
-    }
-
-    class GearShift implements IUserInputSubscriber {
+    class GearShift {
 
         private String gearState = "N";
-        private static final int componentID = 1;
-        private IUserInputPublisher userInputPublisher;
 
-        public GearShift(IUserInputPublisher userInputPublisher) {
-            this.userInputPublisher = userInputPublisher;
-            System.out.println("Gearshift is in position: " + this.gearState + "\nComponent id: " + this.componentID);
-            this.userInputPublisher.userInputSubscriberRegister(this);
-        }
-
-        @Override
-        public void updateSystemComponentState(String newGearStateByUser) {
-            this.gearState = newGearStateByUser;
-            // assertEquals(newGearStateByUser, "D");
+        public GearShift() {
             this.printGearState();
         }
 
@@ -69,5 +39,4 @@ public class UserInputHandlerTest {
             return this.gearState;
         }
     }
-
 }
