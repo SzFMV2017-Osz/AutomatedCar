@@ -1,6 +1,9 @@
 package hu.oe.nik.szfmv.inputinterface;
 
-public final class UserInputHandler {
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public final class UserInputHandler implements KeyListener{
 
     private String userInput;
 
@@ -14,5 +17,23 @@ public final class UserInputHandler {
 
     public void setUserInput(String userInput) {
         this.userInput = userInput;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_D){
+            this.userInput = "D";
+            System.out.println("Userinput = " + getUserInput());
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
