@@ -94,10 +94,6 @@ public class Driver extends SystemComponent {
 		// Prints elapsed time and revolution in test drive mode
 		if (testDriveMode) {
 			switch (s.getId()) {
-			case ELAPSEDTESTTIME:
-				System.out.format("Elapsed time: %1$tM:%1$tS:%1$tL",
-						this.startTime.until(LocalTime.now(), ChronoUnit.MILLIS));
-				break;
 			case SPEED:
 				this.actualSpeed = (double) s.getData();
 				break;

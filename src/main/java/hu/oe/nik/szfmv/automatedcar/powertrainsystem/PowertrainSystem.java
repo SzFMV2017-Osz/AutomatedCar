@@ -96,8 +96,16 @@ public class PowertrainSystem extends SystemComponent {
 			default:
 				break;
 			}
+			
+			this.sendSignals();
+		} else if (this.gasPedal == 0 && this.actualSpeed != 0) {
+			this.actualSpeed = 0;
+			
+			this.sendSignals();
 		}
+	}
 
+	private void sendSignals() {
 		// Sending revolution to Bus
 		VirtualFunctionBus.sendSignal(new Signal(SignalEnum.REVOLUTION, this.actualRevolution));
 
