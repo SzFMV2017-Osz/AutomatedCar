@@ -1,22 +1,19 @@
 package hu.oe.nik.szfmv.inputinterface;
 
+import hu.oe.nik.szfmv.automatedcar.SystemComponent;
+import hu.oe.nik.szfmv.automatedcar.bus.Signal;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public final class UserInputHandler implements KeyListener{
+public final class UserInputHandler extends SystemComponent implements KeyListener{
 
-    private String userInput;
+    private final int GearShiftID_forTesting = 0;
+    private String gearShift;
 
     public UserInputHandler() {
-
-    }
-
-    public String getUserInput() {
-        return userInput;
-    }
-
-    public void setUserInput(String userInput) {
-        this.userInput = userInput;
+        super();
+        this.gearShift = "N";
     }
 
     @Override
@@ -27,13 +24,30 @@ public final class UserInputHandler implements KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_D){
-            this.userInput = "D";
-            System.out.println("Userinput = " + getUserInput());
+            // set the GearShift to drive mode
+            this.gearShift = "D";
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void loop() {
+
+    }
+
+    @Override
+    public void receiveSignal(Signal s) {
+        switch (s.getId()){
+            case GearShiftID_forTesting :
+                this.gearShift = (String)s.getData();
+                break;
+
+            default:
+        }
 
     }
 }
