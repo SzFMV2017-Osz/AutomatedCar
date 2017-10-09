@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.inputinterface;
 
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -9,14 +10,14 @@ import java.util.ArrayList;
 
 public final class UserInputHandler extends SystemComponent implements KeyListener{
 
-    private final int GearShiftID_forTesting = 0;
-    private String gearShift;
-    private ArrayList<KeyEvent> pressedKeys;
+    private final int GearShiftStateID = 0;
+    private String gearShiftState;
 
-    public UserInputHandler() {
+    private ArrayList<Integer> pressedKeyCodes;
+
+    private UserInputHandler() {
         super();
-        this.pressedKeys = new ArrayList<KeyEvent>();
-        this.gearShift = "N";
+        this.pressedKeyCodes = new ArrayList<>();
     }
 
     @Override
@@ -25,28 +26,33 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_D){
+    public void keyPressed(KeyEvent userKeyPress) {
+        if (!this.pressedKeyCodes.contains(userKeyPress.getKeyCode())){
+            pressedKeyCodes.add(userKeyPress.getKeyCode());
+        }
+        if (userKeyPress.getKeyCode() == KeyEvent.VK_D){
             // set the GearShift to drive mode
-            this.gearShift = "D";
+            this.gearShiftState = "D";
         }
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-
+    public void keyReleased(KeyEvent userKeyRelease) {
+        pressedKeyCodes.remove(new Integer(userKeyRelease.getKeyCode()));
     }
 
     @Override
     public void loop() {
-
+        // ezt hívja meg tőlünk a bus
+        // itt kéne feldobni a buszra a user által nyomott dolgokat
+        VirtualFunctionBus.sendSignal(new Signal(this.GearShiftStateID, this.gearShiftState));
     }
 
     @Override
     public void receiveSignal(Signal s) {
         switch (s.getId()){
-            case GearShiftID_forTesting :
-                this.gearShift = (String)s.getData();
+            case GearShiftStateID:
+                this.gearShiftState = (String)s.getData();
                 break;
 
             default:
