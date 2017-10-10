@@ -13,7 +13,6 @@ public class UserInputHandlerTest {
 
     @Before
     public void setUp() throws Exception {
-        this.userInputHandler = new UserInputHandler();
         this.gearShift = new GearShift();
     }
 

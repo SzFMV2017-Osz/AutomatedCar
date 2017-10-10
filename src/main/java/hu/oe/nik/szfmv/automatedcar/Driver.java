@@ -11,7 +11,7 @@ public class Driver extends SystemComponent {
     @Override
     public void loop() {
         // send demo signal
-        VirtualFunctionBus.sendSignal(new Signal(0, 5));
+        VirtualFunctionBus.sendSignal(new Signal(0, 10));
     }
 
     @Override

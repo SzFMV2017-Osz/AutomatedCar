@@ -10,14 +10,15 @@ import java.util.ArrayList;
 
 public final class UserInputHandler extends SystemComponent implements KeyListener{
 
-    private final int GearShiftStateID = 0;
+    private static final int GearShiftStateID = 1;
     private String gearShiftState;
 
     private ArrayList<Integer> pressedKeyCodes;
 
-    private UserInputHandler() {
+    public UserInputHandler() {
         super();
         this.pressedKeyCodes = new ArrayList<>();
+        this.gearShiftState = "N"; // starting state
     }
 
     @Override
@@ -32,8 +33,9 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         }
         if (userKeyPress.getKeyCode() == KeyEvent.VK_D){
             // set the GearShift to drive mode
-            this.gearShiftState = "D";
+            VirtualFunctionBus.sendSignal(new Signal(this.GearShiftStateID, "D"));
         }
+        VirtualFunctionBus.sendSignal(new Signal(this.GearShiftStateID, "D"));
     }
 
     @Override
@@ -45,9 +47,10 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
     public void loop() {
         // ezt hívja meg tőlünk a bus
         // itt kéne feldobni a buszra a user által nyomott dolgokat
-        VirtualFunctionBus.sendSignal(new Signal(this.GearShiftStateID, this.gearShiftState));
+        System.out.println("The gear shifts to: " + this.gearShiftState);
     }
 
+    // itt is le kell kérdeznünk a busztól minden
     @Override
     public void receiveSignal(Signal s) {
         switch (s.getId()){

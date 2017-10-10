@@ -4,6 +4,7 @@ package hu.oe.nik.szfmv.automatedcar;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PowertrainSystem;
 import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.inputinterface.UserInputHandler;
 
 public class AutomatedCar extends WorldObject {
 
@@ -21,6 +22,9 @@ public class AutomatedCar extends WorldObject {
 
         // place a driver into the car for demonstrating the signal sending mechanism
         new Driver();
+
+        // lehet hogy ide kéne felvenni minden komponenst külön-külön, mint (pedál, kormány)
+        new UserInputHandler();
     }
 
     public void drive() {
