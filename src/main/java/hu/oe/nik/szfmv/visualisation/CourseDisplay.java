@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.visualisation;
 
 import hu.oe.nik.szfmv.environment.World;
 import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.inputinterface.UserInputHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,6 +26,7 @@ public class CourseDisplay {
 
     public void init(World world) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.addKeyListener(new UserInputHandler());
         frame.add(new JPanel() {
                       private static final long serialVersionUID = 1L;
 
