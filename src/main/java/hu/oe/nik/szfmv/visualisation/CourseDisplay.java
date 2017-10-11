@@ -25,28 +25,34 @@ public class CourseDisplay {
 
     public void init(World world) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new JPanel() {
-                      private static final long serialVersionUID = 1L;
 
-                      public void paintComponent(Graphics g) {
+        JPanel panel = getMainJPanel(world);
+        panel.add(new Dashboard().getJPanel());
 
-                          for (WorldObject object : world.getWorldObjects()) {
-                              // draw objects
-                              BufferedImage image;
-                              try {
-                                  image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
-                                  g.drawImage(image, object.getX(), object.getY(), null);
-                              } catch (IOException e) {
-                                  logger.error(e.getMessage());
-                              }
-                          }
-                      }
-                  }
-        );
-
+        frame.add(panel);
         frame.validate();
         frame.setSize(world.getWidth(), world.getHeight());
         frame.setVisible(true);
     }
 
+    private JPanel getMainJPanel(World world) {
+        JPanel panel = new JPanel() {
+            private static final long serialVersionUID = 1L;
+
+            public void paintComponent(Graphics g) {
+
+                for (WorldObject object : world.getWorldObjects()) {
+                    // draw objects
+                    BufferedImage image;
+                    try {
+                        image = ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
+                        g.drawImage(image, object.getX(), object.getY(), null);
+                    } catch (IOException e) {
+                        logger.error(e.getMessage());
+                    }
+                }
+            }
+        };
+        return panel;
+    }
 }
