@@ -13,19 +13,7 @@ public class PowertrainSystem extends SystemComponent {
 	private final double MPS_TO_KMPH = 3.6;
 
 	// Engine characteristics
-	private final double FORWARD_MAX_SPEED = 284.37;
-	private final double REVERSE_MAX_SPEED = 118.4;
-	private final double PEDAL_MAX_VALUE = 100;
-	private final double[] SHIFTING_RATIOS = { 0, 3.2935, 1.9583, 1.4069, 1.1321, 0.9726, 0.8187, -1.9583 };
-	private final double FINAL_DRIVE_RATIO = 3.88;
-	private final double[] SHIFTING_UP_LEVELS = { 0, 0, 69.8, 118.4, 164.4, 205.2, 239.2, 300 };
-	private final double[] MAX_REVOLUTION_STEPS = { 0, 1587, 561, 290, 188, 139, 99, 561 };
-	private final double WEIGHT_OF_CAR = 1337.1;
-	private final double ENGINE_TORQUE = 151.2;
-	private final double WHEEL_DIAMETER = 0.66675;
-	private final double MIN_RPM = 600;
-	private final double MAX_RPM = 7200;
-	private final double RPM_SPEED_CONV_RATE = 30.87;
+        private final Characteristics carSpecs;
 
 	private final double MAX_BRAKE_FORCE = 14000;
 
@@ -41,43 +29,44 @@ public class PowertrainSystem extends SystemComponent {
 	private double actualRevolution = 0;
 	private double expectedRevolution = 600;
 
-	// Only these are available trough getters
+	// Only these are available through getters
 	private int x = 0;
 	private int y = 0;
 	private double wheelAngle = 0;
 	private double actualSpeed = 0;
 
-	public PowertrainSystem(int x, int y) {
+	public PowertrainSystem(int x, int y, Characteristics carCharacteristics) {
 		super();
 		this.x = x;
 		this.y = y;
+                this.carSpecs = carCharacteristics;
 	}
 
 	@Override
 	public void loop() {
-		if (Math.abs(this.expectedRevolution - this.actualRevolution) >= (this.MAX_REVOLUTION_STEPS[this.shiftingLevel]
+		if (Math.abs(this.expectedRevolution - this.actualRevolution) >= (this.carSpecs.MAX_REVOLUTION_STEPS[this.shiftingLevel]
 				/ this.REFRESH_RATE)) {
 			this.deltaSpeed = this.calculateDeltaSpeed();
 			switch (this.autoTransmission) {
 			case D:
 				// Calculating shifting level
 				if (deltaSpeed > 0) {
-					while (this.SHIFTING_UP_LEVELS[this.shiftingLevel + 1] <= this.actualSpeed) {
+					while (this.carSpecs.SHIFTING_UP_LEVELS[this.shiftingLevel + 1] <= this.actualSpeed) {
 						this.shiftingLevel++;
 						System.out.format("Shifting level: %d\n", this.shiftingLevel);
 					}
 				} else if (deltaSpeed < 0) {
-					while (this.SHIFTING_UP_LEVELS[this.shiftingLevel] > this.actualSpeed) {
+					while (this.carSpecs.SHIFTING_UP_LEVELS[this.shiftingLevel] > this.actualSpeed) {
 						this.shiftingLevel--;
 						System.out.format("Shifting level: %d\n", this.shiftingLevel);
 					}
 				}
 				// Updating actual speed and revolution
-				this.doSpeedAdjustment(this.FORWARD_MAX_SPEED);
+				this.doSpeedAdjustment(this.carSpecs.FORWARD_MAX_SPEED);
 				break;
 			case R:
 				// Updating actual speed and revolution
-				this.doSpeedAdjustment(this.REVERSE_MAX_SPEED);
+				this.doSpeedAdjustment(this.carSpecs.REVERSE_MAX_SPEED);
 				break;
 			case N:
 				// Updating actual speed and revolution
@@ -89,7 +78,7 @@ public class PowertrainSystem extends SystemComponent {
 			this.sendSignals();
 		} else if (this.gasPedal == 0 && this.actualSpeed != 0) {
 			this.actualSpeed = 0;
-			this.actualRevolution = this.MIN_RPM;
+			this.actualRevolution = this.carSpecs.MIN_RPM;
 			this.sendSignals();
 		}
 	}
@@ -118,7 +107,7 @@ public class PowertrainSystem extends SystemComponent {
 		}
 
 		// Calculating revolution
-		this.actualRevolution = this.RPM_SPEED_CONV_RATE * this.SHIFTING_RATIOS[this.shiftingLevel] * this.actualSpeed;
+		this.actualRevolution = this.carSpecs.RPM_SPEED_CONV_RATE * this.carSpecs.SHIFTING_RATIOS[this.shiftingLevel] * this.actualSpeed;
 
 		if (this.actualRevolution < 600) {
 			this.actualRevolution = 600;
@@ -126,11 +115,11 @@ public class PowertrainSystem extends SystemComponent {
 	}
 
 	private double calculateDeltaSpeed() {
-		double netGearRatio = this.SHIFTING_RATIOS[this.shiftingLevel] * this.FINAL_DRIVE_RATIO;
-		double torqueOnWheels = netGearRatio * this.ENGINE_TORQUE;
-		double rotationalForce = torqueOnWheels / (this.WHEEL_DIAMETER / 2)
-				- this.direction * (this.MAX_BRAKE_FORCE * this.breakPedal / this.PEDAL_MAX_VALUE);
-		double acceleration = rotationalForce / this.WEIGHT_OF_CAR;
+		double netGearRatio = this.carSpecs.SHIFTING_RATIOS[this.shiftingLevel] * this.carSpecs.FINAL_DRIVE_RATIO;
+		double torqueOnWheels = netGearRatio * this.carSpecs.ENGINE_TORQUE;
+		double rotationalForce = torqueOnWheels / (this.carSpecs.WHEEL_DIAMETER / 2)
+				- this.direction * (this.MAX_BRAKE_FORCE * this.breakPedal / this.carSpecs.PEDAL_MAX_VALUE);
+		double acceleration = rotationalForce / this.carSpecs.WEIGHT_OF_CAR;
 		return this.MPS_TO_KMPH * acceleration / this.REFRESH_RATE;
 	}
 
@@ -139,8 +128,8 @@ public class PowertrainSystem extends SystemComponent {
 		switch (s.getId()) {
 		case GASPEDAL:
 			this.gasPedal = (int) s.getData();
-			this.expectedRevolution = this.MIN_RPM
-					+ (this.MAX_RPM - this.MIN_RPM) * this.gasPedal / this.PEDAL_MAX_VALUE;
+			this.expectedRevolution = this.carSpecs.MIN_RPM
+					+ (this.carSpecs.MAX_RPM - this.carSpecs.MIN_RPM) * this.gasPedal / this.carSpecs.PEDAL_MAX_VALUE;
 			break;
 		case BREAKPEDAL:
 			this.breakPedal = (int) s.getData();
