@@ -15,6 +15,7 @@ public class Dashboard extends SystemComponent {
     private String brakePedalValue;
     private String transmissionLabelValue;
 
+
     public Dashboard() {
     }
 
@@ -29,7 +30,25 @@ public class Dashboard extends SystemComponent {
 
     @Override
     public void receiveSignal(Signal s) {
+        if (s.getId() == 1) //GASPEDAL_ID
+        {
+            gasPedalValue = SignalDataToString(s.getData());
+        }
 
+        if (s.getId() == 2)
+        {
+            brakePedalValue = SignalDataToString(s.getData());
+        }
+
+        if (s.getId() == 3)
+        {
+            transmissionLabelValue = SignalDataToString(s.getData());
+        }
+    }
+
+    private String SignalDataToString(Object dataFieldOfSignal)
+    {
+        return dataFieldOfSignal.toString();
     }
 
     private void refreshDisplayedValues()
