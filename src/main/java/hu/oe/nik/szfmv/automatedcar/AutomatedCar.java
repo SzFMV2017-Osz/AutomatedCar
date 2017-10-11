@@ -1,6 +1,5 @@
 package hu.oe.nik.szfmv.automatedcar;
 
-
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PowertrainSystem;
 import hu.oe.nik.szfmv.environment.WorldObject;
