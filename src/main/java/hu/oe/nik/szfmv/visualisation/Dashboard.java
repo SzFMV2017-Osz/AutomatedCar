@@ -1,17 +1,15 @@
 package hu.oe.nik.szfmv.visualisation;
 
-import hu.oe.nik.szfmv.automatedcar.SystemComponent;
-import hu.oe.nik.szfmv.automatedcar.bus.Signal;
+import javax.swing.*;
 
-public class Dashboard extends SystemComponent{
+public class Dashboard {
+    private JPanel jPanel;
 
-    public void loop()
-    {
+    public Dashboard() {
 
     }
 
-    @Override
-    public void receiveSignal(Signal s) {
-        //Implement logic to receive signals important for the dashboard
+    public JPanel getJPanel() {
+        return jPanel;
     }
 }
