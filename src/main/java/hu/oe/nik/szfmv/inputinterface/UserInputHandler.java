@@ -6,11 +6,17 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 public final class UserInputHandler extends SystemComponent implements KeyListener{
 
     private String gearShiftState;
+
+    private final long TIME_TO_SEND_SIGNAL = 100;
+
+    private long leftKeyLastMilisec,  rightKeyLastMilisec;
+
 
     private ArrayList<Integer> pressedKeyCodes;
 
@@ -67,6 +73,33 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
             this.gearShiftState = "D";
             this.setNewGearShiftState();
         }
+
+        if(userKeyPress.getKeyCode() == KeyEvent.VK_LEFT) {
+            long temp = System.currentTimeMillis();
+            if(leftKeyLastMilisec < temp - TIME_TO_SEND_SIGNAL ) {
+                leftKeyLastMilisec = temp;
+                setSteeringWheelState(SteeringWheelDirections.LEFT);
+            }
+
+        }
+
+        if(userKeyPress.getKeyCode() == KeyEvent.VK_RIGHT) {
+            long temp = System.currentTimeMillis();
+            if(rightKeyLastMilisec < temp - TIME_TO_SEND_SIGNAL ) {
+                rightKeyLastMilisec = temp;
+                setSteeringWheelState(SteeringWheelDirections.RIGHT);
+            }
+        }
+    }
+
+    private void setSteeringWheelState(SteeringWheelDirections stw)  {
+        VirtualFunctionBus.sendSignal(
+                new Signal(CarComponent.STEERINGWHEEL.getCarComponentID(),  stw.getSteeringWheelId() == SteeringWheelDirections.LEFT.getSteeringWheelId() ?
+                        SteeringWheelDirections.LEFT.getSteeringWheelId() :
+                        SteeringWheelDirections.RIGHT.getSteeringWheelId())
+        )  ;
+
+        System.out.println("Signal sended for " + (stw.getSteeringWheelId() == 1 ? "LEFT" : "RIGHT"));
     }
 
     private void setNewGearShiftState() {
