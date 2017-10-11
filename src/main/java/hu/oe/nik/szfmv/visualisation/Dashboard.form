@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="hu.oe.nik.szfmv.visualisation.Dashboard">
+  <grid id="27dc6" binding="jPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+    <constraints>
+      <xy x="20" y="20" width="573" height="30"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="d7781" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="Kormány:"/>
+        </properties>
+      </component>
+      <component id="4efeb" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="123"/>
+        </properties>
+      </component>
+      <component id="1d20a" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="Gáz:"/>
+        </properties>
+      </component>
+      <component id="fc824" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="123"/>
+        </properties>
+      </component>
+      <component id="d8a61" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="Fék:"/>
+        </properties>
+      </component>
+      <component id="706d" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="123"/>
+        </properties>
+      </component>
+      <component id="792d6" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="X:"/>
+        </properties>
+      </component>
+      <component id="b707" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="123"/>
+        </properties>
+      </component>
+      <component id="de29" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="Gáz:"/>
+        </properties>
+      </component>
+      <component id="7bf1f" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="Y:"/>
+        </properties>
+      </component>
+      <component id="d0f" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="123"/>
+        </properties>
+      </component>
+      <component id="dc59" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="Sebesség:"/>
+        </properties>
+      </component>
+      <component id="50e4f" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="123"/>
+        </properties>
+      </component>
+      <component id="317cc" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="Fordulatszám:"/>
+        </properties>
+      </component>
+      <component id="22e7e" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="123"/>
+        </properties>
+      </component>
+      <component id="686c5" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="Irányjelző:"/>
+        </properties>
+      </component>
+      <component id="4a278" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="123"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
