@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.npc;
 
+import hu.oe.nik.szfmv.common.Vector2D;
+
 public abstract class AIController {
 
     private IMovable movableObject;
@@ -11,8 +13,8 @@ public abstract class AIController {
         movableObject = object;
     }
 
-    public void tick(double deltaTime) {
-        movableObject.move();
+    public void tick() {
+
     }
 
     public IMovable getMovableObject() {

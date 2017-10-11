@@ -18,8 +18,15 @@ public class Pedestrian extends WorldObject implements IMovable {
         this.actualDest = dest2;
     }
 
+    public Pedestrian(int x, int y, String imageFileName) {
+        super(x, y, imageFileName);
+        dest1 = new Vector2D();
+        dest2 = new Vector2D();
+        actualDest = dest1;
+    }
+
     @Override
-    public void move() {
+    public void move(Vector2D target) {
         switchDestinations();
         if (actualDest.getX() == this.x) {
             if ((actualDest.getY() - this.y) > 0) {

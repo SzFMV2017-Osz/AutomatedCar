@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.npc;
 
 import hu.oe.nik.szfmv.common.Vector2D;
 import org.junit.Test;
+
 import static junit.framework.Assert.assertEquals;
 
 public class PedestrianTest {
@@ -20,7 +21,7 @@ public class PedestrianTest {
 
     @Test
     public void moveTestCase() throws Exception {
-        this.pd.move();
+        this.pd.move(null);
         assertEquals(pd.getX(), MOVE_TEST_X_RESULT);
     }
 }

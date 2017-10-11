@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.common;
 
 public class Vector2D {
 
+    public static final double FLOAT_COMPARE_THRESHOLD = 0.000001;
     private float x;
     private float y;
 
@@ -59,5 +60,23 @@ public class Vector2D {
 
     public void setY(float y) {
         this.y = y;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Vector2D other = (Vector2D) obj;
+        if (other == null) {
+            return false;
+        } else if (
+                Math.abs(this.x - other.getX()) <= FLOAT_COMPARE_THRESHOLD &&
+                        Math.abs(this.y - other.getY()) <= FLOAT_COMPARE_THRESHOLD) {
+            return true;
+        }
+        return false;
     }
 }

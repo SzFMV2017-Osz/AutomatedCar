@@ -4,11 +4,17 @@ import hu.oe.nik.szfmv.common.Vector2D;
 
 public interface IMovable {
 
-    void move();
+    void move(Vector2D target);
+
     double getMaxSpeed();
+
     double getMaxTurnAngle();
+
     double getMass();
+
     Vector2D getPosition();
+
     Vector2D getForwardVector();
+
     Vector2D getVelocity();
 }
