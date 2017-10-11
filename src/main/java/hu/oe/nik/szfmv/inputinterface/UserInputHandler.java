@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public final class UserInputHandler extends SystemComponent implements KeyListener{
 
-    private static final int GearShiftStateID = 1;
     private String gearShiftState;
 
     private ArrayList<Integer> pressedKeyCodes;
@@ -19,6 +18,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         super();
         this.pressedKeyCodes = new ArrayList<>();
         this.gearShiftState = "N"; // starting state
+        this.printCurrentGearShiftState();
     }
 
     @Override
@@ -28,38 +28,83 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
 
     @Override
     public void keyPressed(KeyEvent userKeyPress) {
+
+        /*
+
+        majd a szimultán billentyűnyomás kezeléshez kell!
+
         if (!this.pressedKeyCodes.contains(userKeyPress.getKeyCode())){
             pressedKeyCodes.add(userKeyPress.getKeyCode());
         }
+
+        */
+
+        //ide kéne minden eszközt refaktorálni, külön kezelését megoldani:
+        // valahogy pl így:
+        // UserGearShifter.ShiftGear(userKeyPress);
+        // visszadobni , ha nem rá tartozik...
+
+        if (userKeyPress.getKeyCode() == KeyEvent.VK_P){
+            // set the GearShift to PARK mode
+            this.gearShiftState = "P";
+            this.setNewGearShiftState();
+        }
+
+        if (userKeyPress.getKeyCode() == KeyEvent.VK_R){
+            // set the GearShift to REVERSE mode
+            this.gearShiftState = "R";
+            this.setNewGearShiftState();
+        }
+
+        if (userKeyPress.getKeyCode() == KeyEvent.VK_N){
+            // set the GearShift to NEUTRAL mode
+            this.gearShiftState = "N";
+            this.setNewGearShiftState();
+        }
+
         if (userKeyPress.getKeyCode() == KeyEvent.VK_D){
             // set the GearShift to drive mode
-            VirtualFunctionBus.sendSignal(new Signal(this.GearShiftStateID, "D"));
+            this.gearShiftState = "D";
+            this.setNewGearShiftState();
         }
-        VirtualFunctionBus.sendSignal(new Signal(this.GearShiftStateID, "D"));
+    }
+
+    private void setNewGearShiftState() {
+        VirtualFunctionBus.sendSignal(
+                new Signal(
+                        CarComponent.GEARSHIFT.getCarComponentID(),
+                        this.gearShiftState
+                )
+        );
+    }
+
+    private void printCurrentGearShiftState() {
+        System.out.println("The gearshift state is: " + this.gearShiftState);
     }
 
     @Override
     public void keyReleased(KeyEvent userKeyRelease) {
-        pressedKeyCodes.remove(new Integer(userKeyRelease.getKeyCode()));
+        // pressedKeyCodes.remove(new Integer(userKeyRelease.getKeyCode()));
     }
 
     @Override
     public void loop() {
         // ezt hívja meg tőlünk a bus
-        // itt kéne feldobni a buszra a user által nyomott dolgokat
-        System.out.println("The gear shifts to: " + this.gearShiftState);
     }
 
-    // itt is le kell kérdeznünk a busztól minden
+    // itt kell lekérdeznünk a busztól minden signal aktuális állapotát
     @Override
     public void receiveSignal(Signal s) {
         switch (s.getId()){
-            case GearShiftStateID:
+            case 104: // kiatlálom még hogy kéne, mert valamiért CarComponent.GEARSHIFT.getCarComponentID() -t nem eszi
                 this.gearShiftState = (String)s.getData();
+
+                // csak amig nincs műszerfal
+                this.printCurrentGearShiftState();
+
                 break;
 
             default:
         }
-
     }
 }
