@@ -30,25 +30,34 @@ public class Dashboard extends SystemComponent {
 
     @Override
     public void receiveSignal(Signal s) {
-        if (s.getId() == 1) //GASPEDAL_ID
-        {
-            gasPedalValue = SignalDataToString(s.getData());
-        }
 
-        if (s.getId() == 2)
-        {
-            brakePedalValue = SignalDataToString(s.getData());
-        }
+        int signalType = s.getId();
 
-        if (s.getId() == 3)
+        switch(signalType)
         {
-            transmissionLabelValue = SignalDataToString(s.getData());
+            case 104: //GEARSHIFTSTATE_ID
+                transmissionLabelValue =s.getData().toString();
+                break;
+
+            case 101: //GASPEDAL_ID
+                gasPedalValue = gasPedalDataToString(s.getData());
+                break;
+
+            case 102: //BRAKEPEDAL_ID
+                brakePedalValue = brakePedalDataToString(s.getData());
         }
     }
 
-    private String SignalDataToString(Object dataFieldOfSignal)
+    private String gasPedalDataToString(Object signalData)
     {
-        return dataFieldOfSignal.toString();
+        //If gaspedal's value would need special conversion, implement here
+        return signalData.toString();
+    }
+
+    private String brakePedalDataToString(Object signalData)
+    {
+        //If brake pedal's value would need special conversion, implement here
+        return signalData.toString();
     }
 
     private void refreshDisplayedValues()
