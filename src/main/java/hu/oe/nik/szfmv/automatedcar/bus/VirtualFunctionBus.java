@@ -8,12 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is the singleton class for the Virtual Function Bus. Components are only
- * allowed to collect sensory data exclusively using the VFB. The VFB stores the
- * input and output signals, inputs only have setters, while outputs only have
- * getters respectively.
- * <p>
- * Students must not modify this class!
+ * This is the singleton class for the Virtual Function Bus.
+ * Components are only allowed to collect sensory data exclusively using the VFB.
+ * The VFB stores the input and output signals, inputs only have setters,
+ * while outputs only have getters respectively.
  */
 public class VirtualFunctionBus {
 
