@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PowertrainSystem;
 import hu.oe.nik.szfmv.environment.WorldObject;
 
@@ -20,7 +21,7 @@ public class AutomatedCar extends WorldObject {
 
 		// Compose our car from brand new system components
 		// The car has to know its PowertrainSystem, to get its coordinates
-		powertrainSystem = new PowertrainSystem(x, y);
+		powertrainSystem = new PowertrainSystem(x, y, new PorscheCharacteristics());
 		// The rest of the components use the VirtualFunctionBus to communicate,
 		// they do not communicate with the car itself
 	}
@@ -38,10 +39,9 @@ public class AutomatedCar extends WorldObject {
 			y = powertrainSystem.getY();
 			wheelAngle = (float) powertrainSystem.getWheelAngle();
 		} else {
-			this.positionOnTrack = (int) Math
-					.round(this.positionOnTrack + (powertrainSystem.getSpeed() / this.VISUAL_CORRECTION))
-					% this.CIRCULAR_TRACK_LENGTH;
-			
+			this.positionOnTrack = this.positionOnTrack
+					+ (powertrainSystem.getSpeed() / this.VISUAL_CORRECTION) % this.CIRCULAR_TRACK_LENGTH;
+
 			x = CircularTestTrack.getX(positionOnTrack);
 			y = CircularTestTrack.getY(positionOnTrack);
 		}

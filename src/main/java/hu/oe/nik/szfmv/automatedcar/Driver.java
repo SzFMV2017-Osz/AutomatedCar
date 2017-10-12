@@ -22,6 +22,7 @@ public class Driver extends SystemComponent {
 	private LocalTime actualTime = null;
 	private boolean testDriveMode = false;
 	private double revolution = 7200;
+	private double previousSpeed = 0;
 	private double actualSpeed = 0;
 
 	// LoopCounter as key
@@ -32,15 +33,37 @@ public class Driver extends SystemComponent {
 	// Switching to test drive mode
 	public void runTestDrive() {
 		// Generating some driving inputs
-		autoTransmissionProgram.put(1, AutoTransmissionEnum.D);
-		gasPedalProgram.put(2, 50);
-		gasPedalProgram.put(5 * this.REFRESH_RATE, 100);
+
+		// *** Engine braking test forward and reverse
+		// autoTransmissionProgram.put(1, AutoTransmissionEnum.D);
+		// gasPedalProgram.put(2, 100);
+		// gasPedalProgram.put(35 * this.REFRESH_RATE, 0);
+		// autoTransmissionProgram.put(110 * this.REFRESH_RATE,
+		// AutoTransmissionEnum.R);
+		// gasPedalProgram.put(111 * this.REFRESH_RATE, 100);
+		// gasPedalProgram.put(120 * this.REFRESH_RATE, 0);
+
+		// *** Engine braking + brake pedal test 
+		// autoTransmissionProgram.put(1, AutoTransmissionEnum.D);
+		// gasPedalProgram.put(2, 100);
+		// gasPedalProgram.put(35 * this.REFRESH_RATE, 0);
+		// autoTransmissionProgram.put(111 * this.REFRESH_RATE,
+		// AutoTransmissionEnum.N);
+		// brakePedalProgram.put(112 * this.REFRESH_RATE, 50);
+
+		// *** Acceleration and braking test program
+		brakePedalProgram.put(1, 100);
+		autoTransmissionProgram.put(2, AutoTransmissionEnum.D);
+		brakePedalProgram.put(2 * this.REFRESH_RATE, 0);
+		gasPedalProgram.put(6 * this.REFRESH_RATE, 50);
+		gasPedalProgram.put(9 * this.REFRESH_RATE, 100);
 		brakePedalProgram.put(50 * this.REFRESH_RATE, 90);
 		gasPedalProgram.put(53 * this.REFRESH_RATE, 0);
-		autoTransmissionProgram.put(69 * this.REFRESH_RATE, AutoTransmissionEnum.N);
-		brakePedalProgram.put(70 * this.REFRESH_RATE, 0);
-		autoTransmissionProgram.put(71 * this.REFRESH_RATE, AutoTransmissionEnum.R);
-		gasPedalProgram.put(72 * this.REFRESH_RATE, 100);
+		autoTransmissionProgram.put(62 * this.REFRESH_RATE, AutoTransmissionEnum.N);
+		brakePedalProgram.put(63 * this.REFRESH_RATE, 100);
+		autoTransmissionProgram.put(64 * this.REFRESH_RATE, AutoTransmissionEnum.R);
+		brakePedalProgram.put(65 * this.REFRESH_RATE, 0);
+		gasPedalProgram.put(68 * this.REFRESH_RATE, 100);
 		brakePedalProgram.put(80 * this.REFRESH_RATE, 50);
 		autoTransmissionProgram.put(82 * this.REFRESH_RATE, AutoTransmissionEnum.N);
 		gasPedalProgram.put(83 * this.REFRESH_RATE, 0);
@@ -57,6 +80,11 @@ public class Driver extends SystemComponent {
 
 			this.loopCounter++;
 			this.actualTime = LocalTime.now();
+			if ((this.loopCounter % 3) == 0
+					&& Math.floor(100 * this.previousSpeed) != Math.floor(100 * this.actualSpeed)) {
+				this.printHMI();
+				this.previousSpeed = this.actualSpeed;
+			}
 
 			// send demo signals
 			AutoTransmissionEnum autoTransmission = autoTransmissionProgram.get(this.loopCounter);
@@ -98,11 +126,7 @@ public class Driver extends SystemComponent {
 				this.actualSpeed = (double) s.getData();
 				break;
 			case REVOLUTION:
-				double receivedData = (double) s.getData();
-				if (Math.abs(this.revolution - receivedData) >= 100) {
-					this.revolution = receivedData;
-					this.printHMI();
-				}
+				this.revolution = (double) s.getData();
 				break;
 			default:
 				break;
