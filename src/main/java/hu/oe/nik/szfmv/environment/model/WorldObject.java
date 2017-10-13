@@ -22,7 +22,7 @@ public abstract class WorldObject {
 	public static Properties imageProps;
 	private static String IMAGE_PROPERTIES_FILE = "imageFiles.properties";
 
-	{
+	static {
 		imageProps = new Properties();
 		try {
 			imageProps.load(ClassLoader.getSystemResourceAsStream(IMAGE_PROPERTIES_FILE));
