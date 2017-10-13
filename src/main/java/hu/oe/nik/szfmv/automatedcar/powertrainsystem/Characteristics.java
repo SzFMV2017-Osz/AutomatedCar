@@ -5,7 +5,7 @@ public abstract class Characteristics {
 	public final String NAME;
     public final double FORWARD_MAX_SPEED;
     public final double REVERSE_MAX_SPEED;
-    public final double PEDAL_MAX_VALUE;
+    public final double MAX_BRAKE_FORCE;
     public final double[] SHIFTING_RATIOS;
     public final double FINAL_DRIVE_RATIO;
     public final double[] SHIFTING_UP_LEVELS;
@@ -21,7 +21,7 @@ public abstract class Characteristics {
             String name, 
             double forwardMaxSpeed,
             double reverseMaxSpeed,
-            double pedalMaxValue,
+            double maxBrakeForce,
             double[] shiftingRatios,
             double finalDriveRatio,
             double[] shiftingUpLevels,
@@ -35,7 +35,7 @@ public abstract class Characteristics {
         this.NAME = name;
         this.FORWARD_MAX_SPEED = forwardMaxSpeed;
         this.REVERSE_MAX_SPEED = reverseMaxSpeed;
-        this.PEDAL_MAX_VALUE = pedalMaxValue;
+        this.MAX_BRAKE_FORCE = maxBrakeForce;
         this.SHIFTING_RATIOS = shiftingRatios;
         this.FINAL_DRIVE_RATIO = finalDriveRatio;
         this.SHIFTING_UP_LEVELS = shiftingUpLevels;

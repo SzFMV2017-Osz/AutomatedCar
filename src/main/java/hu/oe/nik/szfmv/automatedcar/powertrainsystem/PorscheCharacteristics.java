@@ -6,7 +6,7 @@ public class PorscheCharacteristics extends Characteristics {
                 "Porsche 987 Cayman S", 
                 284.37, 
                 118.4, 
-                100, 
+                14000, 
                 new double[] { 0, 3.2935, 1.9583, 1.4069, 1.1321, 0.9726, 0.8187, -3.2935 }, 
                 3.88, 
                 new double[] { 0, 0, 69.8, 118.4, 164.4, 205.2, 239.2, 300 }, 

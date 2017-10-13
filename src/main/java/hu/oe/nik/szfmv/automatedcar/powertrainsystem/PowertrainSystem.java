@@ -15,7 +15,7 @@ public class PowertrainSystem extends SystemComponent {
 	// Engine characteristics
 	private final Characteristics carSpecs;
 
-	private final double MAX_BRAKE_FORCE = 14000;
+	public final double PEDAL_MAX_VALUE = 100;
 
 	// input signals
 	private double gasPedal = 0;
@@ -118,7 +118,7 @@ public class PowertrainSystem extends SystemComponent {
 				: this.carSpecs.ENGINE_BRAKING_TORQUE * (this.actualRevolution - this.expectedRevolution)
 						/ (this.carSpecs.MAX_RPM - this.carSpecs.MIN_RPM));
 		double rotationalForce = torqueOnWheels / (this.carSpecs.WHEEL_DIAMETER / 2)
-				- this.direction * (this.MAX_BRAKE_FORCE * this.breakPedal / this.carSpecs.PEDAL_MAX_VALUE);
+				- this.direction * (this.carSpecs.MAX_BRAKE_FORCE * this.breakPedal / this.PEDAL_MAX_VALUE);
 		double acceleration = rotationalForce / this.carSpecs.WEIGHT_OF_CAR;
 		return this.MPS_TO_KMPH * acceleration / this.REFRESH_RATE;
 	}
@@ -129,7 +129,7 @@ public class PowertrainSystem extends SystemComponent {
 		case GASPEDAL:
 			this.gasPedal = (int) s.getData();
 			this.expectedRevolution = this.carSpecs.MIN_RPM
-					+ (this.carSpecs.MAX_RPM - this.carSpecs.MIN_RPM) * this.gasPedal / this.carSpecs.PEDAL_MAX_VALUE;
+					+ (this.carSpecs.MAX_RPM - this.carSpecs.MIN_RPM) * this.gasPedal / this.PEDAL_MAX_VALUE;
 			break;
 		case BREAKPEDAL:
 			this.breakPedal = (int) s.getData();
