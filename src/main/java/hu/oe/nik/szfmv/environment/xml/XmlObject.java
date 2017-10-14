@@ -61,6 +61,16 @@ public class XmlObject {
 		return rotation;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "XmlObject [type=" + type.toString() + ", x=" + x + ", y=" + y + ", rotation=" + rotation + "]";
+	}
+
 	/**
 	 * Applying builder pattern to build XmlObject with: - transformed rotation in
 	 * degrees - type checked DOM objects

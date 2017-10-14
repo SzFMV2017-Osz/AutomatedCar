@@ -23,7 +23,6 @@ public class RoadSign extends CollidableObject {
 	 * @param height
 	 * @param imageFileName
 	 * @param weight
-	 * @param shape
 	 * @param roadSignType
 	 */
 	public RoadSign(int x, int y, float rotation, int width, int height, String imageFileName, int weight,

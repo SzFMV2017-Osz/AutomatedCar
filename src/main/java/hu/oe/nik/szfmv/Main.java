@@ -1,8 +1,8 @@
 package hu.oe.nik.szfmv;
 
+import hu.oe.nik.szfmv.environment.factory.ImageNameProperty;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.object.Car;
-import hu.oe.nik.szfmv.environment.util.ImageNameProperty;
 import hu.oe.nik.szfmv.visualisation.CourseDisplay;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
