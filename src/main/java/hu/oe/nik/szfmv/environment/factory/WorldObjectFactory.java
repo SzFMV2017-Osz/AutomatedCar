@@ -36,11 +36,15 @@ public class WorldObjectFactory {
 				rtrn = createTree(xmlObject);
 				break;
 			default:
-				throw new IllegalArgumentException("misc type :" + xmlObject.getType() + " does not exists");
+				String message = "misc type :" + xmlObject.getType() + " does not exists";
+				log.error(message);
+				throw new IllegalArgumentException(message);
 			}
 
 		default:
-			throw new IllegalArgumentException("rootType " + rootType + " does not exists");
+			String message = "rootType " + rootType + " does not exists";
+			log.error(message);
+			throw new IllegalArgumentException(message);
 		}
 		return rtrn;
 
@@ -48,11 +52,13 @@ public class WorldObjectFactory {
 
 	private static WorldObject createTree(XmlObject xmlObject) {
 		// weight is max value assuming that object has infinite impulse on crash
+		log.info("creating a Tree...");
 		return new Tree(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), 100, 100, Integer.MAX_VALUE);
 	}
 
 	private static WorldObject createRoadSign(XmlObject xmlObject) {
 
+		log.info("creating a new RoadSign of... " + xmlObject.getType());
 		String imageFileName = "";
 		RoadSignType type;
 
@@ -77,6 +83,7 @@ public class WorldObjectFactory {
 	// TODO: implement as Akos is ready
 	private static WorldObject createRoad(XmlObject xmlObject) {
 
+		log.info("creating a new Road of... " + xmlObject.getType());
 		Road rtrn = null;
 
 		return rtrn;
