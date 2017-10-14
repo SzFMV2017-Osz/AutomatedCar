@@ -1,7 +1,6 @@
 package hu.oe.nik.szfmv.environment.factory;
 
 import java.io.IOException;
-import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,25 +9,26 @@ import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Road;
 import hu.oe.nik.szfmv.environment.object.RoadSign;
 import hu.oe.nik.szfmv.environment.object.Tree;
-import hu.oe.nik.szfmv.environment.util.ImageNameProperty;
 import hu.oe.nik.szfmv.environment.util.RoadSignType;
 import hu.oe.nik.szfmv.environment.xml.XmlObject;
 import hu.oe.nik.szfmv.environment.xml.XmlObjectType;
 
 public class WorldObjectFactory {
 
-	public static Properties imageProps;
-	private static String IMAGE_PROPERTIES_FILE = "imageFiles.properties";
-
 	private static final Logger log = LogManager.getLogger(WorldObjectFactory.class);
 
+	/**
+	 * creates a new world object of specific child from XmlObject
+	 * 
+	 * @param xmlObject
+	 * @return
+	 * @throws IOException
+	 *             if image resources file not found
+	 */
 	public static WorldObject createWorldObject(XmlObject xmlObject) throws IOException {
-		if (imageProps == null) {
-			initProperties();
-		}
+
 		WorldObject rtrn;
 		int rootType = xmlObject.getType().getRootType();
-
 		switch (rootType) {
 
 		case XmlObjectType.ROAD_TYPE:
@@ -49,6 +49,7 @@ public class WorldObjectFactory {
 				log.error(message);
 				throw new IllegalArgumentException(message);
 			}
+			break;
 
 		default:
 			String message = "rootType " + rootType + " does not exists";
@@ -59,36 +60,49 @@ public class WorldObjectFactory {
 
 	}
 
-	private static void initProperties() throws IOException {
-		imageProps = new Properties();
-		try {
-			imageProps.load(ClassLoader.getSystemResourceAsStream(IMAGE_PROPERTIES_FILE));
-		} catch (IOException e) {
-			log.error("Could not load " + IMAGE_PROPERTIES_FILE + " from classpath.", e);
-			throw e;
-		}
-	}
-
+	/**
+	 * creates a tree
+	 * 
+	 * TODO: set width and weight somehow
+	 * 
+	 * @param xmlObject
+	 * @return
+	 */
 	private static WorldObject createTree(XmlObject xmlObject) {
 		// weight is max value assuming that object has infinite impulse on crash
 		log.info("creating a Tree...");
-		return new Tree(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), 100, 100, Integer.MAX_VALUE,
-				imageProps.getProperty(ImageNameProperty.TREE_NAME));
+		int width = 100;
+		int height = 100;
+		int weight = Integer.MAX_VALUE;
+		String imageFileName = ImageResource.getImageOf(ImageResource.TREE_NAME);
+		return new Tree(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), width, height, weight,
+				imageFileName);
 	}
 
+	/**
+	 * creates a roadsign
+	 * 
+	 * TODO: set width and weight somehow
+	 * 
+	 * @param xmlObject
+	 * @return
+	 */
 	private static WorldObject createRoadSign(XmlObject xmlObject) {
 
-		log.info("creating a new RoadSign of... " + xmlObject.getType());
-		String imageFileName = "";
+		log.info("creating a RoadSign of... " + xmlObject.getType());
+		String imageFileName;
 		RoadSignType type;
+		int width = 100;
+		int height = 100;
+		int weight = Integer.MAX_VALUE;
 
 		switch (xmlObject.getType()) {
 		case ROADSIGN_PARKING_RIGHT:
-			imageFileName = ImageNameProperty.ROADSIGN_PARKING_RIGHT_NAME;
+			imageFileName = ImageResource.ROADSIGN_PARKING_RIGHT_NAME;
 			type = RoadSignType.PARKING_RIGHT;
 			break;
 		case ROADSIGN_STOP:
-			imageFileName = ImageNameProperty.ROADSIGN_STOP_NAME;
+			imageFileName = ImageResource.ROADSIGN_STOP_NAME;
 			type = RoadSignType.STOP;
 			break;
 		default:
@@ -96,11 +110,18 @@ public class WorldObjectFactory {
 		}
 
 		// weight is max value assuming that object has infinite impulse on crash
-		return new RoadSign(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), 100, 100,
-				imageProps.getProperty(imageFileName), Integer.MAX_VALUE, type);
+		return new RoadSign(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), width, height,
+				ImageResource.getImageOf(imageFileName), weight, type);
 	}
 
-	// TODO: implement as Akos is ready
+	/**
+	 * creates a piece of road
+	 * 
+	 * TODO: implement as Akos is ready
+	 * 
+	 * @param xmlObject
+	 * @return
+	 */
 	private static WorldObject createRoad(XmlObject xmlObject) {
 
 		log.info("creating a new Road of... " + xmlObject.getType());
