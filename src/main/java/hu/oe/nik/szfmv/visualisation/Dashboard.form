@@ -37,7 +37,7 @@
           <text value="Fék:"/>
         </properties>
       </component>
-      <component id="706d" class="javax.swing.JLabel" binding="BrakePedalValueLabel">
+      <component id="706d" class="javax.swing.JLabel" binding="BrakePedalLabel">
         <constraints/>
         <properties>
           <text value="123"/>
@@ -79,7 +79,7 @@
           <text value="Sebesség:"/>
         </properties>
       </component>
-      <component id="50e4f" class="javax.swing.JLabel">
+      <component id="50e4f" class="javax.swing.JLabel" binding="SpeedLabel">
         <constraints/>
         <properties>
           <text value="123"/>
@@ -91,7 +91,7 @@
           <text value="Fordulatszám:"/>
         </properties>
       </component>
-      <component id="22e7e" class="javax.swing.JLabel">
+      <component id="22e7e" class="javax.swing.JLabel" binding="RevolutionLabel">
         <constraints/>
         <properties>
           <text value="123"/>

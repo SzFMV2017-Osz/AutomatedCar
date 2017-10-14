@@ -8,12 +8,16 @@ import javax.swing.*;
 public class Dashboard extends SystemComponent {
     private JPanel jPanel;
     private JLabel GasPedalLabel;
-    private JLabel BrakePedalValueLabel;
+    private JLabel BrakePedalLabel;
     private JLabel TransmissionLabel;
+    private JLabel RevolutionLabel;
+    private JLabel SpeedLabel;
 
     private String gasPedalValue;
     private String brakePedalValue;
-    private String transmissionLabelValue;
+    private String transmissionValue;
+    private String revolutionValue;
+    private String speedValue;
 
 
     public Dashboard() {
@@ -35,16 +39,24 @@ public class Dashboard extends SystemComponent {
 
         switch(signalType)
         {
-            case 104: //GEARSHIFTSTATE_ID
-                transmissionLabelValue =s.getData().toString();
+            case 104: //DUMMY, UNTIL ENUMS ARE FINALIZED
+                transmissionValue =s.getData().toString();
                 break;
 
-            case 101: //GASPEDAL_ID
+            case 101: //DUMMY, UNTIL ENUMS ARE FINALIZED
                 gasPedalValue = gasPedalDataToString(s.getData());
                 break;
 
-            case 102: //BRAKEPEDAL_ID
+            case 102: //DUMMY, UNTIL ENUMS ARE FINALIZED
                 brakePedalValue = brakePedalDataToString(s.getData());
+                break;
+
+            case 111: //DUMMY, UNTIL ENUMS ARE FINALIZED
+                revolutionValue = revolutionDataToString(s.getData());
+                break;
+
+            case 1234: //DUMMY, UNTIL ENUMS ARE FINALIZED
+                speedValue = speedDataToString(s.getData());
         }
     }
 
@@ -60,10 +72,24 @@ public class Dashboard extends SystemComponent {
         return signalData.toString();
     }
 
+    private String speedDataToString(Object signalData)
+    {
+        //If speed's value would need special conversion, implement here
+        return signalData.toString()+ " KM/H";
+    }
+
+    private String revolutionDataToString(Object signalData)
+    {
+        //If brake pedal's value would need special conversion, implement here
+        return signalData.toString()+ " RPM";
+    }
+
     private void refreshDisplayedValues()
     {
         GasPedalLabel.setText(gasPedalValue);
-        BrakePedalValueLabel.setText(brakePedalValue);
-        TransmissionLabel.setText(transmissionLabelValue);
+        BrakePedalLabel.setText(brakePedalValue);
+        TransmissionLabel.setText(transmissionValue);
+        RevolutionLabel.setText(revolutionValue);
+        SpeedLabel.setText(speedValue);
     }
 }
