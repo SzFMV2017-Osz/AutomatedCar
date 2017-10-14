@@ -4,7 +4,6 @@ import static junit.framework.Assert.assertEquals;
 
 import org.junit.Test;
 
-import hu.oe.nik.szfmv.environment.factory.ImageNameProperty;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.object.Car;
 
@@ -35,17 +34,19 @@ public class WorldTest {
 	@Test
 	public void getWorldObjectsTest() throws Exception {
 		assertEquals(world.getWorldObjects().size(), 0);
-		world.addObjectToWorld(new Car(0, 0, 0, 10, 10, ImageNameProperty.WHITE_CAR_NAME, 100));
+		world.addObjectToWorld(
+				Car.builder().position(10, 10).rotation(0).dimension(100, 100).weight(1000).color("black").build());
 		assertEquals(world.getWorldObjects().size(), 1);
 	}
 
 	@Test
 	public void addObjectToWorldTest() throws Exception {
-		world.addObjectToWorld(new Car(100, 100, 0, 10, 10, ImageNameProperty.WHITE_CAR_NAME, 100));
+		world.addObjectToWorld(
+				Car.builder().position(10, 10).rotation(0).dimension(100, 100).weight(1000).color("black").build());
 		assertEquals(world.getWorldObjects().size(), 1);
-		assertEquals(world.getWorldObjects().get(0).getX(), 100);
-		assertEquals(world.getWorldObjects().get(0).getY(), 100);
-		assertEquals(world.getWorldObjects().get(0).getImageFileName(), "automatedCar.car.white");
+		assertEquals(world.getWorldObjects().get(0).getX(), 10);
+		assertEquals(world.getWorldObjects().get(0).getY(), 10);
+		assertEquals(world.getWorldObjects().get(0).getImageFileName(), "car_3_black.png");
 	}
 
 }
