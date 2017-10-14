@@ -2,10 +2,10 @@ package hu.oe.nik.szfmv.environment;
 
 import org.junit.Test;
 
+import hu.oe.nik.szfmv.environment.factory.ImageNameProperty;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Car;
 import hu.oe.nik.szfmv.environment.object.IDriveable;
-import hu.oe.nik.szfmv.environment.util.ImageNameProperty;
 
 import static junit.framework.Assert.assertEquals;
 
