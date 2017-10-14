@@ -11,29 +11,22 @@ import java.util.ArrayList;
 
 public final class UserInputHandler extends SystemComponent implements KeyListener{
 
-    private static final int minGaspedalState = 0;
-    private static final int maxGaspedalState = 100;
-
-    private static final int maxLeftSteeringWheelState = -100;
-    private static final int maxRightSteeringWheelState = 100;
-    private static final int basicSteeringWheelState = 0;
-
     private String autotransmissionState;
     private int steeringWheelState;
     private int gaspedalState;
-    // private int breakpedalState;
 
+    private CarComponentStateCalculator componentStateCalculator;
     private ArrayList<Integer> pressedKeyCodes;
 
     public UserInputHandler() {
         super();
         this.pressedKeyCodes = new ArrayList<>();
+        this.componentStateCalculator = new CarComponentStateCalculator();
 
         // starting states
         this.autotransmissionState = "N";
-        this.steeringWheelState = basicSteeringWheelState;
-        this.gaspedalState = minGaspedalState;
-        // this.breakpedalState = 0;
+        this.steeringWheelState = componentStateCalculator.basicSteeringWheelState;
+        this.gaspedalState = componentStateCalculator.minGaspedalState;
     }
 
     @Override
@@ -68,17 +61,25 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
                 break;
             case KeyEvent.VK_LEFT:
                 // turn the car left
-                this.sendNewSteeringWheelState(this.turningTheSteeringwheelLeft());
+                this.sendNewSteeringWheelState(
+                        this.componentStateCalculator.turnTheSteeringwheelLeft(this.steeringWheelState)
+                );
                 break;
             case KeyEvent.VK_RIGHT:
                 // turn the car right
-                this.sendNewSteeringWheelState(this.turningTheSteeringwheelRight());
+                this.sendNewSteeringWheelState(
+                        this.componentStateCalculator.turnTheSteeringwheelRight(this.steeringWheelState)
+                );
                 break;
             case KeyEvent.VK_UP:
-                this.sendNewGaspedalState(this.addGas());
+                this.sendNewGaspedalState(
+                        this.componentStateCalculator.addGas(this.gaspedalState)
+                );
                 break;
             case KeyEvent.VK_DOWN:
-                this.sendNewGaspedalState(this.applyingBreak());
+                this.sendNewGaspedalState(
+                        this.componentStateCalculator.applyingBreak(this.gaspedalState)
+                );
                 break;
             default:
         }
@@ -87,56 +88,6 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
     @Override
     public void keyReleased(KeyEvent userKeyRelease) {
         pressedKeyCodes.remove(new Integer(userKeyRelease.getKeyCode()));
-    }
-
-    private int turningTheSteeringwheelLeft() {
-        // TODO: @eky0151 => csökkenteni kell a steeringWheelState változót (maximum -100 -ig)
-
-        int output;
-        if (this.steeringWheelState > maxLeftSteeringWheelState){
-            output = this.steeringWheelState - 1;
-        }
-        else {
-            output = maxLeftSteeringWheelState;
-        }
-        return output;
-    }
-
-    private int turningTheSteeringwheelRight() {
-        // TODO: @eky0151 => növelni kell a steeringWheelState változót (maximum +100 -ig)
-
-        int output;
-        if (this.steeringWheelState < maxRightSteeringWheelState){
-            output = this.steeringWheelState + 1;
-        }
-        else {
-            output = maxRightSteeringWheelState;
-        }
-        return output;
-    }
-
-    private int addGas() {
-        // TODO: @hermanistvan => növelni a gaspedalState változót (maximum 100 -ig)
-        int output;
-        if (this.gaspedalState < maxGaspedalState){
-            output = this.gaspedalState + 1;
-        }
-        else {
-            output = maxGaspedalState;
-        }
-        return output;
-    }
-
-    private int applyingBreak() {
-        // TODO: @hermanistvan => csökkenteni a gaspedalState változót (minimum 0 -ig)
-        int output;
-        if (this.gaspedalState > minGaspedalState){
-            output = this.gaspedalState - 1;
-        }
-        else {
-            output = minGaspedalState;
-        }
-        return output;
     }
 
     private void sendNewAutotransmissionState(String newTransmissionState) {
