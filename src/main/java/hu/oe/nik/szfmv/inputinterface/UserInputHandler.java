@@ -92,7 +92,10 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
     @Override
     public void keyReleased(KeyEvent userKeyRelease) {
         pressedKeyCodes.remove(new Integer(userKeyRelease.getKeyCode()));
+
     }
+
+
 
     private void sendNewAutotransmissionState(String newTransmissionState) {
         VirtualFunctionBus.sendSignal(
@@ -127,12 +130,6 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
                 "\nThe steeringwheel state is: " + this.steeringWheelState +
                 "\nThe gaspedal state is: " + this.gaspedalState
         );
-    }
-
-    private void printPressedKeys(){
-        for (int keyCode : pressedKeyCodes) {
-            System.out.println(keyCode);
-        }
     }
 
     @Override
