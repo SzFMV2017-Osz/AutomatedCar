@@ -11,8 +11,8 @@ public abstract class AIController {
         movableObject = object;
     }
 
-    public void tick(double deltaTime) {
-        movableObject.move();
+    public void tick() {
+
     }
 
     public IMovable getMovableObject() {

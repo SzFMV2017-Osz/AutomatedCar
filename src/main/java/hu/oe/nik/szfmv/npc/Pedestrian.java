@@ -9,6 +9,11 @@ public class Pedestrian extends WorldObject implements IMovable {
     private Vector2D dest2;
     private Vector2D actualDest;
     private boolean toDest2;
+    private double mass;
+    private double maxSpeed;
+    private double maxTurnAngle;
+    private Vector2D velocity = new Vector2D();
+
 
     public Pedestrian(int x, int y, Vector2D dest1, Vector2D dest2, String imageFileName) {
         super(x, y, imageFileName);
@@ -18,32 +23,43 @@ public class Pedestrian extends WorldObject implements IMovable {
         this.actualDest = dest2;
     }
 
+    public Pedestrian(int x, int y, String imageFileName) {
+        super(x, y, imageFileName);
+        dest1 = new Vector2D();
+        dest2 = new Vector2D();
+        actualDest = dest1;
+    }
+
     @Override
-    public void move() {
-        switchDestinations();
-        if (actualDest.getX() == this.x) {
-            if ((actualDest.getY() - this.y) > 0) {
-                this.y++;
+    public void move(Vector2D target) {
+        if (!getPosition().equals(target)) {
+            Vector2D direction = target.sub(getPosition());
+            Vector2D newPosition;
+            if ((maxSpeed * maxSpeed) < direction.absSquared()) {
+                moveTowardsTarget(direction);
             } else {
-                this.y--;
+                moveToTarget(target, direction);
             }
-        } else if (actualDest.getY() == this.y) {
-            if ((actualDest.getX() - this.x) > 0) {
-                this.x++;
-            } else {
-                this.x--;
-            }
+        } else {
+            velocity.setX(0);
+            velocity.setY(0);
         }
     }
 
-    private void switchDestinations() {
-        if (toDest2 && this.x == actualDest.getX() && this.y == actualDest.getY()) {
-            toDest2 = false;
-            actualDest = dest1;
-        } else if (this.x == actualDest.getX() && this.y == actualDest.getY()) {
-            toDest2 = true;
-            actualDest = dest2;
-        }
+    private void moveToTarget(Vector2D target, Vector2D direction) {
+        velocity = direction;
+        x = (int) target.getX();
+        y = (int) target.getY();
+        rotation = (float) direction.getAngle();
+    }
+
+    private void moveTowardsTarget(Vector2D direction) {
+        Vector2D newPosition;
+        velocity = direction.normalize().mult(maxSpeed);
+        newPosition = getPosition().add(velocity);
+        x = (int) newPosition.getX();
+        y = (int) newPosition.getY();
+        rotation = (float) direction.getAngle();
     }
 
     @Override
@@ -58,17 +74,32 @@ public class Pedestrian extends WorldObject implements IMovable {
 
     @Override
     public double getMaxSpeed() {
-        return 0;
+        return this.maxSpeed;
     }
 
     @Override
     public double getMaxTurnAngle() {
-        return 0;
+        return this.maxTurnAngle;
     }
 
     @Override
     public double getMass() {
-        return 0;
+        return this.mass;
+    }
+
+    @Override
+    public void setMaxSpeed(double maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    @Override
+    public void setMaxTurnAngle(double maxTurnAngle) {
+        this.maxTurnAngle = maxTurnAngle;
+    }
+
+    @Override
+    public void setMass(double mass) {
+        this.mass = mass;
     }
 
     @Override
@@ -78,11 +109,11 @@ public class Pedestrian extends WorldObject implements IMovable {
 
     @Override
     public Vector2D getForwardVector() {
-        return null;
+        return Vector2D.getForwardVector(this.rotation);
     }
 
     @Override
     public Vector2D getVelocity() {
-        return null;
+        return velocity;
     }
 }
