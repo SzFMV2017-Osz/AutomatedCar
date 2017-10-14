@@ -77,12 +77,14 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_UP)) {
+            // add gass
             this.sendNewGaspedalState(
                     this.componentStateCalculator.addGas(this.gaspedalState)
             );
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_DOWN)) {
+            // applying break
             this.sendNewGaspedalState(
                     this.componentStateCalculator.applyingBreak(this.gaspedalState)
             );
@@ -92,10 +94,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
     @Override
     public void keyReleased(KeyEvent userKeyRelease) {
         pressedKeyCodes.remove(new Integer(userKeyRelease.getKeyCode()));
-
     }
-
-
 
     private void sendNewAutotransmissionState(String newTransmissionState) {
         VirtualFunctionBus.sendSignal(
