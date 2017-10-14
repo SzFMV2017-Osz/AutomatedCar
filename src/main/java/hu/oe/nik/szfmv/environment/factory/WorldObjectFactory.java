@@ -1,5 +1,8 @@
 package hu.oe.nik.szfmv.environment.factory;
 
+import java.io.IOException;
+import java.util.Properties;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,9 +17,15 @@ import hu.oe.nik.szfmv.environment.xml.XmlObjectType;
 
 public class WorldObjectFactory {
 
+	public static Properties imageProps;
+	private static String IMAGE_PROPERTIES_FILE = "imageFiles.properties";
+
 	private static final Logger log = LogManager.getLogger(WorldObjectFactory.class);
 
-	public static WorldObject createWorldObject(XmlObject xmlObject) {
+	public static WorldObject createWorldObject(XmlObject xmlObject) throws IOException {
+		if (imageProps == null) {
+			initProperties();
+		}
 		WorldObject rtrn;
 		int rootType = xmlObject.getType().getRootType();
 
@@ -50,10 +59,21 @@ public class WorldObjectFactory {
 
 	}
 
+	private static void initProperties() throws IOException {
+		imageProps = new Properties();
+		try {
+			imageProps.load(ClassLoader.getSystemResourceAsStream(IMAGE_PROPERTIES_FILE));
+		} catch (IOException e) {
+			log.error("Could not load " + IMAGE_PROPERTIES_FILE + " from classpath.", e);
+			throw e;
+		}
+	}
+
 	private static WorldObject createTree(XmlObject xmlObject) {
 		// weight is max value assuming that object has infinite impulse on crash
 		log.info("creating a Tree...");
-		return new Tree(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), 100, 100, Integer.MAX_VALUE);
+		return new Tree(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), 100, 100, Integer.MAX_VALUE,
+				imageProps.getProperty(ImageNameProperty.TREE_NAME));
 	}
 
 	private static WorldObject createRoadSign(XmlObject xmlObject) {
@@ -64,11 +84,11 @@ public class WorldObjectFactory {
 
 		switch (xmlObject.getType()) {
 		case ROADSIGN_PARKING_RIGHT:
-			imageFileName = ImageNameProperty.ROADSIGN_PARKING_RIGHT;
+			imageFileName = ImageNameProperty.ROADSIGN_PARKING_RIGHT_NAME;
 			type = RoadSignType.PARKING_RIGHT;
 			break;
 		case ROADSIGN_STOP:
-			imageFileName = ImageNameProperty.ROADSIGN_STOP;
+			imageFileName = ImageNameProperty.ROADSIGN_STOP_NAME;
 			type = RoadSignType.STOP;
 			break;
 		default:
@@ -76,8 +96,8 @@ public class WorldObjectFactory {
 		}
 
 		// weight is max value assuming that object has infinite impulse on crash
-		return new RoadSign(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), 100, 100, imageFileName,
-				Integer.MAX_VALUE, type);
+		return new RoadSign(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), 100, 100,
+				imageProps.getProperty(imageFileName), Integer.MAX_VALUE, type);
 	}
 
 	// TODO: implement as Akos is ready
