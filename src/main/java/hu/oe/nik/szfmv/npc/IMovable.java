@@ -12,6 +12,12 @@ public interface IMovable {
 
     double getMass();
 
+    void setMaxSpeed(double maxSpeed);
+
+    void setMaxTurnAngle(double maxTurnAngle);
+
+    void setMass(double mass);
+
     Vector2D getPosition();
 
     Vector2D getForwardVector();
