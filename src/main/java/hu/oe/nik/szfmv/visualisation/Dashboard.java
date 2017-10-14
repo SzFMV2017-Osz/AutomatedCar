@@ -40,23 +40,23 @@ public class Dashboard extends SystemComponent {
 
         switch(signalType)
         {
-            case AUTOTRANSMISSION: //DUMMY, UNTIL ENUMS ARE FINALIZED
+            case AUTOTRANSMISSION:
                 transmissionValue =s.getData().toString();
                 break;
 
-            case GASPEDAL: //DUMMY, UNTIL ENUMS ARE FINALIZED
+            case GASPEDAL:
                 gasPedalValue = gasPedalDataToString(s.getData());
                 break;
 
-            case BREAKPEDAL: //DUMMY, UNTIL ENUMS ARE FINALIZED
+            case BREAKPEDAL:
                 brakePedalValue = brakePedalDataToString(s.getData());
                 break;
 
-            case REVOLUTION: //DUMMY, UNTIL ENUMS ARE FINALIZED
+            case REVOLUTION:
                 revolutionValue = revolutionDataToString(s.getData());
                 break;
 
-            case SPEED: //DUMMY, UNTIL ENUMS ARE FINALIZED
+            case SPEED:
                 speedValue = speedDataToString(s.getData());
         }
     }
