@@ -11,10 +11,12 @@ import java.util.ArrayList;
 
 public final class UserInputHandler extends SystemComponent implements KeyListener{
 
-    public static final int minGaspedalState = 0;
-    public static final int maxGaspedalState = 100;
-    public static final int minSteeringWheelState = -100;
-    public static final int maxSteeringWheelState = 100;
+    private static final int minGaspedalState = 0;
+    private static final int maxGaspedalState = 100;
+
+    private static final int maxLeftSteeringWheelState = -100;
+    private static final int maxRightSteeringWheelState = 100;
+    private static final int basicSteeringWheelState = 0;
 
     private String autotransmissionState;
     private int steeringWheelState;
@@ -29,8 +31,8 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
 
         // starting states
         this.autotransmissionState = "N";
-        this.steeringWheelState = 0;
-        this.gaspedalState = 0;
+        this.steeringWheelState = basicSteeringWheelState;
+        this.gaspedalState = minGaspedalState;
         // this.breakpedalState = 0;
     }
 
@@ -47,52 +49,38 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
             pressedKeyCodes.add(userKeyPress.getKeyCode());
         }
 
-        if (userKeyPress.getKeyCode() == KeyEvent.VK_P){
-            // set autotransmission to PARK mode
-            this.autotransmissionState = "P";
-            this.sendNewAutotransmissionState();
-        }
-
-        if (userKeyPress.getKeyCode() == KeyEvent.VK_R){
-            // set autotransmission to REVERSE mode
-            this.autotransmissionState = "R";
-            this.sendNewAutotransmissionState();
-        }
-
-        if (userKeyPress.getKeyCode() == KeyEvent.VK_N){
-            // set autotransmission to NEUTRAL mode
-            this.autotransmissionState = "N";
-            this.sendNewAutotransmissionState();
-        }
-
-        if (userKeyPress.getKeyCode() == KeyEvent.VK_D){
-            // set autotransmission to drive mode
-            this.autotransmissionState = "D";
-            this.sendNewAutotransmissionState();
-        }
-
-        if(userKeyPress.getKeyCode() == KeyEvent.VK_LEFT) {
-            // TODO: @eky0151 => csökkenteni kell a steeringWheelState változót (maximum -100 -ig)
-            this.steeringWheelState = this.steeringWheelState - 1;
-            this.sendNewSteeringWheelState();
-        }
-
-        if(userKeyPress.getKeyCode() == KeyEvent.VK_RIGHT) {
-            // TODO: @eky0151 => növelni a steeringWheelState változót (maximum +100 -ig)
-            this.steeringWheelState = this.steeringWheelState + 1;
-            this.sendNewSteeringWheelState();
-        }
-
-        if (userKeyPress.getKeyCode() == KeyEvent.VK_UP){
-            // TODO: @hermanistvan => növelni a gaspedalState változót (maximum 100 -ig)
-            this.gaspedalState = this.gaspedalState + 1;
-            this.sendNewGaspedalState();
-        }
-
-        if (userKeyPress.getKeyCode() == KeyEvent.VK_DOWN){
-            // TODO: @hermanistvan => csökkenteni a gaspedalState változót (minimum 0 -ig)
-            this.gaspedalState = this.gaspedalState - 1;
-            this.sendNewGaspedalState();
+        switch (userKeyPress.getKeyCode()){
+            case KeyEvent.VK_P:
+                // set autotransmission to PARK mode
+                this.sendNewAutotransmissionState("P");
+                break;
+            case KeyEvent.VK_R:
+                // set autotransmission to REVERSE mode
+                this.sendNewAutotransmissionState("R");
+                break;
+            case KeyEvent.VK_N:
+                // set autotransmission to NEUTRAL mode
+                this.sendNewAutotransmissionState("N");
+                break;
+            case KeyEvent.VK_D:
+                // set autotransmission to drive mode
+                this.sendNewAutotransmissionState("D");
+                break;
+            case KeyEvent.VK_LEFT:
+                // turn the car left
+                this.sendNewSteeringWheelState(this.turningTheSteeringwheelLeft());
+                break;
+            case KeyEvent.VK_RIGHT:
+                // turn the car right
+                this.sendNewSteeringWheelState(this.turningTheSteeringwheelRight());
+                break;
+            case KeyEvent.VK_UP:
+                this.sendNewGaspedalState(this.addGas());
+                break;
+            case KeyEvent.VK_DOWN:
+                this.sendNewGaspedalState(this.applyingBreak());
+                break;
+            default:
         }
     }
 
@@ -101,29 +89,79 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         pressedKeyCodes.remove(new Integer(userKeyRelease.getKeyCode()));
     }
 
-    private void sendNewAutotransmissionState() {
+    private int turningTheSteeringwheelLeft() {
+        // TODO: @eky0151 => csökkenteni kell a steeringWheelState változót (maximum -100 -ig)
+
+        int output;
+        if (this.steeringWheelState > maxLeftSteeringWheelState){
+            output = this.steeringWheelState - 1;
+        }
+        else {
+            output = maxLeftSteeringWheelState;
+        }
+        return output;
+    }
+
+    private int turningTheSteeringwheelRight() {
+        // TODO: @eky0151 => növelni kell a steeringWheelState változót (maximum +100 -ig)
+
+        int output;
+        if (this.steeringWheelState < maxRightSteeringWheelState){
+            output = this.steeringWheelState + 1;
+        }
+        else {
+            output = maxRightSteeringWheelState;
+        }
+        return output;
+    }
+
+    private int addGas() {
+        // TODO: @hermanistvan => növelni a gaspedalState változót (maximum 100 -ig)
+        int output;
+        if (this.gaspedalState < maxGaspedalState){
+            output = this.gaspedalState + 1;
+        }
+        else {
+            output = maxGaspedalState;
+        }
+        return output;
+    }
+
+    private int applyingBreak() {
+        // TODO: @hermanistvan => csökkenteni a gaspedalState változót (minimum 0 -ig)
+        int output;
+        if (this.gaspedalState > minGaspedalState){
+            output = this.gaspedalState - 1;
+        }
+        else {
+            output = minGaspedalState;
+        }
+        return output;
+    }
+
+    private void sendNewAutotransmissionState(String newTransmissionState) {
         VirtualFunctionBus.sendSignal(
                 new Signal(
                         SignalEnum.AUTOTRANSMISSION,
-                        this.autotransmissionState
+                        newTransmissionState
                 )
         );
     }
 
-    private void sendNewSteeringWheelState() {
+    private void sendNewSteeringWheelState(int newSteeringWheelState) {
         VirtualFunctionBus.sendSignal(
                 new Signal(
                         SignalEnum.STEERINGWHEEL,
-                        this.steeringWheelState
+                        newSteeringWheelState
                 )
         );
     }
 
-    private void sendNewGaspedalState() {
+    private void sendNewGaspedalState(int newGaspedalState) {
         VirtualFunctionBus.sendSignal(
                 new Signal(
                         SignalEnum.GASPEDAL,
-                        this.gaspedalState
+                        newGaspedalState
                 )
         );
     }
