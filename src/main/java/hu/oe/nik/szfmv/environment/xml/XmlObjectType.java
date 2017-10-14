@@ -11,31 +11,34 @@ import org.apache.logging.log4j.Logger;
  */
 public enum XmlObjectType {
 	
-	ROAD_STRAIGHT("road_2lane_straight"),
-	ROAD_90_RIGHT("road_2lane_90right"),
-	ROAD_90_LEFT("road_2lane_90left"),
-	ROAD_45_RIGHT("road_2lane_45right"),
-	ROAD_45_LEFT("road_2lane_45left"),
-	ROAD_6_RIGHT("road_2lane_6right"),
-	ROAD_6_LEFT("road_2lane_6left"),
-	ROAD_T_RIGHT("road_2lane_tjunctionright"),
-	ROAD_T_LEFT("road_2lane_tjunctionleft"),
-	ROAD_ROUNDABOUT("road_2lane_rotary"),
-	ROAD_PARKING_PARALLEL("parking_space_parallel"),
-	ROAD_CROSSWALK("crosswalk"),
 	
-	TREE("tree"),
+	ROAD_STRAIGHT("road_2lane_straight",0),
+	ROAD_90_RIGHT("road_2lane_90right",0),
+	ROAD_90_LEFT("road_2lane_90left",0),
+	ROAD_45_RIGHT("road_2lane_45right",0),
+	ROAD_45_LEFT("road_2lane_45left",0),
+	ROAD_6_RIGHT("road_2lane_6right",0),
+	ROAD_6_LEFT("road_2lane_6left",0),
+	ROAD_T_RIGHT("road_2lane_tjunctionright",0),
+	ROAD_T_LEFT("road_2lane_tjunctionleft",0),
+	ROAD_ROUNDABOUT("road_2lane_rotary",0),
+	ROAD_PARKING_PARALLEL("parking_space_parallel",0),
+	ROAD_CROSSWALK("crosswalk",0),
 	
-	ROADSIGN_SPEED_60("roadsign_speed_60"),
-	ROADSIGN_SPEED_50("roadsign_speed_50"),
-	ROADSIGN_SPEED_40("roadsign_speed_40"),
-	ROADSIGN_STOP("roadsign_priority_stop"),
-	ROADSIGN_PARKING_RIGHT("roadsign_parking_right");
+	TREE("tree",99),
+	
+	ROADSIGN_SPEED_60("roadsign_speed_60",1),
+	ROADSIGN_SPEED_50("roadsign_speed_50",1),
+	ROADSIGN_SPEED_40("roadsign_speed_40",1),
+	ROADSIGN_STOP("roadsign_priority_stop",1),
+	ROADSIGN_PARKING_RIGHT("roadsign_parking_right",1);
 	
 	private String xmlName;
+	private int rootType;
 	
-	private XmlObjectType(String name) {
+	private XmlObjectType(String name, int rootType) {
 		this.xmlName = name;
+		this.rootType = rootType;
 	}
 	
 	/*
@@ -46,7 +49,16 @@ public enum XmlObjectType {
 		return xmlName;
 	}
 	
+	public int getRootType() {
+		return rootType;
+	}
+	
 	private static final Logger log = LogManager.getLogger(XmlObjectType.class);
+	
+	public static final int ROAD_TYPE = 0;
+	public static final int ROADSIGN_TYPE = 1;
+	public static final int MISC_TYPE = 99;
+	
 	/**
 	 * casts the xml attribute to enum
 	 * 
