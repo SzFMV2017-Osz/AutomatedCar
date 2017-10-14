@@ -27,8 +27,8 @@ public class RoadSign extends CollidableObject {
 	 * @param roadSignType
 	 */
 	public RoadSign(int x, int y, float rotation, int width, int height, String imageFileName, int weight,
-			ModelShape shape, RoadSignType roadSignType) {
-		super(x, y, rotation, width, height, imageFileName, weight, shape);
+			RoadSignType roadSignType) {
+		super(x, y, rotation, width, height, imageFileName, weight, ModelShape.ELLIPSE);
 		this.roadSignType = roadSignType;
 	}
 
@@ -51,7 +51,7 @@ public class RoadSign extends CollidableObject {
 	}
 
 	/*
-	 * (non-Javadoc)
+	 * (non-Javadoc) git s
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
