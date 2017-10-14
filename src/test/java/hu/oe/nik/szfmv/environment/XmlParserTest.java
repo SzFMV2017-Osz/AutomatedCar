@@ -1,9 +1,10 @@
 package hu.oe.nik.szfmv.environment;
 
-import org.junit.Assert;
 import org.junit.Test;
 
+import hu.oe.nik.szfmv.environment.xml.Utils;
 import hu.oe.nik.szfmv.environment.xml.XmlObject;
+import hu.oe.nik.szfmv.environment.xml.XmlObjectType;
 import hu.oe.nik.szfmv.environment.xml.XmlParser;
 
 import java.util.List;
@@ -16,11 +17,10 @@ public class XmlParserTest {
     public void testParse() throws Exception {
         List<XmlObject> r = XmlParser.parse("test_world.xml");
         assertEquals(46, r.size());
-        assertEquals("road_2lane_straight", r.get(0).getType());
-        assertEquals(1700, r.get(0).getX());
-        assertEquals(144, r.get(0).getY());
+        assertEquals(XmlObjectType.ROAD_STRAIGHT, r.get(0).getType());
+        assertEquals(Utils.convertPixelToMeter(1700), r.get(0).getX(), 0);
+        assertEquals(Utils.convertPixelToMeter(144), r.get(0).getY(), 0);
         double[][] matrix = {{0, 1}, {-1, 0}};
-        Assert.assertArrayEquals(matrix, r.get(0).getMatrix());
-
+        assertEquals(Utils.radianToDegree(Utils.convertMatrixToRadians(matrix)), r.get(0).getRotation(),0);
     }
 }
