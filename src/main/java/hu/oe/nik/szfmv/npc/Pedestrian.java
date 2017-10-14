@@ -36,21 +36,30 @@ public class Pedestrian extends WorldObject implements IMovable {
             Vector2D direction = target.sub(getPosition());
             Vector2D newPosition;
             if ((maxSpeed * maxSpeed) < direction.absSquared()) {
-                velocity = direction.normalize().mult(maxSpeed);
-                newPosition = getPosition().add(velocity);
-                x = (int) newPosition.getX();
-                y = (int) newPosition.getY();
-                rotation = (float) direction.getAngle();
+                moveTowardsTarget(direction);
             } else {
-                velocity = direction;
-                x = (int) target.getX();
-                y = (int) target.getY();
-                rotation = (float) direction.getAngle();
+                moveToTarget(target, direction);
             }
         } else {
             velocity.setX(0);
             velocity.setY(0);
         }
+    }
+
+    private void moveToTarget(Vector2D target, Vector2D direction) {
+        velocity = direction;
+        x = (int) target.getX();
+        y = (int) target.getY();
+        rotation = (float) direction.getAngle();
+    }
+
+    private void moveTowardsTarget(Vector2D direction) {
+        Vector2D newPosition;
+        velocity = direction.normalize().mult(maxSpeed);
+        newPosition = getPosition().add(velocity);
+        x = (int) newPosition.getX();
+        y = (int) newPosition.getY();
+        rotation = (float) direction.getAngle();
     }
 
     @Override

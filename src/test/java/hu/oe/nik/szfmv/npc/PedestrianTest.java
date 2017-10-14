@@ -6,14 +6,14 @@ import org.junit.Test;
 import static junit.framework.Assert.assertEquals;
 
 public class PedestrianTest {
-    private static final Vector2D POSITION_01 = new Vector2D(10, 10);
-    private static final Vector2D POSITION_02 = new Vector2D(25, -12);
+    public static final Vector2D POSITION_01 = new Vector2D(10, 10);
+    public static final Vector2D POSITION_02 = new Vector2D(25, -12);
     public static final double MASS = 70;
     public static final double MAX_SPEED = 3;
     public static final double MAX_TURN_ANGLE = 360;
-
-    private Pedestrian pedestrian;
     public static final int ITERATION_LIMIT = 100;
+    
+    private Pedestrian pedestrian;
 
     @org.junit.Before
     public void setUp() throws Exception {

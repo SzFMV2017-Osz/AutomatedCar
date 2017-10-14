@@ -1,6 +1,5 @@
 package hu.oe.nik.szfmv.common;
 
-import hu.oe.nik.szfmv.common.Vector2D;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
@@ -13,7 +12,7 @@ public class Vector2DTest {
     public static final Vector2D V3 = new Vector2D(-8, 6);
     public static final Vector2D V4 = new Vector2D(Math.cos(Math.PI / 3), Math.sin(Math.PI / 3));
     public static final Vector2D NULL_VECTOR = new Vector2D(0, 0);
-    public static final double V1_ANGLE = 45;
+    public static final double V2_ANGLE = 45;
     public static final double V4_ANGLE = 60;
     public static final double V1_ABS = Math.sqrt(50);
     public static final double V1_ABS_SQUARED = 50;
@@ -22,6 +21,7 @@ public class Vector2DTest {
     public static final Vector2D V1_PLUS_V3 = new Vector2D(-3, 11);
     public static final Vector2D V1_MINUS_V3 = new Vector2D(13, -1);
     public static final double DOUBLE_COMPARISON_THRESHOLD = 0.000001;
+    public static final double V1_XY_POSITION = 5.00;
 
 
     @org.junit.Before
@@ -36,7 +36,7 @@ public class Vector2DTest {
     @Test
     public void equalsTest() {
         assertNotSame(V1, V2);
-        assertEquals(V1, new Vector2D(5.00, 5.00));
+        assertEquals(V1, new Vector2D(V1_XY_POSITION, V1_XY_POSITION));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class Vector2DTest {
 
     @Test
     public void getAngleTest() {
-        assertEquals(V1_ANGLE, V1.getAngle());
+        assertEquals(V2_ANGLE, V1.getAngle());
 
         // this would fail caused by double precision
         // assertEquals(V4_ANGLE, V4.getAngle());
@@ -91,7 +91,7 @@ public class Vector2DTest {
 
     @Test
     public void getForwardVectorTest() {
-        assertEquals(V2, Vector2D.getForwardVector(45));
-        assertEquals(V4, Vector2D.getForwardVector(60));
+        assertEquals(V2, Vector2D.getForwardVector(V2_ANGLE));
+        assertEquals(V4, Vector2D.getForwardVector(V4_ANGLE));
     }
 }
