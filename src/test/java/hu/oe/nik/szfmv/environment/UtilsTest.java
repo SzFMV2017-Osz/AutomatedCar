@@ -2,6 +2,8 @@ package hu.oe.nik.szfmv.environment;
 
 import org.junit.Test;
 
+import hu.oe.nik.szfmv.environment.xml.Utils;
+
 import static org.junit.Assert.assertEquals;
 
 public class UtilsTest {

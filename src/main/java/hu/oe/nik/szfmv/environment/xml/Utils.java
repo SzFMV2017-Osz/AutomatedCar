@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv.environment;
+package hu.oe.nik.szfmv.environment.xml;
 
 public class Utils {
 

@@ -3,6 +3,9 @@ package hu.oe.nik.szfmv.environment;
 import org.junit.Assert;
 import org.junit.Test;
 
+import hu.oe.nik.szfmv.environment.xml.XmlObject;
+import hu.oe.nik.szfmv.environment.xml.XmlParser;
+
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
