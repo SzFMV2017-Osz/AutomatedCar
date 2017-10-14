@@ -20,11 +20,12 @@ public class SteeringTest {
         Assert.assertEquals(steering.SpeedAdjustedSteering(0.3, 30), 0.27, 0);
         Assert.assertEquals(steering.SpeedAdjustedSteering(-0.3, 60), -0.24, 0);
     }
-    
+
     @org.junit.Test
     public void testUpdateSteering() {
         Assert.assertEquals(steering.UpdateSteering(true, false, 0), 0.06255000000000001, 0);
-        Assert.assertEquals(steering.UpdateSteering(false, true, 0), 0, 0);
+        steering.steerDirection = 0;
+        Assert.assertEquals(steering.UpdateSteering(false, true, 0), -0.06255000000000001, 0);
         steering.steerDirection = 0.5;
         Assert.assertEquals(steering.UpdateSteering(false, false, 0), 0.27498, 0);
         Assert.assertEquals(steering.UpdateSteering(false, false, 60), 0.199968, 0);
