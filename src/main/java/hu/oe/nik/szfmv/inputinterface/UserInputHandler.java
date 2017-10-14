@@ -11,6 +11,11 @@ import java.util.ArrayList;
 
 public final class UserInputHandler extends SystemComponent implements KeyListener{
 
+    public static final int minGaspedalState = 0;
+    public static final int maxGaspedalState = 100;
+    public static final int minSteeringWheelState = -100;
+    public static final int maxSteeringWheelState = 100;
+
     private String autotransmissionState;
     private int steeringWheelState;
     private int gaspedalState;
