@@ -42,6 +42,10 @@ public class Utils {
 //        return 6.2831853072d - Math.acos((m11 + m22) / 2);
     }
 
+    public static double convertMatrixToRadians(double[][] matrix) {
+        return convertMatrixToRadians(matrix[0][0], matrix[0][1], matrix[1][0], matrix[1][1]);
+    }
+
     public static double radianToDegree(double rad) {
         return (rad * 180) / Math.PI;
     }
