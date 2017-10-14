@@ -12,51 +12,37 @@ import java.util.List;
  * @author hunkak
  */
 public class Road extends WorldObject {
+
+    /*
+     * TODO: részeltesebb leíró implementáció kidolgozása, az enum kevés
+     *
+     * meg kell adni az út síkbeli viszonítási pontján túl az út belső viszonyítási
+     * pontjait, pl felező vonal közepe
+     *
+     */
     private RoadType roadType;
     private int degrees;
+    private int middleX;
+    private int middleY;
     private boolean pedestrianCrossing;
 
     public Road(int x, int y, float rotation, int width, int height, String imageFileName, boolean pedestrianCrossing) {
         super(x, y, rotation, width, height, imageFileName, ModelShape.RECTENGULAR);
         this.pedestrianCrossing = pedestrianCrossing;
+        this.roadType = roadType;
         String[] explodedString = imageFileName.split("_");
-        switch (explodedString[2]) {
-            case "45left":
-                this.roadType = RoadType.LEFT;
-                this.degrees = 45;
-                break;
-            case "45right":
-                this.roadType = RoadType.RIGHT;
-                this.degrees = 45;
-                break;
-            case "6left":
-                this.roadType = RoadType.LEFT;
-                this.degrees = 6;
-                break;
-            case "6right":
-                this.roadType = RoadType.RIGHT;
-                this.degrees = 6;
-                break;
-            case "90left":
-                this.roadType = RoadType.LEFT;
-                this.degrees = 90;
-                break;
-            case "90right":
-                this.roadType = RoadType.RIGHT;
-                this.degrees = 90;
-                break;
-            case "straight":
-                this.roadType = RoadType.STRAIGHT;
-                break;
-            case "rotary":
-                this.roadType = RoadType.ROTARY;
-                break;
-            case "tjunctionleft":
-                this.roadType = RoadType.TJUNCTIONLEFT;
-                break;
-            case "tjunctionright":
-                this.roadType = RoadType.TJUNCTIONRIGHT;
-                break;
+        switch (explodedString[2])
+        {
+            case "45left": this.roadType = RoadType.LEFT; this.degrees = 45; break;
+            case "45right": this.roadType = RoadType.RIGHT; this.degrees = 45; break;
+            case "6left": this.roadType = RoadType.LEFT; this.degrees = 6; break;
+            case "6right": this.roadType = RoadType.RIGHT; this.degrees = 6; break;
+            case "90left": this.roadType = RoadType.LEFT; this.degrees = 90; break;
+            case "90right": this.roadType = RoadType.RIGHT; this.degrees = 90; break;
+            case "straight": this.roadType = RoadType.STRAIGHT; break;
+            case "rotary": this.roadType = RoadType.ROTARY; break;
+            case "tjunctionleft": this.roadType = RoadType.TJUNCTIONLEFT; break;
+            case "tjunctionright": this.roadType = RoadType.TJUNCTIONRIGHT; break;
         }
     }
 
@@ -70,5 +56,13 @@ public class Road extends WorldObject {
 
     public int getDegrees() {
         return degrees;
+    }
+
+    public int getMiddleX() {
+        return middleX;
+    }
+
+    public int getMiddleY() {
+        return middleY;
     }
 }
