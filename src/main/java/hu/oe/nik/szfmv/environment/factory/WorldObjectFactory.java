@@ -5,6 +5,10 @@ import org.apache.logging.log4j.Logger;
 
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Road;
+import hu.oe.nik.szfmv.environment.object.RoadSign;
+import hu.oe.nik.szfmv.environment.object.Tree;
+import hu.oe.nik.szfmv.environment.util.ImageNameProperty;
+import hu.oe.nik.szfmv.environment.util.RoadSignType;
 import hu.oe.nik.szfmv.environment.xml.XmlObject;
 import hu.oe.nik.szfmv.environment.xml.XmlObjectType;
 
@@ -21,10 +25,53 @@ public class WorldObjectFactory {
 		case XmlObjectType.ROAD_TYPE:
 			rtrn = createRoad(xmlObject);
 			break;
-		}
 
+		case XmlObjectType.ROADSIGN_TYPE:
+			rtrn = createRoadSign(xmlObject);
+			break;
+
+		case XmlObjectType.MISC_TYPE:
+			switch (xmlObject.getType()) {
+			case TREE:
+				rtrn = createTree(xmlObject);
+				break;
+			default:
+				throw new IllegalArgumentException("misc type :" + xmlObject.getType() + " does not exists");
+			}
+
+		default:
+			throw new IllegalArgumentException("rootType " + rootType + " does not exists");
+		}
 		return rtrn;
 
+	}
+
+	private static WorldObject createTree(XmlObject xmlObject) {
+		// weight is max value assuming that object has infinite impulse on crash
+		return new Tree(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), 100, 100, Integer.MAX_VALUE);
+	}
+
+	private static WorldObject createRoadSign(XmlObject xmlObject) {
+
+		String imageFileName = "";
+		RoadSignType type;
+
+		switch (xmlObject.getType()) {
+		case ROADSIGN_PARKING_RIGHT:
+			imageFileName = ImageNameProperty.ROADSIGN_PARKING_RIGHT;
+			type = RoadSignType.PARKING_RIGHT;
+			break;
+		case ROADSIGN_STOP:
+			imageFileName = ImageNameProperty.ROADSIGN_STOP;
+			type = RoadSignType.STOP;
+			break;
+		default:
+			throw new IllegalArgumentException("road type :" + xmlObject.getType() + " does not exists");
+		}
+
+		// weight is max value assuming that object has infinite impulse on crash
+		return new RoadSign(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), 100, 100, imageFileName,
+				Integer.MAX_VALUE, type);
 	}
 
 	// TODO: implement as Akos is ready
