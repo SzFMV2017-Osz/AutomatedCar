@@ -1,5 +1,8 @@
 package hu.oe.nik.szfmv.environment.xml;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * helper to convert xml type attributes to checked enum 
  * 
@@ -43,6 +46,7 @@ public enum XmlObjectType {
 		return xmlName;
 	}
 	
+	private static final Logger log = LogManager.getLogger(XmlObjectType.class);
 	/**
 	 * casts the xml attribute to enum
 	 * 
@@ -56,7 +60,9 @@ public enum XmlObjectType {
 				return x;
 			}
 		}
-		throw new IllegalArgumentException("Enum to xmlName "+xmlName+" does not exist");
+		String message = "Enum to xmlName "+xmlName+" does not exist";
+		log.error(message);
+		throw new IllegalArgumentException("Enum to xmlName "+message+" does not exist");
 	}
 	
 }
