@@ -2,16 +2,17 @@ package hu.oe.nik.szfmv.visualisation;
 
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 
 import javax.swing.*;
 
 public class Dashboard extends SystemComponent {
     private JPanel jPanel;
-    private JLabel GasPedalLabel;
-    private JLabel BrakePedalLabel;
-    private JLabel TransmissionLabel;
-    private JLabel RevolutionLabel;
-    private JLabel SpeedLabel;
+    public JLabel GasPedalLabel;
+    public JLabel BrakePedalLabel;
+    public JLabel TransmissionLabel;
+    public JLabel RevolutionLabel;
+    public JLabel SpeedLabel;
 
     private String gasPedalValue;
     private String brakePedalValue;
@@ -35,27 +36,27 @@ public class Dashboard extends SystemComponent {
     @Override
     public void receiveSignal(Signal s) {
 
-        int signalType = s.getId();
+        SignalEnum signalType = s.getId();
 
         switch(signalType)
         {
-            case 104: //DUMMY, UNTIL ENUMS ARE FINALIZED
+            case AUTOTRANSMISSION: //DUMMY, UNTIL ENUMS ARE FINALIZED
                 transmissionValue =s.getData().toString();
                 break;
 
-            case 101: //DUMMY, UNTIL ENUMS ARE FINALIZED
+            case GASPEDAL: //DUMMY, UNTIL ENUMS ARE FINALIZED
                 gasPedalValue = gasPedalDataToString(s.getData());
                 break;
 
-            case 102: //DUMMY, UNTIL ENUMS ARE FINALIZED
+            case BREAKPEDAL: //DUMMY, UNTIL ENUMS ARE FINALIZED
                 brakePedalValue = brakePedalDataToString(s.getData());
                 break;
 
-            case 111: //DUMMY, UNTIL ENUMS ARE FINALIZED
+            case REVOLUTION: //DUMMY, UNTIL ENUMS ARE FINALIZED
                 revolutionValue = revolutionDataToString(s.getData());
                 break;
 
-            case 1234: //DUMMY, UNTIL ENUMS ARE FINALIZED
+            case SPEED: //DUMMY, UNTIL ENUMS ARE FINALIZED
                 speedValue = speedDataToString(s.getData());
         }
     }
