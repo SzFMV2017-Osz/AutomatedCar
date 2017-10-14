@@ -42,46 +42,50 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
             pressedKeyCodes.add(userKeyPress.getKeyCode());
         }
 
-        switch (userKeyPress.getKeyCode()){
-            case KeyEvent.VK_P:
-                // set autotransmission to PARK mode
-                this.sendNewAutotransmissionState("P");
-                break;
-            case KeyEvent.VK_R:
-                // set autotransmission to REVERSE mode
-                this.sendNewAutotransmissionState("R");
-                break;
-            case KeyEvent.VK_N:
-                // set autotransmission to NEUTRAL mode
-                this.sendNewAutotransmissionState("N");
-                break;
-            case KeyEvent.VK_D:
-                // set autotransmission to drive mode
-                this.sendNewAutotransmissionState("D");
-                break;
-            case KeyEvent.VK_LEFT:
-                // turn the car left
-                this.sendNewSteeringWheelState(
-                        this.componentStateCalculator.turnTheSteeringwheelLeft(this.steeringWheelState)
-                );
-                break;
-            case KeyEvent.VK_RIGHT:
-                // turn the car right
-                this.sendNewSteeringWheelState(
-                        this.componentStateCalculator.turnTheSteeringwheelRight(this.steeringWheelState)
-                );
-                break;
-            case KeyEvent.VK_UP:
-                this.sendNewGaspedalState(
-                        this.componentStateCalculator.addGas(this.gaspedalState)
-                );
-                break;
-            case KeyEvent.VK_DOWN:
-                this.sendNewGaspedalState(
-                        this.componentStateCalculator.applyingBreak(this.gaspedalState)
-                );
-                break;
-            default:
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_P)){
+            // set autotransmission to PARK mode
+            this.sendNewAutotransmissionState("P");
+        }
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_R)) {
+            // set autotransmission to REVERSE mode
+            this.sendNewAutotransmissionState("R");
+        }
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_N)) {
+            // set autotransmission to NEUTRAL mode
+            this.sendNewAutotransmissionState("N");
+        }
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_D)) {
+            // set autotransmission to DRIVE mode
+            this.sendNewAutotransmissionState("D");
+        }
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_LEFT)) {
+            // turn the car left
+            this.sendNewSteeringWheelState(
+                    this.componentStateCalculator.turnTheSteeringwheelLeft(this.steeringWheelState)
+            );
+        }
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_RIGHT)) {
+            // turn the car right
+            this.sendNewSteeringWheelState(
+                    this.componentStateCalculator.turnTheSteeringwheelRight(this.steeringWheelState)
+            );
+        }
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_UP)) {
+            this.sendNewGaspedalState(
+                    this.componentStateCalculator.addGas(this.gaspedalState)
+            );
+        }
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_DOWN)) {
+            this.sendNewGaspedalState(
+                    this.componentStateCalculator.applyingBreak(this.gaspedalState)
+            );
         }
     }
 
@@ -123,6 +127,12 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
                 "\nThe steeringwheel state is: " + this.steeringWheelState +
                 "\nThe gaspedal state is: " + this.gaspedalState
         );
+    }
+
+    private void printPressedKeys(){
+        for (int keyCode : pressedKeyCodes) {
+            System.out.println(keyCode);
+        }
     }
 
     @Override
