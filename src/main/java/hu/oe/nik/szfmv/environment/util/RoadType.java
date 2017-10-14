@@ -8,7 +8,7 @@ package hu.oe.nik.szfmv.environment.util;
  * 
  *         Osztályokkal kell megvalósítani
  */
-@Deprecated()
+@Deprecated
 public enum RoadType {
 
 	STRAIGHT_2LANE(0, 0), LEFT_45_2LANE(45, -1), RIGHT_45_2LANE(45, 1), T_JUNCTION(0, 0), CROSS_ROAD(0, 0);
