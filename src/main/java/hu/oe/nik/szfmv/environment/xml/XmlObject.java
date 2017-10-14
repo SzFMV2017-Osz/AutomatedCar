@@ -156,6 +156,7 @@ public class XmlObject {
     		public XmlObject build() {
     			if (!typeSet || !rotationSet || !positionSet) {
     				String message = "Can not create XmlObject because "+ (!typeSet ? " type " : "") + (!rotationSet ? " rotation " : "") + (!positionSet ? " position " : "" ) + " is not set";
+    				log.error("can not build XmlObject: "+message);
     				throw new IllegalArgumentException(message);
     			
     			}
