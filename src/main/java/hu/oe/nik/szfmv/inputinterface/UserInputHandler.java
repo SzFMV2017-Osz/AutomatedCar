@@ -2,29 +2,31 @@ package hu.oe.nik.szfmv.inputinterface;
 
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.math.BigInteger;
 import java.util.ArrayList;
 
 public final class UserInputHandler extends SystemComponent implements KeyListener{
 
-    private String gearShiftState;
-
-    private final long TIME_TO_SEND_SIGNAL = 100;
-
-    private long leftKeyLastMilisec,  rightKeyLastMilisec;
-
+    private String autotransmissionState;
+    private int steeringWheelState;
+    private int gaspedalState;
+    // private int breakpedalState;
 
     private ArrayList<Integer> pressedKeyCodes;
 
     public UserInputHandler() {
         super();
         this.pressedKeyCodes = new ArrayList<>();
-        this.gearShiftState = "N"; // starting state
-        this.printCurrentGearShiftState();
+
+        // starting states
+        this.autotransmissionState = "N";
+        this.steeringWheelState = 0;
+        this.gaspedalState = 0;
+        // this.breakpedalState = 0;
     }
 
     @Override
@@ -35,106 +37,118 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
     @Override
     public void keyPressed(KeyEvent userKeyPress) {
 
-        /*
-
-        majd a szimultán billentyűnyomás kezeléshez kell!
-
+        // collecting simultaneous key presses
         if (!this.pressedKeyCodes.contains(userKeyPress.getKeyCode())){
             pressedKeyCodes.add(userKeyPress.getKeyCode());
         }
 
-        */
-
-        //ide kéne minden eszközt refaktorálni, külön kezelését megoldani:
-        // valahogy pl így:
-        // UserGearShifter.ShiftGear(userKeyPress);
-        // visszadobni , ha nem rá tartozik...
-
         if (userKeyPress.getKeyCode() == KeyEvent.VK_P){
-            // set the GearShift to PARK mode
-            this.gearShiftState = "P";
-            this.setNewGearShiftState();
+            // set autotransmission to PARK mode
+            this.autotransmissionState = "P";
+            this.sendNewAutotransmissionState();
         }
 
         if (userKeyPress.getKeyCode() == KeyEvent.VK_R){
-            // set the GearShift to REVERSE mode
-            this.gearShiftState = "R";
-            this.setNewGearShiftState();
+            // set autotransmission to REVERSE mode
+            this.autotransmissionState = "R";
+            this.sendNewAutotransmissionState();
         }
 
         if (userKeyPress.getKeyCode() == KeyEvent.VK_N){
-            // set the GearShift to NEUTRAL mode
-            this.gearShiftState = "N";
-            this.setNewGearShiftState();
+            // set autotransmission to NEUTRAL mode
+            this.autotransmissionState = "N";
+            this.sendNewAutotransmissionState();
         }
 
         if (userKeyPress.getKeyCode() == KeyEvent.VK_D){
-            // set the GearShift to drive mode
-            this.gearShiftState = "D";
-            this.setNewGearShiftState();
+            // set autotransmission to drive mode
+            this.autotransmissionState = "D";
+            this.sendNewAutotransmissionState();
         }
 
         if(userKeyPress.getKeyCode() == KeyEvent.VK_LEFT) {
-            long temp = System.currentTimeMillis();
-            if(leftKeyLastMilisec < temp - TIME_TO_SEND_SIGNAL ) {
-                leftKeyLastMilisec = temp;
-                setSteeringWheelState(SteeringWheelDirections.LEFT);
-            }
-
+            // TODO: @eky0151 => csökkenteni kell a steeringWheelState változót (maximum -100 -ig)
+            this.steeringWheelState = this.steeringWheelState - 1;
+            this.sendNewSteeringWheelState();
         }
 
         if(userKeyPress.getKeyCode() == KeyEvent.VK_RIGHT) {
-            long temp = System.currentTimeMillis();
-            if(rightKeyLastMilisec < temp - TIME_TO_SEND_SIGNAL ) {
-                rightKeyLastMilisec = temp;
-                setSteeringWheelState(SteeringWheelDirections.RIGHT);
-            }
+            // TODO: @eky0151 => növelni a steeringWheelState változót (maximum +100 -ig)
+            this.steeringWheelState = this.steeringWheelState + 1;
+            this.sendNewSteeringWheelState();
         }
-    }
 
-    private void setSteeringWheelState(SteeringWheelDirections stw)  {
-        VirtualFunctionBus.sendSignal(
-                new Signal(CarComponent.STEERINGWHEEL.getCarComponentID(),  stw.getSteeringWheelId() == SteeringWheelDirections.LEFT.getSteeringWheelId() ?
-                        SteeringWheelDirections.LEFT.getSteeringWheelId() :
-                        SteeringWheelDirections.RIGHT.getSteeringWheelId())
-        )  ;
+        if (userKeyPress.getKeyCode() == KeyEvent.VK_UP){
+            // TODO: @hermanistvan => növelni a gaspedalState változót (maximum 100 -ig)
+            this.gaspedalState = this.gaspedalState + 1;
+            this.sendNewGaspedalState();
+        }
 
-        System.out.println("Signal sended for " + (stw.getSteeringWheelId() == 1 ? "LEFT" : "RIGHT"));
-    }
-
-    private void setNewGearShiftState() {
-        VirtualFunctionBus.sendSignal(
-                new Signal(
-                        CarComponent.GEARSHIFT.getCarComponentID(),
-                        this.gearShiftState
-                )
-        );
-    }
-
-    private void printCurrentGearShiftState() {
-        System.out.println("The gearshift state is: " + this.gearShiftState);
+        if (userKeyPress.getKeyCode() == KeyEvent.VK_DOWN){
+            // TODO: @hermanistvan => csökkenteni a gaspedalState változót (minimum 0 -ig)
+            this.gaspedalState = this.gaspedalState - 1;
+            this.sendNewGaspedalState();
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent userKeyRelease) {
-        // pressedKeyCodes.remove(new Integer(userKeyRelease.getKeyCode()));
+        pressedKeyCodes.remove(new Integer(userKeyRelease.getKeyCode()));
+    }
+
+    private void sendNewAutotransmissionState() {
+        VirtualFunctionBus.sendSignal(
+                new Signal(
+                        SignalEnum.AUTOTRANSMISSION,
+                        this.autotransmissionState
+                )
+        );
+    }
+
+    private void sendNewSteeringWheelState() {
+        VirtualFunctionBus.sendSignal(
+                new Signal(
+                        SignalEnum.STEERINGWHEEL,
+                        this.steeringWheelState
+                )
+        );
+    }
+
+    private void sendNewGaspedalState() {
+        VirtualFunctionBus.sendSignal(
+                new Signal(
+                        SignalEnum.GASPEDAL,
+                        this.gaspedalState
+                )
+        );
+    }
+
+    private void printCurrentCarComponentStates() {
+        System.out.println(
+                "The autotransmission state is: " + this.autotransmissionState +
+                "\nThe steeringwheel state is: " + this.steeringWheelState +
+                "\nThe gaspedal state is: " + this.gaspedalState
+        );
     }
 
     @Override
     public void loop() {
-        // ezt hívja meg tőlünk a bus
+        // ezt hívja meg tőlünk folyamatosan a bus
+        this.printCurrentCarComponentStates();
     }
 
-    // itt kell lekérdeznünk a busztól minden signal aktuális állapotát
+    // a busz itt dobálja minden Signal új állapotát, tehát innen tudjuk frissíteni a mi állapotváltozóinkat is
     @Override
     public void receiveSignal(Signal s) {
         switch (s.getId()){
-            case 104: // kiatlálom még hogy kéne, mert valamiért CarComponent.GEARSHIFT.getCarComponentID() -t nem eszi
-                this.gearShiftState = (String)s.getData();
-
-                // csak amig nincs műszerfal
-                this.printCurrentGearShiftState();
-
+            case AUTOTRANSMISSION:
+                this.autotransmissionState = (String)s.getData();
+                break;
+            case STEERINGWHEEL:
+                this.steeringWheelState = (int)s.getData();
+                break;
+            case GASPEDAL:
+                this.gaspedalState = (int)s.getData();
                 break;
 
             default:

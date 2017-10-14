@@ -33,7 +33,7 @@ public class PowertrainSystem extends SystemComponent {
         switch (s.getId()) {
 
             // Handle demo signal
-            case DEMO:
+            case SPEED:
                 x += (int) s.getData();
                 break;
 

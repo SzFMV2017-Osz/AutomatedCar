@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar;
 
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 
 /**
@@ -11,7 +12,7 @@ public class Driver extends SystemComponent {
     @Override
     public void loop() {
         // send demo signal
-        VirtualFunctionBus.sendSignal(new Signal(0, 10));
+        VirtualFunctionBus.sendSignal(new Signal(SignalEnum.SPEED, 10));
     }
 
     @Override
