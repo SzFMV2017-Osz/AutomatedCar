@@ -29,7 +29,7 @@ public abstract class WorldObject {
 	// objektum formája
 	private final ModelShape shape;
 
-	String imageFileName;
+	private final String imageFileName;
 
 	public WorldObject(int x, int y, float rotation, int width, int height, String imageName, ModelShape shape) {
 		super();
@@ -65,6 +65,24 @@ public abstract class WorldObject {
 
 	public String getImageFileName() {
 		return imageFileName;
+	}
+
+	/**
+	 * @return the shape
+	 */
+	public ModelShape getShape() {
+		return shape;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "WorldObject [x=" + x + ", y=" + y + ", rotation=" + rotation + ", width=" + width + ", height=" + height
+				+ ", shape=" + shape + ", imageFileName=" + imageFileName + "]";
 	}
 
 }

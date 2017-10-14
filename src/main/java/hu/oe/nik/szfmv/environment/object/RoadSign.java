@@ -50,13 +50,16 @@ public class RoadSign extends CollidableObject {
 	}
 
 	/*
-	 * (non-Javadoc) git s
+	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "RoadSign [roadSignType=" + roadSignType + "]";
+		return "RoadSign [roadSignType=" + roadSignType + ", x=" + getX() + ", y=" + getY() + ", rotation="
+				+ getRotation() + ", isCollided()=" + isCollided() + ", getX()=" + getX() + ", getY()=" + getY()
+				+ ", getRotation()=" + getRotation() + ", getWidth()=" + getWidth() + ", getHeight()=" + getHeight()
+				+ ", getImageFileName()=" + getImageFileName() + ", getShape()=" + getShape() + "]";
 	}
 
 }
