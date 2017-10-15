@@ -14,9 +14,9 @@ public class ImageResource {
 
 	public static final String ROADSIGN_PARKING_RIGHT_NAME = "automatedCar.roadSign.parking.right";
 	public static final String ROADSIGN_STOP_NAME = "automatedCar.roadSign.stop";
-	public static final String ROADSIGN_SPEED_60 = "automatedCar.roadSign.speed.60";
-	public static final String ROADSIGN_SPEED_50 = "automatedCar.roadSign.speed.50";
-	public static final String ROADSIGN_SPEED_40 = "automatedCar.roadSign.speed.40";
+	public static final String ROADSIGN_SPEED_60_NAME = "automatedCar.roadSign.speed.60";
+	public static final String ROADSIGN_SPEED_50_NAME = "automatedCar.roadSign.speed.50";
+	public static final String ROADSIGN_SPEED_40_NAME = "automatedCar.roadSign.speed.40";
 
 	public static final String ROAD_45_LEFT_NAME = "automatedCar.road.45.left";
 	public static final String ROAD_45_RIGHT_NAME = "automatedCar.road.45.right";
@@ -50,7 +50,7 @@ public class ImageResource {
 						+ " does not exists int the system resources");
 			}
 		}
-		return imageProperties.getProperty(key, "automatedCar.notExist");
+		return imageProperties.getProperty(key, "automatedCar.notExists");
 	}
 
 	/**
