@@ -16,7 +16,7 @@ public class NPCCar extends WorldObject implements IMovable {
 
     @Override
     public void move(Vector2D target) {
-
+        // TODO: implement car movement
     }
 
     @Override
