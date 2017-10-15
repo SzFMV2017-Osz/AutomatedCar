@@ -44,9 +44,9 @@ public class GameDisplayJPanel extends JPanel {
                 cars = new ArrayList<>(); //cars drawn last
 
         for (WorldObject object : world.getWorldObjects()) {
-            if (object.getClass().equals(CollidableObject.class)) {
-                if (object.getClass().equals(MovingObject.class)) {
-                    if (object.getClass().equals(Car.class)) {
+            if (object instanceof CollidableObject) {
+                if (object instanceof MovingObject) {
+                    if (object instanceof Car) {
                         cars.add(object);
                     } else movingObjects.add(object);
                 } else collideableObjects.add(object);
