@@ -13,13 +13,17 @@ import java.util.TimerTask;
 
 public final class UserInputHandler extends SystemComponent implements KeyListener{
 
+    private static final int decreasingTimePeriod = 300;
+
     private String autotransmissionState;
     private int steeringWheelState;
     private int gaspedalState;
 
     private ArrayList<Integer> pressedKeyCodes;
     private CarComponentStateCalculator componentStateCalculator;
+
     private Timer timer;
+    private boolean isKeyPressingHappened;
 
     public UserInputHandler() {
         super();
@@ -31,6 +35,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         this.autotransmissionState = "N";
         this.steeringWheelState = componentStateCalculator.basicSteeringWheelState;
         this.gaspedalState = componentStateCalculator.minGaspedalState;
+        this.isKeyPressingHappened = false;
     }
 
     @Override
@@ -40,6 +45,8 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
 
     @Override
     public void keyPressed(KeyEvent userKeyPress) {
+
+        this.isKeyPressingHappened = true;
 
         // collecting simultaneous key presses
         if (!this.pressedKeyCodes.contains(userKeyPress.getKeyCode())){
@@ -94,17 +101,30 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
 
         // amíg nincs input, minden visszaáll alaphelyzetbe
         if (this.pressedKeyCodes.isEmpty()){
-            this.decreaseGaspadalStateToBase();
+            this.isKeyPressingHappened = false;
+            this.decreaseAllComponentStateToBase();
         }
     }
 
-    private void decreaseGaspadalStateToBase() {
+    private void decreaseAllComponentStateToBase() {
 
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                if (gaspedalState != 0){
-                    gaspedalState--;
+
+                if (!isKeyPressingHappened){
+
+                    if (gaspedalState != componentStateCalculator.minGaspedalState){
+                        gaspedalState--;
+                    }
+
+                    if (steeringWheelState > componentStateCalculator.basicSteeringWheelState){
+                        steeringWheelState--;
+                    }
+
+                    if (steeringWheelState < componentStateCalculator.basicSteeringWheelState){
+                        steeringWheelState++;
+                    }
                 }
                 else {
                     this.cancel();
@@ -112,7 +132,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
             }
         };
 
-        timer.scheduleAtFixedRate(task,0, 300);
+        timer.scheduleAtFixedRate(task,100, decreasingTimePeriod);
     }
 
     private void sendNewAutotransmissionState(String newTransmissionState) {
