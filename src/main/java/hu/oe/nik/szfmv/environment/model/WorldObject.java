@@ -1,9 +1,8 @@
 package hu.oe.nik.szfmv.environment.model;
 
+import hu.oe.nik.szfmv.environment.util.ModelShape;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import hu.oe.nik.szfmv.environment.util.ModelShape;
 
 /**
  * Világ elemeinek ős osztálya
@@ -55,13 +54,15 @@ public class WorldObject {
 		return rotation;
 	}
 
-	public int getWidth() {
-		return width;
-	}
+    @Deprecated
+    public int getWidth() {
+        return width;
+    }
 
-	public int getHeight() {
-		return height;
-	}
+    @Deprecated
+    public int getHeight() {
+        return height;
+    }
 
 	public String getImageFileName() {
 		return imageFileName;
