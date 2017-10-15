@@ -13,9 +13,9 @@ package hu.oe.nik.szfmv.automatedcar.bus;
  */
 
 public class Signal {
-	// Signal identifier, a component can decide based on this value
-	// whether the content of the signal shall be processed or not.
-	private int id;
+    // Signal identifier, a component can decide based on this value
+    // whether the content of the signal shall be processed or not.
+    private int id;
 
     // Signal value
     private Object data;
@@ -26,10 +26,10 @@ public class Signal {
         this.data = data;
     }
 
-	// Getter for Signal Id
-	public int getId() {
-		return id;
-	}
+    // Getter for Signal Id
+    public int getId() {
+        return id;
+    }
 
     // Getter for Signal Value
     public Object getData() {
