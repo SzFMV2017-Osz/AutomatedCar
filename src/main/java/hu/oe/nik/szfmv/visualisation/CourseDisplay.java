@@ -66,7 +66,7 @@ public class CourseDisplay {
     }
 
     private void calculateScale(int sizeFrom, int sizeTo) {
-        scale = ((double) sizeTo) / sizeFrom;
+        scale = ((double) sizeFrom) / sizeTo;
     }
 
 }
