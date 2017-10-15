@@ -111,6 +111,18 @@ public class WorldObjectFactory {
 			imageFileName = ImageResource.ROADSIGN_STOP_NAME;
 			type = RoadSignType.STOP;
 			break;
+		case ROADSIGN_SPEED_60:
+			imageFileName = ImageResource.ROADSIGN_SPEED_60_NAME;
+			type = RoadSignType.SPEED_60;
+			break;
+		case ROADSIGN_SPEED_50:
+			imageFileName = ImageResource.ROADSIGN_SPEED_50_NAME;
+			type = RoadSignType.SPEED_50;
+			break;
+		case ROADSIGN_SPEED_40:
+			imageFileName = ImageResource.ROADSIGN_SPEED_40_NAME;
+			type = RoadSignType.SPEED_40;
+			break;
 		default:
 			throw new IllegalArgumentException("road type :" + xmlObject.getType() + " does not exists");
 		}
