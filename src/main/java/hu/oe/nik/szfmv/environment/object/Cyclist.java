@@ -1,10 +1,7 @@
 package hu.oe.nik.szfmv.environment.object;
 
-import java.util.List;
-
 import hu.oe.nik.szfmv.environment.model.MovingObject;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
-import hu.oe.nik.szfmv.environment.util.Vector;
 
 /**
  * kerékpárost reprezentáló objektum TODO: maghajtás bekötése
