@@ -113,11 +113,16 @@ public class GameDisplayJPanel extends JPanel {
     }
 
     private AffineTransform getTransform(WorldObject object) {
-        AffineTransform trans = new AffineTransform();
-        trans.translate(
-                (int) Math.round(object.getX() * scale),
-                (int) Math.round(object.getY() * scale));
-        trans.rotate(object.getRotation());
-        return trans;
+        AffineTransform rotation = new AffineTransform();
+        rotation.rotate(object.getRotation());
+
+        AffineTransform translation = new AffineTransform();
+        int scaledX =  (int) Math.round(object.getX() * scale);
+        int scaledY =  (int) Math.round(object.getY() * scale);
+        translation.translate(scaledX, scaledY);
+
+        translation.concatenate(rotation);
+
+        return translation;
     }
 }
