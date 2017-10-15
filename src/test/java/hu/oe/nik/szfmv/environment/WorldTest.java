@@ -2,6 +2,11 @@ package hu.oe.nik.szfmv.environment;
 
 import org.junit.Test;
 
+import hu.oe.nik.szfmv.environment.model.World;
+import hu.oe.nik.szfmv.environment.model.WorldObject;
+import hu.oe.nik.szfmv.environment.object.Car;
+import hu.oe.nik.szfmv.environment.util.ImageNameProperty;
+
 import static junit.framework.Assert.assertEquals;
 
 public class WorldTest {
@@ -32,17 +37,17 @@ public class WorldTest {
     @Test
     public void getWorldObjectsTest() throws Exception {
         assertEquals(world.getWorldObjects().size(), 0);
-        world.addObjectToWorld(new WorldObject(100, 100, "test.jpg"));
+        world.addObjectToWorld(new Car(0, 0, 0, 10, 10, ImageNameProperty.WHITE_CAR_NAME, 100));
         assertEquals(world.getWorldObjects().size(), 1);
     }
 
     @Test
     public void addObjectToWorldTest() throws Exception {
-        world.addObjectToWorld(new WorldObject(100, 100, "test.jpg"));
+        world.addObjectToWorld(new Car(100, 100, 0, 10, 10, ImageNameProperty.WHITE_CAR_NAME, 100));
         assertEquals(world.getWorldObjects().size(), 1);
         assertEquals(world.getWorldObjects().get(0).getX(), 100);
         assertEquals(world.getWorldObjects().get(0).getY(), 100);
-        assertEquals(world.getWorldObjects().get(0).getImageFileName(), "test.jpg");
+        assertEquals(world.getWorldObjects().get(0).getImageFileName(), "car_2_white.png");
     }
 
 }
