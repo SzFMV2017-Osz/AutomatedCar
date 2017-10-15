@@ -18,9 +18,10 @@ public class Main {
 		// create the world
 		World w = new World(800, 600);
 		// create an automated car
-		Car car = Car.builder().position(10, 10).rotation(0).dimension(100, 100).weight(1000).color("black").build();
+		Car car = Car.builder().position(500, 500).rotation(0).dimension(100, 100).weight(1000).color("black").build();
 		// add car to the world
 		w.addObjectToWorld(car);
+		car.accelerate(-5);
 		// init visualisation module with the world
 		vis.init(w);
 

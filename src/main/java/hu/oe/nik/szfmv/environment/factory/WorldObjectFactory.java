@@ -71,12 +71,17 @@ public class WorldObjectFactory {
 	private static WorldObject createTree(XmlObject xmlObject) {
 		// weight is max value assuming that object has infinite impulse on crash
 		log.info("creating a Tree...");
+
 		int width = 100;
 		int height = 100;
 		int weight = Integer.MAX_VALUE;
 		String imageFileName = ImageResource.getImageOf(ImageResource.TREE_NAME);
-		return new Tree(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), width, height, weight,
+
+		Tree t = new Tree(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), width, height, weight,
 				imageFileName);
+		log.info(t.toString());
+
+		return t;
 	}
 
 	/**
@@ -90,6 +95,7 @@ public class WorldObjectFactory {
 	private static WorldObject createRoadSign(XmlObject xmlObject) {
 
 		log.info("creating a RoadSign of... " + xmlObject.getType());
+
 		String imageFileName;
 		RoadSignType type;
 		int width = 100;
@@ -110,8 +116,10 @@ public class WorldObjectFactory {
 		}
 
 		// weight is max value assuming that object has infinite impulse on crash
-		return new RoadSign(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), width, height,
+		RoadSign r = new RoadSign(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), width, height,
 				ImageResource.getImageOf(imageFileName), weight, type);
+		log.info(r.toString());
+		return r;
 	}
 
 	/**

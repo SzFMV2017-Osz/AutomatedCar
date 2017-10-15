@@ -1,5 +1,9 @@
 package hu.oe.nik.szfmv.environment.object;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.model.MovingObject;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
@@ -13,6 +17,8 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
  *
  */
 public class Car extends MovingObject implements IDriveable {
+
+	private static final Logger log = LogManager.getLogger(Car.class);
 
 	public static CarBuilder builder() {
 		return new CarBuilder();
@@ -34,8 +40,9 @@ public class Car extends MovingObject implements IDriveable {
 
 	@Override
 	public void accelerate(int scale) {
-		// TODO Auto-generated method stub
-
+		log.info("acclerate car to scale: " + scale);
+		Vector2D v = new Vector2D(scale, scale);
+		chageDirection(v);
 	}
 
 	@Override
@@ -98,7 +105,10 @@ public class Car extends MovingObject implements IDriveable {
 		}
 
 		public Car build() {
-			return new Car(x, y, rotation, width, height, imageFileName, weight);
+			log.info("building a car...");
+			Car c = new Car(x, y, rotation, width, height, imageFileName, weight);
+			log.info(c.toString());
+			return c;
 		}
 	}
 }
