@@ -28,11 +28,12 @@ public class GameDisplayJPanel extends JPanel {
 
     private HashMap<String, BufferedImage>
             imageCache = new HashMap<>();
-    private static final int roadWidth = 350; //350px
+    private final RoadConstants roadConst;
 
     public GameDisplayJPanel(World gameWorld, double scale) {
         this.world = gameWorld;
         this.scale = scale;
+        roadConst = new RoadConstants(scale);
     }
 
     public void paintComponent(Graphics g) {
@@ -133,12 +134,11 @@ public class GameDisplayJPanel extends JPanel {
     }
 
     private Coord getOffset(WorldObject object) {
-        Coord c = RoadConstants.roadOffsets.get(
-                object.getImageFileName());
-        if (c == null) c = new Coord(0, 0);
+        Coord c = roadConst.scaledRoadOffsets.get(object.getImageFileName());
 
-        c = new Coord((int) (c.getX() * scale), (int) (c.getY() * scale));
-
-        return c;
+        if (c == null)
+            return new Coord(0, 0);
+        else
+            return c;
     }
 }

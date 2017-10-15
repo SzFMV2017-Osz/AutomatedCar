@@ -1,11 +1,27 @@
 package hu.oe.nik.szfmv.visualisation;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class RoadConstants {
     public static final int roadWidth = 350;
 
-    public static final HashMap<String, Coord> roadOffsets;
+    private static final HashMap<String, Coord> roadOffsets;
+    public final HashMap<String, Coord> scaledRoadOffsets;
+
+    public RoadConstants(double scale) {
+        scaledRoadOffsets = new HashMap<String, Coord>();
+
+        for (Map.Entry<String, Coord> entry : roadOffsets.entrySet()) {
+            String key = entry.getKey();
+            Coord value = entry.getValue();
+
+            scaledRoadOffsets.put(key,
+                    new Coord(
+                            (int) (value.getX() * scale),
+                            (int) (value.getY() * scale)));
+        }
+    }
 
     static {
         roadOffsets = new HashMap<String, Coord>();
