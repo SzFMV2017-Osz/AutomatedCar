@@ -11,7 +11,7 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
  * @author hunkak
  *
  */
-public abstract class WorldObject {
+public class WorldObject {
 
 	private static final Logger log = LogManager.getLogger(WorldObject.class);
 
