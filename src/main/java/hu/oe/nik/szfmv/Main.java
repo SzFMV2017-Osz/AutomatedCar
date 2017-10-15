@@ -1,11 +1,10 @@
 package hu.oe.nik.szfmv;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.object.Car;
 import hu.oe.nik.szfmv.visualisation.CourseDisplay;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Main {
 
@@ -16,7 +15,7 @@ public class Main {
 		CourseDisplay vis = new CourseDisplay();
 
 		// create the world
-		World w = new World(800, 600);
+		World w = new World(5120, 3000);
 		// create an automated car
 		Car car = Car.builder().position(500, 500).rotation(0).dimension(100, 100).weight(1000).color("black").build();
 		// add car to the world
