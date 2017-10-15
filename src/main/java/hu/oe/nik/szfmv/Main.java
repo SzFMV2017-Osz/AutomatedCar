@@ -1,11 +1,11 @@
 package hu.oe.nik.szfmv;
 
-import hu.oe.nik.szfmv.environment.model.World;
-import hu.oe.nik.szfmv.environment.object.Car;
-import hu.oe.nik.szfmv.environment.util.ImageNameProperty;
-import hu.oe.nik.szfmv.visualisation.CourseDisplay;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import hu.oe.nik.szfmv.environment.model.World;
+import hu.oe.nik.szfmv.environment.object.Car;
+import hu.oe.nik.szfmv.visualisation.CourseDisplay;
 
 public class Main {
 
@@ -18,7 +18,7 @@ public class Main {
 		// create the world
 		World w = new World(800, 600);
 		// create an automated car
-		Car car = new Car(0, 0, 0, 10, 10, ImageNameProperty.WHITE_CAR_NAME, 100);
+		Car car = Car.builder().position(10, 10).rotation(0).dimension(100, 100).weight(1000).color("black").build();
 		// add car to the world
 		w.addObjectToWorld(car);
 		// init visualisation module with the world
