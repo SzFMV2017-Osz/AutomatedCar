@@ -1,7 +1,10 @@
 package hu.oe.nik.szfmv.visualisation;
 
-import hu.oe.nik.szfmv.environment.World;
-import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.environment.model.CollidableObject;
+import hu.oe.nik.szfmv.environment.model.MovingObject;
+import hu.oe.nik.szfmv.environment.model.World;
+import hu.oe.nik.szfmv.environment.model.WorldObject;
+import hu.oe.nik.szfmv.environment.object.Car;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,6 +15,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameDisplayJPanel extends JPanel {
 
@@ -26,10 +31,40 @@ public class GameDisplayJPanel extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-        //don't need to typecast inside loop
-        Graphics2D g2d = (Graphics2D) g;
+        //filter out WorldObjects into separate groups
+        // to render them in order
+        ArrayList<WorldObject>
+                staticObjects = new ArrayList<>(), //ie. roads
+                collideableObjects = new ArrayList<>(),
+                movingObjects = new ArrayList<>(),
+                cars = new ArrayList<>(); //cars drawn last
 
         for (WorldObject object : world.getWorldObjects()) {
+            if (object.getClass().equals(CollidableObject.class)) {
+                if (object.getClass().equals(MovingObject.class)) {
+                    if (object.getClass().equals(Car.class)) {
+                        cars.add(object);
+                    } else movingObjects.add(object);
+                } else collideableObjects.add(object);
+            } else { //roads
+                staticObjects.add(object);
+            }
+        }
+
+        Graphics2D g2d = (Graphics2D) g;
+
+        //roads lowest priority, draw first
+        //  (so later they are drawn over)
+        //cars highest priority, draw last
+
+        drawObjects(g2d, staticObjects);
+        drawObjects(g2d, collideableObjects);
+        drawObjects(g2d, movingObjects);
+        drawObjects(g2d, cars);
+    }
+
+    private void drawObjects(Graphics2D g2d, List<WorldObject> objects) {
+        for (WorldObject object : objects) {
             // draw objects
             try {
 

@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.visualisation;
 
-import hu.oe.nik.szfmv.environment.World;
+import hu.oe.nik.szfmv.environment.model.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
