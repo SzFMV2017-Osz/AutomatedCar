@@ -28,6 +28,7 @@ public class GameDisplayJPanel extends JPanel {
 
     private HashMap<String, BufferedImage>
             imageCache = new HashMap<>();
+    private static final int roadWidth = 350; //350px
 
     public GameDisplayJPanel(World gameWorld, double scale) {
         this.world = gameWorld;
@@ -112,17 +113,62 @@ public class GameDisplayJPanel extends JPanel {
         return image;
     }
 
-    private AffineTransform getTransform(WorldObject object) {
-        AffineTransform rotation = new AffineTransform();
-        rotation.rotate(object.getRotation());
+    private AffineTransform getTransform(WorldObject object) throws IOException {
+        Coord c = getCoord(object);
 
         AffineTransform translation = new AffineTransform();
-        int scaledX =  (int) Math.round(object.getX() * scale);
-        int scaledY =  (int) Math.round(object.getY() * scale);
+        int scaledX = (int) Math.round(object.getX() * scale - c.getX());
+        int scaledY = (int) Math.round(object.getY() * scale - c.getY());
         translation.translate(scaledX, scaledY);
+
+        AffineTransform rotation;
+        rotation = AffineTransform.getRotateInstance(
+                object.getRotation(),
+                c.getX(),
+                c.getY());
 
         translation.concatenate(rotation);
 
         return translation;
+    }
+
+    private Coord getCoord(WorldObject object) {
+        Coord c = RoadConstants.roadInfo.get(
+                object.getImageFileName());
+        if (c == null)
+            c = new Coord(0, 0);
+        c = new Coord((int) (c.getX() * scale), (int) (c.getY() * scale));
+        return c;
+    }
+
+    private double calculateRotateBaseX(WorldObject object) throws IOException {
+        String filename = object.getImageFileName();
+        if (filename == "road_2lane_tjunctionright.png" || filename == "road_2lane_tjunctionleft.png")
+            return getObjectWidth(object) * scale;
+        else if (filename == "road_2lane_90left.png" || filename == "road_2lane_45left.png")
+            return (getObjectWidth(object) - roadWidth) * scale;
+        else if (filename == "road_2lane_6left.png") {
+            return (roadWidth + getObjectWidth(object) - roadWidth) * scale;
+        } else if (filename.contains("road"))
+            return roadWidth * scale;
+        else return Double.MIN_VALUE;
+    }
+
+    private double calculateRotateBaseY(WorldObject object) throws IOException {
+        String filename = object.getImageFileName();
+        if (filename == "road_2lane_tjunctionright.png" || filename == "road_2lane_tjunctionleft.png")
+            return 0;
+        else if (filename.contains("road"))
+            return (getObjectHeight(object)) * scale;
+        else return Double.MIN_VALUE;
+    }
+
+    //TODO: we should be able to get this from WorldObjects themselves but we cannot...
+    private int getObjectHeight(WorldObject object) throws IOException {
+        return getBufferedImage(object).getHeight();
+    }
+
+    private int getObjectWidth(WorldObject object) throws IOException {
+        return getBufferedImage(object).getHeight();
     }
 }
