@@ -14,13 +14,22 @@ public class Vector2D {
         this.y = y;
     }
 
+    public Vector2D(Vector2D vector) {
+        this.x = vector.x;
+        this.y = vector.y;
+    }
+
+    public Vector2D copy() {
+        return new Vector2D(this);
+    }
+
     public Vector2D normalize() {
         double abs = this.abs();
-        if (abs == 0) {
-            return new Vector2D(0, 0);
-        } else {
-            return new Vector2D(x / abs, y / abs);
+        if (abs != 0) {
+            x /= abs;
+            y /= abs;
         }
+        return this;
     }
 
     public double abs() {
@@ -32,20 +41,28 @@ public class Vector2D {
     }
 
     public Vector2D add(Vector2D vector) {
-        return new Vector2D(x + vector.getX(), y + vector.getY());
+        x += vector.x;
+        y += vector.y;
+        return this;
     }
 
     public Vector2D sub(Vector2D vector) {
-        return new Vector2D(x - vector.getX(), y - vector.getY());
+        x -= vector.x;
+        y -= vector.y;
+        return this;
     }
 
     public Vector2D mult(double value) {
-        return new Vector2D(x * value, y * value);
+        x *= value;
+        y *= value;
+        return this;
     }
 
     public Vector2D div(double value) {
         if (value != 0) {
-            return new Vector2D(x / value, y / value);
+            x /= value;
+            y /= value;
+            return this;
         } else {
             throw new IllegalArgumentException("Vector divided by 0 is not allowed!");
         }

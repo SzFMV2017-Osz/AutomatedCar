@@ -30,54 +30,70 @@ public class Vector2DTest {
 
     @Test
     public void toStringTest() {
-        assertEquals("(5.0, 5.0)", V1.toString());
+        Vector2D v = new Vector2D(V1);
+        assertEquals("(5.0, 5.0)", v.toString());
     }
 
     @Test
     public void equalsTest() {
-        assertNotSame(V1, V2);
-        assertEquals(V1, new Vector2D(V1_XY_POSITION, V1_XY_POSITION));
+        Vector2D v1 = V1.copy();
+        Vector2D v2 = V2.copy();
+        assertNotSame(v1, v2);
+        assertEquals(v1, new Vector2D(V1_XY_POSITION, V1_XY_POSITION));
     }
 
     @Test
     public void absAndAbsSquaredTest() {
-        assertEquals(V1_ABS, V1.abs());
-        assertEquals(V2_ABS, V2.abs());
-        assertEquals(V1_ABS_SQUARED, V1.absSquared());
-        assertEquals(V2_ABS_SQUARED, V2.absSquared());
+        Vector2D v1 = V1.copy();
+        Vector2D v2 = V2.copy();
+        assertEquals(V1_ABS, v1.abs());
+        assertEquals(V2_ABS, v2.abs());
+        assertEquals(V1_ABS_SQUARED, v1.absSquared());
+        assertEquals(V2_ABS_SQUARED, v2.absSquared());
     }
 
     @Test
     public void addAndSubTest() {
-        assertEquals(V1_PLUS_V3, V1.add(V3));
-        assertEquals(V1_MINUS_V3, V1.sub(V3));
+        Vector2D vadd = V1.copy();
+        Vector2D vsub = V1.copy();
+        Vector2D v3 = V3.copy();
+        assertEquals(V1_PLUS_V3, vadd.add(v3));
+        assertEquals(V1_MINUS_V3, vsub.sub(v3));
     }
 
     @Test
     public void multiplyByDoubleTest() {
-        assertEquals(V1, V2.mult(V1_ABS));
+        Vector2D v1 = V1.copy();
+        Vector2D v2 = V2.copy();
+        assertEquals(v1, v2.mult(V1_ABS));
     }
 
     @Test
     public void divByDoubleTest() {
-        assertEquals(V1, V1.div(1));
-        assertEquals(V2, V1.div(V1_ABS));
+        Vector2D v1 = V1.copy();
+        Vector2D v2 = V2.copy();
+        assertEquals(v1, new Vector2D(v1).div(1));
+        assertEquals(v2, v1.div(V1_ABS));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void divByZeroTest() {
-        V1.div(0);
+        Vector2D v1 = V1.copy();
+        v1.div(0);
     }
 
     @Test
     public void normalizeTest() {
-        assertEquals(V2, V1.normalize());
-        assertEquals(NULL_VECTOR, V1.mult(0).normalize());
+        Vector2D v1 = V1.copy();
+        Vector2D v2 = V2.copy();
+        assertEquals(v2, v1.normalize());
+        assertEquals(NULL_VECTOR, v1.mult(0).normalize());
     }
 
     @Test
     public void getAngleTest() {
-        assertEquals(V2_ANGLE, V1.getAngle());
+        Vector2D v1 = V1.copy();
+        assertEquals(V2_ANGLE, v1.getAngle());
 
         // this would fail caused by double precision
         // assertEquals(V4_ANGLE, V4.getAngle());

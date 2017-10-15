@@ -28,7 +28,8 @@ public class PedestrianTest {
 
     @Test
     public void getLookDirectionTest() {
-        assertEquals(POSITION_02.normalize(), pedestrian.getForwardVector());
+        Vector2D pos02_norm = new Vector2D(POSITION_02).normalize();
+        assertEquals(pos02_norm, pedestrian.getForwardVector());
     }
 
     @Test
