@@ -49,8 +49,8 @@ public class GameDisplayJPanel extends JPanel {
         BufferedImage rawImage = //TODO: get this from WorldObject itself
                 ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
         return rawImage.getScaledInstance(
-                (int) Math.round(rawImage.getWidth() * scale),
-                (int) Math.round(rawImage.getHeight() * scale),
+                (int) Math.round(object.getWidth() * scale),
+                (int) Math.round(object.getHeight() * scale),
                 BufferedImage.SCALE_DEFAULT);
 
     }
