@@ -3,8 +3,7 @@ package hu.oe.nik.szfmv.environment.object;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 import hu.oe.nik.szfmv.environment.util.RoadType;
-
-import java.util.List;
+import hu.oe.nik.szfmv.environment.xml.XmlObjectType;
 
 /**
  * Utat reprezentáló osztály
@@ -13,37 +12,37 @@ import java.util.List;
  */
 public class Road extends WorldObject {
     private RoadType roadType;
-    private int degrees;
+    private int curvature;
     private boolean pedestrianCrossing;
 
-    public Road(int x, int y, float rotation, int width, int height, String imageFileName, boolean pedestrianCrossing) {
-        super(x, y, rotation, width, height, imageFileName, ModelShape.RECTENGULAR);
+    public Road(int x, int y, float rotation, int width, int height, XmlObjectType objectType, boolean pedestrianCrossing) {
+        super(x, y, rotation, width, height, objectType.getXmlName(), ModelShape.RECTENGULAR);
         this.pedestrianCrossing = pedestrianCrossing;
-        String[] explodedString = imageFileName.split("_");
+        String[] explodedString = objectType.getXmlName().split("_");
         switch (explodedString[2]) {
             case "45left":
                 this.roadType = RoadType.LEFT;
-                this.degrees = 45;
+                this.curvature = 45;
                 break;
             case "45right":
                 this.roadType = RoadType.RIGHT;
-                this.degrees = 45;
+                this.curvature = 45;
                 break;
             case "6left":
                 this.roadType = RoadType.LEFT;
-                this.degrees = 6;
+                this.curvature = 6;
                 break;
             case "6right":
                 this.roadType = RoadType.RIGHT;
-                this.degrees = 6;
+                this.curvature = 6;
                 break;
             case "90left":
                 this.roadType = RoadType.LEFT;
-                this.degrees = 90;
+                this.curvature = 90;
                 break;
             case "90right":
                 this.roadType = RoadType.RIGHT;
-                this.degrees = 90;
+                this.curvature = 90;
                 break;
             case "straight":
                 this.roadType = RoadType.STRAIGHT;
@@ -68,7 +67,7 @@ public class Road extends WorldObject {
         return pedestrianCrossing;
     }
 
-    public int getDegrees() {
-        return degrees;
+    public int getCurvature() {
+        return curvature;
     }
 }

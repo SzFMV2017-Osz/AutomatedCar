@@ -9,5 +9,5 @@ package hu.oe.nik.szfmv.environment.util;
  *         Osztályokkal kell megvalósítani
  */
 public enum RoadType {
-	LEFT, RIGHT, STRAIGHT, TJUNCTIONLEFT, TJUNCTIONRIGHT, ROTARY;
+	LEFT, RIGHT, STRAIGHT, TJUNCTIONLEFT, TJUNCTIONRIGHT, ROTARY
 }
