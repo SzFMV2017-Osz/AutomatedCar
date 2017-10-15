@@ -2,9 +2,13 @@ package hu.oe.nik.szfmv;
 
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.object.Car;
+import hu.oe.nik.szfmv.environment.xml.XmlObject;
+import hu.oe.nik.szfmv.environment.xml.XmlParser;
 import hu.oe.nik.szfmv.visualisation.CourseDisplay;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.List;
 
 public class Main {
 
@@ -13,10 +17,17 @@ public class Main {
 
 	public static void main(String[] args) {
 		CourseDisplay vis = new CourseDisplay();
-
 		// create the world
-		World w = new World(5120, 3000);
-		// create an automated car
+        List<XmlObject> parsedObjects = null;
+        try {
+            parsedObjects = XmlParser.parse("test_world.xml");
+        } catch (Exception e) {
+            logger.error("No XML parsed, exiting.");
+            System.exit(1);
+        }
+        World w = new World(5120, 3000);
+        makeTestData(w, parsedObjects);
+        // create an automated car
 		Car car = Car.builder().position(500, 500).rotation(0).dimension(100, 100).weight(1000).color("black").build();
 		// add car to the world
 		w.addObjectToWorld(car);
@@ -34,4 +45,8 @@ public class Main {
 			}
 		}
 	}
+
+    private static void makeTestData(World w, List<XmlObject> parsedObjects) {
+        //do something
+    }
 }
