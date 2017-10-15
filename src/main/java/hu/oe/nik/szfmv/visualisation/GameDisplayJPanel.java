@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GameDisplayJPanel extends JPanel {
@@ -24,6 +25,9 @@ public class GameDisplayJPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     private World world;
     private double scale;
+
+    private HashMap<String, BufferedImage>
+            imageCache = new HashMap<>();
 
     public GameDisplayJPanel(World gameWorld, double scale) {
         this.world = gameWorld;
@@ -67,7 +71,6 @@ public class GameDisplayJPanel extends JPanel {
         for (WorldObject object : objects) {
             // draw objects
             try {
-
                 Image image = getScaledImage(object);
 
                 AffineTransform trans = getTransform(object);
@@ -81,13 +84,32 @@ public class GameDisplayJPanel extends JPanel {
     }
 
     private Image getScaledImage(WorldObject object) throws IOException {
-        BufferedImage rawImage = //TODO: get this from WorldObject itself
-                ImageIO.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
+        BufferedImage rawImage = getBufferedImage(object);
         return rawImage.getScaledInstance(
                 (int) Math.round(rawImage.getWidth() * scale),
                 (int) Math.round(rawImage.getHeight() * scale),
                 BufferedImage.SCALE_DEFAULT);
 
+    }
+
+    private BufferedImage getBufferedImage(WorldObject object) throws IOException {
+
+        String filename = object.getImageFileName();
+        //HashMap.get returns null if the key doesn't exist
+        BufferedImage image = imageCache.get(filename);
+
+        //if it exists in the HashMap, return it
+        if (image != null)
+            return image;
+
+
+        //else, get the image file, insert it into imageCache
+        // then return it
+        image = ImageIO.read(new File(
+                ClassLoader.getSystemResource(
+                        object.getImageFileName()).getFile()));
+        imageCache.put(filename, image);
+        return image;
     }
 
     private AffineTransform getTransform(WorldObject object) {
