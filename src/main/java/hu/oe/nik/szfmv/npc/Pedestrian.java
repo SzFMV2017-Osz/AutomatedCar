@@ -14,7 +14,6 @@ public class Pedestrian extends WorldObject implements IMovable {
     private double maxTurnAngle;
     private Vector2D velocity = new Vector2D();
 
-
     public Pedestrian(int x, int y, Vector2D dest1, Vector2D dest2, String imageFileName) {
         super(x, y, imageFileName);
         this.dest1 = dest1;
