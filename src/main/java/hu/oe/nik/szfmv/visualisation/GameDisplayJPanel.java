@@ -40,7 +40,7 @@ public class GameDisplayJPanel extends JPanel {
         // to render them in order
         ArrayList<WorldObject>
                 staticObjects = new ArrayList<>(), //ie. roads
-                collideableObjects = new ArrayList<>(),
+                collidableObjects = new ArrayList<>(),
                 movingObjects = new ArrayList<>(),
                 cars = new ArrayList<>(); //cars drawn last
 
@@ -50,7 +50,7 @@ public class GameDisplayJPanel extends JPanel {
                     if (object instanceof Car) {
                         cars.add(object);
                     } else movingObjects.add(object);
-                } else collideableObjects.add(object);
+                } else collidableObjects.add(object);
             } else { //roads
                 staticObjects.add(object);
             }
@@ -63,7 +63,7 @@ public class GameDisplayJPanel extends JPanel {
         //cars highest priority, draw last
 
         drawObjects(g2d, staticObjects);
-        drawObjects(g2d, collideableObjects);
+        drawObjects(g2d, collidableObjects);
         drawObjects(g2d, movingObjects);
         drawObjects(g2d, cars);
     }
@@ -114,61 +114,31 @@ public class GameDisplayJPanel extends JPanel {
     }
 
     private AffineTransform getTransform(WorldObject object) throws IOException {
-        Coord c = getCoord(object);
+        Coord offset = getOffset(object);
 
         AffineTransform translation = new AffineTransform();
-        int scaledX = (int) Math.round(object.getX() * scale - c.getX());
-        int scaledY = (int) Math.round(object.getY() * scale - c.getY());
+        int scaledX = (int) Math.round(object.getX() * scale - offset.getX());
+        int scaledY = (int) Math.round(object.getY() * scale - offset.getY());
         translation.translate(scaledX, scaledY);
 
         AffineTransform rotation;
         rotation = AffineTransform.getRotateInstance(
                 object.getRotation(),
-                c.getX(),
-                c.getY());
+                offset.getX(),
+                offset.getY());
 
         translation.concatenate(rotation);
 
         return translation;
     }
 
-    private Coord getCoord(WorldObject object) {
-        Coord c = RoadConstants.roadInfo.get(
+    private Coord getOffset(WorldObject object) {
+        Coord c = RoadConstants.roadOffsets.get(
                 object.getImageFileName());
-        if (c == null)
-            c = new Coord(0, 0);
+        if (c == null) c = new Coord(0, 0);
+
         c = new Coord((int) (c.getX() * scale), (int) (c.getY() * scale));
+
         return c;
-    }
-
-    private double calculateRotateBaseX(WorldObject object) throws IOException {
-        String filename = object.getImageFileName();
-        if (filename == "road_2lane_tjunctionright.png" || filename == "road_2lane_tjunctionleft.png")
-            return getObjectWidth(object) * scale;
-        else if (filename == "road_2lane_90left.png" || filename == "road_2lane_45left.png")
-            return (getObjectWidth(object) - roadWidth) * scale;
-        else if (filename == "road_2lane_6left.png") {
-            return (roadWidth + getObjectWidth(object) - roadWidth) * scale;
-        } else if (filename.contains("road"))
-            return roadWidth * scale;
-        else return Double.MIN_VALUE;
-    }
-
-    private double calculateRotateBaseY(WorldObject object) throws IOException {
-        String filename = object.getImageFileName();
-        if (filename == "road_2lane_tjunctionright.png" || filename == "road_2lane_tjunctionleft.png")
-            return 0;
-        else if (filename.contains("road"))
-            return (getObjectHeight(object)) * scale;
-        else return Double.MIN_VALUE;
-    }
-
-    //TODO: we should be able to get this from WorldObjects themselves but we cannot...
-    private int getObjectHeight(WorldObject object) throws IOException {
-        return getBufferedImage(object).getHeight();
-    }
-
-    private int getObjectWidth(WorldObject object) throws IOException {
-        return getBufferedImage(object).getHeight();
     }
 }
