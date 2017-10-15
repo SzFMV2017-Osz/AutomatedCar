@@ -8,6 +8,8 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public final class UserInputHandler extends SystemComponent implements KeyListener{
 
@@ -15,13 +17,15 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
     private int steeringWheelState;
     private int gaspedalState;
 
-    private CarComponentStateCalculator componentStateCalculator;
     private ArrayList<Integer> pressedKeyCodes;
+    private CarComponentStateCalculator componentStateCalculator;
+    private Timer timer;
 
     public UserInputHandler() {
         super();
         this.pressedKeyCodes = new ArrayList<>();
         this.componentStateCalculator = new CarComponentStateCalculator();
+        this.timer = new Timer();
 
         // starting states
         this.autotransmissionState = "N";
@@ -44,54 +48,71 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_P)){
             // set autotransmission to PARK mode
-            this.sendNewAutotransmissionState("P");
+            this.autotransmissionState = "P";
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_R)) {
             // set autotransmission to REVERSE mode
-            this.sendNewAutotransmissionState("R");
+            this.autotransmissionState = "R";
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_N)) {
             // set autotransmission to NEUTRAL mode
-            this.sendNewAutotransmissionState("N");
+            this.autotransmissionState = "N";
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_D)) {
             // set autotransmission to DRIVE mode
-            this.sendNewAutotransmissionState("D");
+            this.autotransmissionState = "D";
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_LEFT)) {
             // turn the car left
-            this.sendNewSteeringWheelState(
-                    this.componentStateCalculator.turnTheSteeringwheelLeft(this.steeringWheelState)
-            );
+            this.steeringWheelState = this.componentStateCalculator.turnTheSteeringwheelLeft(this.steeringWheelState);
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_RIGHT)) {
             // turn the car right
-            this.sendNewSteeringWheelState(
-                    this.componentStateCalculator.turnTheSteeringwheelRight(this.steeringWheelState)
-            );
+            this.steeringWheelState = this.componentStateCalculator.turnTheSteeringwheelRight(this.steeringWheelState);
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_UP)) {
-            this.sendNewGaspedalState(
-                    this.componentStateCalculator.addGas(this.gaspedalState)
-            );
+            // add gas
+            this.gaspedalState = this.componentStateCalculator.addGas(this.gaspedalState);
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_DOWN)) {
-            this.sendNewGaspedalState(
-                    this.componentStateCalculator.applyingBreak(this.gaspedalState)
-            );
+            // applying break
+            this.gaspedalState = this.componentStateCalculator.applyingBreak(this.gaspedalState);
         }
     }
 
     @Override
     public void keyReleased(KeyEvent userKeyRelease) {
-        pressedKeyCodes.remove(new Integer(userKeyRelease.getKeyCode()));
+
+        this.pressedKeyCodes.remove(new Integer(userKeyRelease.getKeyCode()));
+
+        // amíg nincs input, minden visszaáll alaphelyzetbe
+        if (this.pressedKeyCodes.isEmpty()){
+            this.decreaseGaspadalStateToBase();
+        }
+    }
+
+    private void decreaseGaspadalStateToBase() {
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if (gaspedalState != 0){
+                    gaspedalState--;
+                }
+                else {
+                    this.cancel();
+                }
+            }
+        };
+
+        timer.scheduleAtFixedRate(task,0, 300);
     }
 
     private void sendNewAutotransmissionState(String newTransmissionState) {
@@ -129,15 +150,12 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         );
     }
 
-    private void printPressedKeys(){
-        for (int keyCode : pressedKeyCodes) {
-            System.out.println(keyCode);
-        }
-    }
-
+    // ezt hívja meg tőlünk folyamatosan a bus
     @Override
     public void loop() {
-        // ezt hívja meg tőlünk folyamatosan a bus
+        this.sendNewAutotransmissionState(this.autotransmissionState);
+        this.sendNewSteeringWheelState(this.steeringWheelState);
+        this.sendNewGaspedalState(this.gaspedalState);
         this.printCurrentCarComponentStates();
     }
 

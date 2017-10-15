@@ -3,8 +3,6 @@ package hu.oe.nik.szfmv.inputinterface;
 public class CarComponentStateCalculator implements ICalculations{
 
     public int turnTheSteeringwheelLeft(int currentSteeringwheelState) {
-        // TODO: @eky0151 => csökkenteni kell a steeringWheelState változót (maximum -100 -ig)
-
         int output;
         if (currentSteeringwheelState > maxLeftSteeringWheelState){
             output = currentSteeringwheelState - 1;
@@ -16,8 +14,6 @@ public class CarComponentStateCalculator implements ICalculations{
     }
 
     public int turnTheSteeringwheelRight(int currentSteeringwheelState) {
-        // TODO: @eky0151 => növelni kell a steeringWheelState változót (maximum +100 -ig)
-
         int output;
         if (currentSteeringwheelState < maxRightSteeringWheelState){
             output = currentSteeringwheelState + 1;
@@ -29,8 +25,6 @@ public class CarComponentStateCalculator implements ICalculations{
     }
 
     public int addGas(int currentGaspedalState) {
-        // TODO: @hermanistvan => növelni a gaspedalState változót (maximum 100 -ig)
-
         int output;
         if (currentGaspedalState < maxGaspedalState){
             output = currentGaspedalState + 1;
@@ -42,8 +36,6 @@ public class CarComponentStateCalculator implements ICalculations{
     }
 
     public int applyingBreak(int currentGaspedalState) {
-        // TODO: @hermanistvan => csökkenteni a gaspedalState változót (minimum 0 -ig)
-
         int output;
         if (currentGaspedalState > minGaspedalState){
             output = currentGaspedalState - 1;
