@@ -133,7 +133,12 @@ public class WorldObjectFactory {
 	private static WorldObject createRoad(XmlObject xmlObject) {
 
 		log.info("creating a new Road of... " + xmlObject.getType());
-		Road rtrn = null;
+		int width = 100;
+		int height = 100;
+		boolean pedestrianCrossing = xmlObject.getType() == XmlObjectType.ROAD_CROSSWALK;
+
+		Road rtrn = new Road(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), width, height,
+				xmlObject.getType(), pedestrianCrossing);
 
 		return rtrn;
 	}
