@@ -30,19 +30,7 @@ public class XmlParser {
 
         NodeList entriesNodeList = (NodeList) xpath.evaluate("//Scene/Objects/Object", document, XPathConstants.NODESET);
 
-        for (int i = 0; i < entriesNodeList.getLength(); i++) {
-            Node objectNode = entriesNodeList.item(i);
-
-            String type = (String) xpath.evaluate("@type", objectNode, XPathConstants.STRING);
-            String x = (String) xpath.evaluate("Position/@x", objectNode, XPathConstants.STRING);
-            String y = (String) xpath.evaluate("Position/@y", objectNode, XPathConstants.STRING);
-            double m11 = (double) xpath.evaluate("Transform/@m11", objectNode, XPathConstants.NUMBER);
-            double m12 = (double) xpath.evaluate("Transform/@m12", objectNode, XPathConstants.NUMBER);
-            double m21 = (double) xpath.evaluate("Transform/@m21", objectNode, XPathConstants.NUMBER);
-            double m22 = (double) xpath.evaluate("Transform/@m22", objectNode, XPathConstants.NUMBER);
-            double[][] matrix = {{m11, m12}, {m21, m22}};
-            result.add(new XmlObject(type, Integer.parseInt(x), Integer.parseInt(y), matrix));
-        }
+        getObjects(entriesNodeList, result);
         return result;
     }
 
