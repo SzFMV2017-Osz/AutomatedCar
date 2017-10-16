@@ -65,7 +65,7 @@ public class Road extends WorldObject {
     private boolean pedestrianCrossing;
 
     public Road(int x, int y, float rotation, int width, int height, XmlObjectType objectType,
-                boolean pedestrianCrossing) throws Exception {
+                boolean pedestrianCrossing) {
         super(x, y, rotation, width, height, getImageName(objectType), ModelShape.RECTENGULAR);
         this.pedestrianCrossing = pedestrianCrossing;
         String[] explodedString = objectType.getXmlName().split("_");
@@ -113,7 +113,7 @@ public class Road extends WorldObject {
             this.roadType = RoadType.PARKINGPARALLEL;
         } else if (Objects.equals(explodedString[0], "crosswalk")) {
             this.roadType = RoadType.CROSSWALK;
-        } else throw new Exception("The XMLObjectType must be some kind of road");
+        }
     }
 
     public RoadType getRoadType() {
