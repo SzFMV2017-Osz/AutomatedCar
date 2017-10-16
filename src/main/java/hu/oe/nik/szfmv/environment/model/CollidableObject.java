@@ -51,4 +51,17 @@ public abstract class CollidableObject extends WorldObject {
 	public int getWeight() {
 		return weight;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CollidableObject [weight=" + weight + ", collided=" + collided + ", x=" + x + ", y=" + y + ", rotation="
+				+ rotation + ", getWidth()=" + getWidth() + ", getHeight()=" + getHeight() + ", getImageFileName()="
+				+ getImageFileName() + ", getShape()=" + getShape() + "]";
+	}
+
 }
