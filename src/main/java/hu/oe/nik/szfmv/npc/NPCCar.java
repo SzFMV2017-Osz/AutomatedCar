@@ -1,17 +1,18 @@
 package hu.oe.nik.szfmv.npc;
 
 import hu.oe.nik.szfmv.common.Vector2D;
-import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.environment.model.MovingObject;
+import hu.oe.nik.szfmv.environment.util.ModelShape;
 
-public class NPCCar extends WorldObject implements IMovable {
+public class NPCCar extends MovingObject implements IMovable {
 
     private Vector2D velocity = new Vector2D();
     private double mass;
     private double maxSpeed;
     private double maxTurnAngle;
 
-    public NPCCar(int x, int y, String imageFileName) {
-        super(x, y, imageFileName);
+    public NPCCar(int x, int y, float rotation, int width, int height, String imageFileName, int weight, ModelShape shape) {
+        super(x, y, rotation, width, height, imageFileName, weight, shape);
     }
 
     @Override
@@ -51,16 +52,21 @@ public class NPCCar extends WorldObject implements IMovable {
 
     @Override
     public Vector2D getPosition() {
-        return new Vector2D(this.x, this.y);
+        return new Vector2D(getX(), getY());
     }
 
     @Override
     public Vector2D getForwardVector() {
-        return Vector2D.getForwardVector(rotation);
+        return Vector2D.getForwardVector(getRotation());
     }
 
     @Override
     public Vector2D getVelocity() {
         return velocity;
+    }
+
+    @Override
+    protected void doOnCollision() {
+
     }
 }

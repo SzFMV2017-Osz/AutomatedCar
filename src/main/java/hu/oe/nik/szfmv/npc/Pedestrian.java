@@ -1,32 +1,24 @@
 package hu.oe.nik.szfmv.npc;
 
 import hu.oe.nik.szfmv.common.Vector2D;
-import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.environment.model.MovingObject;
+import hu.oe.nik.szfmv.environment.util.ModelShape;
 
-public class Pedestrian extends WorldObject implements IMovable {
+public class Pedestrian extends MovingObject implements IMovable {
 
-    private Vector2D dest1;
-    private Vector2D dest2;
-    private Vector2D actualDest;
-    private boolean toDest2;
     private double mass;
     private double maxSpeed;
     private double maxTurnAngle;
     private Vector2D velocity = new Vector2D();
 
-    public Pedestrian(int x, int y, Vector2D dest1, Vector2D dest2, String imageFileName) {
-        super(x, y, imageFileName);
-        this.dest1 = dest1;
-        this.dest2 = dest2;
-        toDest2 = true;
-        this.actualDest = dest2;
+
+    Pedestrian (int x, int y, float rotation, int width, int height, String imageFileName, int weight, ModelShape shape) {
+        super(x, y, rotation, width, height, imageFileName, weight, shape);
     }
 
-    public Pedestrian(int x, int y, String imageFileName) {
-        super(x, y, imageFileName);
-        dest1 = new Vector2D();
-        dest2 = new Vector2D();
-        actualDest = dest1;
+    @Override
+    protected void doOnCollision() {
+
     }
 
     @Override
@@ -46,28 +38,20 @@ public class Pedestrian extends WorldObject implements IMovable {
 
     private void moveToTarget(Vector2D target, Vector2D direction) {
         velocity = direction;
-        x = (int) target.getX();
-        y = (int) target.getY();
-        rotation = (float) velocity.getAngle();
+        // TODO: fix is to the new model
+//        x = (int) target.getX();
+//        y = (int) target.getY();
+//        rotation = (float) velocity.getAngle();
     }
 
     private void moveTowardsTarget(Vector2D direction) {
         Vector2D newPosition;
         velocity = direction.copy().normalize().mult(maxSpeed);
         newPosition = getPosition().add(velocity);
-        x = (int) newPosition.getX();
-        y = (int) newPosition.getY();
-        rotation = (float) direction.getAngle();
-    }
-
-    @Override
-    public int getX() {
-        return this.x;
-    }
-
-    @Override
-    public int getY() {
-        return this.y;
+        // TODO: fix is to the new model
+//        x = (int) newPosition.getX();
+//        y = (int) newPosition.getY();
+//        rotation = (float) direction.getAngle();
     }
 
     @Override
@@ -102,12 +86,12 @@ public class Pedestrian extends WorldObject implements IMovable {
 
     @Override
     public Vector2D getPosition() {
-        return new Vector2D(this.x, this.y);
+        return new Vector2D(getX(), getY());
     }
 
     @Override
     public Vector2D getForwardVector() {
-        return Vector2D.getForwardVector(this.rotation);
+        return Vector2D.getForwardVector(getRotation());
     }
 
     @Override

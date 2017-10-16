@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.npc;
 
 import hu.oe.nik.szfmv.common.Vector2D;
+import hu.oe.nik.szfmv.environment.util.ModelShape;
 import org.junit.Test;
 import static junit.framework.Assert.assertEquals;
 
@@ -17,8 +18,7 @@ public class NPCCarTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-        car = new NPCCar((int) POSITION_01.getX(), (int) POSITION_01.getY(), "");
-        car.setRotation((float) POSITION_02.getAngle());
+        car = new NPCCar((int) POSITION_01.getX(), (int) POSITION_01.getY(), (float) POSITION_02.getAngle(), 10, 10, "", 1, ModelShape.RECTENGULAR);
     }
 
     @Test

@@ -30,6 +30,7 @@ public class Vector2D {
             y /= abs;
         }
         return this;
+
     }
 
     public double abs() {
