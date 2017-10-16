@@ -45,4 +45,38 @@ public class XmlParser {
         }
         return result;
     }
+
+    public static XmlScene parseAsXmlScene(String filename) throws ParserConfigurationException, IOException, SAXException, XPathExpressionException {
+        XmlScene result = new XmlScene();
+        File xmlFile = new File(ClassLoader.getSystemResource(filename).getFile());
+        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFile);
+
+        String height = (String) xpath.evaluate("//Scene/@height", document, XPathConstants.STRING);
+        String width = (String) xpath.evaluate("//Scene/@width", document, XPathConstants.STRING);
+
+        result.setHeight(Integer.parseInt(height));
+        result.setWidth(Integer.parseInt(width));
+
+        NodeList entriesNodeList = (NodeList) xpath.evaluate("//Scene/Objects/Object", document, XPathConstants.NODESET);
+
+        getObjects(entriesNodeList, result.getObjectList());
+
+        return result;
+    }
+
+    private static void getObjects(NodeList nodeList, List<XmlObject> objectList) throws XPathExpressionException {
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node objectNode = nodeList.item(i);
+
+            String type = (String) xpath.evaluate("@type", objectNode, XPathConstants.STRING);
+            String x = (String) xpath.evaluate("Position/@x", objectNode, XPathConstants.STRING);
+            String y = (String) xpath.evaluate("Position/@y", objectNode, XPathConstants.STRING);
+            double m11 = (double) xpath.evaluate("Transform/@m11", objectNode, XPathConstants.NUMBER);
+            double m12 = (double) xpath.evaluate("Transform/@m12", objectNode, XPathConstants.NUMBER);
+            double m21 = (double) xpath.evaluate("Transform/@m21", objectNode, XPathConstants.NUMBER);
+            double m22 = (double) xpath.evaluate("Transform/@m22", objectNode, XPathConstants.NUMBER);
+            double[][] matrix = {{m11, m12}, {m21, m22}};
+            objectList.add(new XmlObject(type, Integer.parseInt(x), Integer.parseInt(y), matrix));
+        }
+    }
 }
