@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.npc;
 
 import hu.oe.nik.szfmv.common.Vector2D;
+import hu.oe.nik.szfmv.environment.model.MovingObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +15,13 @@ public class PedestrianController extends AIController {
         pathPoints = new ArrayList<>();
     }
 
-    public PedestrianController(IMovable movablePedestrian) {
-        super(movablePedestrian);
+    public PedestrianController(IControllable controlledPedestrian) {
+        super(controlledPedestrian);
         pathPoints = new ArrayList<>();
     }
 
-
-    public PedestrianController(IMovable movablePedestrian, List<Vector2D> pathPoints) throws Exception {
-        super(movablePedestrian);
+    public PedestrianController(IControllable controlledPedestrian, List<Vector2D> pathPoints) throws Exception {
+        super(controlledPedestrian);
         this.pathPoints = pathPoints;
         currentTarget = 0;
         if (pathPoints == null) {
@@ -30,14 +30,19 @@ public class PedestrianController extends AIController {
     }
 
     @Override
+    public IWalkable getControlledObject() {
+        return (IWalkable) this.controlledObject;
+    }
+
+    @Override
     public void tick() {
-        if (getMovableObject() == null) {
+        if (getControlledObject() == null) {
             throw new NullPointerException("No IMovable object has been set!");
         }
         if (isAtCurrentTarget()) {
             nextTarget();
         }
-        getMovableObject().move(pathPoints.get(currentTarget));
+        getControlledObject().moveTo(pathPoints.get(currentTarget));
     }
 
     public Vector2D getCurrentTarget() {
@@ -49,7 +54,7 @@ public class PedestrianController extends AIController {
     }
 
     public boolean isAtCurrentTarget() {
-        if (pathPoints.get(currentTarget).equals(getMovableObject().getPosition())) {
+        if (pathPoints.get(currentTarget).equals(getControlledObject().getPosition())) {
             return true;
         }
         return false;

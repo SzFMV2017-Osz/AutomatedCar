@@ -40,11 +40,11 @@ public class PedestrianControllerTest {
 
     @Test
     public void pedestrianMovableObjectTest() throws Exception {
-        IMovable pedestrianNull = null;
+        IWalkable pedestrianNull = null;
         PedestrianController pedestrianControllerNull = new PedestrianController(pedestrianNull, pathPoints);
-        assertEquals(pedestrianControllerNull.getMovableObject(), null);
-        pedestrianControllerNull.setMovableObject(pedestrian);
-        assertEquals(pedestrianControllerNull.getMovableObject(), pedestrian);
+        assertEquals(pedestrianControllerNull.getControlledObject(), null);
+        pedestrianControllerNull.setControlledObject(pedestrian);
+        assertEquals(pedestrianControllerNull.getControlledObject(), pedestrian);
     }
 
     @Test(expected = NullPointerException.class)

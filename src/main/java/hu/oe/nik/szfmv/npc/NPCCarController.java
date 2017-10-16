@@ -8,7 +8,7 @@ public class NPCCarController extends AIController {
 
     @Override
     public void tick() {
-        getMovableObject().move(target);
+        getControlledObject().move();
 
         // TODO: implement NPCCarController tick method
 
