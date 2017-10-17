@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.npc;
 
 import hu.oe.nik.szfmv.common.Vector2D;
+import hu.oe.nik.szfmv.environment.util.ModelShape;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
@@ -21,7 +22,7 @@ public class PedestrianControllerTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-        pedestrian = new Pedestrian(PEDESTRIAN_LOCATION_X, PEDESTRIAN_LOCATION_Y, "imageFileName");
+        pedestrian = new Pedestrian(PEDESTRIAN_LOCATION_X, PEDESTRIAN_LOCATION_Y, 0, 20, 20, "imageFileName", 10, ModelShape.ELLIPSE);
         pathPoints = new ArrayList<>();
         pathPoints.add(PEDESTRIAN_TARGET_ONE);
         pathPoints.add(PEDESTRIAN_TARGET_TWO);
@@ -39,11 +40,11 @@ public class PedestrianControllerTest {
 
     @Test
     public void pedestrianMovableObjectTest() throws Exception {
-        IMovable pedestrianNull = null;
+        IWalkable pedestrianNull = null;
         PedestrianController pedestrianControllerNull = new PedestrianController(pedestrianNull, pathPoints);
-        assertEquals(pedestrianControllerNull.getMovableObject(), null);
-        pedestrianControllerNull.setMovableObject(pedestrian);
-        assertEquals(pedestrianControllerNull.getMovableObject(), pedestrian);
+        assertEquals(pedestrianControllerNull.getControlledObject(), null);
+        pedestrianControllerNull.setControlledObject(pedestrian);
+        assertEquals(pedestrianControllerNull.getControlledObject(), pedestrian);
     }
 
     @Test(expected = NullPointerException.class)

@@ -1,13 +1,8 @@
 package hu.oe.nik.szfmv.environment.model;
 
-import java.io.IOException;
-import java.util.Properties;
-import java.util.ResourceBundle;
-
+import hu.oe.nik.szfmv.environment.util.ModelShape;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import hu.oe.nik.szfmv.environment.util.ModelShape;
 
 /**
  * Világ elemeinek ős osztálya
@@ -15,21 +10,9 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
  * @author hunkak
  *
  */
-public abstract class WorldObject {
+public class WorldObject {
 
 	private static final Logger log = LogManager.getLogger(WorldObject.class);
-
-	public static Properties imageProps;
-	private static String IMAGE_PROPERTIES_FILE = "imageFiles.properties";
-
-	{
-		imageProps = new Properties();
-		try {
-			imageProps.load(ClassLoader.getSystemResourceAsStream(IMAGE_PROPERTIES_FILE));
-		} catch (IOException e) {
-			log.error("Could not load " + IMAGE_PROPERTIES_FILE + " from classpath.", e);
-		}
-	}
 
 	// objektum helyzete a síkon
 	// TODO meghatározni, hogy az objektum melyik pontja - vizualizációs csapattal
@@ -45,7 +28,7 @@ public abstract class WorldObject {
 	// objektum formája
 	private final ModelShape shape;
 
-	String imageFileName;
+	private final String imageFileName;
 
 	public WorldObject(int x, int y, float rotation, int width, int height, String imageName, ModelShape shape) {
 		super();
@@ -55,7 +38,7 @@ public abstract class WorldObject {
 		this.rotation = rotation;
 		this.width = width;
 		this.height = height;
-		this.imageFileName = imageProps.getProperty(imageName);
+		this.imageFileName = imageName;
 		this.shape = shape;
 	}
 
@@ -71,16 +54,36 @@ public abstract class WorldObject {
 		return rotation;
 	}
 
-	public int getWidth() {
-		return width;
-	}
+    @Deprecated
+    public int getWidth() {
+        return width;
+    }
 
-	public int getHeight() {
-		return height;
-	}
+    @Deprecated
+    public int getHeight() {
+        return height;
+    }
 
 	public String getImageFileName() {
 		return imageFileName;
+	}
+
+	/**
+	 * @return the shape
+	 */
+	public ModelShape getShape() {
+		return shape;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "WorldObject [x=" + x + ", y=" + y + ", rotation=" + rotation + ", width=" + width + ", height=" + height
+				+ ", shape=" + shape + ", imageFileName=" + imageFileName + "]";
 	}
 
 }
