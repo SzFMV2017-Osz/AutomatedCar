@@ -16,8 +16,8 @@ public class CourseDisplay {
     private static double scale = 1;
 
     public void refreshFrame() {
-        frame.invalidate();
-        frame.validate();
+        //frame.invalidate();
+        //frame.validate();
         frame.repaint();
     }
 
