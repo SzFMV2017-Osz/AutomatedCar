@@ -56,7 +56,7 @@ public class PedestrianController extends AIController {
     public boolean isAtCurrentTarget() {
         if (pathPoints.get(currentTarget).equals(getControlledObject().getPosition())) {
 //            TODO: Forduljon meg ha átért a zebrán.
-//            controlledObject.setRotation((float)3.14);
+              controlledObject.setRotation((float)3.14);
             return true;
         }
         return false;

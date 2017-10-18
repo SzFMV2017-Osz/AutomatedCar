@@ -63,7 +63,7 @@ public class Main {
 
         while (true) {
             try {
-                car.move();
+                //car.move();
                 if (pc != null)
                 pc.tick();
                 if(nc != null)
