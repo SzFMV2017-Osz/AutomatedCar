@@ -26,8 +26,8 @@ public class PowertrainSystem extends SystemComponent {
 	private int shiftingLevel = 0;
 	private byte direction;
 	private double deltaSpeed = 0;
-	private double actualRevolution = 600;
-	private double expectedRevolution = 600;
+	private double actualRevolution;
+	private double expectedRevolution;
 
 	// Only these are available through getters
 	private int x = 0;
@@ -40,6 +40,8 @@ public class PowertrainSystem extends SystemComponent {
 		this.x = x;
 		this.y = y;
 		this.carSpecs = carCharacteristics;
+		this.expectedRevolution = carSpecs.MIN_RPM;
+		this.actualRevolution = carSpecs.MIN_RPM;
 	}
 
 	@Override
