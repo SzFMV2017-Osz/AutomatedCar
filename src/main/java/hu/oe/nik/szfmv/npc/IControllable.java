@@ -6,4 +6,5 @@ public interface IControllable {
     void move();
     Vector2D getPosition();
     Vector2D getForwardVector();
+    void setRotation(float rotation);
 }

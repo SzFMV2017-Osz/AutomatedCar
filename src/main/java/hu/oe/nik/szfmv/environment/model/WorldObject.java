@@ -16,10 +16,11 @@ public class WorldObject {
 
 	// objektum helyzete a síkon
 	// TODO meghatározni, hogy az objektum melyik pontja - vizualizációs csapattal
-	int x, y;
+    protected int x;
+    protected int y;
 	// objektum forgatása
 	// TODO meghatározni a bázis helyzetet és a mértékegységet (szög,radián)
-	float rotation;
+    protected float rotation;
 
 	// objektum kiterjedése
 	// TODO befoglaló négyszög? implementációs függő jelentés?

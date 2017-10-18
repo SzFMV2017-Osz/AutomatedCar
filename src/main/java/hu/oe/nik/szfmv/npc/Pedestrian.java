@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.npc;
 
 import hu.oe.nik.szfmv.common.Vector2D;
+import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.model.MovingObject;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 
@@ -10,9 +11,10 @@ public class Pedestrian extends MovingObject implements IWalkable {
     // TODO: include in WorldObject
     private Vector2D position;
 
-    Pedestrian (int x, int y, float rotation, int width, int height, String imageFileName, int weight, ModelShape shape) {
-        super(x, y, rotation, width, height, imageFileName, weight, shape);
+    public Pedestrian (int x, int y, float rotation, int width, int height, String imageFileName, int weight) {
+        super(x, y, rotation, width, height, imageFileName, weight, ModelShape.RECTENGULAR);
         position = new Vector2D(x, y);
+        maxSpeed = 5;
     }
 
     @Override
@@ -41,13 +43,18 @@ public class Pedestrian extends MovingObject implements IWalkable {
     }
 
     @Override
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
+    }
+
+    @Override
     public void moveTo(Vector2D target) {
         if (!getPosition().equals(target)) {
             Vector2D direction = target.copy().sub(getPosition());
             if ((maxSpeed * maxSpeed) < direction.absSquared()) {
-                chageDirection(direction.copy().normalize().mult(maxSpeed).sub(getCurrentSpeed()));
+                changeDirection(direction.copy().normalize().mult(maxSpeed).sub(getCurrentSpeed()));
             } else {
-                chageDirection(direction.copy().sub(getCurrentSpeed()));
+                changeDirection(direction.copy().sub(getCurrentSpeed()));
             }
             move();
         }
@@ -55,6 +62,10 @@ public class Pedestrian extends MovingObject implements IWalkable {
 
     @Override
     public void move() {
-        position.add(getCurrentSpeed().copy());
+        position =position.add(getCurrentSpeed());
+        this.x = (int) position.getX();
+        this.y = (int) position.getY();
     }
+
+
 }

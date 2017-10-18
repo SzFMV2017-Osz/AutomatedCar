@@ -17,7 +17,7 @@ public class PedestrianTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-        pedestrian = new Pedestrian((int) POSITION_01.getX(), (int) POSITION_01.getY(), (float) POSITION_02.getAngle(), 20, 20, "imageFileName", 10, ModelShape.ELLIPSE);
+        pedestrian = new Pedestrian((int) POSITION_01.getX(), (int) POSITION_01.getY(), (float) POSITION_02.getAngle(), 20, 20, "imageFileName", 10);
     }
 
     @Test

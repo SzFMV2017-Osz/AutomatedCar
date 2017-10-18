@@ -42,7 +42,7 @@ public class Car extends MovingObject implements IDriveable {
 	public void accelerate(int scale) {
 		log.info("acclerate car to scale: " + scale);
 		Vector2D v = new Vector2D(scale, scale);
-		chageDirection(v);
+		changeDirection(v);
 	}
 
 	@Override

@@ -18,7 +18,7 @@ public class NPCCarTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-        car = new NPCCar((int) POSITION_01.getX(), (int) POSITION_01.getY(), (float) POSITION_02.getAngle(), 10, 10, "", 1, ModelShape.RECTENGULAR);
+        car = new NPCCar((int) POSITION_01.getX(), (int) POSITION_01.getY(), (float) POSITION_02.getAngle(), 10, 10, "", 1);
     }
 
     @Test

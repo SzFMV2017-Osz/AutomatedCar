@@ -22,7 +22,7 @@ public class PedestrianControllerTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-        pedestrian = new Pedestrian(PEDESTRIAN_LOCATION_X, PEDESTRIAN_LOCATION_Y, 0, 20, 20, "imageFileName", 10, ModelShape.ELLIPSE);
+        pedestrian = new Pedestrian(PEDESTRIAN_LOCATION_X, PEDESTRIAN_LOCATION_Y, 0, 20, 20, "imageFileName", 10);
         pathPoints = new ArrayList<>();
         pathPoints.add(PEDESTRIAN_TARGET_ONE);
         pathPoints.add(PEDESTRIAN_TARGET_TWO);
