@@ -102,8 +102,8 @@ public class PowertrainSystem extends SystemComponent {
 		// Calculating revolution
 		this.actualRevolution = this.calculateRevolution();
 
-		if (this.actualRevolution < 600) {
-			this.actualRevolution = 600;
+		if (this.actualRevolution < carSpecs.MIN_RPM) {
+			this.actualRevolution = carSpecs.MIN_RPM;
 		}
 	}
 
