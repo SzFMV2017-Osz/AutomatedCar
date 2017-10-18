@@ -45,14 +45,14 @@ public class Main {
         } catch (Exception e){
 
         }
-        NPCCar nc = new NPCCar(4000,1500, (float)3.14, 10,10, "car_1_white.png",2000);
+        NPCCar nc = new NPCCar(3720,1500, 0, 10,10, "car_1_white.png",2000);
         System.out.println(nc.getForwardVector());
         NPCCarController ncc = null;
         try {
             ncc = new NPCCarController(nc,w);
         }catch (Exception e)
         {
-
+            logger.error(e.getMessage());
         }
         w.addObjectToWorld(p);
         w.addObjectToWorld(car);
@@ -66,6 +66,8 @@ public class Main {
                 car.move();
                 if (pc != null)
                 pc.tick();
+                if(nc != null)
+                ncc.tick();
                 vis.refreshFrame();
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {

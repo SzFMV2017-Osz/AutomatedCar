@@ -13,7 +13,7 @@ public class NPCCar extends MovingObject implements IMovable {
     private double mass;
     private double maxSpeed;
     private double maxTurnAngle;
-
+    private Vector2D position;
 
 
     //ez új
@@ -23,16 +23,29 @@ public class NPCCar extends MovingObject implements IMovable {
 
     public NPCCar(int x, int y, float rotation, int width, int height, String imageFileName, int weight) {
         super(x, y, rotation, width, height, imageFileName, weight, ModelShape.RECTENGULAR);
-
+        position = new Vector2D(x, y);
+        maxSpeed = 50;
     }
 
     @Override
-    public void move(Vector2D target)
+    public void move()
     {
-        if(this.getPosition().equals(actualTarget))
-        {
-
+        position =position.add(getCurrentSpeed());
+        this.x = (int) position.getX();
+        this.y = (int) position.getY();
+    }
+    public void moveTo(Vector2D target)
+    {
+        if (!getPosition().equals(target)) {
+            Vector2D direction = target.copy().sub(getPosition());
+            if ((maxSpeed * maxSpeed) < direction.absSquared()) {
+                changeDirection(direction.copy().normalize().mult(maxSpeed).sub(getCurrentSpeed()));
+            } else {
+                changeDirection(direction.copy().sub(getCurrentSpeed()));
+            }
+            move();
         }
+
     }
 
     public void setPoints(List<Vector2D> points) {
