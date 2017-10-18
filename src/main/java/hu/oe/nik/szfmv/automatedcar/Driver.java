@@ -80,7 +80,7 @@ public class Driver extends SystemComponent {
 
 			this.loopCounter++;
 			this.actualTime = LocalTime.now();
-			if ((this.loopCounter % 3) == 0
+			if ((this.loopCounter % 12) == 0
 					&& Math.floor(100 * this.previousSpeed) != Math.floor(100 * this.actualSpeed)) {
 				this.printHMI();
 				this.previousSpeed = this.actualSpeed;
