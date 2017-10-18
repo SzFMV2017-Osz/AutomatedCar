@@ -13,10 +13,10 @@ public enum XmlObjectType {
 
 	ROAD_STRAIGHT("road_2lane_straight", 0), 
     ROAD_90_RIGHT("road_2lane_90right", 0),
-	ROAD_90_LEFT("road_2lane_90left",0),
+	ROAD_90_LEFT("road_2lane_90left", 0),
 	ROAD_45_RIGHT("road_2lane_45right", 0),
 	ROAD_45_LEFT("road_2lane_45left",0),
-	ROAD_6_RIGHT("road_2lane_6right", 0), ROAD_6_LEFT("road_2lane_6left",0),
+	ROAD_6_RIGHT("road_2lane_6right", 0), ROAD_6_LEFT("road_2lane_6left", 0),
 	ROAD_T_RIGHT("road_2lane_tjunctionright", 0),
 	ROAD_T_LEFT("road_2lane_tjunctionleft",0), 
 	ROAD_ROUNDABOUT("road_2lane_rotary", 0), 
