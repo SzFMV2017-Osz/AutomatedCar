@@ -1,53 +1,74 @@
 package hu.oe.nik.szfmv.visualisation;
 
+import hu.oe.nik.szfmv.environment.model.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import hu.oe.nik.szfmv.environment.model.World;
-import hu.oe.nik.szfmv.environment.model.WorldObject;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class CourseDisplay {
 
-	private static final Logger logger = LogManager.getLogger();
-	private JFrame frame = new JFrame("OE NIK Automated Car Project");
+    private static final Logger logger = LogManager.getLogger();
+    private JFrame frame = new JFrame("OE NIK Automated Car Project");
 
-	public void refreshFrame() {
-		frame.invalidate();
-		frame.validate();
-		frame.repaint();
-	}
+    private static final int maxHeight = 900, maxWidth = 1280;
+    private static final double idealRatio = (double) maxWidth / (double) maxHeight;
+    private static double scale = 1;
 
-	public void init(World world) {
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(new JPanel() {
-			private static final long serialVersionUID = 1L;
+    public void refreshFrame() {
+        //frame.invalidate();
+        //frame.validate();
+        frame.repaint();
+    }
 
-			public void paintComponent(Graphics g) {
+    public void init(World world) {
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setFrameSize(world);
 
-				for (WorldObject object : world.getWorldObjects()) {
-					// draw objects
-					BufferedImage image;
-					try {
-						image = ImageIO
-								.read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
-						g.drawImage(image, object.getX(), object.getY(), null);
-					} catch (IOException e) {
-						logger.error(e.getMessage());
-					}
-				}
-			}
-		});
+        GameDisplayJPanel displayPanel = new GameDisplayJPanel(world, scale);
 
-		frame.validate();
-		frame.setSize(world.getWidth(), world.getHeight());
-		frame.setVisible(true);
-	}
+        displayPanel.add(new Dashboard().getJPanel());
+        frame.add(displayPanel);
+
+        frame.validate();
+        frame.setResizable(false);
+        frame.setVisible(true);
+    }
+
+    private void setFrameSize(World world) {
+        //if we need to scale the game field
+        if (world.getHeight() > maxHeight || world.getWidth() > maxWidth) {
+            scaleGameFieldToFrame(world);
+        } else {
+            frame.setSize(world.getWidth(), world.getHeight());
+        }
+    }
+
+    private void scaleGameFieldToFrame(World world) {
+        //ratio > 1: horizontal
+        //ratio < 1: vertical
+        double worldRatio = (double) world.getWidth() / (double) world.getHeight();
+        int scaledHeight, scaledWidth;
+        //worldRatio > idealRatio: we have to scale height
+        //else we have to scale width
+
+        if (worldRatio > idealRatio) {
+            scaledWidth = maxWidth;
+            calculateScale(scaledWidth, world.getWidth());
+            scaledHeight = (int) Math.round(
+                    world.getHeight() * ((double) maxWidth / (double) world.getWidth()));
+
+        } else {
+            scaledHeight = maxHeight;
+            calculateScale(scaledHeight, world.getHeight());
+            scaledWidth = (int) Math.round(
+                    world.getWidth() * ((double) maxHeight / (double) world.getHeight()));
+        }
+        frame.setSize(scaledWidth, scaledHeight);
+    }
+
+    private void calculateScale(int sizeFrom, int sizeTo) {
+        scale = ((double) sizeFrom) / sizeTo;
+    }
 
 }
