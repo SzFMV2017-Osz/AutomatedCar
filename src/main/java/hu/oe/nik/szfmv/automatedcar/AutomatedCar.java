@@ -3,7 +3,8 @@ package hu.oe.nik.szfmv.automatedcar;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PowertrainSystem;
-import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.environment.model.WorldObject;
+import hu.oe.nik.szfmv.environment.util.ModelShape;
 
 public class AutomatedCar extends WorldObject {
 
@@ -16,8 +17,8 @@ public class AutomatedCar extends WorldObject {
 	private boolean testMode = false;
 	private double positionOnTrack = 0;
 
-	public AutomatedCar(int x, int y, String imageFileName) {
-		super(x, y, imageFileName);
+	public AutomatedCar(int x, int y, float rotation, int width, int height, String imageFileName, ModelShape shape) {
+		super(x, y, rotation, width, height, imageFileName, shape);
 
 		// Compose our car from brand new system components
 		// The car has to know its PowertrainSystem, to get its coordinates

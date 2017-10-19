@@ -1,4 +1,4 @@
-package hu.oe.nik.szfmv.environment;
+package hu.oe.nik.szfmv.environment.model;
 
 import java.util.ArrayList;
 import java.util.List;
