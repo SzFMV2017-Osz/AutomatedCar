@@ -64,13 +64,13 @@ public class Dashboard extends SystemComponent {
     private String gasPedalDataToString(Object signalData)
     {
         //If gaspedal's value would need special conversion, implement here
-        return signalData.toString();
+        return signalData.toString() + "%";
     }
 
     private String brakePedalDataToString(Object signalData)
     {
         //If brake pedal's value would need special conversion, implement here
-        return signalData.toString();
+        return signalData.toString() + "%";
     }
 
     private String speedDataToString(Object signalData)
