@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="hu.oe.nik.szfmv.visualisation.Dashboard">
   <grid id="27dc6" binding="jPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
     <constraints>
-      <xy x="20" y="20" width="659" height="30"/>
+      <xy x="20" y="20" width="632" height="30"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -53,12 +53,6 @@
         <constraints/>
         <properties>
           <text value="123"/>
-        </properties>
-      </component>
-      <component id="de29" class="javax.swing.JLabel">
-        <constraints/>
-        <properties>
-          <text value="Gáz:"/>
         </properties>
       </component>
       <component id="7bf1f" class="javax.swing.JLabel">
