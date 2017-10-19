@@ -24,19 +24,10 @@ public class CourseDisplay {
     public void init(World world) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setFrameSize(world);
-        JPanel panel = getMainJPanel(world);
-        panel.add(new Dashboard().getJPanel());
-
-        frame.add(panel);
-        frame.validate();
-        frame.setSize(world.getWidth(), world.getHeight());
-        frame.setVisible(true);
-    }
-
-    private JPanel getMainJPanel(World world) {
-        JPanel panel = new JPanel() {
 
         GameDisplayJPanel displayPanel = new GameDisplayJPanel(world, scale);
+
+        displayPanel.add(new Dashboard().getJPanel());
         frame.add(displayPanel);
 
         frame.validate();
@@ -74,8 +65,10 @@ public class CourseDisplay {
                     world.getWidth() * ((double) maxHeight / (double) world.getHeight()));
         }
         frame.setSize(scaledWidth, scaledHeight);
-        return panel;
     }
+
     private void calculateScale(int sizeFrom, int sizeTo) {
         scale = ((double) sizeFrom) / sizeTo;
+    }
+
 }
