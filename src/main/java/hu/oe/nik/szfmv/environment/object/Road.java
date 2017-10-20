@@ -25,7 +25,7 @@ public class Road extends WorldObject {
 
     public Road(int x, int y, float rotation, int width, int height, String imageFileName, boolean pedestrianCrossing,
                 RoadType roadType) {
-        super(x, y, rotation, width, height, imageFileName, ModelShape.RECTENGULAR);
+        super(x, y, rotation, width, height, imageFileName, ModelShape.RECTANGULAR);
         this.pedestrianCrossing = pedestrianCrossing;
         this.roadType = roadType;
     }
