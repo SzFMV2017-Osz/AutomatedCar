@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import hu.oe.nik.szfmv.environment.object.Road;
+import hu.oe.nik.szfmv.environment.util.RoadType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,7 +44,16 @@ public class WorldObjectFactoryTest {
 
 	@Test
 	public void createRoadTest() throws IOException {
+		WorldObject o = WorldObjectFactory.createWorldObject(road);
 
+		assertTrue(o instanceof Road);
+		Road r = (Road) o;
+		assertEquals(100, r.getHeight());
+		assertEquals(100, r.getWidth());
+		assertEquals(road.getRotation(), r.getRotation(), 0);
+		assertEquals("road_2lane_90right.png", r.getImageFileName());
+		assertEquals(90, r.getCurvature());
+		assertEquals(RoadType.RIGHT, r.getRoadType());
 	}
 
 	@Test
