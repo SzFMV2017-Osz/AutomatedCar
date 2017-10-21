@@ -10,7 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -90,9 +89,9 @@ public class GameDisplayJPanel extends JPanel {
     }
 
     private Image makeScaledImage(WorldObject object, String filename) throws IOException {
-        BufferedImage rawImage = ImageIO.read(new File(
-                ClassLoader.getSystemResource(
-                        object.getImageFileName()).getFile()));
+        ;
+        BufferedImage rawImage = ImageIO.read(
+                GameDisplayJPanel.class.getClassLoader().getResourceAsStream(filename));
         Image image = rawImage.getScaledInstance(
                 (int) Math.round(rawImage.getWidth() * scale),
                 (int) Math.round(rawImage.getHeight() * scale),
