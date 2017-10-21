@@ -1,10 +1,7 @@
 package hu.oe.nik.szfmv.visualisation;
 
-import hu.oe.nik.szfmv.environment.model.CollidableObject;
-import hu.oe.nik.szfmv.environment.model.MovingObject;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
-import hu.oe.nik.szfmv.environment.object.Car;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +12,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,36 +33,17 @@ public class GameDisplayJPanel extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-        //filter out WorldObjects into separate groups
-        // to render them in order
-        ArrayList<WorldObject>
-                staticObjects = new ArrayList<>(), //ie. roads
-                collidableObjects = new ArrayList<>(),
-                movingObjects = new ArrayList<>(),
-                cars = new ArrayList<>(); //cars drawn last
-
-        for (WorldObject object : world.getWorldObjects()) {
-            if (object instanceof CollidableObject) {
-                if (object instanceof MovingObject) {
-                    if (object instanceof Car) {
-                        cars.add(object);
-                    } else movingObjects.add(object);
-                } else collidableObjects.add(object);
-            } else { //roads
-                staticObjects.add(object);
-            }
-        }
 
         Graphics2D g2d = (Graphics2D) g;
 
-        //roads lowest priority, draw first
+        //roads (unmoving) lowest priority, draw first
         //  (so later they are drawn over)
         //cars highest priority, draw last
 
-        drawObjects(g2d, staticObjects);
-        drawObjects(g2d, collidableObjects);
-        drawObjects(g2d, movingObjects);
-        drawObjects(g2d, cars);
+        drawObjects(g2d, world.getWorldObjectsFiltered().getUnmoving());
+        drawObjects(g2d, world.getWorldObjectsFiltered().getMoving());
+        drawObjects(g2d, world.getWorldObjectsFiltered().getCollidable());
+        drawObjects(g2d, world.getWorldObjectsFiltered().getCars());
     }
 
     private void drawObjects(Graphics2D g2d, List<WorldObject> objects) {
