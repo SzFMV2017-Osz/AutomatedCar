@@ -17,6 +17,7 @@ import hu.oe.nik.szfmv.visualisation.CourseDisplay;
 public class Main {
 
 	private static final Logger logger = LogManager.getLogger();
+
 	private static final int CYCLE_PERIOD = 40;
 
 	public static void main(String[] args) {
@@ -30,14 +31,14 @@ public class Main {
 		// !ONLY FOR TESTING!
 		testInitFromXml(w);
 
-		// init visualisation module with the world
+        // init visualisation module with the world
 		vis.init(w);
 
 		Car car = Car.builder().position(500, 500).rotation(0).dimension(100, 100).weight(1000).color("black").build();
 		
 		// add Car to the world
 		w.addObjectToWorld(car);
-		car.accelerate(-25);
+        car.accelerate(-5);;
 		
 		while (true) {
 			try {

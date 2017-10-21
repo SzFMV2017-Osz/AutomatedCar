@@ -1,10 +1,7 @@
 package hu.oe.nik.szfmv.visualisation;
 
-import hu.oe.nik.szfmv.environment.model.CollidableObject;
-import hu.oe.nik.szfmv.environment.model.MovingObject;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
-import hu.oe.nik.szfmv.environment.object.Car;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +12,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,8 +22,11 @@ public class GameDisplayJPanel extends JPanel {
     private World world;
     private double scale;
 
-    private HashMap<String, BufferedImage>
+    private HashMap<String, Image>
             imageCache = new HashMap<>();
+    private HashMap<WorldObject, WorldObjectDisplayState>
+            transformCache = new HashMap<>();
+
     private final RoadConstants roadConst;
 
     public GameDisplayJPanel(World gameWorld, double scale) {
@@ -37,36 +36,17 @@ public class GameDisplayJPanel extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-        //filter out WorldObjects into separate groups
-        // to render them in order
-        ArrayList<WorldObject>
-                staticObjects = new ArrayList<>(), //ie. roads
-                collidableObjects = new ArrayList<>(),
-                movingObjects = new ArrayList<>(),
-                cars = new ArrayList<>(); //cars drawn last
-
-        for (WorldObject object : world.getWorldObjects()) {
-            if (object instanceof CollidableObject) {
-                if (object instanceof MovingObject) {
-                    if (object instanceof Car) {
-                        cars.add(object);
-                    } else movingObjects.add(object);
-                } else collidableObjects.add(object);
-            } else { //roads
-                staticObjects.add(object);
-            }
-        }
 
         Graphics2D g2d = (Graphics2D) g;
 
-        //roads lowest priority, draw first
+        //roads (unmoving) lowest priority, draw first
         //  (so later they are drawn over)
         //cars highest priority, draw last
 
-        drawObjects(g2d, staticObjects);
-        drawObjects(g2d, collidableObjects);
-        drawObjects(g2d, movingObjects);
-        drawObjects(g2d, cars);
+        drawObjects(g2d, world.getWorldObjectsFiltered().getUnmoving());
+        drawObjects(g2d, world.getWorldObjectsFiltered().getMoving());
+        drawObjects(g2d, world.getWorldObjectsFiltered().getCollidable());
+        drawObjects(g2d, world.getWorldObjectsFiltered().getCars());
     }
 
     private void drawObjects(Graphics2D g2d, List<WorldObject> objects) {
@@ -86,35 +66,51 @@ public class GameDisplayJPanel extends JPanel {
     }
 
     private Image getScaledImage(WorldObject object) throws IOException {
-        BufferedImage rawImage = getBufferedImage(object);
-        return rawImage.getScaledInstance(
-                (int) Math.round(rawImage.getWidth() * scale),
-                (int) Math.round(rawImage.getHeight() * scale),
-                BufferedImage.SCALE_DEFAULT);
-
-    }
-
-    private BufferedImage getBufferedImage(WorldObject object) throws IOException {
-
         String filename = object.getImageFileName();
         //HashMap.get returns null if the key doesn't exist
-        BufferedImage image = imageCache.get(filename);
+        Image image = imageCache.get(filename);
 
         //if it exists in the HashMap, return it
         if (image != null)
             return image;
 
-
         //else, get the image file, insert it into imageCache
         // then return it
-        image = ImageIO.read(new File(
-                ClassLoader.getSystemResource(
-                        object.getImageFileName()).getFile()));
+        image = makeScaledImage(object, filename);
         imageCache.put(filename, image);
         return image;
     }
 
+    private Image makeScaledImage(WorldObject object, String filename) throws IOException {
+        BufferedImage rawImage = ImageIO.read(new File(
+                ClassLoader.getSystemResource(
+                        object.getImageFileName()).getFile()));
+        Image image = rawImage.getScaledInstance(
+                (int) Math.round(rawImage.getWidth() * scale),
+                (int) Math.round(rawImage.getHeight() * scale),
+                BufferedImage.SCALE_DEFAULT);
+        return image;
+    }
+
     private AffineTransform getTransform(WorldObject object) throws IOException {
+        WorldObjectDisplayState prevState = transformCache.get(object);
+        //not in cache yet
+        if (prevState == null) {
+            AffineTransform t = makeTransform(object);
+            WorldObjectDisplayState state =
+                    WorldObjectDisplayState.createState(object, t);
+            transformCache.put(object, state);
+            return t;
+        } else if (prevState.isChanged()) {
+            AffineTransform t = makeTransform(object);
+            prevState.updateState(t);
+            return t;
+        } else {
+            return prevState.getTransform();
+        }
+    }
+
+    private AffineTransform makeTransform(WorldObject object) {
         Coord offset = getOffset(object);
 
         AffineTransform translation = new AffineTransform();
@@ -137,7 +133,7 @@ public class GameDisplayJPanel extends JPanel {
         Coord c = roadConst.scaledRoadOffsets.get(object.getImageFileName());
 
         if (c == null)
-            return new Coord(0, 0);
+            return Coord.origoPoint;
         else
             return c;
     }
