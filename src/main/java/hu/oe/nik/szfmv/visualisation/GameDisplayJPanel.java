@@ -43,19 +43,27 @@ public class GameDisplayJPanel extends JPanel {
         //  (so later they are drawn over)
         //cars highest priority, draw last
 
-        drawObjects(g2d, world.getWorldObjectsFiltered().getUnmoving());
-        drawObjects(g2d, world.getWorldObjectsFiltered().getMoving());
-        drawObjects(g2d, world.getWorldObjectsFiltered().getCollidable());
-        drawObjects(g2d, world.getWorldObjectsFiltered().getCars());
+        drawObjects(g2d,
+                world.getWorldObjectsFiltered().getUnmoving(),
+                false);
+        drawObjects(g2d,
+                world.getWorldObjectsFiltered().getCollidable(),
+                false);
+        drawObjects(g2d,
+                world.getWorldObjectsFiltered().getMoving(),
+                true);
+        drawObjects(g2d,
+                world.getWorldObjectsFiltered().getCars(),
+                true);
     }
 
-    private void drawObjects(Graphics2D g2d, List<WorldObject> objects) {
+    private void drawObjects(Graphics2D g2d, List<WorldObject> objects, boolean centerAnchorPoint) {
         for (WorldObject object : objects) {
             // draw objects
             try {
                 Image image = getScaledImage(object);
 
-                AffineTransform trans = getTransform(object);
+                AffineTransform trans = getTransform(object, centerAnchorPoint);
 
                 g2d.drawImage(image, trans, this);
 
@@ -92,17 +100,17 @@ public class GameDisplayJPanel extends JPanel {
         return image;
     }
 
-    private AffineTransform getTransform(WorldObject object) throws IOException {
+    private AffineTransform getTransform(WorldObject object, boolean centerAnchorPoint) throws IOException {
         WorldObjectDisplayState prevState = transformCache.get(object);
         //not in cache yet
         if (prevState == null) {
-            AffineTransform t = makeTransform(object);
+            AffineTransform t = makeTransform(object, centerAnchorPoint);
             WorldObjectDisplayState state =
                     WorldObjectDisplayState.createState(object, t);
             transformCache.put(object, state);
             return t;
         } else if (prevState.isChanged()) {
-            AffineTransform t = makeTransform(object);
+            AffineTransform t = makeTransform(object, centerAnchorPoint);
             prevState.updateState(t);
             return t;
         } else {
@@ -110,8 +118,16 @@ public class GameDisplayJPanel extends JPanel {
         }
     }
 
-    private AffineTransform makeTransform(WorldObject object) {
-        Coord offset = getOffset(object);
+    private AffineTransform makeTransform(WorldObject object, boolean centerAnchorPoint) throws IOException {
+        Coord offset;
+        if (!centerAnchorPoint) {
+            offset = getOffset(object);
+        } else {
+            Image img = getScaledImage(object);
+            offset = new Coord(
+                    (int) Math.round(img.getWidth(null) / 2.0),
+                    (int) Math.round(img.getHeight(null) / 2.0));
+        }
 
         AffineTransform translation = new AffineTransform();
         int scaledX = (int) Math.round(object.getX() * scale - offset.getX());
