@@ -22,7 +22,7 @@ public class GameDisplayJPanel extends JPanel {
     private World world;
     private double scale;
 
-    private HashMap<String, BufferedImage>
+    private HashMap<String, Image>
             imageCache = new HashMap<>();
     private final RoadConstants roadConst;
 
@@ -63,30 +63,28 @@ public class GameDisplayJPanel extends JPanel {
     }
 
     private Image getScaledImage(WorldObject object) throws IOException {
-        BufferedImage rawImage = getBufferedImage(object);
-        return rawImage.getScaledInstance(
-                (int) Math.round(rawImage.getWidth() * scale),
-                (int) Math.round(rawImage.getHeight() * scale),
-                BufferedImage.SCALE_DEFAULT);
-
-    }
-
-    private BufferedImage getBufferedImage(WorldObject object) throws IOException {
-
         String filename = object.getImageFileName();
         //HashMap.get returns null if the key doesn't exist
-        BufferedImage image = imageCache.get(filename);
+        Image image = imageCache.get(filename);
 
         //if it exists in the HashMap, return it
         if (image != null)
             return image;
 
-
         //else, get the image file, insert it into imageCache
         // then return it
-        image = ImageIO.read(new File(
+        return addImageToCache(object, filename);
+
+    }
+
+    private Image addImageToCache(WorldObject object, String filename) throws IOException {
+        BufferedImage rawImage = ImageIO.read(new File(
                 ClassLoader.getSystemResource(
                         object.getImageFileName()).getFile()));
+        Image image = rawImage.getScaledInstance(
+                (int) Math.round(rawImage.getWidth() * scale),
+                (int) Math.round(rawImage.getHeight() * scale),
+                BufferedImage.SCALE_DEFAULT);
         imageCache.put(filename, image);
         return image;
     }
