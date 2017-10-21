@@ -24,6 +24,9 @@ public class GameDisplayJPanel extends JPanel {
 
     private HashMap<String, Image>
             imageCache = new HashMap<>();
+    private HashMap<WorldObject, WorldObjectDisplayState>
+            transformCache = new HashMap<>();
+
     private final RoadConstants roadConst;
 
     public GameDisplayJPanel(World gameWorld, double scale) {
@@ -73,11 +76,12 @@ public class GameDisplayJPanel extends JPanel {
 
         //else, get the image file, insert it into imageCache
         // then return it
-        return addImageToCache(object, filename);
-
+        image = makeScaledImage(object, filename);
+        imageCache.put(filename, image);
+        return image;
     }
 
-    private Image addImageToCache(WorldObject object, String filename) throws IOException {
+    private Image makeScaledImage(WorldObject object, String filename) throws IOException {
         BufferedImage rawImage = ImageIO.read(new File(
                 ClassLoader.getSystemResource(
                         object.getImageFileName()).getFile()));
@@ -85,11 +89,28 @@ public class GameDisplayJPanel extends JPanel {
                 (int) Math.round(rawImage.getWidth() * scale),
                 (int) Math.round(rawImage.getHeight() * scale),
                 BufferedImage.SCALE_DEFAULT);
-        imageCache.put(filename, image);
         return image;
     }
 
     private AffineTransform getTransform(WorldObject object) throws IOException {
+        WorldObjectDisplayState prevState = transformCache.get(object);
+        //not in cache yet
+        if (prevState == null) {
+            AffineTransform t = makeTransform(object);
+            WorldObjectDisplayState state =
+                    WorldObjectDisplayState.createState(object, t);
+            transformCache.put(object, state);
+            return t;
+        } else if (prevState.isChanged()) {
+            AffineTransform t = makeTransform(object);
+            prevState.updateState(t);
+            return t;
+        } else {
+            return prevState.getTransform();
+        }
+    }
+
+    private AffineTransform makeTransform(WorldObject object) {
         Coord offset = getOffset(object);
 
         AffineTransform translation = new AffineTransform();
@@ -112,7 +133,7 @@ public class GameDisplayJPanel extends JPanel {
         Coord c = roadConst.scaledRoadOffsets.get(object.getImageFileName());
 
         if (c == null)
-            return new Coord(0, 0);
+            return Coord.origoPoint;
         else
             return c;
     }
