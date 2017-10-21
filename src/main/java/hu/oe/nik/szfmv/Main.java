@@ -37,7 +37,7 @@ public class Main {
 
 
 		w.addObjectToWorld(car);
-        car.accelerate(-25);
+        car.accelerate(-5);
         // init visualisation module with the world
 		vis.init(w);
 
