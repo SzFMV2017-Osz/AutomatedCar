@@ -16,7 +16,7 @@ import java.util.List;
 public class Main {
 
 	private static final Logger logger = LogManager.getLogger();
-    private static final int CYCLE_PERIOD = 100;
+    private static final int CYCLE_PERIOD = 17;
 
 	public static void main(String[] args) {
 		CourseDisplay vis = new CourseDisplay();
