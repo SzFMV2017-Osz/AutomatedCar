@@ -36,12 +36,14 @@ public class AutomatedCar extends WorldObject {
         VirtualFunctionBus.loop();
         // Update the position and orientation of the car
         if (!testMode) {
-            x = powertrainSystem.getX();
-            y = powertrainSystem.getY();
+            positionOnTrack += (powertrainSystem.getSpeed() / VISUAL_CORRECTION);
             wheelAngle = (float) powertrainSystem.getWheelAngle();
+            //x = powertrainSystem.getX();
+            //y = powertrainSystem.getY();
+            y -= (powertrainSystem.getSpeed() / VISUAL_CORRECTION);
         } else {
-            this.positionOnTrack = this.positionOnTrack
-                    + (powertrainSystem.getSpeed() / this.VISUAL_CORRECTION) % this.CIRCULAR_TRACK_LENGTH;
+            positionOnTrack = positionOnTrack
+                    + (powertrainSystem.getSpeed() / VISUAL_CORRECTION) % CIRCULAR_TRACK_LENGTH;
 
             x = CircularTestTrack.getX(positionOnTrack);
             y = CircularTestTrack.getY(positionOnTrack);
