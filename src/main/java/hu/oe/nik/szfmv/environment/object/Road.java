@@ -66,7 +66,7 @@ public class Road extends WorldObject {
 
     public Road(int x, int y, float rotation, int width, int height, XmlObjectType objectType,
                 boolean pedestrianCrossing) {
-        super(x, y, rotation, width, height, getImageName(objectType), ModelShape.RECTENGULAR);
+        super(x, y, rotation, width, height, getImageName(objectType), ModelShape.RECTANGULAR);
         this.pedestrianCrossing = pedestrianCrossing;
         String[] explodedString = objectType.getXmlName().split("_");
         this.curvature = 0;

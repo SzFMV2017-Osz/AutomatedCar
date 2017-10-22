@@ -7,6 +7,5 @@ package hu.oe.nik.szfmv.environment.util;
  * implementáció
  */
 public enum ModelShape {
-
-    RECTENGULAR, ELLIPSE
+    RECTANGULAR, ELLIPSE
 }

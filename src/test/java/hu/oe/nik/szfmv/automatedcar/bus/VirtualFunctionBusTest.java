@@ -14,7 +14,7 @@ public class VirtualFunctionBusTest {
 
     @org.junit.Test
     public void sendSignalTest() {
-        VirtualFunctionBus.sendSignal(new Signal(0, 42));
+        VirtualFunctionBus.sendSignal(new Signal(SignalEnum.STEERINGWHEEL, 42));
     }
 
 
@@ -27,7 +27,7 @@ public class VirtualFunctionBusTest {
 
         @Override
         public void receiveSignal(Signal s) {
-            if (s.getId() == 0) {
+            if (s.getId() == SignalEnum.STEERINGWHEEL) {
                 assertEquals(s.getData(), 42);
             }
         }

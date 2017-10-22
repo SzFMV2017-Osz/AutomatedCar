@@ -16,7 +16,7 @@ public class WorldObject {
 
 	// objektum helyzete a síkon
 	// TODO meghatározni, hogy az objektum melyik pontja - vizualizációs csapattal
-	int x, y;
+	protected int x, y;
 	// objektum forgatása
 	// TODO meghatározni a bázis helyzetet és a mértékegységet (szög,radián)
 	float rotation;
