@@ -88,6 +88,9 @@ public class Driver extends SystemComponent {
 						this.startTime.until(actualTime, ChronoUnit.MILLIS), this.loopCounter, brakePedal);
 				VirtualFunctionBus.sendSignal(new Signal(SignalEnum.BREAKPEDAL, brakePedal));
 			}
+		} else {
+			// send demo signal
+	        VirtualFunctionBus.sendSignal(new Signal(SignalEnum.SPEED, 10));
 		}
 	}
 
@@ -101,6 +104,14 @@ public class Driver extends SystemComponent {
 				break;
 			case REVOLUTION:
 				this.revolution = (double) s.getData();
+				break;
+			default:
+				break;
+			}
+		} else {
+			switch (s.getId()) {
+			case AUTOTRANSMISSION:
+				System.out.format("Gearbox state is %s\n", s.getData());
 				break;
 			default:
 				break;

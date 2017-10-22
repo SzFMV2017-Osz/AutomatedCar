@@ -37,7 +37,7 @@ public class AutomatedCar extends WorldObject {
 		// Update the position and orientation of the car
 		if (!testMode) {
 			x = powertrainSystem.getX();
-			y = powertrainSystem.getY();
+			y += powertrainSystem.getSpeed() / this.VISUAL_CORRECTION;
 			wheelAngle = (float) powertrainSystem.getWheelAngle();
 		} else {
 			this.positionOnTrack = this.positionOnTrack
