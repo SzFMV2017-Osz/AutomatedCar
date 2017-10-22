@@ -3,7 +3,8 @@ package hu.oe.nik.szfmv.environment.xml;
 public class Utils {
 
     /**
-     * Converts the length definied in pixels to meters according the rule of 350 pixel = 7 meters.
+     * Converts the length definied in pixels to meters according the rule of
+     * 350 pixel = 7 meters.
      *
      * @param pixel is the length in pixels
      * @return the length in meters
@@ -11,7 +12,6 @@ public class Utils {
     public static double convertPixelToMeter(int pixel) {
         return pixel / 50;
     }
-
 
     // Copied from https://github.com/SzFMV2017-Tavasz/AutomatedCar/blob/master/src/main/java/hu/oe/nik/szfmv17t/environment/utils/XmlParser.java#L257
     public static double convertMatrixToRadians(double m11, double m12, double m21, double m22) {

@@ -5,6 +5,7 @@ import hu.oe.nik.szfmv.environment.object.Car;
 import java.util.ArrayList;
 
 public class WorldObjectCollection {
+
     private ArrayList<WorldObject> unmoving = new ArrayList<>();
     private ArrayList<WorldObject> collidable = new ArrayList<>();
     private ArrayList<WorldObject> moving = new ArrayList<>();
@@ -31,8 +32,12 @@ public class WorldObjectCollection {
             if (object instanceof MovingObject) {
                 if (object instanceof Car) {
                     cars.add(object);
-                } else moving.add(object);
-            } else collidable.add(object);
+                } else {
+                    moving.add(object);
+                }
+            } else {
+                collidable.add(object);
+            }
         } else { //roads
             unmoving.add(object);
         }

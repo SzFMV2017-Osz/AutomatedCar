@@ -21,10 +21,8 @@ public class GameDisplayJPanel extends JPanel {
     private World world;
     private double scale;
 
-    private HashMap<String, Image>
-            imageCache = new HashMap<>();
-    private HashMap<WorldObject, WorldObjectDisplayState>
-            transformCache = new HashMap<>();
+    private HashMap<String, Image> imageCache = new HashMap<>();
+    private HashMap<WorldObject, WorldObjectDisplayState> transformCache = new HashMap<>();
 
     private final RoadConstants roadConst;
 
@@ -41,7 +39,6 @@ public class GameDisplayJPanel extends JPanel {
         //roads (unmoving) lowest priority, draw first
         //  (so later they are drawn over)
         //cars highest priority, draw last
-
         drawObjects(g2d,
                 world.getWorldObjectsFiltered().getUnmoving(),
                 false);
@@ -78,8 +75,9 @@ public class GameDisplayJPanel extends JPanel {
         Image image = imageCache.get(filename);
 
         //if it exists in the HashMap, return it
-        if (image != null)
+        if (image != null) {
             return image;
+        }
 
         //else, get the image file, insert it into imageCache
         // then return it
@@ -104,8 +102,8 @@ public class GameDisplayJPanel extends JPanel {
         //not in cache yet
         if (prevState == null) {
             AffineTransform t = makeTransform(object, centerAnchorPoint);
-            WorldObjectDisplayState state =
-                    WorldObjectDisplayState.createState(object, t);
+            WorldObjectDisplayState state
+                    = WorldObjectDisplayState.createState(object, t);
             transformCache.put(object, state);
             return t;
         } else if (prevState.isChanged()) {
@@ -147,9 +145,10 @@ public class GameDisplayJPanel extends JPanel {
     private Coord getOffset(WorldObject object) {
         Coord c = roadConst.scaledRoadOffsets.get(object.getImageFileName());
 
-        if (c == null)
+        if (c == null) {
             return Coord.origoPoint;
-        else
+        } else {
             return c;
+        }
     }
 }

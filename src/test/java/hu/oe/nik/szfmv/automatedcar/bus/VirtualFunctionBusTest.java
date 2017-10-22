@@ -17,7 +17,6 @@ public class VirtualFunctionBusTest {
         VirtualFunctionBus.sendSignal(new Signal(SignalEnum.STEERINGWHEEL, 42));
     }
 
-
     class SystemComponentMock extends SystemComponent {
 
         @Override

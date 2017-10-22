@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv.visualisation;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 
 public class Coord {
+
     public static final Coord origoPoint = new Coord(0, 0);
     private int x, y;
 

@@ -15,16 +15,16 @@ import java.util.List;
 
 public class Main {
 
-	private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
     private static final int CYCLE_PERIOD = 17;
 
-	public static void main(String[] args) {
-		CourseDisplay vis = new CourseDisplay();
+    public static void main(String[] args) {
+        CourseDisplay vis = new CourseDisplay();
 
-		// create the world
+        // create the world
         //TODO: get this from xml
         World w = new World(5120, 3000);
-		// create an automated car
+        // create an automated car
         Car car = Car.builder()
                 .position(500, 500)
                 .rotation(0)
@@ -35,22 +35,21 @@ public class Main {
         //!ONLY FOR TESTING!
         testInitFromXml(w);
 
-
-		w.addObjectToWorld(car);
+        w.addObjectToWorld(car);
         car.accelerate(-5);
         // init visualisation module with the world
-		vis.init(w);
+        vis.init(w);
 
-		while (true) {
-			try {
-				car.move();
-				vis.refreshFrame();
-				Thread.sleep(CYCLE_PERIOD);
-			} catch (InterruptedException e) {
-				logger.error(e.getMessage());
-			}
-		}
-	}
+        while (true) {
+            try {
+                car.move();
+                vis.refreshFrame();
+                Thread.sleep(CYCLE_PERIOD);
+            } catch (InterruptedException e) {
+                logger.error(e.getMessage());
+            }
+        }
+    }
 
     //!ONLY FOR TESTING!
     private static void testInitFromXml(World w) {

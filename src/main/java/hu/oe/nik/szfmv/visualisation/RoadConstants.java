@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RoadConstants {
+
     public static final int roadWidth = 350;
 
     private static final HashMap<String, Coord> roadOffsets;
