@@ -14,7 +14,7 @@ import java.util.TimerTask;
 
 public final class UserInputHandler extends SystemComponent implements KeyListener{
 
-    private static final int decreasingTimePeriod = 300;
+    private static final int decreasingTimePeriod = 14;
 
     private AutoTransmissionEnum autotransmissionState;
     private int steeringWheelState;

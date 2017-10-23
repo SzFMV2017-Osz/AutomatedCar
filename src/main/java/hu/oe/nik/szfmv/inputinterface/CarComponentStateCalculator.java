@@ -27,7 +27,7 @@ public class CarComponentStateCalculator implements ICalculations{
     public int addGas(int currentGaspedalState) {
         int output;
         if (currentGaspedalState < maxGaspedalState){
-            output = currentGaspedalState + 1;
+            output = currentGaspedalState + 2;
         }
         else {
             output = maxGaspedalState;
