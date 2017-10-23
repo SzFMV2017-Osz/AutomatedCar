@@ -38,13 +38,11 @@ public class Main {
 		vis.init(w);
 
 		Car car = Car.builder().position(500, 500).rotation(0).dimension(100, 100).weight(1000).color("black").build();
-		AutomatedCar playerCar = new AutomatedCar(340, 0, 0, 102, 208, "car_2_white.png", ModelShape.RECTANGULAR);
+		AutomatedCar playerCar = new AutomatedCar(2560, 1500, Math.PI / 2, 102, 208, "car_2_white.png",
+				ModelShape.RECTANGULAR);
 		// add Car to the world
 		w.addObjectToWorld(car);
 		car.accelerate(-5);
-		
-		// add driver for test
-		new Driver();
 
 		// add Car to the world
 		w.addObjectToWorld(playerCar);

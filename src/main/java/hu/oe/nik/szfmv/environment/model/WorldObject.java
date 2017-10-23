@@ -16,12 +16,12 @@ public class WorldObject {
 
 	// objektum helyzete a síkon
 	// TODO meghatározni, hogy az objektum melyik pontja - vizualizációs csapattal
-	protected int x;
+	protected double x;
 
-	protected int y;
+	protected double y;
 	// objektum forgatása
 	// TODO meghatározni a bázis helyzetet és a mértékegységet (szög,radián)
-	float rotation;
+	double rotation;
 
 	// objektum kiterjedése
 	// TODO befoglaló négyszög? implementációs függő jelentés?
@@ -32,7 +32,7 @@ public class WorldObject {
 
 	private final String imageFileName;
 
-	public WorldObject(int x, int y, float rotation, int width, int height, String imageName, ModelShape shape) {
+	public WorldObject(double x, double y, double rotation, int width, int height, String imageName, ModelShape shape) {
 		super();
 
 		this.x = x;
@@ -44,15 +44,15 @@ public class WorldObject {
 		this.shape = shape;
 	}
 
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 
-	public float getRotation() {
+	public double getRotation() {
 		return rotation;
 	}
 

@@ -8,10 +8,10 @@ import java.awt.geom.AffineTransform;
 class WorldObjectDisplayState {
     private WorldObject wo;
     private Coord c;
-    private float rot;
+    private double rot;
     private AffineTransform t;
 
-    private WorldObjectDisplayState(WorldObject wo, Coord c, float rot, AffineTransform t) {
+    private WorldObjectDisplayState(WorldObject wo, Coord c, double rot, AffineTransform t) {
         this.wo = wo;
         this.c = c;
         this.rot = rot;

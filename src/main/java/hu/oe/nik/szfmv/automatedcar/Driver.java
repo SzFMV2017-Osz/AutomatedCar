@@ -50,8 +50,8 @@ public class Driver extends SystemComponent {
 
 	@Override
 	public void loop() {
-		if (this.testDriveMode) {
 
+		if (this.testDriveMode) {
 			this.loopCounter++;
 			this.actualTime = LocalTime.now();
 			if ((this.loopCounter % 7) == 0
@@ -88,9 +88,6 @@ public class Driver extends SystemComponent {
 						this.startTime.until(actualTime, ChronoUnit.MILLIS), this.loopCounter, brakePedal);
 				VirtualFunctionBus.sendSignal(new Signal(SignalEnum.BREAKPEDAL, brakePedal));
 			}
-		} else {
-			// send demo signal
-	        VirtualFunctionBus.sendSignal(new Signal(SignalEnum.SPEED, 10));
 		}
 	}
 

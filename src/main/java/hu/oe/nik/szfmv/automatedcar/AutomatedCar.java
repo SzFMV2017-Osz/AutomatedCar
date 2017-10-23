@@ -12,12 +12,12 @@ public class AutomatedCar extends WorldObject {
 	private double wheelAngle = 0;
 
 	// Variables for test
-	private final double VISUAL_CORRECTION = 15;
+	private final double VISUAL_CORRECTION = 5;
 	private final double CIRCULAR_TRACK_LENGTH = 1080;
 	private boolean testMode = false;
 	private double positionOnTrack = 0;
 
-	public AutomatedCar(int x, int y, float rotation, int width, int height, String imageFileName, ModelShape shape) {
+	public AutomatedCar(int x, int y, double rotation, int width, int height, String imageFileName, ModelShape shape) {
 		super(x, y, rotation, width, height, imageFileName, shape);
 
 		// Compose our car from brand new system components
@@ -36,8 +36,8 @@ public class AutomatedCar extends WorldObject {
 		VirtualFunctionBus.loop();
 		// Update the position and orientation of the car
 		if (!testMode) {
-			x = powertrainSystem.getX();
-			y += powertrainSystem.getSpeed() / this.VISUAL_CORRECTION;
+			x += powertrainSystem.getSpeed() / this.VISUAL_CORRECTION;
+			y = powertrainSystem.getY();
 			wheelAngle = (float) powertrainSystem.getWheelAngle();
 		} else {
 			this.positionOnTrack = this.positionOnTrack
