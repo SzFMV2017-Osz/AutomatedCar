@@ -3,8 +3,10 @@ package hu.oe.nik.szfmv.visualisation;
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
+import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 
 import javax.swing.*;
+import java.math.RoundingMode;
 
 public class Dashboard extends SystemComponent {
     private JPanel jPanel;
@@ -13,12 +15,20 @@ public class Dashboard extends SystemComponent {
     public JLabel TransmissionLabel;
     public JLabel RevolutionLabel;
     public JLabel SpeedLabel;
+    public JLabel SteeringWheelLabel;
+    public JLabel PosXLabel;
+    public JLabel PosYLabel;
+    public JLabel IndexLabel;
 
     private String gasPedalValue;
     private String brakePedalValue;
-    private String transmissionValue;
     private String revolutionValue;
     private String speedValue;
+    private String steeringWheelValue;
+    private String posXValue;
+    private String posYValue;
+    private String transmissionValue;
+    private String indexValue;
 
 
     public Dashboard() {
@@ -31,6 +41,7 @@ public class Dashboard extends SystemComponent {
     @Override
     public void loop() {
         refreshDisplayedValues();
+        VirtualFunctionBus.sendSignal(new Signal(SignalEnum.INDEX,"hello"));
     }
 
     @Override
@@ -38,10 +49,9 @@ public class Dashboard extends SystemComponent {
 
         SignalEnum signalType = s.getId();
 
-        switch(signalType)
-        {
+        switch (signalType) {
             case AUTOTRANSMISSION:
-                transmissionValue =s.getData().toString();
+                transmissionValue = s.getData().toString();
                 break;
 
             case GASPEDAL:
@@ -58,39 +68,74 @@ public class Dashboard extends SystemComponent {
 
             case SPEED:
                 speedValue = speedDataToString(s.getData());
+                break;
+
+            case STEERINGWHEEL:
+                steeringWheelValue = steeringWheelDataToString(s.getData()).toString();
+                break;
+
+            case POSX:
+                posXValue = s.getData().toString();
+                break;
+
+            case POSY:
+                posYValue = s.getData().toString();
+                break;
+
+            case INDEX:
+                indexValue = s.getData().toString();
+                break;
+
         }
     }
 
-    private String gasPedalDataToString(Object signalData)
-    {
+    private String gasPedalDataToString(Object signalData) {
         //If gaspedal's value would need special conversion, implement here
-        return signalData.toString();
+        return roundNumberString(signalData);
     }
 
-    private String brakePedalDataToString(Object signalData)
-    {
+    private String brakePedalDataToString(Object signalData) {
         //If brake pedal's value would need special conversion, implement here
         return signalData.toString();
     }
 
-    private String speedDataToString(Object signalData)
-    {
+    private String speedDataToString(Object signalData) {
         //If speed's value would need special conversion, implement here
-        return signalData.toString()+ " KM/H";
+        return roundNumberString(signalData) + " KM/H";
     }
 
-    private String revolutionDataToString(Object signalData)
-    {
+    private String revolutionDataToString(Object signalData) {
         //If brake pedal's value would need special conversion, implement here
-        return signalData.toString()+ " RPM";
+        return roundNumberString(signalData) + " RPM";
     }
 
-    private void refreshDisplayedValues()
-    {
+    private String steeringWheelDataToString(Object signalData) {
+        //If brake pedal's value would need special conversion, implement here
+        return roundNumberString(signalData) + "°";
+    }
+
+    private void refreshDisplayedValues() {
         GasPedalLabel.setText(gasPedalValue);
         BrakePedalLabel.setText(brakePedalValue);
         TransmissionLabel.setText(transmissionValue);
         RevolutionLabel.setText(revolutionValue);
         SpeedLabel.setText(speedValue);
+        SteeringWheelLabel.setText(steeringWheelValue);
+        PosXLabel.setText(posXValue);
+        PosYLabel.setText(posYValue);
+        IndexLabel.setText(indexValue);
+    }
+
+    private String roundNumberString(Object signalData) {
+
+        if (signalData instanceof Double) {
+            return String.valueOf(Math.round((double) signalData));
+        }
+
+        if (signalData instanceof Float) {
+            return String.valueOf(Math.round((float) signalData));
+        }
+
+        return String.valueOf(signalData);
     }
 }

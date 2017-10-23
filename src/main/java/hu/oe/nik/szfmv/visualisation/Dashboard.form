@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="hu.oe.nik.szfmv.visualisation.Dashboard">
   <grid id="27dc6" binding="jPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
     <constraints>
-      <xy x="20" y="20" width="659" height="30"/>
+      <xy x="20" y="20" width="632" height="30"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -13,10 +13,10 @@
           <text value="Kormány:"/>
         </properties>
       </component>
-      <component id="4efeb" class="javax.swing.JLabel">
+      <component id="4efeb" class="javax.swing.JLabel" binding="SteeringWheelLabel">
         <constraints/>
         <properties>
-          <text value="123"/>
+          <text value=""/>
         </properties>
       </component>
       <component id="1d20a" class="javax.swing.JLabel">
@@ -49,16 +49,10 @@
           <text value="X:"/>
         </properties>
       </component>
-      <component id="b707" class="javax.swing.JLabel">
+      <component id="b707" class="javax.swing.JLabel" binding="PosXLabel">
         <constraints/>
         <properties>
           <text value="123"/>
-        </properties>
-      </component>
-      <component id="de29" class="javax.swing.JLabel">
-        <constraints/>
-        <properties>
-          <text value="Gáz:"/>
         </properties>
       </component>
       <component id="7bf1f" class="javax.swing.JLabel">
@@ -67,7 +61,7 @@
           <text value="Y:"/>
         </properties>
       </component>
-      <component id="d0f" class="javax.swing.JLabel">
+      <component id="d0f" class="javax.swing.JLabel" binding="PosYLabel">
         <constraints/>
         <properties>
           <text value="123"/>
@@ -103,7 +97,7 @@
           <text value="Irányjelző:"/>
         </properties>
       </component>
-      <component id="4a278" class="javax.swing.JLabel">
+      <component id="4a278" class="javax.swing.JLabel" binding="IndexLabel">
         <constraints/>
         <properties>
           <text value="123"/>

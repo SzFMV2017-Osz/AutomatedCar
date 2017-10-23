@@ -82,7 +82,9 @@ public class PowertrainSystem extends SystemComponent {
 
 		// Sending speed to Bus
 		VirtualFunctionBus.sendSignal(new Signal(SignalEnum.SPEED, this.actualSpeed));
-
+		VirtualFunctionBus.sendSignal(new Signal(SignalEnum.STEERINGWHEEL,this.wheelAngle));
+		VirtualFunctionBus.sendSignal(new Signal(SignalEnum.POSX, this.getX()));
+		VirtualFunctionBus.sendSignal(new Signal(SignalEnum.POSY, this.getY()));
 	}
 
 	private void doSpeedAdjustment(double maxSpeed) {

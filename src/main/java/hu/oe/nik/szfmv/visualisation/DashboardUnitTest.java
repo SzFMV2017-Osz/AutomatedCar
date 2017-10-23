@@ -85,4 +85,60 @@ public class DashboardUnitTest {
         Assert.assertEquals(dashboard.RevolutionLabel.getText(), "2500 RPM");
     }
 
+    @Test
+    public void loop_ShouldRefreshSteeringWheelValue_IfReceivingRevolutionSignal()
+    {
+        //ARRANGE
+        Signal steeringWheelSignal = new Signal(SignalEnum.STEERINGWHEEL, (double)78.2);
+
+        //ACT
+        dashboard.receiveSignal(steeringWheelSignal);
+        dashboard.loop();
+
+        //ASSERT
+        Assert.assertEquals(dashboard.SteeringWheelLabel.getText(), "78°");
+    }
+
+    @Test
+    public void loop_ShouldRefreshPosX_IfReceivingRevolutionSignal()
+    {
+        //ARRANGE
+        Signal posXSignal = new Signal(SignalEnum.POSX, 100);
+
+        //ACT
+        dashboard.receiveSignal(posXSignal);
+        dashboard.loop();
+
+        //ASSERT
+        Assert.assertEquals(dashboard.PosXLabel.getText(), "100");
+    }
+
+    @Test
+    public void loop_ShouldRefreshPosY_IfReceivingRevolutionSignal()
+    {
+        //ARRANGE
+        Signal posYSignal = new Signal(SignalEnum.POSY, 100);
+
+        //ACT
+        dashboard.receiveSignal(posYSignal);
+        dashboard.loop();
+
+        //ASSERT
+        Assert.assertEquals(dashboard.PosYLabel.getText(), "100");
+    }
+
+    @Test
+    public void loop_ShouldRefreshIndex_IfReceivingRevolutionSignal()
+    {
+        //ARRANGE
+        Signal indexSignal = new Signal(SignalEnum.INDEX, "R");
+
+        //ACT
+        dashboard.receiveSignal(indexSignal);
+        dashboard.loop();
+
+        //ASSERT
+        Assert.assertEquals(dashboard.IndexLabel.getText(), "R");
+    }
+
 }
