@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar;
 
+import hu.oe.nik.szfmv.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PowertrainSystem;
@@ -9,7 +11,7 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
 public class AutomatedCar extends WorldObject {
 
 	private PowertrainSystem powertrainSystem;
-	private double wheelAngle = 0;
+	private int wheelAngle = 0;
 
 	// Variables for test
 	private final double VISUAL_CORRECTION = 5;
@@ -38,7 +40,10 @@ public class AutomatedCar extends WorldObject {
 		if (!testMode) {
 			x += powertrainSystem.getSpeed() / this.VISUAL_CORRECTION;
 			y = powertrainSystem.getY();
-			wheelAngle = (float) powertrainSystem.getWheelAngle();
+			wheelAngle = powertrainSystem.getWheelAngle();
+			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.POSX, x));
+			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.POSY, y));
+			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.STEERINGWHEEL, wheelAngle));
 		} else {
 			this.positionOnTrack = this.positionOnTrack
 					+ (powertrainSystem.getSpeed() / this.VISUAL_CORRECTION) % this.CIRCULAR_TRACK_LENGTH;

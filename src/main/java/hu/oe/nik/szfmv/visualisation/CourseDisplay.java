@@ -24,6 +24,7 @@ public class CourseDisplay {
         setFrameSize(world);
         frame.addKeyListener(new UserInputHandler());
         GameDisplayJPanel displayPanel = new GameDisplayJPanel(world, scale);
+        displayPanel.add(new Dashboard().getJPanel());
         frame.add(displayPanel);
 
         frame.validate();
@@ -66,5 +67,4 @@ public class CourseDisplay {
     private void calculateScale(int sizeFrom, int sizeTo) {
         scale = ((double) sizeFrom) / sizeTo;
     }
-
 }

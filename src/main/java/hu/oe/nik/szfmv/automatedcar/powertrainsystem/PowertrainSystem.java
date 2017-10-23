@@ -32,7 +32,7 @@ public class PowertrainSystem extends SystemComponent {
 	// Only these are available through getters
 	private int x = 0;
 	private int y = 0;
-	private double wheelAngle = 0;
+	private int wheelAngle = 0;
 	private double actualSpeed = 0;
 
 	public PowertrainSystem(int x, int y, Characteristics carCharacteristics) {
@@ -104,7 +104,6 @@ public class PowertrainSystem extends SystemComponent {
 
 		// Sending speed to Bus
 		VirtualFunctionBus.sendSignal(new Signal(SignalEnum.SPEED, this.actualSpeed));
-
 	}
 
 	private void doSpeedAdjustment(double maxSpeed) {
@@ -211,7 +210,7 @@ public class PowertrainSystem extends SystemComponent {
 		return y;
 	}
 
-	public double getWheelAngle() {
+	public int getWheelAngle() {
 		return wheelAngle;
 	}
 

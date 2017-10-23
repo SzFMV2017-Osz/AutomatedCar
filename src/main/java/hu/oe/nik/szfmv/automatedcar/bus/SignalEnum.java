@@ -7,5 +7,8 @@ public enum SignalEnum {
     AUTOTRANSMISSION,
     REVOLUTION,
     SPEED,
+    POSX,
+    POSY,
+    INDEX,
     TESTSIGNAL
 }
