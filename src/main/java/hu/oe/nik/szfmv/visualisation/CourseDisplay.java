@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.visualisation;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.inputinterface.UserInputHandler;
@@ -24,7 +25,11 @@ public class CourseDisplay {
         setFrameSize(world);
         frame.addKeyListener(new UserInputHandler());
         GameDisplayJPanel displayPanel = new GameDisplayJPanel(world, scale);
-        displayPanel.add(new Dashboard().getJPanel());
+        displayPanel.setLayout(null);
+        JPanel dashboard = new Dashboard().getJPanel();
+        dashboard.setBounds(1100, 0, 180, 160);
+        dashboard.setVisible(true);
+        displayPanel.add(dashboard);
         frame.add(displayPanel);
 
         frame.validate();

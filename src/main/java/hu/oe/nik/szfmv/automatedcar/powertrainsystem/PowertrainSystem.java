@@ -20,7 +20,7 @@ public class PowertrainSystem extends SystemComponent {
 	// input signals
 	private double gasPedal = 0;
 	private double breakPedal = 0;
-	private AutoTransmissionEnum autoTransmission = AutoTransmissionEnum.P;
+	private AutoTransmissionEnum autoTransmission = AutoTransmissionEnum.N;
 
 	// Output signals
 	private int shiftingLevel = 0;
@@ -136,8 +136,13 @@ public class PowertrainSystem extends SystemComponent {
 	}
 
 	private void calculateRevolution() {
-		double result = this.carSpecs.RPM_SPEED_CONV_RATE * this.carSpecs.SHIFTING_RATIOS[this.shiftingLevel]
-				* Math.abs(this.actualSpeed);
+		double result;
+		if (this.autoTransmission.equals(AutoTransmissionEnum.N)) {
+			result = carSpecs.MIN_RPM + (carSpecs.MAX_RPM - carSpecs.MIN_RPM) * this.gasPedal / this.PEDAL_MAX_VALUE;
+		} else {
+			result = this.carSpecs.RPM_SPEED_CONV_RATE * this.carSpecs.SHIFTING_RATIOS[this.shiftingLevel]
+					* Math.abs(this.actualSpeed);
+		}
 		if (result < carSpecs.MIN_RPM) {
 			this.actualRevolution = carSpecs.MIN_RPM;
 		} else if (result > carSpecs.MAX_RPM) {

@@ -8,6 +8,8 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import javax.swing.*;
 
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.math.RoundingMode;
 
 public class Dashboard extends SystemComponent {
@@ -21,6 +23,7 @@ public class Dashboard extends SystemComponent {
     public JLabel PosXLabel;
     public JLabel PosYLabel;
     public JLabel IndexLabel;
+    public JLabel EmptyLabel;
 
     private String gasPedalValue;
     private String brakePedalValue;
@@ -108,7 +111,7 @@ public class Dashboard extends SystemComponent {
 
     private String revolutionDataToString(Object signalData) {
         //If brake pedal's value would need special conversion, implement here
-        return roundNumberString(signalData) + " RPM";
+        return String.format("%4s RPM", roundNumberString(signalData));
     }
 
     private String steeringWheelDataToString(Object signalData) {
@@ -157,61 +160,104 @@ public class Dashboard extends SystemComponent {
     	     */
     	    private void $$$setupUI$$$() {
     	        jPanel = new JPanel();
-    	        jPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+    	        jPanel.setLayout(new GridBagLayout());
+    	        GridBagConstraints c = new GridBagConstraints();
+    	        c.gridx = 0;
+    	        c.gridy = 0;
+    	        c.anchor=GridBagConstraints.EAST;
     	        final JLabel label1 = new JLabel();
     	        label1.setText("Kormány:");
-    	        jPanel.add(label1);
+    	        jPanel.add(label1, c);
     	        SteeringWheelLabel = new JLabel();
     	        SteeringWheelLabel.setText("");
-    	        jPanel.add(SteeringWheelLabel);
+    	        c.gridx = 1;
+    	        c.gridy = 0;
+    	        jPanel.add(SteeringWheelLabel, c);
+    	        c.gridx = 0;
+    	        c.gridy = 1;
     	        final JLabel label2 = new JLabel();
     	        label2.setText("Gáz:");
-    	        jPanel.add(label2);
+    	        jPanel.add(label2, c);
     	        GasPedalLabel = new JLabel();
     	        GasPedalLabel.setText("123");
-    	        jPanel.add(GasPedalLabel);
+    	        c.gridx = 1;
+    	        c.gridy = 1;
+    	        jPanel.add(GasPedalLabel, c);
+    	        c.gridx = 0;
+    	        c.gridy = 2;
     	        final JLabel label3 = new JLabel();
     	        label3.setText("Fék:");
-    	        jPanel.add(label3);
+    	        jPanel.add(label3, c);
     	        BrakePedalLabel = new JLabel();
     	        BrakePedalLabel.setText("123");
-    	        jPanel.add(BrakePedalLabel);
+    	        c.gridx = 1;
+    	        c.gridy = 2;
+    	        jPanel.add(BrakePedalLabel, c);
+    	        c.gridx = 0;
+    	        c.gridy = 3;
     	        final JLabel label4 = new JLabel();
     	        label4.setText("X:");
-    	        jPanel.add(label4);
+    	        jPanel.add(label4, c);
     	        PosXLabel = new JLabel();
     	        PosXLabel.setText("123");
-    	        jPanel.add(PosXLabel);
+    	        c.gridx = 1;
+    	        c.gridy = 3;
+    	        jPanel.add(PosXLabel, c);
+    	        c.gridx = 0;
+    	        c.gridy = 4;
     	        final JLabel label5 = new JLabel();
     	        label5.setText("Y:");
-    	        jPanel.add(label5);
+    	        jPanel.add(label5, c);
     	        PosYLabel = new JLabel();
     	        PosYLabel.setText("123");
-    	        jPanel.add(PosYLabel);
+    	        c.gridx = 1;
+    	        c.gridy = 4;
+    	        jPanel.add(PosYLabel, c);
+    	        c.gridx = 0;
+    	        c.gridy = 5;
     	        final JLabel label6 = new JLabel();
     	        label6.setText("Sebesség:");
-    	        jPanel.add(label6);
+    	        jPanel.add(label6, c);
     	        SpeedLabel = new JLabel();
     	        SpeedLabel.setText("123");
-    	        jPanel.add(SpeedLabel);
+    	        c.gridx = 1;
+    	        c.gridy = 5;
+    	        jPanel.add(SpeedLabel, c);
+    	        c.gridx = 0;
+    	        c.gridy = 6;
     	        final JLabel label7 = new JLabel();
     	        label7.setText("Fordulatszám:");
-    	        jPanel.add(label7);
+    	        jPanel.add(label7, c);
     	        RevolutionLabel = new JLabel();
     	        RevolutionLabel.setText("123");
-    	        jPanel.add(RevolutionLabel);
+    	        c.gridx = 1;
+    	        c.gridy = 6;
+    	        jPanel.add(RevolutionLabel, c);
+    	        c.gridx = 0;
+    	        c.gridy = 7;
     	        final JLabel label8 = new JLabel();
     	        label8.setText("Irányjelző:");
-    	        jPanel.add(label8);
+    	        jPanel.add(label8, c);
     	        IndexLabel = new JLabel();
     	        IndexLabel.setText("123");
-    	        jPanel.add(IndexLabel);
+    	        c.gridx = 1;
+    	        c.gridy = 7;
+    	        jPanel.add(IndexLabel, c);
+    	        c.gridx = 0;
+    	        c.gridy = 8;
     	        final JLabel label9 = new JLabel();
     	        label9.setText("Transmission:");
-    	        jPanel.add(label9);
+    	        jPanel.add(label9, c);
     	        TransmissionLabel = new JLabel();
     	        TransmissionLabel.setText("Label");
-    	        jPanel.add(TransmissionLabel);
+    	        c.gridx = 1;
+    	        c.gridy = 8;
+    	        jPanel.add(TransmissionLabel, c);
+    	        EmptyLabel = new JLabel();
+    	        EmptyLabel.setText("                      ");
+    	        c.gridx = 1;
+    	        c.gridy = 9;
+    	        jPanel.add(EmptyLabel, c);
     	    }
 
     	    /**
