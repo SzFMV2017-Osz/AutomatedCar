@@ -19,7 +19,7 @@ public class Steering {
      @param velocity, current velocity
      @return angle in which the tires are pointed
      */
-    void UpdateSteering(boolean steerLeft, boolean steerRight, int velocity, Vector2D carLocation){
+    public Vector2D UpdateSteering(boolean steerLeft, boolean steerRight, int velocity, Vector2D carLocation){
         double steerAngle = UpdateSteerAngle(steerLeft, steerRight, velocity);
         Vector2D frontWheel = carLocation.add(new Vector2D( Math.cos(carHeading) , Math.sin(carHeading) ).mult(wheelBase/2));
         Vector2D rearWheel = carLocation.sub(new Vector2D( Math.cos(carHeading) , Math.sin(carHeading) ).mult(wheelBase/2));
@@ -27,6 +27,7 @@ public class Steering {
         frontWheel = frontWheel.add(new Vector2D(Math.cos(carHeading + steerAngle) , Math.sin(carHeading + steerAngle)).mult(velocity).mult(frameRateCoefficient));
         carLocation = frontWheel.add(rearWheel).mult(0.5);
         carHeading = (float)Math.atan2( frontWheel.getY() - rearWheel.getY() , frontWheel.getX() - rearWheel.getX() );
+        return carLocation;
     }
 
     double UpdateSteerAngle(boolean steerLeft, boolean steerRight, int velocity){
