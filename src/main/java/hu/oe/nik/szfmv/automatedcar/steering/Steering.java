@@ -1,13 +1,16 @@
 package hu.oe.nik.szfmv.automatedcar.steering;
 
+import hu.oe.nik.szfmv.common.Vector2D;
+
 public class Steering {
     double steerDirection = 0;
-    double steerAngle = 0;
     double maxSteerAngle = 0.6;
     double steerSpeed = 2.5;
     double steerAdjustSpeed = 1;
     double speedSteerCorrection = 300;
     double frameRateCoefficient = 0.0417;
+    float wheelBase = 10;
+    float carHeading;
 
     /**
      Get updated steering data based on steering keystrokes and current velocity.
@@ -16,7 +19,18 @@ public class Steering {
      @param velocity, current velocity
      @return angle in which the tires are pointed
      */
-    double UpdateSteering(boolean steerLeft, boolean steerRight, int velocity){
+    public Vector2D UpdateSteering(boolean steerLeft, boolean steerRight, int velocity, Vector2D carLocation){
+        double steerAngle = UpdateSteerAngle(steerLeft, steerRight, velocity);
+        Vector2D frontWheel = carLocation.add(new Vector2D( Math.cos(carHeading) , Math.sin(carHeading) ).mult(wheelBase/2));
+        Vector2D rearWheel = carLocation.sub(new Vector2D( Math.cos(carHeading) , Math.sin(carHeading) ).mult(wheelBase/2));
+        rearWheel = rearWheel.add(new Vector2D(Math.cos(carHeading) , Math.sin(carHeading)).mult(velocity).mult(frameRateCoefficient));
+        frontWheel = frontWheel.add(new Vector2D(Math.cos(carHeading + steerAngle) , Math.sin(carHeading + steerAngle)).mult(velocity).mult(frameRateCoefficient));
+        carLocation = frontWheel.add(rearWheel).mult(0.5);
+        carHeading = (float)Math.atan2( frontWheel.getY() - rearWheel.getY() , frontWheel.getX() - rearWheel.getX() );
+        return carLocation;
+    }
+
+    double UpdateSteerAngle(boolean steerLeft, boolean steerRight, int velocity){
         // Apply filters to our steer direction
         double steerInput = 0;
         if (steerLeft) steerInput = 1;
@@ -24,7 +38,7 @@ public class Steering {
         steerDirection = SmoothSteering (steerInput, velocity);
 
         // Calculate the current angle the tires are pointing
-        steerAngle = steerDirection * maxSteerAngle;
+        double steerAngle = steerDirection * maxSteerAngle;
         return steerAngle;
     }
 
