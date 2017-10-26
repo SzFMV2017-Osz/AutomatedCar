@@ -9,8 +9,8 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
  */
 
 public abstract class SystemComponent implements ISystemComponent {
-	// Register components automatically during instantiation
-	protected SystemComponent() {
-		VirtualFunctionBus.registerComponent(this);
-	}
+    // Register components automatically during instantiation
+    protected SystemComponent() {
+        VirtualFunctionBus.registerComponent(this);
+    }
 }

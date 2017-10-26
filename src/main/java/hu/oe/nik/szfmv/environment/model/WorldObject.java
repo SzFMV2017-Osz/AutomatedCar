@@ -1,9 +1,8 @@
 package hu.oe.nik.szfmv.environment.model;
 
+import hu.oe.nik.szfmv.environment.util.ModelShape;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import hu.oe.nik.szfmv.environment.util.ModelShape;
 
 /**
  * Világ elemeinek ős osztálya
@@ -11,16 +10,18 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
  * @author hunkak
  *
  */
-public abstract class WorldObject {
+public class WorldObject {
 
 	private static final Logger log = LogManager.getLogger(WorldObject.class);
 
 	// objektum helyzete a síkon
 	// TODO meghatározni, hogy az objektum melyik pontja - vizualizációs csapattal
-	int x, y;
+	protected double x;
+
+	protected double y;
 	// objektum forgatása
 	// TODO meghatározni a bázis helyzetet és a mértékegységet (szög,radián)
-	float rotation;
+	double rotation;
 
 	// objektum kiterjedése
 	// TODO befoglaló négyszög? implementációs függő jelentés?
@@ -31,7 +32,7 @@ public abstract class WorldObject {
 
 	private final String imageFileName;
 
-	public WorldObject(int x, int y, float rotation, int width, int height, String imageName, ModelShape shape) {
+	public WorldObject(double x, double y, double rotation, int width, int height, String imageName, ModelShape shape) {
 		super();
 
 		this.x = x;
@@ -43,25 +44,27 @@ public abstract class WorldObject {
 		this.shape = shape;
 	}
 
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 
-	public float getRotation() {
+	public double getRotation() {
 		return rotation;
 	}
 
-	public int getWidth() {
-		return width;
-	}
+    @Deprecated
+    public int getWidth() {
+        return width;
+    }
 
-	public int getHeight() {
-		return height;
-	}
+    @Deprecated
+    public int getHeight() {
+        return height;
+    }
 
 	public String getImageFileName() {
 		return imageFileName;
