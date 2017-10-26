@@ -25,35 +25,50 @@ public class GameDisplayJPanel extends JPanel {
             imageCache = new HashMap<>();
     private HashMap<WorldObject, WorldObjectDisplayState>
             transformCache = new HashMap<>();
+    private Image staticBackground = null;
 
     private final RoadConstants roadConst;
 
-    public GameDisplayJPanel(World gameWorld, double scale) {
+    //need height/width because this.getHeight/Width is 0 at constructor time
+    public GameDisplayJPanel(World gameWorld, double scale, int width, int height) {
         this.world = gameWorld;
         this.scale = scale;
         roadConst = new RoadConstants(scale);
+        //draw background once into an Image
+        staticBackground = generateStaticBackground(width, height);
     }
 
     public void paintComponent(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        //roads (unmoving) lowest priority, draw first
-        //  (so later they are drawn over)
-        //cars highest priority, draw last
+        //only redraw the background as a whole
+        g2d.drawImage(
+                staticBackground,
+                0,0,
+                null);
 
-        drawObjects(g2d,
-                world.getWorldObjectsFiltered().getUnmoving(),
-                false);
-        drawObjects(g2d,
-                world.getWorldObjectsFiltered().getCollidable(),
-                false);
         drawObjects(g2d,
                 world.getWorldObjectsFiltered().getMoving(),
                 true);
         drawObjects(g2d,
                 world.getWorldObjectsFiltered().getCars(),
                 true);
+    }
+
+    private Image generateStaticBackground(int width, int height) {
+        BufferedImage bg = new BufferedImage(
+                width,
+                height,
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = bg.createGraphics();
+        drawObjects(g2d,
+                world.getWorldObjectsFiltered().getUnmoving(),
+                false);
+        drawObjects(g2d,
+                world.getWorldObjectsFiltered().getCollidable(),
+                false);
+        return bg;
     }
 
     private void drawObjects(Graphics2D g2d, List<WorldObject> objects, boolean centerAnchorPoint) {
