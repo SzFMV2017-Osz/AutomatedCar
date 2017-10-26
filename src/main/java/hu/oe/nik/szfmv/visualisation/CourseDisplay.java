@@ -11,7 +11,7 @@ public class CourseDisplay {
     private static final Logger logger = LogManager.getLogger();
     private JFrame frame = new JFrame("OE NIK Automated Car Project");
 
-    private static final int maxHeight = 900, maxWidth = 1280;
+    private static final int maxHeight = 700, maxWidth = 1100;
     private static final double idealRatio = (double) maxWidth / (double) maxHeight;
     private static double scale = 1;
 
@@ -25,7 +25,12 @@ public class CourseDisplay {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setFrameSize(world);
 
-        GameDisplayJPanel displayPanel = new GameDisplayJPanel(world, scale);
+        GameDisplayJPanel displayPanel = new GameDisplayJPanel(
+                world,
+                scale,
+                frame.getWidth(),
+                frame.getHeight());
+
         frame.add(displayPanel);
 
         frame.validate();
