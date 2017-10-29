@@ -31,7 +31,6 @@ public class CourseDisplay {
         dashboard.setVisible(true);
         displayPanel.add(dashboard);
         frame.add(displayPanel);
-
         frame.validate();
         frame.setResizable(false);
         frame.setVisible(true);

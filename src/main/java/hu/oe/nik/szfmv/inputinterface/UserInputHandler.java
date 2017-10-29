@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.inputinterface;
 
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
+
 import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
@@ -38,6 +39,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         this.steeringWheelState = componentStateCalculator.basicSteeringWheelState;
         this.gaspedalState = componentStateCalculator.minPedalState;
         this.breakpedalState = componentStateCalculator.minPedalState;
+      
         this.isKeyPressingHappened = false;
     }
 
@@ -116,7 +118,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
             public void run() {
 
                 if (!isKeyPressingHappened){
-
+                  
                     if (gaspedalState != componentStateCalculator.minPedalState){
                         gaspedalState--;
                     }
@@ -168,7 +170,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
                 )
         );
     }
-
+  
     private void sendNewBreakpedalState(int newBreakpedalState) {
         VirtualFunctionBus.sendSignal(
                 new Signal(

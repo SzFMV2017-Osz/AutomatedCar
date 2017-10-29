@@ -90,7 +90,7 @@ public class Driver extends SystemComponent {
 			}
 		}
 	}
-
+  
 	@Override
 	public void receiveSignal(Signal s) {
 		// Prints elapsed time and revolution in test drive mode
