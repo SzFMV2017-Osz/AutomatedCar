@@ -6,5 +6,9 @@ public enum SignalEnum {
     STEERINGWHEEL,
     AUTOTRANSMISSION,
     REVOLUTION,
-    SPEED
+    SPEED,
+    POSX,
+    POSY,
+    INDEX,
+    TESTSIGNAL
 }
