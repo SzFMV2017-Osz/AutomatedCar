@@ -10,6 +10,11 @@ public class Steering {
     double speedSteerCorrection = 300;
     double frameRateCoefficient = 0.0417;
     float wheelBase = 10;
+
+    public float getCarHeading() {
+        return carHeading;
+    }
+
     float carHeading;
 
     /**
@@ -28,13 +33,6 @@ public class Steering {
         carLocation = frontWheel.add(rearWheel).mult(0.5);
         carHeading = (float)Math.atan2( frontWheel.getY() - rearWheel.getY() , frontWheel.getX() - rearWheel.getX() );
         return carLocation;
-//        if (steerLeft) {
-//            carLocation.setY(carLocation.getY() - 1);
-//        }
-//        if (steerRight) {
-//            carLocation.setY(carLocation.getY() + 1);
-//        }
-//        return carLocation;
     }
 
     double UpdateSteerAngle(boolean steerLeft, boolean steerRight, int velocity){

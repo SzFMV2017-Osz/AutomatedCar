@@ -21,7 +21,7 @@ public class WorldObject {
 	protected double y;
 	// objektum forgatása
 	// TODO meghatározni a bázis helyzetet és a mértékegységet (szög,radián)
-	double rotation;
+	protected double rotation;
 
 	// objektum kiterjedése
 	// TODO befoglaló négyszög? implementációs függő jelentés?

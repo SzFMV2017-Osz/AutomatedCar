@@ -49,6 +49,7 @@ public class AutomatedCar extends WorldObject {
             pos = st.UpdateSteering(steer == 1, steer == -1, (int)velocity, pos);
             x = pos.getX();
             y = pos.getY();
+            rotation = st.getCarHeading() + Math.PI / 2;
 			System.out.format("\nX: " + x + ", Y: " + y);
 			wheelAngle = powertrainSystem.getWheelAngle();
 			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.POSX, x));
