@@ -8,8 +8,9 @@ package hu.oe.nik.szfmv.environment.util;
  * <p>
  * Osztályokkal kell megvalósítani
  */
-@Deprecated
 public enum RoadType {
+	LEFT, RIGHT, STRAIGHT, TJUNCTIONLEFT, TJUNCTIONRIGHT, ROTARY, CROSSWALK, PARKINGPARALLEL
+=======
 
     STRAIGHT_2LANE(0, 0), LEFT_45_2LANE(45, -1), RIGHT_45_2LANE(45, 1), T_JUNCTION(0, 0), CROSS_ROAD(0, 0);
 
@@ -32,5 +33,4 @@ public enum RoadType {
     public int getDirection() {
         return direction;
     }
-
 }
