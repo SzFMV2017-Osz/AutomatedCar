@@ -16,8 +16,8 @@ public class CourseDisplay {
     private static double scale = 1;
 
     public void refreshFrame() {
-        frame.invalidate();
-        frame.validate();
+        //frame.invalidate();
+        //frame.validate();
         frame.repaint();
     }
 
@@ -25,7 +25,12 @@ public class CourseDisplay {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setFrameSize(world);
 
-        GameDisplayJPanel displayPanel = new GameDisplayJPanel(world, scale);
+        GameDisplayJPanel displayPanel = new GameDisplayJPanel(
+                world,
+                scale,
+                frame.getWidth(),
+                frame.getHeight());
+
         frame.add(displayPanel);
 
         frame.validate();
