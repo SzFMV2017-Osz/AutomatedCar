@@ -5,12 +5,15 @@ import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PowertrainSystem;
+import hu.oe.nik.szfmv.automatedcar.steering.Steering;
+import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 
 public class AutomatedCar extends WorldObject {
 
 	private PowertrainSystem powertrainSystem;
+    private Steering st = new Steering();
 	private int wheelAngle = 0;
 
 	// Variables for test
@@ -38,8 +41,15 @@ public class AutomatedCar extends WorldObject {
 		VirtualFunctionBus.loop();
 		// Update the position and orientation of the car
 		if (!testMode) {
-			x += powertrainSystem.getSpeed() / this.VISUAL_CORRECTION;
-			y = powertrainSystem.getY();
+            int steer = powertrainSystem.getSteer();
+		    double velocity = powertrainSystem.getSpeed();
+            Vector2D pos = new Vector2D();
+            pos.setX(x);
+            pos.setY(y);
+            pos = st.UpdateSteering(steer == 1, steer == -1, (int)velocity, pos);
+            x = pos.getX();
+            y = pos.getY();
+			System.out.format("\nX: " + x + ", Y: " + y);
 			wheelAngle = powertrainSystem.getWheelAngle();
 			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.POSX, x));
 			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.POSY, y));

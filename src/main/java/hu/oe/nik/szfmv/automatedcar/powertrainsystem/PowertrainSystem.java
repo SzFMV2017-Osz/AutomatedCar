@@ -6,6 +6,8 @@ import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 
+import java.util.Random;
+
 public class PowertrainSystem extends SystemComponent {
 
 	// Parameters needed for drawing
@@ -34,6 +36,8 @@ public class PowertrainSystem extends SystemComponent {
 	private int y = 0;
 	private int wheelAngle = 0;
 	private double actualSpeed = 0;
+
+    private int steer = 0;
 
 	public PowertrainSystem(int x, int y, Characteristics carCharacteristics) {
 		super();
@@ -181,6 +185,9 @@ public class PowertrainSystem extends SystemComponent {
 		case BREAKPEDAL:
 			this.breakPedal = (int) s.getData();
 			break;
+		case STEERINGWHEEL:
+            this.steer = (int) s.getData();
+            break;
 		case AUTOTRANSMISSION:
 			this.autoTransmission = (AutoTransmissionEnum) s.getData();
 			switch (this.autoTransmission) {
@@ -226,4 +233,8 @@ public class PowertrainSystem extends SystemComponent {
 	public double getSpeed() {
 		return this.actualSpeed;
 	}
+
+    public int getSteer() {
+        return steer;
+    }
 }

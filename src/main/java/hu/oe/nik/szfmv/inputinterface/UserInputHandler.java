@@ -79,13 +79,18 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_LEFT)) {
-            // turn the car left
-            this.steeringWheelState = this.componentStateCalculator.turnTheSteeringwheelLeft(this.steeringWheelState);
+//             turn the car left
+           this.steeringWheelState = -1;
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_RIGHT)) {
-            // turn the car right
-            this.steeringWheelState = this.componentStateCalculator.turnTheSteeringwheelRight(this.steeringWheelState);
+//             turn the car right
+            this.steeringWheelState = 1;
+        }
+
+        if (!this.pressedKeyCodes.contains(KeyEvent.VK_RIGHT) && !this.pressedKeyCodes.contains(KeyEvent.VK_LEFT)) {
+//             don't turn the car
+            this.steeringWheelState = 0;
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_UP)) {

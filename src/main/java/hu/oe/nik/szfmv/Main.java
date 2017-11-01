@@ -47,7 +47,7 @@ public class Main {
 		w.addObjectToWorld(playerCar);
 		while (true) {
 			try {
-				car.move();
+//				car.move();
 				playerCar.drive();
 				vis.refreshFrame();
 				Thread.sleep(CYCLE_PERIOD);
