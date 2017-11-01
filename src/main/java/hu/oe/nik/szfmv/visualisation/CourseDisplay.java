@@ -29,8 +29,7 @@ public class CourseDisplay {
                 world,
                 scale,
                 frame.getWidth(),
-                frame.getHeight());
-
+                frame.getHeight()
         frame.add(displayPanel);
 
         frame.validate();

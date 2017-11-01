@@ -22,8 +22,8 @@ public class Main {
 		CourseDisplay vis = new CourseDisplay();
 
 		// create the world
-        //TODO: get this from xml
-        World w = new World(5120, 3000);
+    //TODO: get this from xml
+    World w = new World(5120, 3000);
 		// create an automated car
         Car car = Car.builder()
                 .position(500, 500)

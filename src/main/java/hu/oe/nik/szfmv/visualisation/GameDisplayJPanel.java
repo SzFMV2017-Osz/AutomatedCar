@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.visualisation;
 
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -78,8 +79,7 @@ public class GameDisplayJPanel extends JPanel {
             try {
                 Image image = getScaledImage(object);
 
-                AffineTransform trans = getTransform(object, centerAnchorPoint);
-
+                AffineTransform trans = getTransform(object, centerAnchorPoin
                 g2d.drawImage(image, trans, this);
 
             } catch (IOException e) {
