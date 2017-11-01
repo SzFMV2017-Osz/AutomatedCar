@@ -1,7 +1,7 @@
 /**
  * 
  */
-package hu.oe.nik.szfmv.enviroment.detector;
+package hu.oe.nik.szfmv.environment.detector;
 
 import java.awt.Shape;
 import java.util.Collection;
