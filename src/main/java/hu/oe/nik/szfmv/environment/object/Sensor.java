@@ -13,6 +13,10 @@ public class Sensor extends WorldObject {
         this.type = type;
     }
 
+    public Car getCar() {
+        return car;
+    }
+
     private Car car;
     private SensorType type;
 

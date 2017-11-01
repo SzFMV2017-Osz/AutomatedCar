@@ -60,16 +60,40 @@ public class GameDisplayJPanel extends JPanel {
                 world.getWorldObjectsFiltered().getSensors());
     }
 
-    //FIXME hibásan végzi a sclale-t
     private void drawSensor(Graphics2D g2d, ArrayList<WorldObject> sensors) {
         for (WorldObject sensor : sensors) {
             Shape s = ((Sensor)sensor).getShape();
             g2d.setColor(Color.RED);
-            g2d.scale(scale, scale);
-            g2d.translate((int) Math.round(sensor.getX() ), (int) Math.round(sensor.getY() ));
-            g2d.rotate(sensor.getRotation(),(int) Math.round(sensor.getX() * scale), (int) Math.round(sensor.getY() * scale) );
 
-            g2d.draw(s);
+
+            Image img = null;
+            Coord offset = null;
+            try {
+                img = getScaledImage(((Sensor) sensor).getCar());
+                offset = new Coord(
+                        (int) Math.round(img.getWidth(null) / 2.0),
+                        (int) Math.round(img.getHeight(null) / 2.0));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            AffineTransform transforms[]=
+                    {
+                            AffineTransform.getRotateInstance(sensor.getRotation(),
+                                    (int) Math.round(sensor.getX() * scale),
+                                    (int) Math.round(sensor.getY() * scale)),
+                            AffineTransform.getTranslateInstance(sensor.getX()*scale- offset.getX(), sensor.getY()*scale-offset.getY()),
+                            AffineTransform.getScaleInstance(scale, scale)
+                    };
+
+            AffineTransform tr=new AffineTransform();
+
+            for(int i=0;i< transforms.length;++i)
+            {
+                tr.concatenate(transforms[i]);
+            }
+
+            g2d.draw(tr.createTransformedShape(s));
         }
     }
 
