@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.visualisation;
 
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
+import hu.oe.nik.szfmv.environment.object.Sensor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,6 +12,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -54,6 +56,21 @@ public class GameDisplayJPanel extends JPanel {
         drawObjects(g2d,
                 world.getWorldObjectsFiltered().getCars(),
                 true);
+        drawSensor(g2d,
+                world.getWorldObjectsFiltered().getSensors());
+    }
+
+    //FIXME hibásan végzi a sclale-t
+    private void drawSensor(Graphics2D g2d, ArrayList<WorldObject> sensors) {
+        for (WorldObject sensor : sensors) {
+            Shape s = ((Sensor)sensor).getShape();
+            g2d.setColor(Color.RED);
+            g2d.scale(scale, scale);
+            g2d.translate((int) Math.round(sensor.getX() ), (int) Math.round(sensor.getY() ));
+            g2d.rotate(sensor.getRotation(),(int) Math.round(sensor.getX() * scale), (int) Math.round(sensor.getY() * scale) );
+
+            g2d.draw(s);
+        }
     }
 
     private Image generateStaticBackground(int width, int height) {

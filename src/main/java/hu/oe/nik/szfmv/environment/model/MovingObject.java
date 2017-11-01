@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.environment.model;
 
+import java.awt.*;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -23,7 +24,7 @@ public abstract class MovingObject extends CollidableObject {
 	private Vector2D currentSpeed;
 
 	public MovingObject(int x, int y, float rotation, int width, int height, String imageFileName, int weight,
-			ModelShape shape) {
+			Shape shape) {
 		super(x, y, rotation, width, height, imageFileName, weight, shape);
 		// TODO: this must be 0,0 so the object is steady
 		this.currentSpeed = new Vector2D(0, 0);

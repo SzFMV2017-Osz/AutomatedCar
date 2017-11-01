@@ -5,6 +5,8 @@ import org.apache.logging.log4j.Logger;
 
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 
+import java.awt.*;
+
 /**
  * Ütközni képes objektumokat reprezentáló osztály TODO: ütközés detektálás
  * kialakítása (- vizualizációs csapattal egyeztetni)
@@ -23,7 +25,7 @@ public abstract class CollidableObject extends WorldObject {
 	private boolean collided;
 
 	public CollidableObject(int x, int y, float rotation, int width, int height, String imageFileName, int weight,
-			ModelShape shape) {
+			Shape shape) {
 		super(x, y, rotation, width, height, imageFileName, shape);
 
 		this.weight = weight;

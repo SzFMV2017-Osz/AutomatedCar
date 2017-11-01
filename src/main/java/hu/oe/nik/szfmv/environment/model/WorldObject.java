@@ -4,6 +4,8 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.*;
+
 /**
  * Világ elemeinek ős osztálya
  * 
@@ -26,11 +28,11 @@ public class WorldObject {
 	private final int width, height;
 
 	// objektum formája
-	private final ModelShape shape;
+	private final Shape shape;
 
 	private final String imageFileName;
 
-	public WorldObject(int x, int y, float rotation, int width, int height, String imageName, ModelShape shape) {
+	public WorldObject(int x, int y, float rotation, int width, int height, String imageName, Shape shape) {
 		super();
 
 		this.x = x;
@@ -71,7 +73,7 @@ public class WorldObject {
 	/**
 	 * @return the shape
 	 */
-	public ModelShape getShape() {
+	public Shape getShape() {
 		return shape;
 	}
 

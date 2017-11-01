@@ -1,8 +1,11 @@
 package hu.oe.nik.szfmv;
 
+import hu.oe.nik.szfmv.environment.factory.SensorObjectFactory;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Car;
+import hu.oe.nik.szfmv.environment.object.Sensor;
+import hu.oe.nik.szfmv.environment.util.SensorType;
 import hu.oe.nik.szfmv.environment.xml.XmlObject;
 import hu.oe.nik.szfmv.environment.xml.XmlParser;
 import hu.oe.nik.szfmv.visualisation.CourseDisplay;
@@ -32,12 +35,14 @@ public class Main {
                 .weight(1000).color("black").build();
         // add car to the world
 
+
         //!ONLY FOR TESTING!
         testInitFromXml(w);
+        testSensorInit(w, car);
 
 
 		w.addObjectToWorld(car);
-        car.accelerate(-5);
+        //car.accelerate(-5);
         // init visualisation module with the world
 		vis.init(w);
 
@@ -51,6 +56,14 @@ public class Main {
 			}
 		}
 	}
+
+    private static void testSensorInit(World w, Car car) {
+        Sensor camera = SensorObjectFactory.createSensor(car, SensorType.CAMERA);
+        w.addObjectToWorld(camera);
+
+        Sensor ultrasonicLSF = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_LSF);
+        w.addObjectToWorld(ultrasonicLSF);
+    }
 
     //!ONLY FOR TESTING!
     private static void testInitFromXml(World w) {
@@ -76,5 +89,6 @@ public class Main {
             }
         } catch (Exception e) {
         }
+
     }
 }

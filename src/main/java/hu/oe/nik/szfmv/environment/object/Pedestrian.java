@@ -2,6 +2,10 @@ package hu.oe.nik.szfmv.environment.object;
 
 import hu.oe.nik.szfmv.environment.model.MovingObject;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Shape;
+
+import java.awt.geom.Ellipse2D;
 
 /**
  * gyalogost reprezentáló osztály TODO: meghajtás bekötése
@@ -12,7 +16,7 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
 public class Pedestrian extends MovingObject {
 
 	public Pedestrian(int x, int y, float rotation, int width, int height, String imageFileName, int weight) {
-		super(x, y, rotation, width, height, imageFileName, weight, ModelShape.ELLIPSE);
+		super(x, y, rotation, width, height, imageFileName, weight, new Ellipse2D.Double(x, y, width, height));
 	}
 
 	@Override

@@ -7,6 +7,8 @@ import hu.oe.nik.szfmv.environment.model.CollidableObject;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 import hu.oe.nik.szfmv.environment.util.RoadSignType;
 
+import java.awt.geom.Ellipse2D;
+
 /**
  * @author kalmankostenszky
  *
@@ -27,7 +29,7 @@ public class RoadSign extends CollidableObject {
 	 */
 	public RoadSign(int x, int y, float rotation, int width, int height, String imageFileName, int weight,
 			RoadSignType roadSignType) {
-		super(x, y, rotation, width, height, imageFileName, weight, ModelShape.ELLIPSE);
+		super(x, y, rotation, width, height, imageFileName, weight, new Ellipse2D.Double(x, y, width, height));
 		this.roadSignType = roadSignType;
 	}
 

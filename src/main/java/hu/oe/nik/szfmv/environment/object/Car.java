@@ -8,6 +8,8 @@ import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.model.MovingObject;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 
+import java.awt.*;
+
 /**
  * 
  * Autót repretzentáló osztály TODO: maghajtás bekötése TODO: irányítás
@@ -25,7 +27,7 @@ public class Car extends MovingObject implements IDriveable {
 	}
 
 	private Car(int x, int y, float rotation, int width, int height, String imageFileName, int weight) {
-		super(x, y, rotation, width, height, imageFileName, weight, ModelShape.RECTENGULAR);
+		super(x, y, rotation, width, height, imageFileName, weight, new Rectangle(x, y, width, height));
 	}
 
 	@Override

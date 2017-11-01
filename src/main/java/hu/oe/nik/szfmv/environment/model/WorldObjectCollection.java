@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.environment.model;
 
 import hu.oe.nik.szfmv.environment.object.Car;
+import hu.oe.nik.szfmv.environment.object.Sensor;
 
 import java.util.ArrayList;
 
@@ -9,6 +10,7 @@ public class WorldObjectCollection {
     private ArrayList<WorldObject> collidable = new ArrayList<>();
     private ArrayList<WorldObject> moving = new ArrayList<>();
     private ArrayList<WorldObject> cars = new ArrayList<>();
+    private ArrayList<WorldObject> sensors = new ArrayList<>();
 
     public ArrayList<WorldObject> getUnmoving() {
         return unmoving;
@@ -26,6 +28,10 @@ public class WorldObjectCollection {
         return cars;
     }
 
+    public ArrayList<WorldObject> getSensors() {
+        return sensors;
+    }
+
     public void add(WorldObject object) {
         if (object instanceof CollidableObject) {
             if (object instanceof MovingObject) {
@@ -33,8 +39,10 @@ public class WorldObjectCollection {
                     cars.add(object);
                 } else moving.add(object);
             } else collidable.add(object);
-        } else { //roads
-            unmoving.add(object);
+        } else {
+            if (object instanceof Sensor) {
+                sensors.add(object);
+            } else unmoving.add(object);
         }
     }
 }
