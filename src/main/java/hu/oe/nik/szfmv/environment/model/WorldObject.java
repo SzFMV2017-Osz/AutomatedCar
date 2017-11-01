@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.environment.model;
 
-import hu.oe.nik.szfmv.environment.util.ModelShape;
+import java.awt.Shape;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -72,9 +72,11 @@ public class WorldObject {
 
 	/**
 	 * @return the shape
+	 * 
+	 * TODO: change to Shape type
 	 */
-	public ModelShape getShape() {
-		return shape;
+	public Shape getShape() {
+		return null;
 	}
 
 	/*
