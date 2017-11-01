@@ -48,6 +48,10 @@ public class GameDisplayJPanel extends JPanel {
                 0,0,
                 null);
 
+
+        drawObjects(g2d,
+                world.getWorldObjectsFiltered().getCollidable(),
+                false);
         drawObjects(g2d,
                 world.getWorldObjectsFiltered().getMoving(),
                 true);
@@ -64,9 +68,6 @@ public class GameDisplayJPanel extends JPanel {
         Graphics2D g2d = bg.createGraphics();
         drawObjects(g2d,
                 world.getWorldObjectsFiltered().getUnmoving(),
-                false);
-        drawObjects(g2d,
-                world.getWorldObjectsFiltered().getCollidable(),
                 false);
         return bg;
     }
