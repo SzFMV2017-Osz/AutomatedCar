@@ -5,6 +5,11 @@ import org.apache.logging.log4j.Logger;
 
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 /**
  * Világ elemeinek ős osztálya
  * 
@@ -31,6 +36,8 @@ public abstract class WorldObject {
 
 	private final String imageFileName;
 
+	private BufferedImage imageFile;
+
 	public WorldObject(int x, int y, float rotation, int width, int height, String imageName, ModelShape shape) {
 		super();
 
@@ -41,6 +48,11 @@ public abstract class WorldObject {
 		this.height = height;
 		this.imageFileName = imageName;
 		this.shape = shape;
+		try {
+			this.imageFile = ImageIO.read(new File(imageName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public int getX() {
@@ -65,6 +77,10 @@ public abstract class WorldObject {
 
 	public String getImageFileName() {
 		return imageFileName;
+	}
+
+	public BufferedImage getImageFile() {
+		return imageFile;
 	}
 
 	/**
