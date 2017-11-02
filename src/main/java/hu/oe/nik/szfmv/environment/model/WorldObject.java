@@ -19,9 +19,9 @@ public abstract class WorldObject implements ICameraSensor {
 
 	// objektum helyzete a síkon
 	// TODO meghatározni, hogy az objektum melyik pontja - vizualizációs csapattal
-	protected double x;
+	double x;
 
-	protected double y;
+	double y;
 	// objektum forgatása
 	// TODO meghatározni a bázis helyzetet és a mértékegységet (szög,radián)
 	double rotation;
@@ -92,5 +92,4 @@ public abstract class WorldObject implements ICameraSensor {
 		return "WorldObject [x=" + x + ", y=" + y + ", rotation=" + rotation + ", width=" + width + ", height=" + height
 				+ ", shape=" + shape + ", imageFileName=" + imageFileName + "]";
 	}
-
 }
