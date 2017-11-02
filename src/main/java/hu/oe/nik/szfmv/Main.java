@@ -69,9 +69,9 @@ public class Main {
 
 		try {
 			for (XmlObject item : xmlo) {
-				w.addObjectToWorld(new WorldObject(item.getX(), item.getY(),
-						-(float) ((double) item.getRotation() / 180 * Math.PI), 10, 10,
-						item.getType().getXmlName() + ".png", null));
+//				w.addObjectToWorld(new WorldObject(item.getX(), item.getY(),
+//						-(float) ((double) item.getRotation() / 180 * Math.PI), 10, 10,
+//						item.getType().getXmlName() + ".png", null));
 			}
 		} catch (Exception e) {
 		}

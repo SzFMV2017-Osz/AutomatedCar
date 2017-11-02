@@ -38,18 +38,19 @@ public class AutomatedCar extends WorldObject {
 		VirtualFunctionBus.loop();
 		// Update the position and orientation of the car
 		if (!testMode) {
-			x += powertrainSystem.getSpeed() / this.VISUAL_CORRECTION;
-			y = powertrainSystem.getY();
+//TODO fix this
+//			x += powertrainSystem.getSpeed() / this.VISUAL_CORRECTION;
+//			y = powertrainSystem.getY();
 			wheelAngle = powertrainSystem.getWheelAngle();
-			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.POSX, x));
-			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.POSY, y));
+//			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.POSX, x));
+//			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.POSY, y));
 			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.STEERINGWHEEL, wheelAngle));
 		} else {
 			this.positionOnTrack = this.positionOnTrack
 					+ (powertrainSystem.getSpeed() / this.VISUAL_CORRECTION) % this.CIRCULAR_TRACK_LENGTH;
-
-			x = CircularTestTrack.getX(positionOnTrack);
-			y = CircularTestTrack.getY(positionOnTrack);
+//TODO fix this
+//			x = CircularTestTrack.getX(positionOnTrack);
+//			y = CircularTestTrack.getY(positionOnTrack);
 		}
 	}
 }
