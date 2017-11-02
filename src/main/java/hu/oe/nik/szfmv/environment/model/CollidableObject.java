@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv.environment.model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import hu.oe.nik.szfmv.environment.detector.ISensor;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 
 /**
@@ -12,7 +13,7 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
  * @author hunkak
  *
  */
-public abstract class CollidableObject extends WorldObject {
+public abstract class CollidableObject extends WorldObject implements ISensor {
 
 	private static final Logger log = LogManager.getLogger(CollidableObject.class);
 

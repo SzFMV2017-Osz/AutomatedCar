@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import hu.oe.nik.szfmv.common.Vector2D;
+import hu.oe.nik.szfmv.environment.detector.IRadarSensor;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 
 /**
@@ -15,7 +16,7 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
  * @author hunkak
  *
  */
-public abstract class MovingObject extends CollidableObject {
+public abstract class MovingObject extends CollidableObject implements IRadarSensor {
 
 	protected static final Logger log = LogManager.getLogger(MovingObject.class);
 
