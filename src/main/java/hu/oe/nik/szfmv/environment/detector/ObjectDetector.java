@@ -102,7 +102,7 @@ public class ObjectDetector {
 
 		try {
 			return objects.parallelStream().filter(
-					o -> o.getClass().isAssignableFrom(type.getClass()) && isIntersecting.apply(o.getShape(), triangle))
+					o -> type.isInstance(o) && isIntersecting.apply(o.getShape(), triangle))
 					.map(o -> type.cast(o)).collect(Collectors.toList());
 		} catch (ClassCastException e) {
 			log.error("Can not cast to: " + type.getName() + "... " + e.getLocalizedMessage());
