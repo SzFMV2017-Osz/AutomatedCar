@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import hu.oe.nik.szfmv.environment.detector.ICameraSensor;
@@ -19,7 +18,6 @@ import hu.oe.nik.szfmv.environment.detector.ObjectDetector;
 import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Car;
-import hu.oe.nik.szfmv.environment.object.Pedestrian;
 import hu.oe.nik.szfmv.environment.object.Road;
 import hu.oe.nik.szfmv.environment.object.RoadSign;
 import hu.oe.nik.szfmv.environment.object.Tree;
@@ -32,7 +30,7 @@ public class ObjectDetectorTest {
 	public BiFunction<Shape, Shape, Boolean> none = (a, b) -> false;
 
 	int counter = 0;
-	public BiFunction<Shape, Shape, Boolean> every2 = (a, b) -> counter++ % 2 == 0 ? true : false;
+	public BiFunction<Shape, Shape, Boolean> every2 = (a, b) ->{ incrementCounter(); return counter % 2 == 0 ? true : false;};
 
 	List<WorldObject> list;
 
@@ -51,6 +49,10 @@ public class ObjectDetectorTest {
 		list.add(Car.builder().color("white").dimension(0, 0).position(0, 0).rotation(0).weight(0).build());
 
 		counter = 0;
+	}
+
+	private void incrementCounter() {
+		counter += 1;
 	}
 
 	@Test
@@ -93,18 +95,22 @@ public class ObjectDetectorTest {
 	}
 
 	@Test
-	public void getEvery2() {
+	public void getEvery2Sonar() {
 		ObjectDetector detector = new ObjectDetector(list, every2);
-
-		counter = 0;
 		List<ISensor> sonarable = detector.getSonarObjects(triangle);
 		assertEquals("number of sonar detectables should be 3", 3, sonarable.size());
+	}
 
-		counter = 0;
+	@Test
+	public void getEvery2Camera() {
+		ObjectDetector detector = new ObjectDetector(list, every2);
 		List<ICameraSensor> camerable = detector.getCameraObjects(triangle);
 		assertEquals("number of camera detectables should be 4", 4, camerable.size());
+	}
 
-		counter = 0;
+	@Test
+	public void getEvery2Radar() {
+		ObjectDetector detector = new ObjectDetector(list, every2);
 		List<IRadarSensor> radarable = detector.getRadarObjects(triangle);
 		assertEquals("number of radarable detectables should be 1", 1, radarable.size());
 	}
