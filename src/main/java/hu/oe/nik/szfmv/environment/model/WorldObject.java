@@ -5,6 +5,7 @@ import java.awt.Shape;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import hu.oe.nik.szfmv.environment.detector.ICameraSensor;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 
 /**
@@ -13,7 +14,7 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
  * @author hunkak
  *
  */
-public abstract class WorldObject {
+public abstract class WorldObject implements ICameraSensor {
 
 	private static final Logger log = LogManager.getLogger(WorldObject.class);
 
