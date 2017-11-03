@@ -8,5 +8,5 @@ package hu.oe.nik.szfmv.environment.util;
  */
 public enum ModelShape {
 
-    RECTANGULAR, ELLIPSE
+    RECTENGULAR, ELLIPSE
 }
