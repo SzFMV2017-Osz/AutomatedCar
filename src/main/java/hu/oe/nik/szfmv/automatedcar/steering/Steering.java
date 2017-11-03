@@ -10,18 +10,25 @@ public class Steering {
     double frameRateCoefficient = 0.0417;
 
     /**
-     Get updated steering data based on steering keystrokes and current velocity.
-     @param steerLeft, left keystroke is pressed
-     @param steerRight, right keystroke is pressed
-     @param velocity, current velocity
-     @return angle in which the tires are pointed
+     * Get updated steering data based on steering keystrokes and current
+     * velocity.
+     * 
+     * @param steerLeft,
+     *            left keystroke is pressed
+     * @param steerRight,
+     *            right keystroke is pressed
+     * @param velocity,
+     *            current velocity
+     * @return angle in which the tires are pointed
      */
-    double UpdateSteering(boolean steerLeft, boolean steerRight, int velocity){
+    double UpdateSteering(boolean steerLeft, boolean steerRight, int velocity) {
         // Apply filters to our steer direction
         double steerInput = 0;
-        if (steerLeft) steerInput = 1;
-        if (steerRight) steerInput = -1;
-        steerDirection = SmoothSteering (steerInput, velocity);
+        if (steerLeft)
+            steerInput = 1;
+        if (steerRight)
+            steerInput = -1;
+        steerDirection = SmoothSteering(steerInput, velocity);
 
         // Calculate the current angle the tires are pointing
         steerAngle = steerDirection * maxSteerAngle;
@@ -30,15 +37,12 @@ public class Steering {
 
     double SmoothSteering(double steerInput, int velocity) {
         double steer = 0;
-        if(Math.abs(steerInput) > 0.001) {
+        if (Math.abs(steerInput) > 0.001) {
             steer = Math.max(-1, Math.min(1, steerDirection + steerInput * frameRateCoefficient * steerSpeed));
-        }
-        else
-        {
+        } else {
             if (steerDirection > 0) {
                 steer = Math.max(steerDirection - frameRateCoefficient * steerAdjustSpeed, 0);
-            }
-            else if (steerDirection < 0) {
+            } else if (steerDirection < 0) {
                 steer = Math.min(steerDirection + frameRateCoefficient * steerAdjustSpeed, 0);
             }
         }
