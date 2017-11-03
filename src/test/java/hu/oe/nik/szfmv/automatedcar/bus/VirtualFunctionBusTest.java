@@ -14,9 +14,8 @@ public class VirtualFunctionBusTest {
 
     @org.junit.Test
     public void sendSignalTest() {
-        VirtualFunctionBus.sendSignal(new Signal(0, 42));
+        VirtualFunctionBus.sendSignal(new Signal(SignalEnum.TESTSIGNAL, 42));
     }
-
 
     class SystemComponentMock extends SystemComponent {
 
@@ -27,7 +26,7 @@ public class VirtualFunctionBusTest {
 
         @Override
         public void receiveSignal(Signal s) {
-            if (s.getId() == 0) {
+            if (s.getId() == SignalEnum.TESTSIGNAL) {
                 assertEquals(s.getData(), 42);
             }
         }

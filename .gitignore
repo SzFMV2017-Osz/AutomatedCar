@@ -29,6 +29,10 @@ nb-configuration.xml
 
 # log4j2 configuration file
 src/main/resources/log4j2.xml
+<<<<<<< HEAD
+/bin/
+=======
 src/main/resources/log4j2.yml
 src/main/resources/log4j2.yaml
 
+>>>>>>> refs/heads/team5_testing
