@@ -1,6 +1,8 @@
 package hu.oe.nik.szfmv.environment.model;
 
 import java.awt.Shape;
+
+import hu.oe.nik.szfmv.common.Vector2D;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,12 +22,10 @@ public abstract class WorldObject implements ICameraSensor {
     // objektum helyzete a síkon
     // TODO meghatározni, hogy az objektum melyik pontja - vizualizációs
     // csapattal
-    double x;
-
-    double y;
+    private Vector2D position;
     // objektum forgatása
     // TODO meghatározni a bázis helyzetet és a mértékegységet (szög,radián)
-    double rotation;
+    private final double rotation;
 
     // objektum kiterjedése
     // TODO befoglaló négyszög? implementációs függő jelentés?
@@ -39,8 +39,7 @@ public abstract class WorldObject implements ICameraSensor {
     public WorldObject(double x, double y, double rotation, int width, int height, String imageName, ModelShape shape) {
         super();
 
-        this.x = x;
-        this.y = y;
+        this.position = new Vector2D(x, y);
         this.rotation = rotation;
         this.width = width;
         this.height = height;
@@ -49,26 +48,34 @@ public abstract class WorldObject implements ICameraSensor {
     }
 
     public double getX() {
-        return x;
+        return this.position.getX();
     }
 
     public double getY() {
-        return y;
+        return this.position.getY();
     }
 
     public double getRotation() {
         return rotation;
     }
 
-    @Deprecated
     public int getWidth() {
         return width;
     }
 
-    @Deprecated
     public int getHeight() {
         return height;
     }
+
+    public Vector2D getPosition() {
+        return position;
+    }
+
+    public void setPosition(Vector2D position) {
+        this.position = position;
+    }
+
+
 
     public String getImageFileName() {
         return imageFileName;
@@ -90,7 +97,7 @@ public abstract class WorldObject implements ICameraSensor {
      */
     @Override
     public String toString() {
-        return "WorldObject [x=" + x + ", y=" + y + ", rotation=" + rotation + ", width=" + width + ", height=" + height
+        return "WorldObject [x=" + this.getX() + ", y=" + this.getY() + ", rotation=" + rotation + ", width=" + width + ", height=" + height
                 + ", shape=" + shape + ", imageFileName=" + imageFileName + "]";
     }
 }
