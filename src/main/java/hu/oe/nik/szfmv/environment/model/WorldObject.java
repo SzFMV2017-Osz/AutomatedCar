@@ -1,5 +1,9 @@
 package hu.oe.nik.szfmv.environment.model;
 
+import java.awt.*;
+import java.awt.geom.*;
+
+import hu.oe.nik.szfmv.environment.xml.Utils;
 import java.awt.Shape;
 
 import hu.oe.nik.szfmv.common.Vector2D;
@@ -67,6 +71,18 @@ public abstract class WorldObject implements ICameraSensor {
         return height;
     }
 
+    public double getWidthInMeters() {
+        return Utils.convertPixelToMeter(this.getWidth());
+    }
+
+    public double getHeightInMeters() {
+        return Utils.convertPixelToMeter(this.getHeight());
+    }
+
+    public double getRotationRadian() {
+        return this.getRotation() * Math.PI / 180;
+    }
+
     public Vector2D getPosition() {
         return position;
     }
@@ -81,20 +97,28 @@ public abstract class WorldObject implements ICameraSensor {
         return imageFileName;
     }
 
-    /**
-     * @return the shape
-     * 
-     *         TODO: change to Shape type
-     */
     public Shape getShape() {
-        return null;
+        Shape tempShape = null;
+        switch (this.shape) {
+            case ELLIPSE:
+                tempShape = new Ellipse2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+                break;
+            case RECTENGULAR:
+                tempShape = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+                break;
+        }
+        AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotationRadian(), this.getX(), this.getY());
+        PathIterator pathIterator = tempShape.getPathIterator(affineTransform);
+        Polygon polygon = new Polygon();
+        while (pathIterator.isDone()) {
+            double[] xy = new double[2];
+            pathIterator.currentSegment(xy);
+            polygon.addPoint((int) xy[0], (int) xy[1]);
+            pathIterator.next();
+        }
+        return polygon;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return "WorldObject [x=" + this.getX() + ", y=" + this.getY() + ", rotation=" + rotation + ", width=" + width + ", height=" + height
