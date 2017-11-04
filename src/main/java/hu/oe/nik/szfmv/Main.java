@@ -58,11 +58,36 @@ public class Main {
 	}
 
     private static void testSensorInit(World w, Car car) {
+        Sensor radar = SensorObjectFactory.createSensor(car, SensorType.RADAR);
+        w.addObjectToWorld(radar);
+
         Sensor camera = SensorObjectFactory.createSensor(car, SensorType.CAMERA);
         w.addObjectToWorld(camera);
 
         Sensor ultrasonicLSF = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_LSF);
         w.addObjectToWorld(ultrasonicLSF);
+
+        Sensor ultrasonicLSB = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_LSB);
+        w.addObjectToWorld(ultrasonicLSB);
+
+        Sensor ultrasonicRSF = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_RSF);
+        w.addObjectToWorld(ultrasonicRSF);
+
+        Sensor ultrasonicRSB = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_RSB);
+        w.addObjectToWorld(ultrasonicRSB);
+
+        Sensor ultrasonicFL = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_FL);
+        w.addObjectToWorld(ultrasonicFL);
+
+        Sensor ultrasonicRL = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_RL);
+        w.addObjectToWorld(ultrasonicRL);
+
+        Sensor ultrasonicRR = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_RR);
+        w.addObjectToWorld(ultrasonicRR);
+
+        Sensor ultrasonicFR = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_FR);
+        w.addObjectToWorld(ultrasonicFR);
+
     }
 
     //!ONLY FOR TESTING!

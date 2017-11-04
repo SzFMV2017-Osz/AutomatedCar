@@ -79,9 +79,6 @@ public class GameDisplayJPanel extends JPanel {
 
             AffineTransform transforms[]=
                     {
-                            AffineTransform.getRotateInstance(sensor.getRotation(),
-                                    (int) Math.round(sensor.getX() * scale),
-                                    (int) Math.round(sensor.getY() * scale)),
                             AffineTransform.getTranslateInstance(sensor.getX()*scale- offset.getX(), sensor.getY()*scale-offset.getY()),
                             AffineTransform.getScaleInstance(scale, scale)
                     };
