@@ -4,6 +4,7 @@ import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.util.SensorType;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 public class Sensor extends WorldObject {
 
@@ -23,6 +24,14 @@ public class Sensor extends WorldObject {
     @Override
     public int getX() {
         return car.getX();
+    }
+
+    @Override
+    public Shape getShape() {
+        AffineTransform t = new AffineTransform();
+        t.rotate(car.getRotation(), car.getX(), car.getY());
+
+        return t.createTransformedShape(super.getShape());
     }
 
     @Override
