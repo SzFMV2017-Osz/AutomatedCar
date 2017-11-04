@@ -1,6 +1,9 @@
 package hu.oe.nik.szfmv.environment.model;
 
-import java.awt.Shape;
+import java.awt.*;
+import java.awt.geom.*;
+
+import hu.oe.nik.szfmv.environment.xml.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,9 +12,8 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
 
 /**
  * Világ elemeinek ős osztálya
- * 
- * @author hunkak
  *
+ * @author hunkak
  */
 public abstract class WorldObject implements ICameraSensor {
 
@@ -25,7 +27,7 @@ public abstract class WorldObject implements ICameraSensor {
     double y;
     // objektum forgatása
     // TODO meghatározni a bázis helyzetet és a mértékegységet (szög,radián)
-    double rotation;
+    final double rotation;
 
     // objektum kiterjedése
     // TODO befoglaló négyszög? implementációs függő jelentés?
@@ -42,9 +44,9 @@ public abstract class WorldObject implements ICameraSensor {
         this.x = x;
         this.y = y;
         this.rotation = rotation;
+        this.imageFileName = imageName;
         this.width = width;
         this.height = height;
-        this.imageFileName = imageName;
         this.shape = shape;
     }
 
@@ -60,34 +62,52 @@ public abstract class WorldObject implements ICameraSensor {
         return rotation;
     }
 
-    @Deprecated
     public int getWidth() {
         return width;
     }
 
-    @Deprecated
     public int getHeight() {
         return height;
+    }
+
+    public double getWidthInMeters() {
+        return Utils.convertPixelToMeter(this.getWidth());
+    }
+
+    public double getHeightInMeters() {
+        return Utils.convertPixelToMeter(this.getHeight());
+    }
+
+    public double getRotationRadian() {
+        return this.getRotation() * Math.PI / 180;
     }
 
     public String getImageFileName() {
         return imageFileName;
     }
 
-    /**
-     * @return the shape
-     * 
-     *         TODO: change to Shape type
-     */
     public Shape getShape() {
-        return null;
+        Shape tempShape = null;
+        switch (this.shape) {
+            case ELLIPSE:
+                tempShape = new Ellipse2D.Double(this.x, this.y, this.width, this.height);
+                break;
+            case RECTENGULAR:
+                tempShape = new Rectangle2D.Double(this.x, this.y, this.width, this.height);
+                break;
+        }
+        AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotationRadian(), this.getX(), this.getY());
+        PathIterator pathIterator = tempShape.getPathIterator(affineTransform);
+        Polygon polygon = new Polygon();
+        while (pathIterator.isDone()) {
+            double[] xy = new double[2];
+            pathIterator.currentSegment(xy);
+            polygon.addPoint((int) xy[0], (int) xy[1]);
+            pathIterator.next();
+        }
+        return polygon;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return "WorldObject [x=" + x + ", y=" + y + ", rotation=" + rotation + ", width=" + width + ", height=" + height
