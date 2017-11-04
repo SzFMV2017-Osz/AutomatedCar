@@ -60,8 +60,8 @@ public abstract class CollidableObject extends WorldObject implements ISensor {
      */
     @Override
     public String toString() {
-        return "CollidableObject [weight=" + weight + ", collided=" + collided + ", x=" + x + ", y=" + y + ", rotation="
-                + rotation + ", getWidth()=" + getWidth() + ", getHeight()=" + getHeight() + ", getImageFileName()="
+        return "CollidableObject [weight=" + weight + ", collided=" + collided + ", x=" + this.getX() + ", y=" + this.getY() + ", rotation="
+                + this.getRotation() + ", getWidth()=" + getWidth() + ", getHeight()=" + getHeight() + ", getImageFileName()="
                 + getImageFileName() + ", getShape()=" + getShape() + "]";
     }
 
