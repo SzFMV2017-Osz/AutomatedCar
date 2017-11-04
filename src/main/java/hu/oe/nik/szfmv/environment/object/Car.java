@@ -24,8 +24,8 @@ public class Car extends MovingObject implements IDriveable {
 		return new CarBuilder();
 	}
 
-	private Car(int x, int y, float rotation, int width, int height, String imageFileName, int weight) {
-		super(x, y, rotation, width, height, imageFileName, weight, ModelShape.RECTENGULAR);
+	private Car(Vector2D position, float rotation, int width, int height, String imageFileName, int weight) {
+		super(position, rotation, width, height, imageFileName, weight, ModelShape.RECTENGULAR);
 	}
 
 	@Override

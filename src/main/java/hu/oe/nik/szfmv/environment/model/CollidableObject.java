@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.environment.model;
 
+import hu.oe.nik.szfmv.common.Vector2D;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,9 +23,9 @@ public abstract class CollidableObject extends WorldObject {
 	// TODO: bináris vagy skálázható érték legyen?
 	private boolean collided;
 
-	public CollidableObject(int x, int y, float rotation, int width, int height, String imageFileName, int weight,
-			ModelShape shape) {
-		super(x, y, rotation, width, height, imageFileName, shape);
+	public CollidableObject(Vector2D position, float rotation, int width, int height, String imageFileName, int weight,
+							ModelShape shape) {
+		super(position, rotation, width, height, imageFileName, shape);
 
 		this.weight = weight;
 		this.collided = false;
@@ -59,7 +60,7 @@ public abstract class CollidableObject extends WorldObject {
 	 */
 	@Override
 	public String toString() {
-		return "CollidableObject [weight=" + weight + ", collided=" + collided + ", x=" + x + ", y=" + y + ", rotation="
+		return "CollidableObject [weight=" + weight + ", collided=" + collided + ", x=" + position.getX() + ", y=" + position.getY() + ", rotation="
 				+ rotation + ", getWidth()=" + getWidth() + ", getHeight()=" + getHeight() + ", getImageFileName()="
 				+ getImageFileName() + ", getShape()=" + getShape() + "]";
 	}

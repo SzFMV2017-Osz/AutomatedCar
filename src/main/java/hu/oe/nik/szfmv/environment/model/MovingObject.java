@@ -22,9 +22,9 @@ public abstract class MovingObject extends CollidableObject {
 	// objektum pillantnyi sebess�ge
 	private Vector2D currentSpeed;
 
-	public MovingObject(int x, int y, float rotation, int width, int height, String imageFileName, int weight,
+	public MovingObject(Vector2D position, float rotation, int width, int height, String imageFileName, int weight,
 			ModelShape shape) {
-		super(x, y, rotation, width, height, imageFileName, weight, shape);
+		super(position, rotation, width, height, imageFileName, weight, shape);
 		// TODO: this must be 0,0 so the object is steady
 		this.currentSpeed = new Vector2D(0, 0);
 	}
@@ -34,9 +34,10 @@ public abstract class MovingObject extends CollidableObject {
 			log.debug("move called");
 		}
 
-		Vector2D newPosition = new Vector2D(this.x, this.y).add(currentSpeed.div(24));
-		this.x = (int) newPosition.getX();
-		this.y = (int) newPosition.getY();
+		Vector2D newPosition = new Vector2D(this.position.getX(), this.position.getY()).add(currentSpeed.div(24));
+		this.position.setX(newPosition.getX());
+		this.position.setY(newPosition.getY());
+		//this.y = (int) newPosition.getY();
 	};
 
 	protected void chageDirection(List<Vector2D> vectors) {
@@ -78,7 +79,7 @@ public abstract class MovingObject extends CollidableObject {
 	 */
 	@Override
 	public String toString() {
-		return "MovingObject [currentSpeed=" + currentSpeed + ", x=" + x + ", y=" + y + ", rotation=" + rotation
+		return "MovingObject [currentSpeed=" + currentSpeed + ", x=" + position.getX() + ", y=" + position.getY() + ", rotation=" + rotation
 				+ ", isCollided()=" + isCollided() + ", getWeight()=" + getWeight() + ", getWidth()=" + getWidth()
 				+ ", getHeight()=" + getHeight() + ", getImageFileName()=" + getImageFileName() + ", getShape()="
 				+ getShape() + "]";

@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.environment.object;
 
+import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.environment.model.MovingObject;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 
@@ -11,8 +12,8 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
  */
 public class Cyclist extends MovingObject {
 
-	public Cyclist(int x, int y, float rotation, int width, int height, String imageFileName, int weight) {
-		super(x, y, rotation, width, height, imageFileName, weight, ModelShape.RECTENGULAR);
+	public Cyclist(Vector2D position, float rotation, int width, int height, String imageFileName, int weight) {
+		super(position, rotation, width, height, imageFileName, weight, ModelShape.RECTENGULAR);
 	}
 
 	@Override

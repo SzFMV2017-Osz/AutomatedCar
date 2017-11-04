@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.environment.object;
 
+import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
@@ -64,9 +65,9 @@ public class Road extends WorldObject {
     private int curvature;
     private boolean pedestrianCrossing;
 
-    public Road(int x, int y, float rotation, int width, int height, XmlObjectType objectType,
+    public Road(Vector2D position, float rotation, int width, int height, XmlObjectType objectType,
                 boolean pedestrianCrossing) {
-        super(x, y, rotation, width, height, getImageName(objectType), ModelShape.RECTENGULAR);
+        super(position, rotation, width, height, getImageName(objectType), ModelShape.RECTENGULAR);
         this.pedestrianCrossing = pedestrianCrossing;
         String[] explodedString = objectType.getXmlName().split("_");
         this.curvature = 0;

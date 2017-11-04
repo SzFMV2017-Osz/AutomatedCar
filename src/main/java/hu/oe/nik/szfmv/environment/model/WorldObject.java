@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.environment.model;
 
+import hu.oe.nik.szfmv.common.Vector2D;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,7 +23,7 @@ public abstract class WorldObject {
 
 	// objektum helyzete a síkon
 	// TODO meghatározni, hogy az objektum melyik pontja - vizualizációs csapattal
-	int x, y;
+	Vector2D position;
 	// objektum forgatása
 	// TODO meghatározni a bázis helyzetet és a mértékegységet (szög,radián)
 	float rotation;
@@ -38,11 +39,10 @@ public abstract class WorldObject {
 
 	private BufferedImage imageFile;
 
-	public WorldObject(int x, int y, float rotation, int width, int height, String imageName, ModelShape shape) {
+	public WorldObject(Vector2D position, float rotation, int width, int height, String imageName, ModelShape shape) {
 		super();
 
-		this.x = x;
-		this.y = y;
+		this.position=position;
 		this.rotation = rotation;
 		this.width = width;
 		this.height = height;
@@ -55,13 +55,13 @@ public abstract class WorldObject {
 		}
 	}
 
-	public int getX() {
-		return x;
-	}
+	public int getX() { return (int)position.getX(); }
 
 	public int getY() {
-		return y;
+		return (int)position.getY();
 	}
+
+	public Vector2D getPosition(){ return position ;}
 
 	public float getRotation() {
 		return rotation;
@@ -97,7 +97,7 @@ public abstract class WorldObject {
 	 */
 	@Override
 	public String toString() {
-		return "WorldObject [x=" + x + ", y=" + y + ", rotation=" + rotation + ", width=" + width + ", height=" + height
+		return "WorldObject [x=" + position.getX() + ", y=" + position.getY() + ", rotation=" + rotation + ", width=" + width + ", height=" + height
 				+ ", shape=" + shape + ", imageFileName=" + imageFileName + "]";
 	}
 
