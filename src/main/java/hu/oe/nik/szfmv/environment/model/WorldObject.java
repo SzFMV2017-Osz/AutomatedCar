@@ -4,12 +4,10 @@ import java.awt.*;
 import java.awt.geom.*;
 
 import hu.oe.nik.szfmv.environment.xml.Utils;
-<<<<<<< HEAD
+
 import java.awt.Shape;
 
 import hu.oe.nik.szfmv.common.Vector2D;
-=======
->>>>>>> 95476f0c85a21dc2004b3be190763aedb87e5e60
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,11 +29,8 @@ public abstract class WorldObject implements ICameraSensor {
     private Vector2D position;
     // objektum forgatása
     // TODO meghatározni a bázis helyzetet és a mértékegységet (szög,radián)
-<<<<<<< HEAD
     private final double rotation;
-=======
-    final double rotation;
->>>>>>> 95476f0c85a21dc2004b3be190763aedb87e5e60
+
 
     // objektum kiterjedése
     // TODO befoglaló négyszög? implementációs függő jelentés?
@@ -89,7 +84,6 @@ public abstract class WorldObject implements ICameraSensor {
         return this.getRotation() * Math.PI / 180;
     }
 
-<<<<<<< HEAD
     public Vector2D getPosition() {
         return position;
     }
@@ -98,10 +92,6 @@ public abstract class WorldObject implements ICameraSensor {
         this.position = position;
     }
 
-
-
-=======
->>>>>>> 95476f0c85a21dc2004b3be190763aedb87e5e60
     public String getImageFileName() {
         return imageFileName;
     }
@@ -110,17 +100,10 @@ public abstract class WorldObject implements ICameraSensor {
         Shape tempShape = null;
         switch (this.shape) {
             case ELLIPSE:
-<<<<<<< HEAD
                 tempShape = new Ellipse2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
                 break;
             case RECTENGULAR:
                 tempShape = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-=======
-                tempShape = new Ellipse2D.Double(this.x, this.y, this.width, this.height);
-                break;
-            case RECTENGULAR:
-                tempShape = new Rectangle2D.Double(this.x, this.y, this.width, this.height);
->>>>>>> 95476f0c85a21dc2004b3be190763aedb87e5e60
                 break;
         }
         AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotationRadian(), this.getX(), this.getY());
