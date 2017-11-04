@@ -30,6 +30,7 @@ public class GameDisplayJPanel extends JPanel {
     private Image staticBackground = null;
 
     private final RoadConstants roadConst;
+    private final boolean isSensorDebugMode = true;
 
     //need height/width because this.getHeight/Width is 0 at constructor time
     public GameDisplayJPanel(World gameWorld, double scale, int width, int height) {
@@ -56,42 +57,53 @@ public class GameDisplayJPanel extends JPanel {
         drawObjects(g2d,
                 world.getWorldObjectsFiltered().getCars(),
                 true);
-        drawSensor(g2d,
-                world.getWorldObjectsFiltered().getSensors());
+
+        if (isSensorDebugMode) {
+            drawSensors(g2d,
+                    world.getWorldObjectsFiltered().getSensors());
+        }
     }
 
-    private void drawSensor(Graphics2D g2d, ArrayList<WorldObject> sensors) {
+    private void drawSensors(Graphics2D g2d, ArrayList<WorldObject> sensors) {
         for (WorldObject sensor : sensors) {
             Shape s = ((Sensor)sensor).getShape();
             g2d.setColor(Color.RED);
 
-
-            Image img = null;
-            Coord offset = null;
-            try {
-                img = getScaledImage(((Sensor) sensor).getCar());
-                offset = new Coord(
-                        (int) Math.round(img.getWidth(null) / 2.0),
-                        (int) Math.round(img.getHeight(null) / 2.0));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            AffineTransform transforms[]=
-                    {
-                            AffineTransform.getTranslateInstance(sensor.getX()*scale- offset.getX(), sensor.getY()*scale-offset.getY()),
-                            AffineTransform.getScaleInstance(scale, scale)
-                    };
-
-            AffineTransform tr=new AffineTransform();
-
-            for(int i=0;i< transforms.length;++i)
-            {
-                tr.concatenate(transforms[i]);
-            }
+            Coord offset = getCarOffsetForSensor((Sensor)sensor);
+            AffineTransform tr = makeTransformForSensor((Sensor)sensor, offset);
 
             g2d.draw(tr.createTransformedShape(s));
         }
+    }
+
+    private AffineTransform makeTransformForSensor(Sensor sensor, Coord offset) {
+        AffineTransform transforms[]=
+                {
+                        AffineTransform.getTranslateInstance(sensor.getX()*scale- offset.getX(), sensor.getY()*scale-offset.getY()),
+                        AffineTransform.getScaleInstance(scale, scale)
+                };
+
+        AffineTransform tr=new AffineTransform();
+
+        for(int i=0;i< transforms.length;++i)
+        {
+            tr.concatenate(transforms[i]);
+        }
+        return tr;
+    }
+
+    private Coord getCarOffsetForSensor(Sensor sensor) {
+        Image img = null;
+        Coord offset = null;
+        try {
+            img = getScaledImage(sensor.getCar());
+            offset = new Coord(
+                    (int) Math.round(img.getWidth(null) / 2.0),
+                    (int) Math.round(img.getHeight(null) / 2.0));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return offset;
     }
 
     private Image generateStaticBackground(int width, int height) {

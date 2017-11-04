@@ -9,13 +9,9 @@ import java.awt.geom.AffineTransform;
 public class Sensor extends WorldObject {
 
     public Sensor(int[] xPoints, int[] yPoints, Car car, SensorType type) {
-        super(xPoints[0], yPoints[0], 0, 10, 10, null, new Polygon(xPoints, yPoints, 3));
+        super(xPoints[0], yPoints[0], 0, 0, 0, null, new Polygon(xPoints, yPoints, 3));
         this.car = car;
         this.type = type;
-    }
-
-    public Car getCar() {
-        return car;
     }
 
     private Car car;
@@ -42,5 +38,9 @@ public class Sensor extends WorldObject {
     @Override
     public float getRotation() {
         return car.getRotation();
+    }
+
+    public Car getCar() {
+        return car;
     }
 }
