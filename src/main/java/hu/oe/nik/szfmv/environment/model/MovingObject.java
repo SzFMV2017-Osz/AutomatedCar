@@ -70,7 +70,8 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
             log.debug("move called");
         }
 
-        position = this.position.add(currentSpeed.div(24));
+        this.position = this.position.add(currentSpeed.div(24));
+        this.rotation = this.currentSpeed.getAngle();
 //        Vector2D newPosition = new Vector2D(this.getX(), this.getY()).add(currentSpeed.div(24));
 //        this.setPosition(newPosition);
     };
