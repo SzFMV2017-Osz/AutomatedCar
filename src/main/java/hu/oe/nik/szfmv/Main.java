@@ -59,7 +59,7 @@ public class Main {
 
     // !ONLY FOR TESTING!
     @SuppressWarnings("unused")
-	private static void testInitFromXml(World w) {
+    private static void testInitFromXml(World w) {
         logger.log(Level.WARN, "@Team1: fix this, WorldObject initialization method is only for testing");
         List<XmlObject> xmlo = new ArrayList<>();
         try {
@@ -69,12 +69,12 @@ public class Main {
         }
 
         try {
-            //for (XmlObject item : xmlo) {
-                // w.addObjectToWorld(new WorldObject(item.getX(), item.getY(),
-                // -(float) ((double) item.getRotation() / 180 * Math.PI), 10,
-                // 10,
-                // item.getType().getXmlName() + ".png", null));
-            //}
+            // for (XmlObject item : xmlo) {
+            // w.addObjectToWorld(new WorldObject(item.getX(), item.getY(),
+            // -(float) ((double) item.getRotation() / 180 * Math.PI), 10,
+            // 10,
+            // item.getType().getXmlName() + ".png", null));
+            // }
         } catch (Exception e) {
         }
     }

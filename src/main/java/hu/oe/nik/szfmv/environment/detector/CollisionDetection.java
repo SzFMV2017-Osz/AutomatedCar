@@ -1,12 +1,10 @@
 package hu.oe.nik.szfmv.environment.detector;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.awt.*;
 import java.awt.geom.Area;
 import java.util.function.BiFunction;
 
-public class CollisionDetection implements BiFunction<Shape,Shape,Boolean> {
+public class CollisionDetection implements BiFunction<Shape, Shape, Boolean> {
 
     @Override
     public Boolean apply(Shape shape, Shape shape2) {

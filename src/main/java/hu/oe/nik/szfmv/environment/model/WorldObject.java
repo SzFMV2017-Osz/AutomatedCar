@@ -26,10 +26,9 @@ public abstract class WorldObject implements ICameraSensor {
 
     // objektum helyzete a síkon
     // csapattal
-     Vector2D position;
+    Vector2D position;
     // objektum forgatása
-     double rotation;
-
+    double rotation;
 
     /**
      * object dimension in pixels
@@ -42,10 +41,11 @@ public abstract class WorldObject implements ICameraSensor {
     private final String imageFileName;
 
     /**
-     * @deprecated
-     * The width and height of the object must be based on the size of the <code>imageName</code> referenced in the constructor
-     * <p>
-     * Use the following constructor instead: {@link #WorldObject(double x, double y, double rotation, String imageName, ModelShape shape)}
+     * @deprecated The width and height of the object must be based on the size of
+     *             the <code>imageName</code> referenced in the constructor
+     *             <p>
+     *             Use the following constructor instead:
+     *             {@link #WorldObject(double x, double y, double rotation, String imageName, ModelShape shape)}
      * 
      * @param x
      * @param y
@@ -62,13 +62,16 @@ public abstract class WorldObject implements ICameraSensor {
         this.position = new Vector2D(x, y);
         this.rotation = rotation;
         this.imageFileName = imageName;
-        this.width = ImageResource.getWidth(imageName);;
-        this.height = ImageResource.getHeight(imageName);;
+        this.width = ImageResource.getWidth(imageName);
+        ;
+        this.height = ImageResource.getHeight(imageName);
+        ;
         this.shape = shape;
     }
-    
+
     /**
      * Width and height are set based on image size
+     * 
      * @param x
      * @param y
      * @param rotation
@@ -141,14 +144,15 @@ public abstract class WorldObject implements ICameraSensor {
     public Shape getShape() {
         Shape tempShape = null;
         switch (this.shape) {
-            case ELLIPSE:
-                tempShape = new Ellipse2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-                break;
-            case RECTENGULAR:
-                tempShape = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-                break;
+        case ELLIPSE:
+            tempShape = new Ellipse2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+            break;
+        case RECTENGULAR:
+            tempShape = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+            break;
         }
-        AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotationRadian(), this.getX(), this.getY());
+        AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotationRadian(), this.getX(),
+                this.getY());
         PathIterator pathIterator = tempShape.getPathIterator(affineTransform);
         Polygon polygon = new Polygon();
         while (pathIterator.isDone()) {
@@ -162,7 +166,7 @@ public abstract class WorldObject implements ICameraSensor {
 
     @Override
     public String toString() {
-        return "WorldObject [x=" + this.getX() + ", y=" + this.getY() + ", rotation=" + rotation + ", width=" + width + ", height=" + height
-                + ", shape=" + shape + ", imageFileName=" + imageFileName + "]";
+        return "WorldObject [x=" + this.getX() + ", y=" + this.getY() + ", rotation=" + rotation + ", width=" + width
+                + ", height=" + height + ", shape=" + shape + ", imageFileName=" + imageFileName + "]";
     }
 }

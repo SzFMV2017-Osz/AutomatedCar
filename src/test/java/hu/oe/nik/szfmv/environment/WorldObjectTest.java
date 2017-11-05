@@ -2,9 +2,7 @@ package hu.oe.nik.szfmv.environment;
 
 import org.junit.Test;
 
-
 public class WorldObjectTest {
-
 
     @org.junit.Before
     public void setUp() throws Exception {
