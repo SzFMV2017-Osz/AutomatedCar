@@ -72,8 +72,8 @@ public class XmlObject {
     }
 
     /**
-     * Applying builder pattern to build XmlObject with: - transformed rotation
-     * in degrees - type checked DOM objects
+     * Applying builder pattern to build XmlObject with: - transformed rotation in
+     * degrees - type checked DOM objects
      * 
      * @author kalmankostenszky
      *

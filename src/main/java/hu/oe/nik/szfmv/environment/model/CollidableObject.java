@@ -25,10 +25,11 @@ public abstract class CollidableObject extends WorldObject implements ISensor {
 
     /**
      * 
-     * @deprecated
-     * The width and height of the object must be based on the size of the <code>imageName</code> referenced in the constructor
-     * <p>
-     * Use the following constructor instead: {@link #CollidableObject(double x, double y, double rotation, String imageName, ModelShape shape)}
+     * @deprecated The width and height of the object must be based on the size of
+     *             the <code>imageName</code> referenced in the constructor
+     *             <p>
+     *             Use the following constructor instead:
+     *             {@link #CollidableObject(double x, double y, double rotation, String imageName, ModelShape shape)}
      * 
      * @param x
      * @param y
@@ -47,9 +48,10 @@ public abstract class CollidableObject extends WorldObject implements ISensor {
         this.weight = weight;
         this.collided = false;
     }
-    
+
     /**
      * width and height are set based on image size
+     * 
      * @param x
      * @param y
      * @param rotation
@@ -57,8 +59,7 @@ public abstract class CollidableObject extends WorldObject implements ISensor {
      * @param weight
      * @param shape
      */
-    public CollidableObject(int x, int y, float rotation, String imageFileName, int weight,
-            ModelShape shape) {
+    public CollidableObject(int x, int y, float rotation, String imageFileName, int weight, ModelShape shape) {
         super(x, y, rotation, imageFileName, shape);
 
         this.weight = weight;
@@ -94,9 +95,9 @@ public abstract class CollidableObject extends WorldObject implements ISensor {
      */
     @Override
     public String toString() {
-        return "CollidableObject [weight=" + weight + ", collided=" + collided + ", x=" + this.getX() + ", y=" + this.getY() + ", rotation="
-                + this.getRotation() + ", getWidth()=" + getWidth() + ", getHeight()=" + getHeight() + ", getImageFileName()="
-                + getImageFileName() + ", getShape()=" + getShape() + "]";
+        return "CollidableObject [weight=" + weight + ", collided=" + collided + ", x=" + this.getX() + ", y="
+                + this.getY() + ", rotation=" + this.getRotation() + ", getWidth()=" + getWidth() + ", getHeight()="
+                + getHeight() + ", getImageFileName()=" + getImageFileName() + ", getShape()=" + getShape() + "]";
     }
 
 }

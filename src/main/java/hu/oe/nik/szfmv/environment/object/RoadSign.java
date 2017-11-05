@@ -16,10 +16,11 @@ public class RoadSign extends CollidableObject {
     private final RoadSignType roadSignType;
 
     /**
-     * @deprecated
-     * The width and height of the object must be based on the size of the <code>imageName</code> referenced in the constructor
-     * <p>
-     * Use the following constructor instead: {@link #RoadSign(double x, double y, double rotation, String imageName, ModelShape shape)}
+     * @deprecated The width and height of the object must be based on the size of
+     *             the <code>imageName</code> referenced in the constructor
+     *             <p>
+     *             Use the following constructor instead:
+     *             {@link #RoadSign(double x, double y, double rotation, String imageName, ModelShape shape)}
      * 
      * @param x
      * @param y
@@ -36,7 +37,7 @@ public class RoadSign extends CollidableObject {
         super(x, y, rotation, width, height, imageFileName, weight, ModelShape.ELLIPSE);
         this.roadSignType = roadSignType;
     }
-    
+
     /**
      * width and height are based on image size
      * 
@@ -47,8 +48,7 @@ public class RoadSign extends CollidableObject {
      * @param weight
      * @param roadSignType
      */
-    public RoadSign(int x, int y, float rotation, String imageFileName, int weight,
-            RoadSignType roadSignType) {
+    public RoadSign(int x, int y, float rotation, String imageFileName, int weight, RoadSignType roadSignType) {
         super(x, y, rotation, imageFileName, weight, ModelShape.ELLIPSE);
         this.roadSignType = roadSignType;
     }

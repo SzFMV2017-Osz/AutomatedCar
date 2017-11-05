@@ -3,8 +3,8 @@ package hu.oe.nik.szfmv.environment.xml;
 public class Utils {
 
     /**
-     * Converts the length definied in pixels to meters according the rule of
-     * 350 pixel = 7 meters.
+     * Converts the length definied in pixels to meters according the rule of 350
+     * pixel = 7 meters.
      *
      * @param pixel
      *            is the length in pixels

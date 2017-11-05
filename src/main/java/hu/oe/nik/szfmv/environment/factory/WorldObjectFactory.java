@@ -76,8 +76,7 @@ public class WorldObjectFactory {
         int weight = Integer.MAX_VALUE;
         String imageFileName = ImageResource.getImageOf(ImageResource.TREE_NAME);
 
-        Tree t = new Tree(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), weight,
-                imageFileName);
+        Tree t = new Tree(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), weight, imageFileName);
         log.info(t.toString());
 
         return t;
@@ -128,11 +127,11 @@ public class WorldObjectFactory {
         default:
             throw new IllegalArgumentException("road type :" + xmlObject.getType() + " does not exists");
         }
-        
+
         // weight is max value assuming that object has infinite impulse on
         // crash
         RoadSign r = new RoadSign(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(),
-        		ImageResource.getImageOf(imageFileName), weight, type);
+                ImageResource.getImageOf(imageFileName), weight, type);
         log.info(r.toString());
         return r;
     }
@@ -149,8 +148,8 @@ public class WorldObjectFactory {
         log.info("creating a new Road of... " + xmlObject.getType());
         boolean pedestrianCrossing = xmlObject.getType() == XmlObjectType.ROAD_CROSSWALK;
 
-        Road rtrn = new Road(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(),
-                xmlObject.getType(), pedestrianCrossing);
+        Road rtrn = new Road(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), xmlObject.getType(),
+                pedestrianCrossing);
 
         return rtrn;
     }
