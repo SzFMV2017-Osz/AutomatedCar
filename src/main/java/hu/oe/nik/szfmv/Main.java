@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.model.World;
-import hu.oe.nik.szfmv.environment.model.WorldObject;
+//import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Car;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 import hu.oe.nik.szfmv.environment.xml.XmlObject;
@@ -36,7 +36,7 @@ public class Main {
         // init visualisation module with the world
         vis.init(w);
 
-        Car car = Car.builder().position(500, 500).rotation(0).dimension(100, 100).weight(1000).color("black").build();
+        Car car = Car.builder().position(500, 500).rotation(0).weight(1000).color("black").build();
         AutomatedCar playerCar = new AutomatedCar(2560, 1500, Math.PI / 2, 102, 208, "car_2_white.png",
                 ModelShape.RECTENGULAR);
         // add Car to the world
@@ -58,7 +58,8 @@ public class Main {
     }
 
     // !ONLY FOR TESTING!
-    private static void testInitFromXml(World w) {
+    @SuppressWarnings("unused")
+	private static void testInitFromXml(World w) {
         logger.log(Level.WARN, "@Team1: fix this, WorldObject initialization method is only for testing");
         List<XmlObject> xmlo = new ArrayList<>();
         try {
@@ -68,12 +69,12 @@ public class Main {
         }
 
         try {
-            for (XmlObject item : xmlo) {
+            //for (XmlObject item : xmlo) {
                 // w.addObjectToWorld(new WorldObject(item.getX(), item.getY(),
                 // -(float) ((double) item.getRotation() / 180 * Math.PI), 10,
                 // 10,
                 // item.getType().getXmlName() + ".png", null));
-            }
+            //}
         } catch (Exception e) {
         }
     }

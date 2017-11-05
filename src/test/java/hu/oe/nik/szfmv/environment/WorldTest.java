@@ -35,14 +35,14 @@ public class WorldTest {
     public void getWorldObjectsTest() throws Exception {
         assertEquals(world.getWorldObjects().size(), 0);
         world.addObjectToWorld(
-                Car.builder().position(10, 10).rotation(0).dimension(100, 100).weight(1000).color("black").build());
+                Car.builder().position(10, 10).rotation(0).weight(1000).color("black").build());
         assertEquals(world.getWorldObjects().size(), 1);
     }
 
     @Test
     public void addObjectToWorldTest() throws Exception {
         world.addObjectToWorld(
-                Car.builder().position(10, 10).rotation(0).dimension(100, 100).weight(1000).color("black").build());
+                Car.builder().position(10, 10).rotation(0).weight(1000).color("black").build());
         assertEquals(world.getWorldObjects().size(), 1);
         assertEquals(world.getWorldObjects().get(0).getX(), 10.);
         assertEquals(world.getWorldObjects().get(0).getY(), 10.);

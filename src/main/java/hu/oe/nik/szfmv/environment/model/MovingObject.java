@@ -23,12 +23,46 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
     // objektum pillantnyi sebess�ge
     private Vector2D currentSpeed;
 
+    /**
+     * @deprecated
+     * The width and height of the object must be based on the size of the <code>imageName</code> referenced in the constructor
+     * <p>
+     * Use the following constructor instead: {@link #MovingObject(double x, double y, double rotation, String imageName, ModelShape shape)}
+     * 
+     * 
+     * @param x
+     * @param y
+     * @param rotation
+     * @param width
+     * @param height
+     * @param imageFileName
+     * @param weight
+     * @param shape
+     */
+    @Deprecated
     public MovingObject(int x, int y, float rotation, int width, int height, String imageFileName, int weight,
             ModelShape shape) {
         super(x, y, rotation, width, height, imageFileName, weight, shape);
         // TODO: this must be 0,0 so the object is steady
         this.currentSpeed = new Vector2D(0, 0);
     }
+    
+    /**
+     * width and height are set based on image size
+     * @param x
+     * @param y
+     * @param rotation
+     * @param imageFileName
+     * @param weight
+     * @param shape
+     */
+    public MovingObject(int x, int y, float rotation, String imageFileName, int weight,
+            ModelShape shape) {
+        super(x, y, rotation, imageFileName, weight, shape);
+        // TODO: this must be 0,0 so the object is steady
+        this.currentSpeed = new Vector2D(0, 0);
+    }
+    
 
     public void move() {
         if (log.isDebugEnabled()) {

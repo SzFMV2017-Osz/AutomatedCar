@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import hu.oe.nik.szfmv.environment.detector.ICameraSensor;
+import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 
 /**
@@ -32,8 +33,9 @@ public abstract class WorldObject implements ICameraSensor {
     private final double rotation;
 
 
-    // objektum kiterjedése
-    // TODO befoglaló négyszög? implementációs függő jelentés?
+    /**
+     * object dimension in pixels
+     */
     private final int width, height;
 
     // objektum formája
@@ -41,14 +43,48 @@ public abstract class WorldObject implements ICameraSensor {
 
     private final String imageFileName;
 
+    /**
+     * @deprecated
+     * The width and height of the object must be based on the size of the <code>imageName</code> referenced in the constructor
+     * <p>
+     * Use the following constructor instead: {@link #WorldObject(double x, double y, double rotation, String imageName, ModelShape shape)}
+     * 
+     * @param x
+     * @param y
+     * @param rotation
+     * @param width
+     * @param height
+     * @param imageName
+     * @param shape
+     */
+    @Deprecated
     public WorldObject(double x, double y, double rotation, int width, int height, String imageName, ModelShape shape) {
         super();
 
         this.position = new Vector2D(x, y);
         this.rotation = rotation;
         this.imageFileName = imageName;
-        this.width = width;
-        this.height = height;
+        this.width = ImageResource.getWidth(imageName);;
+        this.height = ImageResource.getHeight(imageName);;
+        this.shape = shape;
+    }
+    
+    /**
+     * Width and height are set based on image size
+     * @param x
+     * @param y
+     * @param rotation
+     * @param imageName
+     * @param shape
+     */
+    public WorldObject(double x, double y, double rotation, String imageName, ModelShape shape) {
+        super();
+
+        this.position = new Vector2D(x, y);
+        this.rotation = rotation;
+        this.imageFileName = imageName;
+        this.width = ImageResource.getWidth(imageName);
+        this.height = ImageResource.getHeight(imageName);
         this.shape = shape;
     }
 
@@ -64,10 +100,18 @@ public abstract class WorldObject implements ICameraSensor {
         return rotation;
     }
 
+    /**
+     * 
+     * @return objects' width in pixel
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * 
+     * @return objects' height in pixel
+     */
     public int getHeight() {
         return height;
     }
