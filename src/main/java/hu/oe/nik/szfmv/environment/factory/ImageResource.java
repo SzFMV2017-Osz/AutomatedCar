@@ -1,9 +1,18 @@
 package hu.oe.nik.szfmv.environment.factory;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
+import javax.imageio.ImageIO;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ImageResource {
+	
+	private static final Logger log = LogManager.getLogger(ImageResource.class);
 
     public static final String TREE_NAME = "automatedCar.tree";
 
@@ -67,4 +76,27 @@ public class ImageResource {
 
     }
 
+	public static int getWidth(String imageFileName) {
+		try {
+			return getBufferedImageOf(imageFileName).getWidth();
+		} catch (IOException e) {
+			log.error("Can not find image: "+imageFileName +" in system resources... width is set to 0");
+			return 0;
+		}
+	}
+
+
+	public static int getHeight(String imageFileName) {
+		try {
+			return getBufferedImageOf(imageFileName).getHeight();
+		} catch (IOException e) {
+			log.error("Can not find image: "+imageFileName +" in system resources... height is set to 0");
+			return 0;
+			
+		}
+	}
+
+	private static BufferedImage getBufferedImageOf(String imageFileName) throws IOException {
+		return ImageIO.read(new File(ClassLoader.getSystemResource(imageFileName).getFile()));
+	}
 }

@@ -42,14 +42,14 @@ public class ObjectDetectorTest {
     @Before
     public void createList() {
         list = new ArrayList<>();
-        list.add(new Road(0, 0, 0, 0, 0, XmlObjectType.ROAD_45_LEFT, false));
-        list.add(new Road(0, 0, 0, 0, 0, XmlObjectType.ROAD_90_RIGHT, false));
-        list.add(new RoadSign(0, 0, 0, 0, 0, ImageResource.ROADSIGN_SPEED_50_NAME, 0, RoadSignType.PARKING_RIGHT));
-        list.add(new RoadSign(0, 0, 0, 0, 0, ImageResource.ROADSIGN_STOP_NAME, 0, RoadSignType.PARKING_RIGHT));
-        list.add(new Tree(0, 0, 0, 0, 0, 0, ImageResource.TREE_NAME));
-        list.add(new Tree(0, 0, 0, 0, 0, 0, ImageResource.TREE_NAME));
-        list.add(Car.builder().color("red").dimension(0, 0).position(0, 0).rotation(0).weight(0).build());
-        list.add(Car.builder().color("white").dimension(0, 0).position(0, 0).rotation(0).weight(0).build());
+        list.add(new Road(0, 0, 0, XmlObjectType.ROAD_45_LEFT, false));
+        list.add(new Road(0, 0, 0, XmlObjectType.ROAD_90_RIGHT, false));
+        list.add(new RoadSign(0, 0, 0, ImageResource.ROADSIGN_SPEED_50_NAME, 5000, RoadSignType.PARKING_RIGHT));
+        list.add(new RoadSign(0, 0, 0, ImageResource.ROADSIGN_STOP_NAME, 5000, RoadSignType.PARKING_RIGHT));
+        list.add(new Tree(0, 0, 0, Integer.MAX_VALUE, ImageResource.TREE_NAME));
+        list.add(new Tree(0, 0, 0, Integer.MAX_VALUE, ImageResource.TREE_NAME));
+        list.add(Car.builder().color("red").position(0, 0).rotation(0).weight(0).build());
+        list.add(Car.builder().color("white").position(0, 0).rotation(0).weight(0).build());
 
         counter = 0;
     }

@@ -24,11 +24,36 @@ public class Car extends MovingObject implements IDriveable {
         return new CarBuilder();
     }
 
+    /**
+     * @deprecated
+     * This constructor should not be referenced at all!
+     * 
+     * @param x
+     * @param y
+     * @param rotation
+     * @param width
+     * @param height
+     * @param imageFileName
+     * @param weight
+     */
+    @Deprecated
     private Car(int x, int y, float rotation, int width, int height, String imageFileName, int weight) {
         super(x, y, rotation, width, height, imageFileName, weight, ModelShape.RECTENGULAR);
     }
 
-    @Override
+    /**
+     * width and height are based on the image size
+     * @param x
+     * @param y
+     * @param rotation
+     * @param imageFileName
+     * @param weight
+     */
+    public Car(int x, int y, float rotation, String imageFileName, int weight) {
+    		super(x, y, rotation,  imageFileName, weight, ModelShape.RECTENGULAR);
+	}
+
+	@Override
     protected void doOnCollision() {
         // TODO Auto-generated method stub
     }
@@ -55,10 +80,8 @@ public class Car extends MovingObject implements IDriveable {
         private int x;
         private int y;
         private float rotation;
-        private int width = 100;
-        private int height = 100;
-        private int weight = 1000;
         private String imageFileName;
+		private int weight;
 
         private CarBuilder() {
         }
@@ -74,16 +97,33 @@ public class Car extends MovingObject implements IDriveable {
             return this;
         }
 
+       /**
+        * @deprecated
+        * This method does nothing!
+        * <p>
+        * Width and height are now calculated from the size of the image
+        * that is referenced by the car object.
+        * The image is set based on the {@link #color(String)}. 
+        * 
+        */
+        @Deprecated
         public CarBuilder dimension(int width, int height) {
             // TODO: implement car width, height
             return this;
         }
 
+        
         public CarBuilder weight(int weight) {
             // TODO: implement car weight
+            this.weight = weight;
             return this;
         }
 
+        /**
+         * sets the image of the car based on a color value
+         * @param color allowed values: <ul><li>white, <li>black, <li>blue, red</ul>
+         * @return
+         */
         public CarBuilder color(String color) {
             String type = "";
             switch (color.toLowerCase()) {
@@ -106,7 +146,7 @@ public class Car extends MovingObject implements IDriveable {
 
         public Car build() {
             log.info("building a car...");
-            Car c = new Car(x, y, rotation, width, height, imageFileName, weight);
+            Car c = new Car(x, y, rotation, imageFileName, weight);
             log.info(c.toString());
             return c;
         }
