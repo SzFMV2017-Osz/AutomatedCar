@@ -8,13 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 
+import hu.oe.nik.szfmv.environment.detector.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import hu.oe.nik.szfmv.environment.detector.ICameraSensor;
-import hu.oe.nik.szfmv.environment.detector.IRadarSensor;
-import hu.oe.nik.szfmv.environment.detector.ISensor;
-import hu.oe.nik.szfmv.environment.detector.ObjectDetector;
 import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Car;
@@ -44,10 +41,10 @@ public class ObjectDetectorTest {
         list = new ArrayList<>();
         list.add(new Road(0, 0, 0, 0, 0, XmlObjectType.ROAD_45_LEFT, false));
         list.add(new Road(0, 0, 0, 0, 0, XmlObjectType.ROAD_90_RIGHT, false));
-        list.add(new RoadSign(0, 0, 0, 0, 0, ImageResource.ROADSIGN_SPEED_50_NAME, 0, RoadSignType.PARKING_RIGHT));
+        list.add(new RoadSign(300, 300, 0, 10, 10, ImageResource.ROADSIGN_SPEED_50_NAME, 0, RoadSignType.PARKING_RIGHT));
         list.add(new RoadSign(0, 0, 0, 0, 0, ImageResource.ROADSIGN_STOP_NAME, 0, RoadSignType.PARKING_RIGHT));
-        list.add(new Tree(0, 0, 0, 0, 0, 0, ImageResource.TREE_NAME));
-        list.add(new Tree(0, 0, 0, 0, 0, 0, ImageResource.TREE_NAME));
+        list.add(new Tree(0, 0, 0, 10, 10, 0, ImageResource.TREE_NAME));
+        list.add(new Tree(0, 0, 0, 10, 10, 0, ImageResource.TREE_NAME));
         list.add(Car.builder().color("red").dimension(0, 0).position(0, 0).rotation(0).weight(0).build());
         list.add(Car.builder().color("white").dimension(0, 0).position(0, 0).rotation(0).weight(0).build());
 
@@ -118,4 +115,18 @@ public class ObjectDetectorTest {
         assertEquals("number of radarable detectables should be 1", 1, radarable.size());
     }
 
+    @Test
+    public void getIfObjectsCollide(){
+        CollisionDetection cd = new CollisionDetection();
+        Shape s1 = new Ellipse2D.Double(0,0,10,10);
+        Shape s2 = new Ellipse2D.Double(0,0,10,10);
+        assertEquals("objects should collide (true)",true,cd.apply(s1,s2));
+    }
+    @Test
+    public void getIfObjectsNotCollide(){
+        CollisionDetection cd = new CollisionDetection();
+        Shape s1 = new Ellipse2D.Double(0,0,10,10);
+        Shape s2 = new Ellipse2D.Double(300,300,10,10);
+        assertEquals("objects should not collide (false)",false, cd.apply(s1,s2));
+    }
 }
