@@ -54,41 +54,41 @@ public class Dashboard extends SystemComponent {
         SignalEnum signalType = s.getId();
 
         switch (signalType) {
-        case AUTOTRANSMISSION:
-            transmissionValue = s.getData().toString();
-            break;
+            case AUTOTRANSMISSION:
+                transmissionValue = s.getData().toString();
+                break;
 
-        case GASPEDAL:
-            gasPedalValue = gasPedalDataToString(s.getData());
-            break;
+            case GASPEDAL:
+                gasPedalValue = gasPedalDataToString(s.getData());
+                break;
 
-        case BREAKPEDAL:
-            brakePedalValue = brakePedalDataToString(s.getData());
-            break;
+            case BREAKPEDAL:
+                brakePedalValue = brakePedalDataToString(s.getData());
+                break;
 
-        case REVOLUTION:
-            revolutionValue = revolutionDataToString(s.getData());
-            break;
+            case REVOLUTION:
+                revolutionValue = revolutionDataToString(s.getData());
+                break;
 
-        case SPEED:
-            speedValue = speedDataToString(s.getData());
-            break;
+            case SPEED:
+                speedValue = speedDataToString(s.getData());
+                break;
 
-        case STEERINGWHEEL:
-            steeringWheelValue = steeringWheelDataToString(s.getData()).toString();
-            break;
+            case STEERINGWHEEL:
+                steeringWheelValue = steeringWheelDataToString(s.getData()).toString();
+                break;
 
-        case POSX:
-            posXValue = roundNumberString(s.getData());
-            break;
+            case POSX:
+                posXValue = roundNumberString(s.getData());
+                break;
 
-        case POSY:
-            posYValue = roundNumberString(s.getData());
-            break;
+            case POSY:
+                posYValue = roundNumberString(s.getData());
+                break;
 
-        case INDEX:
-            indexValue = s.getData().toString();
-            break;
+            case INDEX:
+                indexValue = s.getData().toString();
+                break;
 
         }
     }
