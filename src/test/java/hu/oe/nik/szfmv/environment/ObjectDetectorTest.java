@@ -62,12 +62,8 @@ public class ObjectDetectorTest {
         counter = 0;
     }
 
-    private synchronized void incrementCounter() {
-        counter += 1;
-    }
-
     @Test
-    public void BiFunctions() {
+    public void biFunctions() {
         Ellipse2D t = new Ellipse2D.Double();
         Ellipse2D u = new Ellipse2D.Double();
         assertTrue(all.apply(t, u));
