@@ -6,16 +6,21 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class CollisionDetectionTest {
 
-    @Before
-    public void setUp() throws Exception {
+    private TreeMock treeMock;
+    private AutomatedCarMock automatedCarMock;
 
-        TreeMock treeMock = new TreeMock(
+    @Before
+    public void createObjects() throws Exception {
+
+        this.treeMock = new TreeMock(
                 10, 10, 0F, 10, 10, "tree.png", 50, ModelShape.RECTANGULAR
         );
 
-        AutomatedCarMock automatedCarMock = new AutomatedCarMock(
+        this.automatedCarMock = new AutomatedCarMock(
                 50, 50, 0F, 102, 208, "car_2_white.png",
                 ModelShape.RECTANGULAR
         );
@@ -23,7 +28,9 @@ public class CollisionDetectionTest {
 
     @Test
     public void testCollision() throws Exception {
-
+        assertEquals(this.treeMock.isCollided(),false);
+        this.treeMock.onCollision();
+        assertEquals(this.treeMock.isCollided(),true);
     }
 
     class TreeMock extends CollidableObject {
