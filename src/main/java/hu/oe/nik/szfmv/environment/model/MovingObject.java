@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.environment.detector.IRadarSensor;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
+import hu.oe.nik.szfmv.environment.xml.Utils;
 
 /**
  * Mozgó objektumokat reprezentáló osztály TODO: maximális sebesség, min-max
@@ -69,8 +70,10 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
             log.debug("move called");
         }
 
-        Vector2D newPosition = new Vector2D(this.getX(), this.getY()).add(currentSpeed.div(24));
-        this.setPosition(newPosition);
+        this.position = this.position.add(currentSpeed.div(24));
+        this.rotation = this.currentSpeed.getAngle();
+//        Vector2D newPosition = new Vector2D(this.getX(), this.getY()).add(currentSpeed.div(24));
+//        this.setPosition(newPosition);
     };
 
     protected void chageDirection(List<Vector2D> vectors) {
@@ -105,6 +108,21 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
         return currentSpeed;
     }
 
+    /**
+     * set objects rotation
+     * @param angle
+     */
+    public void setRotationAngle(double angle) {
+    		this.rotation = angle;
+    }
+    
+    /**
+     * set objects rotation
+     * @param radian
+     */
+    public void setRotationRadian(double radian) {
+    		this.rotation = Utils.radianToDegree(radian);
+    }
     /*
      * (non-Javadoc)
      * 
