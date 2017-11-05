@@ -1,6 +1,8 @@
 package hu.oe.nik.szfmv.environment;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
@@ -9,11 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 
-import hu.oe.nik.szfmv.environment.detector.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import hu.oe.nik.szfmv.environment.factory.ImageResource;
+import hu.oe.nik.szfmv.environment.detector.CollisionDetection;
 import hu.oe.nik.szfmv.environment.detector.ICameraSensor;
 import hu.oe.nik.szfmv.environment.detector.IRadarSensor;
 import hu.oe.nik.szfmv.environment.detector.ISensor;
