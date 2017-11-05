@@ -64,8 +64,8 @@ public abstract class WorldObject implements ICameraSensor {
         this.position = new Vector2D(x, y);
         this.rotation = rotation;
         this.imageFileName = imageName;
-        this.width = width;
-        this.height = height;
+        this.width = ImageResource.getWidth(imageName);;
+        this.height = ImageResource.getHeight(imageName);;
         this.shape = shape;
     }
     
