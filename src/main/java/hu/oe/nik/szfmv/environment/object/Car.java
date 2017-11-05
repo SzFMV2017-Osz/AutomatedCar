@@ -121,24 +121,34 @@ public class Car extends MovingObject implements IDriveable {
 
         /**
          * sets the image of the car based on a color value
-         * @param color allowed values: <ul><li>white, <li>black, <li>blue, red</ul>
+         * @param color allowed values: <ul><li>white, <li>black, <li>blue, <li>red, <li>red2,<li>blue2,<li>white2</ul>
          * @return
          */
         public CarBuilder color(String color) {
             String type = "";
             switch (color.toLowerCase()) {
             case "white":
-                type = ImageResource.WHITE_CAR_NAME;
+                type = ImageResource.WHITE_CAR_1_NAME;
                 break;
             case "black":
                 type = ImageResource.BLACK_CAR_NAME;
                 break;
             case "blue":
-                type = ImageResource.BLUE_CAR_NAME;
+                type = ImageResource.BLUE_CAR_1_NAME;
                 break;
             case "red":
-                type = ImageResource.RED_CAR_NAME;
+                type = ImageResource.RED_CAR_1_NAME;
                 break;
+            case "white2":
+                type = ImageResource.WHITE_CAR_2_NAME;
+                break;
+            case "blue2":
+                type = ImageResource.BLUE_CAR_2_NAME;
+                break;
+            case "red2":
+                type = ImageResource.RED_CAR_2_NAME;
+                break;
+            
             }
             imageFileName = ImageResource.getImageOf(type);
             return this;

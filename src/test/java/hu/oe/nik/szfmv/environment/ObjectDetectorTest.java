@@ -44,8 +44,8 @@ public class ObjectDetectorTest {
         list = new ArrayList<>();
         list.add(new Road(0, 0, 0, XmlObjectType.ROAD_45_LEFT, false));
         list.add(new Road(0, 0, 0, XmlObjectType.ROAD_90_RIGHT, false));
-        list.add(new RoadSign(0, 0, 0, ImageResource.ROADSIGN_SPEED_50_NAME, 5000, RoadSignType.PARKING_RIGHT));
         list.add(new RoadSign(0, 0, 0, ImageResource.ROADSIGN_STOP_NAME, 5000, RoadSignType.PARKING_RIGHT));
+        list.add(new RoadSign(0, 0, 0, ImageResource.ROAD_PARKING_PARALLEL_NAME, 5000, RoadSignType.PARKING_RIGHT));
         list.add(new Tree(0, 0, 0, Integer.MAX_VALUE, ImageResource.TREE_NAME));
         list.add(new Tree(0, 0, 0, Integer.MAX_VALUE, ImageResource.TREE_NAME));
         list.add(Car.builder().color("red").position(0, 0).rotation(0).weight(0).build());
