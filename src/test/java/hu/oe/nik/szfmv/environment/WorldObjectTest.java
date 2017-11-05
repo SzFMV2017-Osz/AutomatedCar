@@ -2,11 +2,9 @@ package hu.oe.nik.szfmv.environment;
 
 import org.junit.Test;
 
-import hu.oe.nik.szfmv.environment.object.IDriveable;
 
 public class WorldObjectTest {
 
-    private IDriveable worldObject;
 
     @org.junit.Before
     public void setUp() throws Exception {
