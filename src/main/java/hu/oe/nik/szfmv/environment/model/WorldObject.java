@@ -144,12 +144,12 @@ public abstract class WorldObject implements ICameraSensor {
     public Shape getShape() {
         Shape tempShape = null;
         switch (this.shape) {
-        case ELLIPSE:
-            tempShape = new Ellipse2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-            break;
-        case RECTENGULAR:
-            tempShape = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-            break;
+            case ELLIPSE:
+                tempShape = new Ellipse2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+                break;
+            case RECTENGULAR:
+                tempShape = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+                break;
         }
         AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotationRadian(), this.getX(),
                 this.getY());

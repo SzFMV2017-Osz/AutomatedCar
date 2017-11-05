@@ -136,27 +136,27 @@ public class Car extends MovingObject implements IDriveable {
         public CarBuilder color(String color) {
             String type = "";
             switch (color.toLowerCase()) {
-            case "white":
-                type = ImageResource.WHITE_CAR_1_NAME;
-                break;
-            case "black":
-                type = ImageResource.BLACK_CAR_NAME;
-                break;
-            case "blue":
-                type = ImageResource.BLUE_CAR_1_NAME;
-                break;
-            case "red":
-                type = ImageResource.RED_CAR_1_NAME;
-                break;
-            case "white2":
-                type = ImageResource.WHITE_CAR_2_NAME;
-                break;
-            case "blue2":
-                type = ImageResource.BLUE_CAR_2_NAME;
-                break;
-            case "red2":
-                type = ImageResource.RED_CAR_2_NAME;
-                break;
+                case "white":
+                    type = ImageResource.WHITE_CAR_1_NAME;
+                    break;
+                case "black":
+                    type = ImageResource.BLACK_CAR_NAME;
+                    break;
+                case "blue":
+                    type = ImageResource.BLUE_CAR_1_NAME;
+                    break;
+                case "red":
+                    type = ImageResource.RED_CAR_1_NAME;
+                    break;
+                case "white2":
+                    type = ImageResource.WHITE_CAR_2_NAME;
+                    break;
+                case "blue2":
+                    type = ImageResource.BLUE_CAR_2_NAME;
+                    break;
+                case "red2":
+                    type = ImageResource.RED_CAR_2_NAME;
+                    break;
 
             }
             imageFileName = ImageResource.getImageOf(type);
