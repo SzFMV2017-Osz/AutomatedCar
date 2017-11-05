@@ -96,7 +96,7 @@ public class ObjectDetector {
     		log.info("selectIntersecting is invoked for type: " + type.getName());
 
         try {
-            return objects.stream()
+            return objects.parallelStream()
                     .filter(o -> type.isInstance(o) && isIntersecting.apply(o.getShape(), triangle))
                     .map(o -> type.cast(o)).collect(Collectors.toList());
         } catch (ClassCastException e) {

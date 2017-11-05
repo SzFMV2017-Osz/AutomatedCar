@@ -29,8 +29,9 @@ public class ObjectDetectorTest {
 
 	int counter = 0;
 	public BiFunction<Shape, Shape, Boolean> every2 = (a, b) -> {
-		incrementCounter();
-		return counter % 2 == 0 ? true : false;
+		synchronized (this) {
+			return ++counter % 2 == 0 ? true : false;			
+		}
 	};
 
 	List<WorldObject> list;
@@ -58,7 +59,7 @@ public class ObjectDetectorTest {
 		counter = 0;	
 	}
 
-	private void incrementCounter() {
+	private synchronized void  incrementCounter() {
 		counter += 1;
 	}
 	
