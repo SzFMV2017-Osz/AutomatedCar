@@ -6,6 +6,8 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
+
 import static org.junit.Assert.assertEquals;
 
 public class CollisionDetectionTest {
@@ -17,12 +19,11 @@ public class CollisionDetectionTest {
     public void createObjects() throws Exception {
 
         this.treeMock = new TreeMock(
-                10, 10, 0F, 10, 10, "tree.png", 50, ModelShape.RECTANGULAR
+                0, 0, 0F, 10, 10, "tree.png", 50, ModelShape.RECTANGULAR
         );
 
         this.automatedCarMock = new AutomatedCarMock(
-                50, 50, 0F, 102, 208, "car_2_white.png",
-                ModelShape.RECTANGULAR
+                100, 100, 0F, 102, 208, "car_2_white.png", ModelShape.RECTANGULAR
         );
     }
 
@@ -33,22 +34,48 @@ public class CollisionDetectionTest {
         assertEquals(this.treeMock.isCollided(),true);
     }
 
+    @Test
+    public void testMoveAndCollide() throws Exception{
+        this.automatedCarMock.move(10,10);
+        assertEquals(this.automatedCarMock.getX(),110,0.1);
+        boolean testIfTheyIntersecting = this.treeMock.isIntersects(this.automatedCarMock);
+        assertEquals(testIfTheyIntersecting, false);
+
+        this.automatedCarMock.move(-110,-110);
+        testIfTheyIntersecting = this.treeMock.isIntersects(this.automatedCarMock);
+        assertEquals(testIfTheyIntersecting, true);
+    }
+
     class TreeMock extends CollidableObject {
 
         public TreeMock(int x, int y, float rotation, int width, int height, String imageFileName, int weight, ModelShape shape) {
             super(x, y, rotation, width, height, imageFileName, weight, shape);
         }
 
+        boolean isIntersects(WorldObject worldObject){
+
+            Rectangle rectangleFromThis = new Rectangle((int)this.x, (int)this.y, this.getWidth(), this.getHeight());
+            Rectangle rectangleFromWorldObject = new Rectangle((int)worldObject.getX(), (int)worldObject.getY(), worldObject.getWidth(), worldObject.getHeight());
+
+            return rectangleFromThis.intersects(rectangleFromWorldObject);
+        }
+
         @Override
         protected void doOnCollision() {
-
+            // assertEquals();
         }
     }
 
     class AutomatedCarMock extends WorldObject {
 
-        public AutomatedCarMock(double x, double y, double rotation, int width, int height, String imageName, ModelShape shape) {
+        public AutomatedCarMock(int x, int y, float rotation, int width, int height, String imageName, ModelShape shape) {
             super(x, y, rotation, width, height, imageName, shape);
         }
+
+        public void move(int x, int y){
+            this.x += x;
+            this.y += y;
+        }
+
     }
 }

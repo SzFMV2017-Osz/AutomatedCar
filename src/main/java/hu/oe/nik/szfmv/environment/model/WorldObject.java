@@ -56,12 +56,12 @@ public class WorldObject {
 		return rotation;
 	}
 
-    @Deprecated
+    // @Deprecated
     public int getWidth() {
         return width;
     }
 
-    @Deprecated
+    // @Deprecated
     public int getHeight() {
         return height;
     }
