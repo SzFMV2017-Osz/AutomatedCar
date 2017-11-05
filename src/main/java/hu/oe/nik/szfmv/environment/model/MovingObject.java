@@ -39,6 +39,7 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
      * @param weight
      * @param shape
      */
+    @Deprecated
     public MovingObject(int x, int y, float rotation, int width, int height, String imageFileName, int weight,
             ModelShape shape) {
         super(x, y, rotation, width, height, imageFileName, weight, shape);
