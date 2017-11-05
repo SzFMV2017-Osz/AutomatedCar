@@ -19,10 +19,7 @@ class WorldObjectDisplayState {
     }
 
     public static WorldObjectDisplayState createState(WorldObject object, AffineTransform t) {
-        return new WorldObjectDisplayState(
-                object,
-                new Coord(object),
-                object.getRotation(), t);
+        return new WorldObjectDisplayState(object, new Coord(object), object.getRotation(), t);
     }
 
     public AffineTransform getTransform() {
@@ -30,9 +27,7 @@ class WorldObjectDisplayState {
     }
 
     public boolean isChanged() {
-        return !(wo.getX() == c.getX()
-                && wo.getY() == c.getY()
-                && wo.getRotation() == rot);
+        return !(wo.getX() == c.getX() && wo.getY() == c.getY() && wo.getRotation() == rot);
     }
 
     public void updateState(AffineTransform t) {
