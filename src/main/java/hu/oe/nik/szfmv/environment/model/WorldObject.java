@@ -6,53 +6,55 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Világ elemeinek ős osztálya
- *
+ * 
  * @author hunkak
  *
  */
 public class WorldObject {
 
-    private static final Logger log = LogManager.getLogger(WorldObject.class);
+	private static final Logger log = LogManager.getLogger(WorldObject.class);
 
-    // objektum helyzete a síkon
-    // TODO meghatározni, hogy az objektum melyik pontja - vizualizációs csapattal
-    protected int x, y;
-    // objektum forgatása
-    // TODO meghatározni a bázis helyzetet és a mértékegységet (szög,radián)
-    float rotation;
+	// objektum helyzete a síkon
+	// TODO meghatározni, hogy az objektum melyik pontja - vizualizációs csapattal
+	protected double x;
 
-    // objektum kiterjedése
-    // TODO befoglaló négyszög? implementációs függő jelentés?
-    private final int width, height;
+	protected double y;
+	// objektum forgatása
+	// TODO meghatározni a bázis helyzetet és a mértékegységet (szög,radián)
+	protected double rotation;
 
-    // objektum formája
-    private final ModelShape shape;
+	// objektum kiterjedése
+	// TODO befoglaló négyszög? implementációs függő jelentés?
+	private final int width, height;
 
-    private final String imageFileName;
+	// objektum formája
+	private final ModelShape shape;
 
-    public WorldObject(int x, int y, float rotation, int width, int height, String imageName, ModelShape shape) {
-        super();
+	private final String imageFileName;
 
-        this.x = x;
-        this.y = y;
-        this.rotation = rotation;
-        this.width = width;
-        this.height = height;
-        this.imageFileName = imageName;
-        this.shape = shape;
-    }
+	public WorldObject(double x, double y, double rotation, int width, int height, String imageName, ModelShape shape) {
+		super();
 
-    public int getX() {
-        return x;
-    }
+		this.x = x;
+		this.y = y;
+		this.rotation = rotation;
+		this.width = width;
+		this.height = height;
+		this.imageFileName = imageName;
+		this.shape = shape;
+	}
 
-    public int getY() {
-        return y;
-    }
+	public double getX() {
+		return x;
+	}
 
-    public float getRotation() {
-        return rotation;
-    }
+	public double getY() {
+		return y;
+	}
+
+	public double getRotation() {
+		return rotation;
+	}
 
     @Deprecated
     public int getWidth() {
@@ -64,26 +66,26 @@ public class WorldObject {
         return height;
     }
 
-    public String getImageFileName() {
-        return imageFileName;
-    }
+	public String getImageFileName() {
+		return imageFileName;
+	}
 
-    /**
-     * @return the shape
-     */
-    public ModelShape getShape() {
-        return shape;
-    }
+	/**
+	 * @return the shape
+	 */
+	public ModelShape getShape() {
+		return shape;
+	}
 
-    /*
-        * (non-Javadoc)
-        * 
-        * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "WorldObject [x=" + x + ", y=" + y + ", rotation=" + rotation + ", width=" + width + ", height=" + height
-                + ", shape=" + shape + ", imageFileName=" + imageFileName + "]";
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "WorldObject [x=" + x + ", y=" + y + ", rotation=" + rotation + ", width=" + width + ", height=" + height
+				+ ", shape=" + shape + ", imageFileName=" + imageFileName + "]";
+	}
 
 }

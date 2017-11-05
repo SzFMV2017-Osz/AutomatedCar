@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class World {
-
+    
     private int width = 0;
     private int height = 0;
     private List<WorldObject> worldObjects = new ArrayList<>();

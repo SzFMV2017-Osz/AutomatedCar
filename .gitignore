@@ -30,6 +30,7 @@ nb-configuration.xml
 # log4j2 configuration file
 src/main/resources/log4j2.xml
 <<<<<<< HEAD
+<<<<<<< HEAD
 src/main/resources/log4j2.yml
 src/main/resources/log4j2.yaml
 
@@ -42,3 +43,11 @@ src/main/resources/log4j2.yaml
 
 >>>>>>> refs/heads/team5_testing
 >>>>>>> origin/team8
+=======
+/bin/
+=======
+src/main/resources/log4j2.yml
+src/main/resources/log4j2.yaml
+
+>>>>>>> refs/heads/team5_testing
+>>>>>>> team8_merge_with_team5

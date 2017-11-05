@@ -1,14 +1,13 @@
 package hu.oe.nik.szfmv.visualisation;
 
-import hu.oe.nik.szfmv.environment.model.World;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-import javax.swing.*;
+import hu.oe.nik.szfmv.environment.model.World;
+import hu.oe.nik.szfmv.inputinterface.UserInputHandler;
 
 public class CourseDisplay {
 
-    private static final Logger logger = LogManager.getLogger();
     private JFrame frame = new JFrame("OE NIK Automated Car Project");
 
     private static final int maxHeight = 900, maxWidth = 1280;
@@ -24,8 +23,13 @@ public class CourseDisplay {
     public void init(World world) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setFrameSize(world);
-
+        frame.addKeyListener(new UserInputHandler());
         GameDisplayJPanel displayPanel = new GameDisplayJPanel(world, scale);
+        displayPanel.setLayout(null);
+        JPanel dashboard = new Dashboard().getJPanel();
+        dashboard.setBounds(1100, 0, 180, 160);
+        dashboard.setVisible(true);
+        displayPanel.add(dashboard);
         frame.add(displayPanel);
 
         frame.validate();
@@ -68,5 +72,4 @@ public class CourseDisplay {
     private void calculateScale(int sizeFrom, int sizeTo) {
         scale = ((double) sizeFrom) / sizeTo;
     }
-
 }
