@@ -25,12 +25,10 @@ public abstract class WorldObject implements ICameraSensor {
     private static final Logger log = LogManager.getLogger(WorldObject.class);
 
     // objektum helyzete a síkon
-    // TODO meghatározni, hogy az objektum melyik pontja - vizualizációs
     // csapattal
-    private Vector2D position;
+     Vector2D position;
     // objektum forgatása
-    // TODO meghatározni a bázis helyzetet és a mértékegységet (szög,radián)
-    private final double rotation;
+     double rotation;
 
 
     /**
