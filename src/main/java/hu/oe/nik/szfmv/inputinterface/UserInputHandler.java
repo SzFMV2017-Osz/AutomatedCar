@@ -1,7 +1,6 @@
 package hu.oe.nik.szfmv.inputinterface;
 
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
-
 import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
@@ -15,7 +14,7 @@ import java.util.TimerTask;
 
 public final class UserInputHandler extends SystemComponent implements KeyListener{
 
-    private static final int decreasingTimePeriod = 14;
+    private static final int DECREASING_TIME_PERIOD = 14;
 
     private AutoTransmissionEnum autotransmissionState;
     private int steeringWheelState;
@@ -36,9 +35,9 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
 
         // starting states
         this.autotransmissionState = AutoTransmissionEnum.N;
-        this.steeringWheelState = componentStateCalculator.basicSteeringWheelState;
-        this.gaspedalState = componentStateCalculator.minPedalState;
-        this.breakpedalState = componentStateCalculator.minPedalState;
+        this.steeringWheelState = componentStateCalculator.BASIC_STEERING_WHEEL_STATE;
+        this.gaspedalState = componentStateCalculator.MIN_PEDAL_STATE;
+        this.breakpedalState = componentStateCalculator.MIN_PEDAL_STATE;
       
         this.isKeyPressingHappened = false;
     }
@@ -119,19 +118,19 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
 
                 if (!isKeyPressingHappened){
                   
-                    if (gaspedalState != componentStateCalculator.minPedalState){
+                    if (gaspedalState != componentStateCalculator.MIN_PEDAL_STATE){
                         gaspedalState--;
                     }
 
-                    if (breakpedalState != componentStateCalculator.minPedalState){
+                    if (breakpedalState != componentStateCalculator.MIN_PEDAL_STATE){
                         breakpedalState--;
                     }
 
-                    if (steeringWheelState > componentStateCalculator.basicSteeringWheelState){
+                    if (steeringWheelState > componentStateCalculator.BASIC_STEERING_WHEEL_STATE){
                         steeringWheelState--;
                     }
 
-                    if (steeringWheelState < componentStateCalculator.basicSteeringWheelState){
+                    if (steeringWheelState < componentStateCalculator.BASIC_STEERING_WHEEL_STATE){
                         steeringWheelState++;
                     }
                 }
@@ -141,7 +140,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
             }
         };
 
-        timer.scheduleAtFixedRate(task,100, decreasingTimePeriod);
+        timer.scheduleAtFixedRate(task,100, DECREASING_TIME_PERIOD);
     }
 
     private void sendNewAutotransmissionState(AutoTransmissionEnum newTransmissionState) {
