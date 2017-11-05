@@ -1,16 +1,16 @@
 package hu.oe.nik.szfmv.inputinterface;
 
-import hu.oe.nik.szfmv.automatedcar.SystemComponent;
-import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
-import hu.oe.nik.szfmv.automatedcar.bus.Signal;
-import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
-import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import hu.oe.nik.szfmv.automatedcar.SystemComponent;
+import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
+import hu.oe.nik.szfmv.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
+import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 
 public final class UserInputHandler extends SystemComponent implements KeyListener {
 
@@ -170,17 +170,16 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
     @Override
     public void receiveSignal(Signal s) {
         switch (s.getId()) {
-        case AUTOTRANSMISSION:
-            this.autotransmissionState = (AutoTransmissionEnum) s.getData();
-            break;
-        case STEERINGWHEEL:
-            this.steeringWheelState = (int) s.getData();
-            break;
-        case GASPEDAL:
-            this.gaspedalState = (int) s.getData();
-            break;
-
-        default:
+            case AUTOTRANSMISSION:
+                this.autotransmissionState = (AutoTransmissionEnum) s.getData();
+                break;
+            case STEERINGWHEEL:
+                this.steeringWheelState = (int) s.getData();
+                break;
+            case GASPEDAL:
+                this.gaspedalState = (int) s.getData();
+                break;
+            default:
         }
     }
 }
