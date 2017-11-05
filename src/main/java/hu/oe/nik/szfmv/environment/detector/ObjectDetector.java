@@ -92,13 +92,7 @@ public class ObjectDetector {
      */
     private <T> List<T> selectIntersecting(Shape triangle, Class<T> type) {
 
-        if (isIntersecting == null) {
-            log.error("Comparer is not set");
-        }
-
-        if (objects == null) {
-            log.error("List of objects is not set");
-        }
+    		log.info("selectIntersecting is invoked for type: " + type.getName());
 
         try {
             return objects.parallelStream()

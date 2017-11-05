@@ -32,7 +32,7 @@ public class ImageResourceTest {
 		
 		imageFileName = ImageResource.getImageOf(ImageResource.ROAD_90_LEFT_NAME);
 		assertEquals(525,ImageResource.getWidth(imageFileName));
-		assertEquals(5,ImageResource.getHeight(imageFileName));
+		assertEquals(525,ImageResource.getHeight(imageFileName));
 	}
 }
 
