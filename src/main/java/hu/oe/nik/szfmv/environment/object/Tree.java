@@ -5,13 +5,32 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
 
 public class Tree extends CollidableObject {
 
-    public Tree(int x, int y, float rotation, int width, int height, int weight, String imageFileName) {
-        super(x, y, rotation, width, height, imageFileName, weight, ModelShape.ELLIPSE);
-    }
+	/**
+	 * @deprecated
+     * The width and height of the object must be based on the size of the <code>imageName</code> referenced in the constructor
+     * <p>
+     * Use the following constructor instead: {@link #Tree(double x, double y, double rotation, String imageName, ModelShape shape)}
+     * 
+	 * @param x
+	 * @param y
+	 * @param rotation
+	 * @param width
+	 * @param height
+	 * @param weight
+	 * @param imageFileName
+	 */
+	@Deprecated
+	public Tree(int x, int y, float rotation, int width, int height, int weight, String imageFileName) {
+		super(x, y, rotation, width, height, imageFileName, weight, ModelShape.ELLIPSE);
+	}
 
-    @Override
-    protected void doOnCollision() {
-        // TODO Auto-generated method stub
-    }
+	public Tree(int x, int y, float rotation, int weight, String imageFileName) {
+		super(x, y, rotation, imageFileName, weight, ModelShape.ELLIPSE);
+	}
+
+	@Override
+	protected void doOnCollision() {
+		// TODO Auto-generated method stub
+	}
 
 }

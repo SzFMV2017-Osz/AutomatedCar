@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.environment.detector;
 
-public interface IRadarSensor {
+import hu.oe.nik.szfmv.common.Vector2D;
 
+public interface IRadarSensor {
+    Vector2D getCurrentSpeed();
 }

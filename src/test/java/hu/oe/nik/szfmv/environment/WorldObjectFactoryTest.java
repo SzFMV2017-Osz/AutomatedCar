@@ -10,6 +10,7 @@ import hu.oe.nik.szfmv.environment.util.RoadType;
 import org.junit.Before;
 import org.junit.Test;
 
+import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.factory.WorldObjectFactory;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.RoadSign;
@@ -35,11 +36,11 @@ public class WorldObjectFactoryTest {
 
         assertTrue(o instanceof Tree);
         Tree t = (Tree) o;
-        assertEquals(100, t.getHeight());
-        assertEquals(100, t.getWidth());
+        assertEquals(ImageResource.getHeight("tree.png"), t.getHeight());
+        assertEquals(ImageResource.getWidth("tree.png"), t.getWidth());
         assertEquals(tree.getRotation(), t.getRotation(), 0);
         assertEquals(Integer.MAX_VALUE, t.getWeight());
-        assertEquals("Tree.png", t.getImageFileName());
+        assertEquals("tree.png", t.getImageFileName());
     }
 
     @Test
@@ -48,8 +49,8 @@ public class WorldObjectFactoryTest {
 
         assertTrue(o instanceof Road);
         Road r = (Road) o;
-        assertEquals(100, r.getHeight());
-        assertEquals(100, r.getWidth());
+        assertEquals(ImageResource.getHeight("road_2lane_90right.png"), r.getHeight());
+        assertEquals(ImageResource.getWidth("road_2lane_90right.png"), r.getWidth());
         assertEquals(road.getRotation(), r.getRotation(), 0);
         assertEquals("road_2lane_90right.png", r.getImageFileName());
         assertEquals(90, r.getCurvature());
@@ -62,8 +63,8 @@ public class WorldObjectFactoryTest {
 
         assertTrue(o instanceof RoadSign);
         RoadSign s = (RoadSign) o;
-        assertEquals(100, s.getHeight());
-        assertEquals(100, s.getWidth());
+        assertEquals(ImageResource.getHeight("roadsign_priority_stop.png"), s.getHeight());
+        assertEquals(ImageResource.getWidth("roadsign_priority_stop.png"), s.getWidth());
         assertEquals(tree.getRotation(), s.getRotation(), 0);
         assertEquals(Integer.MAX_VALUE, s.getWeight());
         assertEquals("roadsign_priority_stop.png", o.getImageFileName());

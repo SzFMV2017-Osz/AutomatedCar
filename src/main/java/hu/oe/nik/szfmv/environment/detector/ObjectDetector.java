@@ -6,6 +6,7 @@ package hu.oe.nik.szfmv.environment.detector;
 import java.awt.Shape;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
@@ -92,16 +93,10 @@ public class ObjectDetector {
      */
     private <T> List<T> selectIntersecting(Shape triangle, Class<T> type) {
 
-        if (isIntersecting == null) {
-            log.error("Comparer is not set");
-        }
-
-        if (objects == null) {
-            log.error("List of objects is not set");
-        }
+    		log.info("selectIntersecting is invoked for type: " + type.getName());
 
         try {
-            return objects.parallelStream()
+            return objects.stream()
                     .filter(o -> type.isInstance(o) && isIntersecting.apply(o.getShape(), triangle))
                     .map(o -> type.cast(o)).collect(Collectors.toList());
         } catch (ClassCastException e) {
