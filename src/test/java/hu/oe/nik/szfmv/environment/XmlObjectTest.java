@@ -22,11 +22,13 @@ public class XmlObjectTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void buildNotExistTest() {
+    		@SuppressWarnings("unused")
         XmlObject o = XmlObject.builder().type("nem_letezik").position(10, 100).rotation(0, 1, -1, 0).build();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
     public void buildNotCompleteTest() {
+		@SuppressWarnings("unused")
         XmlObject o = XmlObject.builder().type("road_2lane_straight").rotation(0, 1, -1, 0).build();
     }
 }
