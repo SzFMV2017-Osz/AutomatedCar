@@ -35,9 +35,8 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
             log.debug("move called");
         }
 
-        Vector2D newPosition = new Vector2D(this.x, this.y).add(currentSpeed.div(24));
-        this.x = (int) newPosition.getX();
-        this.y = (int) newPosition.getY();
+        Vector2D newPosition = new Vector2D(this.getX(), this.getY()).add(currentSpeed.div(24));
+        this.setPosition(newPosition);
     };
 
     protected void chageDirection(List<Vector2D> vectors) {
@@ -79,7 +78,7 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
      */
     @Override
     public String toString() {
-        return "MovingObject [currentSpeed=" + currentSpeed + ", x=" + x + ", y=" + y + ", rotation=" + rotation
+        return "MovingObject [currentSpeed=" + currentSpeed + ", x=" + this.getX() + ", y=" + this.getY() + ", rotation=" + this.getRotation()
                 + ", isCollided()=" + isCollided() + ", getWeight()=" + getWeight() + ", getWidth()=" + getWidth()
                 + ", getHeight()=" + getHeight() + ", getImageFileName()=" + getImageFileName() + ", getShape()="
                 + getShape() + "]";
