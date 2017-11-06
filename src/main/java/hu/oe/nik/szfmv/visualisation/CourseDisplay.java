@@ -19,14 +19,6 @@ public class CourseDisplay {
         //frame.invalidate();
         //frame.validate();
         frame.repaint();
-
-        if (IsKeyPressed.isWPressed()) {
-            GameDisplayJPanel.setSensorDebugMode(true);
-        } else {
-            GameDisplayJPanel.setSensorDebugMode(false);
-        }
-
-        System.out.println("..." + IsKeyPressed.isWPressed());
     }
 
     public void init(World world) {
