@@ -21,6 +21,7 @@ public class Main {
     private static final Logger logger = LogManager.getLogger();
 
     private static final int CYCLE_PERIOD = 40;
+    private static int count = 0;
 
     public static void main(String[] args) {
         CourseDisplay vis = new CourseDisplay();
@@ -36,12 +37,12 @@ public class Main {
         // init visualisation module with the world
         vis.init(w);
 
-        Car car = Car.builder().position(500, 500).rotation(0).weight(1000).color("black").build();
+        Car car = Car.builder().position(500, 500).rotation(((float)Math.PI / 2)).weight(1000).color("black").build();
         AutomatedCar playerCar = new AutomatedCar(2560, 1500, Math.PI / 2, 102, 208, "car_2_white.png",
                 ModelShape.RECTENGULAR);
         // add Car to the world
         w.addObjectToWorld(car);
-        car.accelerate(-5);
+        car.accelerate(1);
 
         // add Car to the world
         w.addObjectToWorld(playerCar);
@@ -51,6 +52,13 @@ public class Main {
                 playerCar.drive();
                 vis.refreshFrame();
                 Thread.sleep(CYCLE_PERIOD);
+                count++;
+                if (count % 25 == 0 && count < 50) {
+                    car.accelerate(1.0000001);
+                }
+                if (count % 20 == 0) {
+                    car.turn(10);
+                }
             } catch (InterruptedException e) {
                 logger.error(e.getMessage());
             }
