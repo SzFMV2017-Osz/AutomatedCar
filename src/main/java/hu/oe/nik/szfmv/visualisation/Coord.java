@@ -4,7 +4,7 @@ import hu.oe.nik.szfmv.environment.model.WorldObject;
 
 public class Coord {
     public static final Coord origoPoint = new Coord(0, 0);
-    private double x, y;
+    private int x, y;
 
     public Coord(int x, int y) {
         this.x = x;
@@ -24,20 +24,22 @@ public class Coord {
         this.x = x;
     }
 
-    public void setValue(double x, double y) {
+    public void setValue(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public double getX() {
+    public int getX() {
         return x;
     }
 
-    public double getY() {
+    public int getY() {
         return y;
     }
 
     public boolean equals(Object obj) {
-        return (obj instanceof Coord) && ((Coord) obj).x == this.x && ((Coord) obj).y == this.y;
+        return (obj instanceof Coord)
+                && ((Coord) obj).x == this.x
+                && ((Coord) obj).y == this.y;
     }
 }

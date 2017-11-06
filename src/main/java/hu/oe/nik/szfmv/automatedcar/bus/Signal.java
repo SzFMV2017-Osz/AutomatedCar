@@ -8,26 +8,26 @@ package hu.oe.nik.szfmv.automatedcar.bus;
  * on the network) and a frame can contain several signals. This way the
  * throughput of the network is utilized more efficiently.
  * <p>
- * For the simulation environment let's assume that each frame contains a single
- * message, so we do not need to bother extracting signal data from frames.
+ * For the simulation environment let's assume that each frame contains a single message,
+ * so we do not need to bother extracting signal data from frames.
  */
 
 public class Signal {
     // Signal identifier, a component can decide based on this value
     // whether the content of the signal shall be processed or not.
-    private SignalEnum id;
+    private int id;
 
     // Signal value
     private Object data;
 
     // Constructor for Signal
-    public Signal(SignalEnum id, Object data) {
+    public Signal(int id, Object data) {
         this.id = id;
         this.data = data;
     }
 
     // Getter for Signal Id
-    public SignalEnum getId() {
+    public int getId() {
         return id;
     }
 

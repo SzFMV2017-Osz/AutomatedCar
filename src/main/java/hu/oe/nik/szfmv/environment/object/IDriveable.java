@@ -11,8 +11,8 @@ public interface IDriveable {
 
     void turn(float angle);
 
-    void accelerate(double scale);
+    void accelerate(int scale);
 
-    void slow(double scale);
+    void slow(int scale);
 
 }
