@@ -1,18 +1,18 @@
 package hu.oe.nik.szfmv.inputinterface;
 
-import hu.oe.nik.szfmv.automatedcar.SystemComponent;
-import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
-import hu.oe.nik.szfmv.automatedcar.bus.Signal;
-import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
-import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public final class UserInputHandler extends SystemComponent implements KeyListener{
+import hu.oe.nik.szfmv.automatedcar.SystemComponent;
+import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
+import hu.oe.nik.szfmv.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
+import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+
+public final class UserInputHandler extends SystemComponent implements KeyListener {
 
     private static final int DECREASING_TIME_PERIOD = 14;
 
@@ -38,7 +38,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         this.steeringWheelState = componentStateCalculator.BASIC_STEERING_WHEEL_STATE;
         this.gaspedalState = componentStateCalculator.MIN_PEDAL_STATE;
         this.breakpedalState = componentStateCalculator.MIN_PEDAL_STATE;
-      
+
         this.isKeyPressingHappened = false;
     }
 
@@ -53,11 +53,11 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         this.isKeyPressingHappened = true;
 
         // collecting simultaneous key presses
-        if (!this.pressedKeyCodes.contains(userKeyPress.getKeyCode())){
+        if (!this.pressedKeyCodes.contains(userKeyPress.getKeyCode())) {
             pressedKeyCodes.add(userKeyPress.getKeyCode());
         }
 
-        if (this.pressedKeyCodes.contains(KeyEvent.VK_P)){
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_P)) {
             // set autotransmission to PARK mode
             this.autotransmissionState = AutoTransmissionEnum.P;
         }
@@ -104,7 +104,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         this.pressedKeyCodes.remove(new Integer(userKeyRelease.getKeyCode()));
 
         // amíg nincs input, minden visszaáll alaphelyzetbe
-        if (this.pressedKeyCodes.isEmpty()){
+        if (this.pressedKeyCodes.isEmpty()) {
             this.isKeyPressingHappened = false;
             this.decreaseAllComponentStateToBase();
         }
@@ -117,7 +117,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
             public void run() {
 
                 if (!isKeyPressingHappened){
-                  
+
                     if (gaspedalState != componentStateCalculator.MIN_PEDAL_STATE){
                         gaspedalState--;
                     }
@@ -169,7 +169,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
                 )
         );
     }
-  
+
     private void sendNewBreakpedalState(int newBreakpedalState) {
         VirtualFunctionBus.sendSignal(
                 new Signal(
