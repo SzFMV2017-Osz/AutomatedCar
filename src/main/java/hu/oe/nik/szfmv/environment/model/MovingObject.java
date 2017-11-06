@@ -71,11 +71,10 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
         }
 
         this.position = this.position.add(currentSpeed.div(24));
-        this.rotation = this.currentSpeed.getAngle();
-        // Vector2D newPosition = new Vector2D(this.getX(),
-        // this.getY()).add(currentSpeed.div(24));
-        // this.setPosition(newPosition);
-    };
+        if (currentSpeed.abs() < 0) {
+            this.rotation = this.currentSpeed.getAngle();
+        }
+    }
 
     protected void chageDirection(List<Vector2D> vectors) {
         for (Vector2D vector2d : vectors) {
