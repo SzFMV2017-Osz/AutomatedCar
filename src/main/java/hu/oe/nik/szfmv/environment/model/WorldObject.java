@@ -1,19 +1,18 @@
 package hu.oe.nik.szfmv.environment.model;
 
-import java.awt.*;
-import java.awt.geom.*;
-
-import hu.oe.nik.szfmv.environment.xml.Utils;
-
-import java.awt.Shape;
-
 import hu.oe.nik.szfmv.common.Vector2D;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import hu.oe.nik.szfmv.environment.detector.ICameraSensor;
 import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
+import hu.oe.nik.szfmv.environment.xml.Utils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Világ elemeinek ős osztálya
@@ -63,9 +62,7 @@ public abstract class WorldObject implements ICameraSensor {
         this.rotation = rotation;
         this.imageFileName = imageName;
         this.width = ImageResource.getWidth(imageName);
-        ;
         this.height = ImageResource.getHeight(imageName);
-        ;
         this.shape = shape;
     }
 

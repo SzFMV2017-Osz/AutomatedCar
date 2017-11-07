@@ -8,9 +8,8 @@ import org.apache.logging.log4j.Logger;
 /**
  * Ütközni képes objektumokat reprezentáló osztály TODO: ütközés detektálás
  * kialakítása (- vizualizációs csapattal egyeztetni)
- * 
- * @author hunkak
  *
+ * @author hunkak
  */
 public abstract class CollidableObject extends WorldObject implements ISensor {
 
@@ -24,7 +23,7 @@ public abstract class CollidableObject extends WorldObject implements ISensor {
 
     @Deprecated
     public CollidableObject(int x, int y, float rotation, int width, int height, String imageFileName, int weight,
-            ModelShape shape) {
+                            ModelShape shape) {
         super(x, y, rotation, width, height, imageFileName, shape);
 
         this.weight = weight;
