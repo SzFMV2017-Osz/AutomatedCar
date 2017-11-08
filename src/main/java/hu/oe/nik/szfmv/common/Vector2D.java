@@ -89,9 +89,8 @@ public class Vector2D {
         Vector2D other = (Vector2D) obj;
         if (other == null) {
             return false;
-        } else if (
-                Math.abs(this.x - other.getX()) <= FLOAT_COMPARE_THRESHOLD &&
-                        Math.abs(this.y - other.getY()) <= FLOAT_COMPARE_THRESHOLD) {
+        } else if (Math.abs(this.x - other.getX()) <= FLOAT_COMPARE_THRESHOLD
+                && Math.abs(this.y - other.getY()) <= FLOAT_COMPARE_THRESHOLD) {
             return true;
         }
         return false;
