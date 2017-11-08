@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv.visualisation;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Sensor;
+import hu.oe.nik.szfmv.environment.util.SensorType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +31,11 @@ public class GameDisplayJPanel extends JPanel {
     private Image staticBackground = null;
 
     private final RoadConstants roadConst;
-    private final boolean isSensorDebugMode = true;
+    private boolean isSensorDebugMode = true;
+    
+    private boolean cameraSensorDebugMode = false;
+    private boolean radarSensorDebugMode = false;
+    private boolean sensorSensorDebugMode = false;
 
     //need height/width because this.getHeight/Width is 0 at constructor time
     public GameDisplayJPanel(World gameWorld, double scale, int width, int height) {
@@ -39,6 +44,27 @@ public class GameDisplayJPanel extends JPanel {
         roadConst = new RoadConstants(scale);
         //draw background once into an Image
         staticBackground = generateStaticBackground(width, height);
+    }
+
+    private ArrayList<WorldObject> DebugSensor() {
+
+        ArrayList<WorldObject> activeSensors = new ArrayList<WorldObject>();
+
+        for (WorldObject activeSensor : world.getWorldObjectsFiltered().getSensors()) {
+
+            if (isCameraSensorDebugMode() && ((Sensor)activeSensor).getType() == SensorType.CAMERA) {
+                activeSensors.add(activeSensor);
+            }
+            if (isRadarSensorDebugMode() && ((Sensor)activeSensor).getType() == SensorType.RADAR) {
+                activeSensors.add(activeSensor);
+            }
+            if (isSensorSensorDebugMode() && ((Sensor)activeSensor).getType().toString().contains("ULTRASONIC")) {
+                activeSensors.add(activeSensor);
+            }
+
+        }
+
+        return activeSensors;
     }
 
     public void paintComponent(Graphics g) {
@@ -58,9 +84,8 @@ public class GameDisplayJPanel extends JPanel {
                 world.getWorldObjectsFiltered().getCars(),
                 true);
 
-        if (isSensorDebugMode) {
-            drawSensors(g2d,
-                    world.getWorldObjectsFiltered().getSensors());
+        if (isSensorDebugMode()) {
+            drawSensors(g2d, DebugSensor());
         }
     }
 
@@ -218,4 +243,35 @@ public class GameDisplayJPanel extends JPanel {
             return c;
     }
 
+    public boolean isCameraSensorDebugMode() {
+        return cameraSensorDebugMode;
+    }
+
+    public void setCameraSensorDebugMode(boolean cameraSensorDebugMode) {
+        this.cameraSensorDebugMode = cameraSensorDebugMode;
+    }
+
+    public boolean isRadarSensorDebugMode() {
+        return radarSensorDebugMode;
+    }
+
+    public void setRadarSensorDebugMode(boolean radarSensorDebugMode) {
+        this.radarSensorDebugMode = radarSensorDebugMode;
+    }
+
+    public boolean isSensorSensorDebugMode() {
+        return sensorSensorDebugMode;
+    }
+
+    public void setSensorSensorDebugMode(boolean sensorSensorDebugMode) {
+        this.sensorSensorDebugMode = sensorSensorDebugMode;
+    }
+
+    public boolean isSensorDebugMode() {
+        return isSensorDebugMode;
+    }
+
+    public void setSensorDebugMode(boolean sensorDebugMode) {
+        isSensorDebugMode = sensorDebugMode;
+    }
 }

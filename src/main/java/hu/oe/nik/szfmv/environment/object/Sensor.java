@@ -43,4 +43,8 @@ public class Sensor extends WorldObject {
     public Car getCar() {
         return car;
     }
+
+    public SensorType getType() {
+        return type;
+    }
 }
