@@ -24,7 +24,9 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
     private Point rightRange;
     private ArrayList<WorldObject> objectsInRange = new ArrayList<WorldObject>();
     private HashMap<WorldObject, Double> filteredRoadObjects = new HashMap<WorldObject, Double>();
-    private HashMap<WorldObject, Double> filteredRoadSignObjectsHashMap = new HashMap<WorldObject, Double>();
+    private LinkedHashMap<WorldObject, Double> filteredRoadSignObjectsHashMap = new LinkedHashMap<WorldObject, Double>();
+
+    public LinkedHashMap<WorldObject, Double> getFilteredRoadSignObjectsHashMap(){ return this.filteredRoadSignObjectsHashMap; }
 
     public double getX() {
         return this.X;
