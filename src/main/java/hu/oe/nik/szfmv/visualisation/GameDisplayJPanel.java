@@ -31,11 +31,11 @@ public class GameDisplayJPanel extends JPanel {
     private Image staticBackground = null;
 
     private final RoadConstants roadConst;
+
     private boolean isSensorDebugMode = true;
-    
-    private boolean cameraSensorDebugMode = false;
-    private boolean radarSensorDebugMode = false;
-    private boolean sensorSensorDebugMode = false;
+    private boolean cameraSensorDebugMode = true;
+    private boolean radarSensorDebugMode = true;
+    private boolean sensorSensorDebugMode = true;
 
     //need height/width because this.getHeight/Width is 0 at constructor time
     public GameDisplayJPanel(World gameWorld, double scale, int width, int height) {
