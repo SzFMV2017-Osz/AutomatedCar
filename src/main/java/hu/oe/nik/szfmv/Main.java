@@ -1,11 +1,23 @@
 package hu.oe.nik.szfmv;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.factory.SensorObjectFactory;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
+//import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Car;
 import hu.oe.nik.szfmv.environment.object.Sensor;
 import hu.oe.nik.szfmv.environment.util.SensorType;
+import hu.oe.nik.szfmv.environment.xml.XmlObject;
+import hu.oe.nik.szfmv.environment.xml.XmlParser;
+import hu.oe.nik.szfmv.environment.util.ModelShape;
 import hu.oe.nik.szfmv.environment.xml.XmlObject;
 import hu.oe.nik.szfmv.environment.xml.XmlParser;
 import hu.oe.nik.szfmv.visualisation.CourseDisplay;
@@ -18,11 +30,13 @@ import java.util.List;
 
 public class Main {
 
-	private static final Logger logger = LogManager.getLogger();
-    private static final int CYCLE_PERIOD = 17;
+    private static final Logger logger = LogManager.getLogger();
 
-	public static void main(String[] args) {
-		CourseDisplay vis = new CourseDisplay();
+    private static final int CYCLE_PERIOD = 40;
+    private static int count = 0;
+
+    public static void main(String[] args) {
+        CourseDisplay vis = new CourseDisplay();
 
 		// create the world
         //TODO: get this from xml
@@ -38,7 +52,7 @@ public class Main {
 
         //!ONLY FOR TESTING!
         testInitFromXml(w);
-        testSensorInit(w, car);
+        //testSensorInit(w, car);
 
 
 		w.addObjectToWorld(car);
@@ -55,65 +69,67 @@ public class Main {
 				logger.error(e.getMessage());
 			}
 		}
+
+
 	}
 
-    private static void testSensorInit(World w, Car car) {
-        Sensor radar = SensorObjectFactory.createSensor(car, SensorType.RADAR);
-        w.addObjectToWorld(radar);
+	private static void testSensorInit(World w, Car car) {
+		Sensor radar = SensorObjectFactory.createSensor(car, SensorType.RADAR);
+		w.addObjectToWorld(radar);
 
-        Sensor camera = SensorObjectFactory.createSensor(car, SensorType.CAMERA);
-        w.addObjectToWorld(camera);
+		Sensor camera = SensorObjectFactory.createSensor(car, SensorType.CAMERA);
+		w.addObjectToWorld(camera);
 
-        Sensor ultrasonicLSF = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_LSF);
-        w.addObjectToWorld(ultrasonicLSF);
+		Sensor ultrasonicLSF = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_LSF);
+		w.addObjectToWorld(ultrasonicLSF);
 
-        Sensor ultrasonicLSB = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_LSB);
-        w.addObjectToWorld(ultrasonicLSB);
+		Sensor ultrasonicLSB = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_LSB);
+		w.addObjectToWorld(ultrasonicLSB);
 
-        Sensor ultrasonicRSF = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_RSF);
-        w.addObjectToWorld(ultrasonicRSF);
+		Sensor ultrasonicRSF = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_RSF);
+		w.addObjectToWorld(ultrasonicRSF);
 
-        Sensor ultrasonicRSB = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_RSB);
-        w.addObjectToWorld(ultrasonicRSB);
+		Sensor ultrasonicRSB = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_RSB);
+		w.addObjectToWorld(ultrasonicRSB);
 
-        Sensor ultrasonicFL = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_FL);
-        w.addObjectToWorld(ultrasonicFL);
+		Sensor ultrasonicFL = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_FL);
+		w.addObjectToWorld(ultrasonicFL);
 
-        Sensor ultrasonicRL = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_RL);
-        w.addObjectToWorld(ultrasonicRL);
+		Sensor ultrasonicRL = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_RL);
+		w.addObjectToWorld(ultrasonicRL);
 
-        Sensor ultrasonicRR = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_RR);
-        w.addObjectToWorld(ultrasonicRR);
+		Sensor ultrasonicRR = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_RR);
+		w.addObjectToWorld(ultrasonicRR);
 
-        Sensor ultrasonicFR = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_FR);
-        w.addObjectToWorld(ultrasonicFR);
+		Sensor ultrasonicFR = SensorObjectFactory.createSensor(car, SensorType.ULTRASONIC_FR);
+		w.addObjectToWorld(ultrasonicFR);
 
-    }
+	}
 
-    //!ONLY FOR TESTING!
-    private static void testInitFromXml(World w) {
-        logger.log(Level.WARN, "@Team1: fix this, WorldObject initialization method is only for testing");
-        List<XmlObject> xmlo = new ArrayList<>();
-        try {
-            xmlo = XmlParser.parse("test_world.xml");
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
+	//!ONLY FOR TESTING!
+	private static void testInitFromXml(World w) {
+		logger.log(Level.WARN, "@Team1: fix this, WorldObject initialization method is only for testing");
+		List<XmlObject> xmlo = new ArrayList<>();
+		try {
+			xmlo = XmlParser.parse("test_world.xml");
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
 
-        try {
-            for (XmlObject item : xmlo) {
-                w.addObjectToWorld(
-                        new WorldObject(
-                                item.getX(),
-                                item.getY(),
-                                -(float) ((double) item.getRotation() / 180 * Math.PI),
-                                10,
-                                10,
-                                item.getType().getXmlName() + ".png",
-                                null));
-            }
-        } catch (Exception e) {
-        }
+		try {
+			/*for (XmlObject item : xmlo) {
+				w.addObjectToWorld(
+						new WorldObject(
+								item.getX(),
+								item.getY(),
+								-(float) ((double) item.getRotation() / 180 * Math.PI),
+								10,
+								10,
+								item.getType().getXmlName() + ".png",
+								null));
+			}*/
+		} catch (Exception e) {
+		}
 
-    }
+	}
 }

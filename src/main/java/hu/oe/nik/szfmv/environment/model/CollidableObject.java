@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.environment.model;
 
+import hu.oe.nik.szfmv.environment.detector.ISensor;
+import hu.oe.nik.szfmv.environment.util.ModelShape;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,60 +12,67 @@ import java.awt.*;
 /**
  * Ütközni képes objektumokat reprezentáló osztály TODO: ütközés detektálás
  * kialakítása (- vizualizációs csapattal egyeztetni)
- * 
- * @author hunkak
  *
+ * @author hunkak
  */
-public abstract class CollidableObject extends WorldObject {
+public abstract class CollidableObject extends WorldObject implements ISensor {
 
-	private static final Logger log = LogManager.getLogger(CollidableObject.class);
+    private static final Logger log = LogManager.getLogger(CollidableObject.class);
 
-	// mozgó objektum tömege impulzus számításhoz
-	private final int weight;
-	// objektum ütközött-e már
-	// TODO: bináris vagy skálázható érték legyen?
-	private boolean collided;
+    // mozgó objektum tömege impulzus számításhoz
+    private final int weight;
+    // objektum ütközött-e már
+    // TODO: bináris vagy skálázható érték legyen?
+    private boolean collided;
 
-	public CollidableObject(int x, int y, float rotation, int width, int height, String imageFileName, int weight,
-			Shape shape) {
-		super(x, y, rotation, width, height, imageFileName, shape);
+    @Deprecated
+    public CollidableObject(int x, int y, float rotation, int width, int height, String imageFileName, int weight,
+                            ModelShape shape) {
+        super(x, y, rotation, width, height, imageFileName, shape);
 
-		this.weight = weight;
-		this.collided = false;
-	}
+        this.weight = weight;
+        this.collided = false;
+    }
 
-	/**
-	 * ütközés eseménykezelője
-	 */
-	public void onCollision() {
-		log.debug("CollidableObject#onCollision invoked");
-		this.collided = true;
-		doOnCollision();
-	}
+    public CollidableObject(int x, int y, float rotation, String imageFileName, int weight, ModelShape shape) {
+        super(x, y, rotation, imageFileName, shape);
 
-	/**
-	 * objektum viselkedése ütközéskor
-	 */
-	protected abstract void doOnCollision();
+        this.weight = weight;
+        this.collided = false;
+    }
 
-	public boolean isCollided() {
-		return collided;
-	}
+    /**
+     * ütközés eseménykezelője
+     */
+    public void onCollision() {
+        log.debug("CollidableObject#onCollision invoked");
+        this.collided = true;
+        doOnCollision();
+    }
 
-	public int getWeight() {
-		return weight;
-	}
+    /**
+     * objektum viselkedése ütközéskor
+     */
+    protected abstract void doOnCollision();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "CollidableObject [weight=" + weight + ", collided=" + collided + ", x=" + x + ", y=" + y + ", rotation="
-				+ rotation + ", getWidth()=" + getWidth() + ", getHeight()=" + getHeight() + ", getImageFileName()="
-				+ getImageFileName() + ", getShape()=" + getShape() + "]";
-	}
+    public boolean isCollided() {
+        return collided;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "CollidableObject [weight=" + weight + ", collided=" + collided + ", x=" + this.getX() + ", y="
+                + this.getY() + ", rotation=" + this.getRotation() + ", getWidth()=" + getWidth() + ", getHeight()="
+                + getHeight() + ", getImageFileName()=" + getImageFileName() + ", getShape()=" + getShape() + "]";
+    }
 
 }

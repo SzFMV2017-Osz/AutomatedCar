@@ -30,7 +30,7 @@ public class GameDisplayJPanel extends JPanel {
     private Image staticBackground = null;
 
     private final RoadConstants roadConst;
-    private final boolean isSensorDebugMode = true;
+    private static boolean isSensorDebugMode = false;
 
     //need height/width because this.getHeight/Width is 0 at constructor time
     public GameDisplayJPanel(World gameWorld, double scale, int width, int height) {
@@ -39,6 +39,14 @@ public class GameDisplayJPanel extends JPanel {
         roadConst = new RoadConstants(scale);
         //draw background once into an Image
         staticBackground = generateStaticBackground(width, height);
+    }
+
+    public static boolean getIsSensorDebugMode() {
+        return isSensorDebugMode;
+    }
+
+    public static void setIsSensorDebugMode(boolean isSensorDebugMode) {
+        GameDisplayJPanel.isSensorDebugMode = isSensorDebugMode;
     }
 
     public void paintComponent(Graphics g) {
@@ -58,7 +66,7 @@ public class GameDisplayJPanel extends JPanel {
                 world.getWorldObjectsFiltered().getCars(),
                 true);
 
-        if (isSensorDebugMode) {
+        if (getIsSensorDebugMode()) {
             drawSensors(g2d,
                     world.getWorldObjectsFiltered().getSensors());
         }

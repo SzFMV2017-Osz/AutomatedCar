@@ -1,10 +1,14 @@
 package hu.oe.nik.szfmv.visualisation;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import hu.oe.nik.szfmv.environment.model.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
+import hu.oe.nik.szfmv.environment.model.World;
+import hu.oe.nik.szfmv.inputinterface.UserInputHandler;
 
 public class CourseDisplay {
 
@@ -19,6 +23,7 @@ public class CourseDisplay {
         //frame.invalidate();
         //frame.validate();
         frame.repaint();
+        //System.out.println(GameDisplayJPanel.getIsSensorDebugMode());
     }
 
     public void init(World world) {

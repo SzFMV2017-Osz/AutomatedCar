@@ -2,6 +2,7 @@ package hu.oe.nik.szfmv.environment.object;
 
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.util.SensorType;
+import hu.oe.nik.szfmv.environment.util.ModelShape;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -9,7 +10,7 @@ import java.awt.geom.AffineTransform;
 public class Sensor extends WorldObject {
 
     public Sensor(int[] xPoints, int[] yPoints, Car car, SensorType type) {
-        super(xPoints[0], yPoints[0], 0, 0, 0, null, new Polygon(xPoints, yPoints, 3));
+        super(xPoints[0], yPoints[0], 0, 0, 0, null, /*new Polygon(xPoints, yPoints, 3)*/ ModelShape.POLYGON);
         this.car = car;
         this.type = type;
     }
@@ -18,7 +19,7 @@ public class Sensor extends WorldObject {
     private SensorType type;
 
     @Override
-    public int getX() {
+    public double getX() {
         return car.getX();
     }
 
@@ -31,12 +32,12 @@ public class Sensor extends WorldObject {
     }
 
     @Override
-    public int getY() {
+    public double getY() {
         return car.getY();
     }
 
     @Override
-    public float getRotation() {
+    public double getRotation() {
         return car.getRotation();
     }
 

@@ -1,91 +1,157 @@
 package hu.oe.nik.szfmv.environment.model;
 
+import hu.oe.nik.szfmv.common.Vector2D;
+import hu.oe.nik.szfmv.environment.detector.ICameraSensor;
+import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
+import hu.oe.nik.szfmv.environment.xml.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Világ elemeinek ős osztálya
- * 
+ *
  * @author hunkak
  *
  */
-public class WorldObject {
+public abstract class WorldObject {
 
-	private static final Logger log = LogManager.getLogger(WorldObject.class);
+    private static final Logger log = LogManager.getLogger(WorldObject.class);
 
-	// objektum helyzete a síkon
-	// TODO meghatározni, hogy az objektum melyik pontja - vizualizációs csapattal
-	int x, y;
-	// objektum forgatása
-	// TODO meghatározni a bázis helyzetet és a mértékegységet (szög,radián)
-	float rotation;
+    // objektum helyzete a síkon
+    // csapattal
+    Vector2D position;
+    // objektum forgatása
+    double rotation;
 
-	// objektum kiterjedése
-	// TODO befoglaló négyszög? implementációs függő jelentés?
-	private final int width, height;
+    /**
+     * object dimension in pixels
+     */
+    private final int width, height;
 
 	// objektum formája
-	private final Shape shape;
+	private final ModelShape shape;
 
-	private final String imageFileName;
+    private final String imageFileName;
 
-	public WorldObject(int x, int y, float rotation, int width, int height, String imageName, Shape shape) {
+	public WorldObject(int x, int y, float rotation, int width, int height, String imageName, ModelShape shape) {
 		super();
 
-		this.x = x;
-		this.y = y;
-		this.rotation = rotation;
-		this.width = width;
-		this.height = height;
-		this.imageFileName = imageName;
-		this.shape = shape;
-	}
+        this.position = new Vector2D(x, y);
+        this.rotation = rotation;
+        this.imageFileName = imageName;
+        this.width = ImageResource.getWidth(imageName);
+        this.height = ImageResource.getHeight(imageName);
+        this.shape = shape;
+    }
 
-	public int getX() {
-		return x;
-	}
+    /**
+     * Width and height are set based on image size
+     *
+     * @param x
+     * @param y
+     * @param rotation
+     * @param imageName
+     * @param shape
+     */
+    public WorldObject(double x, double y, double rotation, String imageName, ModelShape shape) {
+        super();
 
-	public int getY() {
-		return y;
-	}
+        this.position = new Vector2D(x, y);
+        this.rotation = rotation;
+        this.imageFileName = imageName;
+        this.width = ImageResource.getWidth(imageName);
+        this.height = ImageResource.getHeight(imageName);
+        this.shape = shape;
+    }
 
-	public float getRotation() {
-		return rotation;
-	}
+    public double getX() {
+        return this.position.getX();
+    }
 
-    @Deprecated
+    public double getY() {
+        return this.position.getY();
+    }
+
+    public double getRotation() {
+        return rotation;
+    }
+
+    /**
+     *
+     * @return objects' width in pixel
+     */
     public int getWidth() {
         return width;
     }
 
-    @Deprecated
+    /**
+     *
+     * @return objects' height in pixel
+     */
     public int getHeight() {
         return height;
     }
 
-	public String getImageFileName() {
-		return imageFileName;
-	}
+    public double getWidthInMeters() {
+        return Utils.convertPixelToMeter(this.getWidth());
+    }
 
-	/**
-	 * @return the shape
-	 */
-	public Shape getShape() {
-		return shape;
-	}
+    public double getHeightInMeters() {
+        return Utils.convertPixelToMeter(this.getHeight());
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "WorldObject [x=" + x + ", y=" + y + ", rotation=" + rotation + ", width=" + width + ", height=" + height
-				+ ", shape=" + shape + ", imageFileName=" + imageFileName + "]";
-	}
+    public double getRotationRadian() {
+        return this.getRotation() * Math.PI / 180;
+    }
 
+    public Vector2D getPosition() {
+        return position;
+    }
+
+    public void setPosition(Vector2D position) {
+        this.position = position;
+    }
+
+    public String getImageFileName() {
+        return imageFileName;
+    }
+
+    public Shape getShape() {
+        Shape tempShape = null;
+        switch (this.shape) {
+            case ELLIPSE:
+                tempShape = new Ellipse2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+                break;
+            case RECTENGULAR:
+                tempShape = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+                break;
+            case POLYGON:
+                tempShape = new Polygon(new int[]{(int) this.getX()}, new int[]{(int) this.getY()}, 3);
+                break;
+        }
+        AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotationRadian(), this.getX(),
+                this.getY());
+        PathIterator pathIterator = tempShape.getPathIterator(affineTransform);
+        Polygon polygon = new Polygon();
+        while (pathIterator.isDone()) {
+            double[] xy = new double[2];
+            pathIterator.currentSegment(xy);
+            polygon.addPoint((int) xy[0], (int) xy[1]);
+            pathIterator.next();
+        }
+        return polygon;
+    }
+
+    @Override
+    public String toString() {
+        return "WorldObject [x=" + this.getX() + ", y=" + this.getY() + ", rotation=" + rotation + ", width=" + width
+                + ", height=" + height + ", shape=" + shape + ", imageFileName=" + imageFileName + "]";
+    }
 }
