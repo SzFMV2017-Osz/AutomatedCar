@@ -3,6 +3,9 @@ package hu.oe.nik.szfmv;
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.oe.nik.szfmv.environment.detector.WindscreenCamera;
+import hu.oe.nik.szfmv.environment.model.WorldObject;
+import hu.oe.nik.szfmv.environment.model.WorldObjectCollection;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,9 +43,15 @@ public class Main {
         Car car = Car.builder().position(500, 500).rotation(((float)Math.PI / 2)).weight(1000).color("black").build();
         AutomatedCar playerCar = new AutomatedCar(2560, 1500, Math.PI / 2, 102, 208, "car_2_white.png",
                 ModelShape.RECTENGULAR);
+
+
+
         // add Car to the world
         w.addObjectToWorld(car);
         car.accelerate(1);
+
+        //add WindscreenCamera to the world
+        WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, w.getWorldObjects());
 
         // add Car to the world
         w.addObjectToWorld(playerCar);
