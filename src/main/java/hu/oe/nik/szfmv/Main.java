@@ -1,20 +1,21 @@
 package hu.oe.nik.szfmv;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.environment.factory.WorldObjectFactory;
 import hu.oe.nik.szfmv.environment.model.World;
-//import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Car;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 import hu.oe.nik.szfmv.environment.xml.XmlObject;
 import hu.oe.nik.szfmv.environment.xml.XmlParser;
 import hu.oe.nik.szfmv.visualisation.CourseDisplay;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
+
+//import hu.oe.nik.szfmv.environment.model.WorldObject;
 
 public class Main {
 
@@ -28,24 +29,24 @@ public class Main {
 
         // create the world
         // TODO: get this from xml
-        World w = new World(5120, 3000);
+        World world = new World(5120, 3000);
         // create an automated car
 
         // !ONLY FOR TESTING!
-        testInitFromXml(w);
+        testInitFromXml(world);
 
         // init visualisation module with the world
-        vis.init(w);
+        vis.init(world);
 
         Car car = Car.builder().position(500, 500).rotation(((float)Math.PI / 2)).weight(1000).color("black").build();
         AutomatedCar playerCar = new AutomatedCar(2560, 1500, Math.PI / 2, 102, 208, "car_2_white.png",
                 ModelShape.RECTENGULAR);
         // add Car to the world
-        w.addObjectToWorld(car);
+        world.addObjectToWorld(car);
         car.accelerate(1);
 
         // add Car to the world
-        w.addObjectToWorld(playerCar);
+        world.addObjectToWorld(playerCar);
         while (true) {
             try {
                 car.move();
@@ -77,12 +78,10 @@ public class Main {
         }
 
         try {
-            // for (XmlObject item : xmlo) {
-            // w.addObjectToWorld(new WorldObject(item.getX(), item.getY(),
-            // -(float) ((double) item.getRotation() / 180 * Math.PI), 10,
-            // 10,
-            // item.getType().getXmlName() + ".png", null));
-            // }
+
+             for (XmlObject item : xmlo) {
+                w.addObjectToWorld(WorldObjectFactory.createWorldObject(item));
+             }
         } catch (Exception e) {
         }
     }

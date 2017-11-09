@@ -144,7 +144,7 @@ public class XmlObject {
          * @return
          */
         public XmlObjectBuilder rotation(double[][] rotation) {
-            instance.rotation = (float) Utils.radianToDegree(Utils.convertMatrixToRadians(rotation));
+            instance.rotation = -(float) Utils.convertMatrixToRadians(rotation);
             rotationSet = true;
             log.info("setting rotation from {{" + rotation[0][0] + "," + rotation[0][1] + "},{" + rotation[1][0] + ","
                     + rotation[1][1] + "}} to " + instance.rotation);
