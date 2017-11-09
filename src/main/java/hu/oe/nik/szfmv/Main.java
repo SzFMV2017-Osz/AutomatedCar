@@ -3,15 +3,17 @@ package hu.oe.nik.szfmv;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.factory.WorldObjectFactory;
 import hu.oe.nik.szfmv.environment.model.World;
-import hu.oe.nik.szfmv.environment.object.Car;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 import hu.oe.nik.szfmv.environment.xml.XmlObject;
 import hu.oe.nik.szfmv.environment.xml.XmlParser;
 import hu.oe.nik.szfmv.visualisation.CourseDisplay;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,67 +24,68 @@ public class Main {
     private static final Logger logger = LogManager.getLogger();
 
     private static final int CYCLE_PERIOD = 40;
-    private static int count = 0;
+    private static CourseDisplay userInterFace;
+    private static AutomatedCar playerCar;
 
     public static void main(String[] args) {
-        CourseDisplay vis = new CourseDisplay();
+        init();
+
+        mainLoop();
+    }
+
+    private static void init() {
+        userInterFace = new CourseDisplay();
 
         // create the world
-        // TODO: get this from xml
-        World world = new World(5120, 3000);
-        // create an automated car
+        List<XmlObject> xmlObjects = readXmlObjects();
 
-        // !ONLY FOR TESTING!
-        testInitFromXml(world);
+        World world = new World(XmlParser.getWorldDimensions()[0], XmlParser.getWorldDimensions()[1]);
 
-        // init visualisation module with the world
-        vis.init(world);
+        populateWorld(xmlObjects, world);
 
-        Car car = Car.builder().position(500, 500).rotation(((float)Math.PI / 2)).weight(1000).color("black").build();
-        AutomatedCar playerCar = new AutomatedCar(2560, 1500, Math.PI / 2, 102, 208, "car_2_white.png",
+        userInterFace.init(world);
+
+        playerCar = new AutomatedCar(2560, 1500, Math.PI / 2, 102, 208, "car_2_white.png",
                 ModelShape.RECTENGULAR);
-        // add Car to the world
-        world.addObjectToWorld(car);
-        car.accelerate(1);
 
-        // add Car to the world
         world.addObjectToWorld(playerCar);
+    }
+
+    private static void mainLoop() {
         while (true) {
             try {
-                car.move();
                 playerCar.drive();
-                vis.refreshFrame();
+                userInterFace.refreshFrame();
                 Thread.sleep(CYCLE_PERIOD);
-                count++;
-                if (count % 25 == 0 && count < 50) {
-                    car.accelerate(1.0000001);
-                }
-                if (count % 20 == 0) {
-                    car.turn(10);
-                }
             } catch (InterruptedException e) {
                 logger.error(e.getMessage());
             }
         }
     }
 
-    // !ONLY FOR TESTING!
-    @SuppressWarnings("unused")
-    private static void testInitFromXml(World w) {
-        logger.log(Level.WARN, "@Team1: fix this, WorldObject initialization method is only for testing");
-        List<XmlObject> xmlo = new ArrayList<>();
-        try {
-            xmlo = XmlParser.parse("test_world.xml");
-        } catch (Exception e) {
-            logger.error(e.getMessage());
+    private static void populateWorld(List<XmlObject> xmlObjects, World world) {
+        for (XmlObject item : xmlObjects) {
+            try {
+                world.addObjectToWorld(WorldObjectFactory.createWorldObject(item));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+    }
 
+    private static List<XmlObject> readXmlObjects() {
+        List<XmlObject> xmlObjects = new ArrayList<>();
         try {
-
-             for (XmlObject item : xmlo) {
-                w.addObjectToWorld(WorldObjectFactory.createWorldObject(item));
-             }
-        } catch (Exception e) {
+            xmlObjects = XmlParser.parse("test_world.xml");
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
         }
+        return xmlObjects;
     }
 }
