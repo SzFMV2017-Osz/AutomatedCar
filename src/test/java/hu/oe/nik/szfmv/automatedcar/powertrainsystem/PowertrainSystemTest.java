@@ -1,18 +1,17 @@
 package hu.oe.nik.szfmv.automatedcar.powertrainsystem;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.junit.Ignore;
-
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.Driver;
 import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 import hu.oe.nik.szfmv.visualisation.CourseDisplay;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Ignore;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Ignore("ezt így nem lehet buildelni")
 public class PowertrainSystemTest {
@@ -32,7 +31,7 @@ public class PowertrainSystemTest {
         w = new World(800, 600);
 
         // create an automated car
-        playerCar = new AutomatedCar(340, 0, 0, 102, 208, "car_2_white.png", ModelShape.RECTENGULAR);
+        playerCar = new AutomatedCar(340, 0, 0, "car_2_white.png", ModelShape.RECTENGULAR);
 
         // place a driver into the car for demonstrating the signal sending
         // mechanism
@@ -45,7 +44,7 @@ public class PowertrainSystemTest {
         w.addObjectToWorld(playerCar);
 
         // Enable circular test track
-        playerCar.initTestmode();
+        //playerCar.initTestmode();
     }
 
     private static final Map<Integer, Integer> gasPedalProgram = new LinkedHashMap<Integer, Integer>();

@@ -76,14 +76,14 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
         }
     }
 
-    protected void chageDirection(List<Vector2D> vectors) {
+    protected void changeDirection(List<Vector2D> vectors) {
         for (Vector2D vector2d : vectors) {
             currentSpeed = currentSpeed.add(vector2d);
 
         }
     }
 
-    protected void chageDirection(Vector2D vector) {
+    protected void changeDirection(Vector2D vector) {
         currentSpeed = currentSpeed.add(vector);
 
     }
