@@ -45,7 +45,7 @@ public class Main {
 
         userInterFace.init(world);
 
-        playerCar = new AutomatedCar(2560, 1500, Math.PI / 2, 102, 208, "car_2_white.png",
+        playerCar = new AutomatedCar(2560, 1500, (float)(Math.PI / 2), "car_2_white.png",
                 ModelShape.RECTENGULAR);
 
         world.addObjectToWorld(playerCar);
