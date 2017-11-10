@@ -1,50 +1,69 @@
 package hu.oe.nik.szfmv.environment.object;
 
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.environment.detector.ISensor;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
+import hu.oe.nik.szfmv.environment.util.ModelShape;
 import hu.oe.nik.szfmv.environment.util.SensorType;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-public class Sensor extends WorldObject {
+public class Sensor extends WorldObject implements ISensor {
 
-    public Sensor(int[] xPoints, int[] yPoints, Car car, SensorType type) {
-        super(xPoints[0], yPoints[0], 0, 0, 0, null, new Polygon(xPoints, yPoints, 3));
+    public Sensor(double[] xPoints, double[] yPoints, AutomatedCar car, SensorType type) {
+        //TODO RENDBE TENNI A SHAPE ÉS IAMGE RÉSZT. SENSOR ATALAKITAS SZUKSEGES AZ EGYSÉGES WORLDOBJECT KEZELESHEZ
+        super(0, 0, 0, "road_2lane_45left.png", ModelShape.RECTENGULAR);
+        this.xPoints = xPoints;
+        this.yPoints = yPoints;
         this.car = car;
         this.type = type;
     }
 
-    private Car car;
+    private AutomatedCar car;
     private SensorType type;
+    private double[] xPoints;
+    private double[] yPoints;
 
     @Override
-    public int getX() {
+    public double getX() {
         return car.getX();
     }
 
-    @Override
-    public Shape getShape() {
+
+    public Shape getPolygon() {
         AffineTransform t = new AffineTransform();
         t.rotate(car.getRotation(), car.getX(), car.getY());
 
-        return t.createTransformedShape(super.getShape());
+        return t.createTransformedShape(new Polygon(
+                getRoundedPoints(xPoints),
+                getRoundedPoints(yPoints),
+                3));
     }
 
     @Override
-    public int getY() {
+    public double getY() {
         return car.getY();
     }
 
     @Override
-    public float getRotation() {
+    public double getRotation() {
         return car.getRotation();
     }
 
-    public Car getCar() {
+    public AutomatedCar getCar() {
         return car;
     }
 
     public SensorType getType() {
         return type;
+    }
+
+    private int[] getRoundedPoints(double[] points) {
+        int[] roundedPoints = new int[points.length];
+        for (int i = 0; i < points.length; i++) {
+            roundedPoints[i] = (int)Math.round(points[i]);
+        }
+        return roundedPoints;
     }
 }

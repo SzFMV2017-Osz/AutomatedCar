@@ -91,7 +91,7 @@ public class GameDisplayJPanel extends JPanel {
 
     private void drawSensors(Graphics2D g2d, ArrayList<WorldObject> sensors) {
         for (WorldObject sensor : sensors) {
-            Shape s = ((Sensor)sensor).getShape();
+            Shape s = ((Sensor)sensor).getPolygon();
             g2d.setColor(Color.RED);
 
             Coord offset = getCarOffsetForSensor((Sensor)sensor);
@@ -104,8 +104,10 @@ public class GameDisplayJPanel extends JPanel {
     private AffineTransform makeTransformForSensor(Sensor sensor, Coord offset) {
         AffineTransform transforms[]=
                 {
+                        AffineTransform.getRotateInstance(sensor.getRotation()),
                         AffineTransform.getTranslateInstance(sensor.getX()*scale- offset.getX(), sensor.getY()*scale-offset.getY()),
-                        AffineTransform.getScaleInstance(scale, scale)
+                        AffineTransform.getScaleInstance(scale, scale),
+                        AffineTransform.getRotateInstance(-sensor.getRotation())
                 };
 
         AffineTransform tr=new AffineTransform();
