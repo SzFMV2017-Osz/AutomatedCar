@@ -1,13 +1,12 @@
 package hu.oe.nik.szfmv.inputinterface;
 
-public class CarComponentStateCalculator implements ICalculations{
+public class CarComponentStateCalculator implements ICalculations {
 
     public int turnTheSteeringwheelLeft(int currentSteeringwheelState) {
         int output;
-        if (currentSteeringwheelState > maxLeftSteeringWheelState){
+        if (currentSteeringwheelState > maxLeftSteeringWheelState) {
             output = currentSteeringwheelState - 1;
-        }
-        else {
+        } else {
             output = maxLeftSteeringWheelState;
         }
         return output;
@@ -15,10 +14,9 @@ public class CarComponentStateCalculator implements ICalculations{
 
     public int turnTheSteeringwheelRight(int currentSteeringwheelState) {
         int output;
-        if (currentSteeringwheelState < maxRightSteeringWheelState){
+        if (currentSteeringwheelState < maxRightSteeringWheelState) {
             output = currentSteeringwheelState + 1;
-        }
-        else {
+        } else {
             output = maxRightSteeringWheelState;
         }
         return output;
@@ -26,10 +24,9 @@ public class CarComponentStateCalculator implements ICalculations{
 
     public int addGas(int currentGaspedalState) {
         int output;
-        if (currentGaspedalState < maxGaspedalState){
+        if (currentGaspedalState < maxGaspedalState) {
             output = currentGaspedalState + 2;
-        }
-        else {
+        } else {
             output = maxGaspedalState;
         }
         return output;
@@ -37,10 +34,9 @@ public class CarComponentStateCalculator implements ICalculations{
 
     public int applyingBreak(int currentGaspedalState) {
         int output;
-        if (currentGaspedalState > minGaspedalState){
+        if (currentGaspedalState > minGaspedalState) {
             output = currentGaspedalState - 1;
-        }
-        else {
+        } else {
             output = minGaspedalState;
         }
         return output;

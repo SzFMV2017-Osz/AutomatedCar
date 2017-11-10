@@ -23,13 +23,13 @@ public class SteeringTest {
 
     @org.junit.Test
     public void testUpdateSteering() {
-        Assert.assertEquals(steering.UpdateSteerAngle(true, false, 0), 0.06255000000000001, 0);
+        Assert.assertEquals(steering.UpdateSteering(true, false, 0), 0.06255000000000001, 0);
         steering.steerDirection = 0;
-        Assert.assertEquals(steering.UpdateSteerAngle(false, true, 0), -0.06255000000000001, 0);
+        Assert.assertEquals(steering.UpdateSteering(false, true, 0), -0.06255000000000001, 0);
         steering.steerDirection = 0.5;
-        Assert.assertEquals(steering.UpdateSteerAngle(false, false, 0), 0.27498, 0);
-        Assert.assertEquals(steering.UpdateSteerAngle(false, false, 60), 0.199968, 0);
-        Assert.assertEquals(steering.UpdateSteerAngle(false, true, 0), 0.137418, 0);
-        Assert.assertEquals(steering.UpdateSteerAngle(true, false, 0), 0.199968, 0);
+        Assert.assertEquals(steering.UpdateSteering(false, false, 0), 0.27498, 0);
+        Assert.assertEquals(steering.UpdateSteering(false, false, 60), 0.199968, 0);
+        Assert.assertEquals(steering.UpdateSteering(false, true, 0), 0.137418, 0);
+        Assert.assertEquals(steering.UpdateSteering(true, false, 0), 0.199968, 0);
     }
 }

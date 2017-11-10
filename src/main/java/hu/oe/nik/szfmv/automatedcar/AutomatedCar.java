@@ -7,7 +7,6 @@ import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PowertrainSystem;
 import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.environment.model.MovingObject;
-import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 import hu.oe.nik.szfmv.visualisation.Coord;
 
@@ -33,8 +32,8 @@ public class AutomatedCar extends MovingObject {
 //	private PolarCoord externalCenterToRearAxleCenter = new PolarCoord(0, 0);
 
     public AutomatedCar(int x, int y, float rotation, int width, int height, String imageFileName, int weight,
-			ModelShape shape) {
-       super(x, y, rotation, width, height, imageFileName, weight, shape);
+            ModelShape shape) {
+        super(x, y, rotation, width, height, imageFileName, weight, shape);       
 
         powertrainSystem = new PowertrainSystem(x, y, new PorscheCharacteristics());
     }
@@ -68,21 +67,7 @@ public class AutomatedCar extends MovingObject {
 //        }
 //        accelerate();
 //        move();
-    }
-
-    private void accelerate() {
-//        if (this.getCurrentSpeed().abs() > 0) {
-//            this.changeDirection(this.getCurrentSpeed().normalize().mult((float)powertrainSystem.getAcceleration()));
-//        } else {
-//            Vector2D vector =  Vector2D.getForwardVector(this.getRotation());
-//            this.changeDirection(vector.mult((float)powertrainSystem.getAcceleration()));
-//        }
-    }
-
-    @Override
-    protected void doOnCollision() {
-
-    }
+    }   
 
 	private void updateCarPoints() {
 		if (this.steeringWheel != 0) {
@@ -149,4 +134,18 @@ public class AutomatedCar extends MovingObject {
 	private void calculateCarWheelAngle() {
 		this.carWheelAngle = degreeToRadian(MAXIMUM_WHEEL_ROTATION) * this.steeringWheel / SIGNAL_MAX_VALUE;
 	}
+	
+	private void accelerate() {
+        if (this.getCurrentSpeed().abs() > 0) {
+            this.changeDirection(this.getCurrentSpeed().normalize().mult((float)powertrainSystem.getAcceleration()));
+        } else {
+            Vector2D vector =  Vector2D.getForwardVector(this.getRotation());
+            this.changeDirection(vector.mult((float)powertrainSystem.getAcceleration()));
+        }
+    }
+    
+    @Override
+    protected void doOnCollision() {
+
+    }
 }

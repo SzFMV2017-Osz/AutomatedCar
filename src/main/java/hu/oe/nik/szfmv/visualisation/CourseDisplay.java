@@ -15,8 +15,8 @@ public class CourseDisplay {
     private static double scale = 1;
 
     public void refreshFrame() {
-        //frame.invalidate();
-        //frame.validate();
+        // frame.invalidate();
+        // frame.validate();
         frame.repaint();
     }
 
@@ -38,7 +38,7 @@ public class CourseDisplay {
     }
 
     private void setFrameSize(World world) {
-        //if we need to scale the game field
+        // if we need to scale the game field
         if (world.getHeight() > maxHeight || world.getWidth() > maxWidth) {
             scaleGameFieldToFrame(world);
         } else {
@@ -47,24 +47,22 @@ public class CourseDisplay {
     }
 
     private void scaleGameFieldToFrame(World world) {
-        //ratio > 1: horizontal
-        //ratio < 1: vertical
+        // ratio > 1: horizontal
+        // ratio < 1: vertical
         double worldRatio = (double) world.getWidth() / (double) world.getHeight();
         int scaledHeight, scaledWidth;
-        //worldRatio > idealRatio: we have to scale height
-        //else we have to scale width
+        // worldRatio > idealRatio: we have to scale height
+        // else we have to scale width
 
         if (worldRatio > idealRatio) {
             scaledWidth = maxWidth;
             calculateScale(scaledWidth, world.getWidth());
-            scaledHeight = (int) Math.round(
-                    world.getHeight() * ((double) maxWidth / (double) world.getWidth()));
+            scaledHeight = (int) Math.round(world.getHeight() * ((double) maxWidth / (double) world.getWidth()));
 
         } else {
             scaledHeight = maxHeight;
             calculateScale(scaledHeight, world.getHeight());
-            scaledWidth = (int) Math.round(
-                    world.getWidth() * ((double) maxHeight / (double) world.getHeight()));
+            scaledWidth = (int) Math.round(world.getWidth() * ((double) maxHeight / (double) world.getHeight()));
         }
         frame.setSize(scaledWidth, scaledHeight);
     }
