@@ -20,7 +20,7 @@ public class PowertrainSystemTest {
 	private static final int REFRESH_RATE = 25;
 	private static final CourseDisplay vis;
 	private static final World w;
-	private static final AutomatedCar playerCar;
+//	private static final AutomatedCar playerCar;
 	private static final Driver driver;
 
 	static {
@@ -30,7 +30,7 @@ public class PowertrainSystemTest {
 		w = new World(800, 600);
 
 		// create an automated car
-		playerCar = new AutomatedCar(340, 0, 0, 102, 208, "car_2_white.png", ModelShape.RECTANGULAR);
+		//playerCar = new AutomatedCar(340, 0, 0, 102, 208, "car_2_white.png", ModelShape.RECTANGULAR);
 
 		// place a driver into the car for demonstrating the signal sending mechanism
 		driver = new Driver();
@@ -39,10 +39,10 @@ public class PowertrainSystemTest {
 		vis.init(w);
 
 		// add playerCar to the world
-		w.addObjectToWorld(playerCar);
+		//w.addObjectToWorld(playerCar);
 
 		// Enable circular test track
-		playerCar.initTestmode();
+		//playerCar.initTestmode();
 	}
 
 	private static final Map<Integer, Integer> gasPedalProgram = new LinkedHashMap<Integer, Integer>();
@@ -62,7 +62,7 @@ public class PowertrainSystemTest {
 
 		while (driver.getLoopCounter() < elapsedSeconds(3)) {
 			try {
-				playerCar.drive();
+				//playerCar.drive();
 				vis.refreshFrame();
 				Thread.sleep(CYCLE_PERIOD);
 			} catch (InterruptedException e) {
@@ -89,7 +89,7 @@ public class PowertrainSystemTest {
 
 		while (driver.getLoopCounter() < elapsedSeconds(59)) {
 			try {
-				playerCar.drive();
+				//playerCar.drive();
 				vis.refreshFrame();
 				Thread.sleep(CYCLE_PERIOD);
 			} catch (InterruptedException e) {
@@ -114,7 +114,7 @@ public class PowertrainSystemTest {
 
 		while (driver.getLoopCounter() < elapsedSeconds(15)) {
 			try {
-				playerCar.drive();
+				//playerCar.drive();
 				vis.refreshFrame();
 				Thread.sleep(CYCLE_PERIOD);
 			} catch (InterruptedException e) {
@@ -138,7 +138,7 @@ public class PowertrainSystemTest {
 
 		while (driver.getLoopCounter() < elapsedSeconds(138)) {
 			try {
-				playerCar.drive();
+				//playerCar.drive();
 				vis.refreshFrame();
 				Thread.sleep(CYCLE_PERIOD);
 			} catch (InterruptedException e) {

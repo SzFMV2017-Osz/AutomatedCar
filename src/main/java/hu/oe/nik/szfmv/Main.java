@@ -37,7 +37,7 @@ public class Main {
 		vis.init(w);
 
 		Car car = Car.builder().position(500, 500).rotation(0).dimension(100, 100).weight(1000).color("black").build();
-		AutomatedCar playerCar = new AutomatedCar(2560, 1500, Math.PI / 2, 102, 208, "car_2_white.png",
+		AutomatedCar playerCar = new AutomatedCar(2560, 1500, (float)Math.PI / 2, 102, 208, "car_2_white.png", 0,
 				ModelShape.RECTANGULAR);
 		// add Car to the world
 		w.addObjectToWorld(car);
@@ -47,7 +47,7 @@ public class Main {
 		w.addObjectToWorld(playerCar);
 		while (true) {
 			try {
-//				car.move();
+				// car.move();
 				playerCar.drive();
 				vis.refreshFrame();
 				Thread.sleep(CYCLE_PERIOD);
