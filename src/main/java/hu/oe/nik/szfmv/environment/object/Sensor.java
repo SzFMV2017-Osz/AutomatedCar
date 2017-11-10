@@ -12,8 +12,8 @@ import java.awt.geom.AffineTransform;
 public class Sensor extends WorldObject implements ISensor {
 
     public Sensor(double[] xPoints, double[] yPoints, AutomatedCar car, SensorType type) {
-        //TODO RENDBE TENNI A SHAPE ÉS IAMGE RÉSZT. SENSOR ATALAKITAS SZUKSEGES AZ EGYSÉGES WORLDOBJECT KEZELESHEZ
-        super(0, 0, 0, "road_2lane_45left.png", ModelShape.RECTENGULAR);
+        //TODO RENDBE TENNI AZ IAMGE RÉSZT. SENSOR ATALAKITAS SZUKSEGES AZ EGYSÉGES WORLDOBJECT KEZELESHEZ
+        super(0, 0, 0, "road_2lane_45left.png", null);
         this.xPoints = xPoints;
         this.yPoints = yPoints;
         this.car = car;
