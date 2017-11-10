@@ -1,16 +1,22 @@
 package hu.oe.nik.szfmv.collisiondetection;
 
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.Vector2D;
-import hu.oe.nik.szfmv.environment.model.CollidableObject;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
+import hu.oe.nik.szfmv.environment.object.Tree;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.geom.Area;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Class to test collisions between <code>MovingObject</code>s and <code>CollidableObject</code>s
+ *
+ * @author danijanos
+ */
 public class CollisionDetectionTest {
 
     private TreeMock treeMock;
@@ -19,9 +25,7 @@ public class CollisionDetectionTest {
     @Before
     public void createObjects() throws Exception {
 
-        this.treeMock = new TreeMock(
-                0, 0, 0F, "tree.png", 50, ModelShape.RECTENGULAR
-        );
+        this.treeMock = new TreeMock(0, 0, 0F, "tree.png", 50);
 
         this.automatedCarMock = new AutomatedCarMock(
                 100, 100, 0F, "car_2_white.png", ModelShape.RECTENGULAR
@@ -48,11 +52,11 @@ public class CollisionDetectionTest {
         assertEquals(this.treeMock.isIntersects(this.automatedCarMock), true);
     }
 
-    class TreeMock extends CollidableObject {
+    class TreeMock extends Tree {
 
         @SuppressWarnings("WeakerAccess")
-        public TreeMock(int x, int y, float rotation, String imageFileName, int weight, ModelShape shape) {
-            super(x, y, rotation, imageFileName, weight, shape);
+        public TreeMock(int x, int y, float rotation, String imageFileName, int weight) {
+            super(x, y, rotation, imageFileName, weight);
         }
 
         /**
@@ -66,9 +70,10 @@ public class CollisionDetectionTest {
          * <code>false</code> otherwise.
          */
         boolean isIntersects(WorldObject worldObject) {
-            Rectangle rectangleFromThisObject = new Rectangle((int) this.getX(), (int) this.getY(), this.getWidth(), this.getHeight());
-            Rectangle rectangleFromWorldObject = new Rectangle((int) worldObject.getX(), (int) worldObject.getY(), worldObject.getWidth(), worldObject.getHeight());
-            return rectangleFromThisObject.intersects(rectangleFromWorldObject);
+            Area areaFromThisObject = new Area(this.getShape());
+            Area areaFromWorldObject = new Area(worldObject.getShape());
+            areaFromThisObject.intersect(areaFromWorldObject);
+            return !areaFromThisObject.isEmpty();
         }
 
         @Override
@@ -77,7 +82,7 @@ public class CollisionDetectionTest {
         }
     }
 
-    class AutomatedCarMock extends WorldObject {
+    class AutomatedCarMock extends AutomatedCar {
 
         @SuppressWarnings("WeakerAccess")
         public AutomatedCarMock(int x, int y, float rotation, String imageName, ModelShape shape) {

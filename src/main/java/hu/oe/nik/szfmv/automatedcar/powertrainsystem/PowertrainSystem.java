@@ -8,10 +8,6 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 
 public class PowertrainSystem extends SystemComponent {
 
-    // Parameters needed for drawing
-    private final double REFRESH_RATE = 25;
-    private final double MPS_TO_KMPH = 3.6;
-
     // Engine characteristics
     private final Characteristics carSpecs;
 
@@ -32,7 +28,6 @@ public class PowertrainSystem extends SystemComponent {
     // Only these are available through getters
     private int x = 0;
     private int y = 0;
-    private int wheelAngle = 0;
     private double actualSpeed = 0;
     private double acceleration = 0;
 
@@ -164,7 +159,9 @@ public class PowertrainSystem extends SystemComponent {
         double rotationalForce = torqueOnWheels / (this.carSpecs.WHEEL_DIAMETER / 2)
                 - signumOfSpeed() * (this.carSpecs.MAX_BRAKE_FORCE * this.breakPedal / this.PEDAL_MAX_VALUE);
         acceleration = rotationalForce / this.carSpecs.WEIGHT_OF_CAR;
-        return this.MPS_TO_KMPH * acceleration / this.REFRESH_RATE;
+        double REFRESH_RATE = 25;
+        double MPS_TO_KMPH = 3.6;
+        return MPS_TO_KMPH * acceleration / REFRESH_RATE;
     }
 
     private double signumOfSpeed() {
@@ -217,6 +214,7 @@ public class PowertrainSystem extends SystemComponent {
     }
 
     public int getWheelAngle() {
+        int wheelAngle = 0;
         return wheelAngle;
     }
 
