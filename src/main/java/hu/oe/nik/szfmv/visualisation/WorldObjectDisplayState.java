@@ -8,10 +8,10 @@ import java.awt.geom.AffineTransform;
 class WorldObjectDisplayState {
     private WorldObject wo;
     private Coord c;
-    private float rot;
+    private double rot;
     private AffineTransform t;
 
-    private WorldObjectDisplayState(WorldObject wo, Coord c, float rot, AffineTransform t) {
+    private WorldObjectDisplayState(WorldObject wo, Coord c, double rot, AffineTransform t) {
         this.wo = wo;
         this.c = c;
         this.rot = rot;
@@ -19,10 +19,7 @@ class WorldObjectDisplayState {
     }
 
     public static WorldObjectDisplayState createState(WorldObject object, AffineTransform t) {
-        return new WorldObjectDisplayState(
-                object,
-                new Coord(object),
-                object.getRotation(), t);
+        return new WorldObjectDisplayState(object, new Coord(object), object.getRotation(), t);
     }
 
     public AffineTransform getTransform() {
@@ -30,9 +27,7 @@ class WorldObjectDisplayState {
     }
 
     public boolean isChanged() {
-        return !(wo.getX() == c.getX()
-                && wo.getY() == c.getY()
-                && wo.getRotation() == rot);
+        return !(wo.getX() == c.getX() && wo.getY() == c.getY() && wo.getRotation() == rot);
     }
 
     public void updateState(AffineTransform t) {
