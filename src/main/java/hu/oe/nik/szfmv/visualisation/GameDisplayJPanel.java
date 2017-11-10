@@ -91,7 +91,7 @@ public class GameDisplayJPanel extends JPanel {
 
     private void drawSensors(Graphics2D g2d, ArrayList<WorldObject> sensors) {
         for (WorldObject sensor : sensors) {
-            Shape s = ((Sensor)sensor).getPolygon();
+            Shape s = ((Sensor)sensor).getShape();
             g2d.setColor(Color.RED);
 
             Coord offset = getCarOffsetForSensor((Sensor)sensor);

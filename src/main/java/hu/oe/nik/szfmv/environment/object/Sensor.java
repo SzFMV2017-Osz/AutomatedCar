@@ -31,7 +31,8 @@ public class Sensor extends WorldObject implements ISensor {
     }
 
 
-    public Shape getPolygon() {
+    @Override
+    public Shape getShape() {
         AffineTransform t = new AffineTransform();
         t.rotate(car.getRotation(), car.getX(), car.getY());
 
