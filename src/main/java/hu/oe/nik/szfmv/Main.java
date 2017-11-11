@@ -21,63 +21,70 @@ import java.util.List;
 
 public class Main {
 
-	private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
-	private static final int CYCLE_PERIOD = 40;
+    private static final int CYCLE_PERIOD = 40;
+    private static CourseDisplay userInterFace;
+    private static AutomatedCar playerCar;
 
-	public static void main(String[] args) {
-		CourseDisplay vis = new CourseDisplay();
+    public static void main(String[] args) {
+        init();
 
-		// create the world
-		// TODO: get this from xml
-		World w = new World(5120, 3000);
-		// create an automated car
+        mainLoop();
+    }
 
-		// !ONLY FOR TESTING!
-		testInitFromXml(w);
+    private static void init() {
+        userInterFace = new CourseDisplay();
 
-		// init visualisation module with the world
-		vis.init(w);
+        // create the world
+        List<XmlObject> xmlObjects = readXmlObjects();
 
-		// Car car = Car.builder().position(500, 500).rotation(0).dimension(100,
-		// 100).weight(1000).color("black").build();
-		AutomatedCar playerCar = new AutomatedCar(2560, 1500, (float) Math.PI / 2, 200, 200, "car_2_white.png", 1337,
-				ModelShape.RECTENGULAR);
-		// add Car to the world
-		//w.addObjectToWorld(car);
-		//car.accelerate(-5);
+        World world = new World(XmlParser.getWorldDimensions()[0], XmlParser.getWorldDimensions()[1]);
 
-		// add Car to the world
-		w.addObjectToWorld(playerCar);
-		while (true) {
-			try {
-				// car.move();
-				playerCar.drive();
-				vis.refreshFrame();
-				Thread.sleep(CYCLE_PERIOD);
-			} catch (InterruptedException e) {
-				logger.error(e.getMessage());
-			}
-		}
-	}
+        populateWorld(xmlObjects, world);
 
-	// !ONLY FOR TESTING!
-	private static void testInitFromXml(World w) {
-		
-		List<XmlObject> xmlo = new ArrayList<>();
-		try {
-			xmlo = XmlParser.parse("test_world.xml");
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-		}
+        userInterFace.init(world);
 
-		try {
-			for (XmlObject item : xmlo) {
-//				w.addObjectToWorld(new WorldObject(item.getX(), item.getY(),
-//						-(float) ((double) item.getRotation() / 180 * Math.PI), 10, 10,
-//						item.getType().getXmlName() + ".png", null));
-			}
-		} catch (Exception e) {
-		}
-	}
+		playerCar = new AutomatedCar(2500, 1500, (float) Math.PI / 4, "car_2_white.png", ModelShape.RECTANGULAR);
+
+        world.addObjectToWorld(playerCar);
+    }
+
+    private static void mainLoop() {
+        while (true) {
+            try {
+                playerCar.drive();
+                userInterFace.refreshFrame();
+                Thread.sleep(CYCLE_PERIOD);
+            } catch (InterruptedException e) {
+                logger.error(e.getMessage());
+            }
+        }
+    }
+
+    private static void populateWorld(List<XmlObject> xmlObjects, World world) {
+        for (XmlObject item : xmlObjects) {
+            try {
+                world.addObjectToWorld(WorldObjectFactory.createWorldObject(item));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static List<XmlObject> readXmlObjects() {
+        List<XmlObject> xmlObjects = new ArrayList<>();
+        try {
+            xmlObjects = XmlParser.parse("test_world.xml");
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        }
+        return xmlObjects;
+    }
 }

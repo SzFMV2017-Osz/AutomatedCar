@@ -147,7 +147,7 @@ public abstract class WorldObject implements ICameraSensor {
             case ELLIPSE:
                 tempShape = new Ellipse2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
                 break;
-            case RECTENGULAR:
+            case RECTANGULAR:
                 tempShape = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
                 break;
         }
