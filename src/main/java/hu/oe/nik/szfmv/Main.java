@@ -36,6 +36,7 @@ public class Main {
     }
 
     private static void init() {
+        logger.info("starting...");
         userInterFace = new CourseDisplay();
 
         // create the world
@@ -48,7 +49,7 @@ public class Main {
         userInterFace.init(world);
 
         playerCar = new AutomatedCar(2560, 1500, (float)(Math.PI / 2), ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME));
-
+        logger.info("initial rotation: rad: " +  playerCar.getRotation());
         world.addObjectToWorld(playerCar);
     }
 
