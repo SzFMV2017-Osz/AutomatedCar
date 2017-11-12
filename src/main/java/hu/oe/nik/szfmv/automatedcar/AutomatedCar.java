@@ -38,6 +38,15 @@ public class AutomatedCar extends MovingObject {
 		initialize();
 	}
 
+//    private void accelerate() {
+//        if (this.getCurrentSpeed().abs() > 0) {
+//            this.changeDirection(this.getCurrentSpeed().normalize().mult((float)powertrainSystem.getAcceleration()));
+//        } else {
+//            Vector2D vector =  Vector2D.getForwardVectorRadian(this.getRotation());
+//            this.changeDirection(vector.mult((float)powertrainSystem.getAcceleration()));
+//        }
+//    }
+
 	private void initialize() {
 		double distX, distY;
 		distX = getWidth() * MIDLINE_TO_WHEEL_ROTATION_AXIS_COEF;
