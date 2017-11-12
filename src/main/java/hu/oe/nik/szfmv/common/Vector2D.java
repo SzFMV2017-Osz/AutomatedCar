@@ -56,7 +56,7 @@ public class Vector2D {
     }
     
     public static Vector2D getForwardVectorRadian(double radian) {
-        return new Vector2D(Math.cos(radian), Math.sin(radian));
+        return new Vector2D(Math.sin(radian), Math.cos(radian));
     }
 
     public Vector2D getForwardVector() {
