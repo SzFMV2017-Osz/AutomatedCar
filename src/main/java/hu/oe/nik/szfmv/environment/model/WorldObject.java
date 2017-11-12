@@ -130,10 +130,6 @@ public abstract class WorldObject implements ICameraSensor {
         return position;
     }
 
-    public void setPosition(Vector2D position) {
-        this.position = position;
-    }
-
     public String getImageFileName() {
         return imageFileName;
     }
