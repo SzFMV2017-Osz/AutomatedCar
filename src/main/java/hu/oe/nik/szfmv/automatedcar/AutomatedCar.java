@@ -19,8 +19,8 @@ public class AutomatedCar extends MovingObject {
     private final double CIRCULAR_TRACK_LENGTH = 1080;
     private double positionOnTrack = 0;
 
-    public AutomatedCar(int x, int y, float rotation, String imageFileName, ModelShape shape) {
-        super(x, y, rotation, imageFileName, 1337, shape);
+    public AutomatedCar(int x, int y, float rotation, String imageFileName) {
+        super(x, y, rotation, imageFileName, 1337, ModelShape.RECTENGULAR);
 
         powertrainSystem = new PowertrainSystem(x, y, new PorscheCharacteristics());
     }
