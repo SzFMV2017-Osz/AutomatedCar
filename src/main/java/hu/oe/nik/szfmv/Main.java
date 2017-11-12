@@ -27,6 +27,7 @@ public class Main {
     private static final int CYCLE_PERIOD = 40;
     private static CourseDisplay userInterFace;
     private static AutomatedCar playerCar;
+    private static World world;
 
     public static void main(String[] args) {
         init();
@@ -40,7 +41,7 @@ public class Main {
         // create the world
         List<XmlObject> xmlObjects = readXmlObjects();
 
-        World world = new World(XmlParser.getWorldDimensions()[0], XmlParser.getWorldDimensions()[1]);
+        createWorld();
 
         populateWorld(xmlObjects, world);
 
@@ -49,6 +50,19 @@ public class Main {
         playerCar = new AutomatedCar(2560, 1500, (float)(Math.PI / 2), ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME));
 
         world.addObjectToWorld(playerCar);
+    }
+
+    private static void createWorld() {
+            int[] dimensions;
+            try {
+                dimensions = XmlParser.getWorldDimensions("test_world.xml");
+                world = new World(dimensions[0], dimensions[1]);
+            } catch (XPathExpressionException | SAXException | IOException | ParserConfigurationException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }        
+        
+        
     }
 
     private static void mainLoop() {

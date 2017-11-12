@@ -9,6 +9,7 @@ import hu.oe.nik.szfmv.environment.xml.XmlParser;
 
 import java.util.List;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class XmlParserTest {
@@ -22,5 +23,11 @@ public class XmlParserTest {
         assertEquals(144, r.get(0).getY(), 0);
         double[][] matrix = { { 0, 1 }, { -1, 0 } };
         assertEquals(-1*Utils.convertMatrixToRadians(matrix), r.get(0).getRotation(), 3);
+    }
+    
+    @Test
+    public void getWorldDimensionsTest() throws Exception {
+        int[] dim = XmlParser.getWorldDimensions("test_world.xml");
+        assertArrayEquals(new int[] {5120,3000},dim);
     }
 }
