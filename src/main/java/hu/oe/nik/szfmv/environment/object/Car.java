@@ -59,22 +59,12 @@ public class Car extends MovingObject implements IDriveable {
     }
 
     @Override
-    public void turn(float angle) {
-       double rotation = this.getRotation()+angle;
-       Vector2D vector = Vector2D.getForwardVector(rotation).mult(this.getCurrentSpeed().abs());
-       this.changeDirection(vector);
-       
+    public void turn(double scale) {
     }
 
     @Override
     public void accelerate(double scale) {
         log.info("acclerate car to scale: " + scale);
-        if (this.getCurrentSpeed().abs() > 0) {
-            this.changeDirection(this.getCurrentSpeed().mult(scale));
-        } else {
-            Vector2D vector =  Vector2D.getForwardVector(this.getRotation());
-            this.changeDirection(vector.mult(scale));
-        }
     }
 
     @Override
