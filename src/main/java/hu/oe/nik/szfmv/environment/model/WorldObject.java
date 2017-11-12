@@ -125,9 +125,6 @@ public abstract class WorldObject implements ICameraSensor {
         return Utils.convertPixelToMeter(this.getHeight());
     }
 
-    public double getRotationRadian() {
-        return this.getRotation() * Math.PI / 180;
-    }
 
     public Vector2D getPosition() {
         return position;
@@ -151,7 +148,7 @@ public abstract class WorldObject implements ICameraSensor {
                 tempShape = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
                 break;
         }
-        AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotationRadian(), this.getX(),
+        AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotation(), this.getX(),
                 this.getY());
         PathIterator pathIterator = tempShape.getPathIterator(affineTransform);
         Polygon polygon = new Polygon();
