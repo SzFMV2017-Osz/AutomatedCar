@@ -71,7 +71,7 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
         }
 
         this.position = this.position.add(currentSpeed.div(24));
-        if (currentSpeed.abs() < 0) {
+        if (currentSpeed.abs() != 0) {
             this.rotation = this.currentSpeed.getAngleRadian();
         }
     }
