@@ -37,7 +37,7 @@ public class AutomatedCar extends MovingObject {
         if (this.getCurrentSpeed().abs() > 0) {
             this.changeDirection(this.getCurrentSpeed().normalize().mult((float)powertrainSystem.getAcceleration()));
         } else {
-            Vector2D vector =  Vector2D.getForwardVector(this.getRotation());
+            Vector2D vector =  Vector2D.getForwardVectorRadian(this.getRotation());
             this.changeDirection(vector.mult((float)powertrainSystem.getAcceleration()));
         }
     }
