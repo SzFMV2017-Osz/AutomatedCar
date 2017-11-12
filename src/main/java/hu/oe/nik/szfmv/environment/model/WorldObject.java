@@ -29,6 +29,14 @@ public abstract class WorldObject implements ICameraSensor {
     Vector2D position;
     // objektum forgatása
     double rotation;
+    
+    public void setRot(double value) {
+    	this.rotation = value;
+    }
+    
+    public double getRot() {
+    	return this.rotation;
+    }
 
     /**
      * object dimension in pixels
