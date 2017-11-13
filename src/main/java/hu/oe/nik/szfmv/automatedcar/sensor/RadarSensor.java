@@ -18,7 +18,7 @@ public class RadarSensor extends Sensor {
         super();
         
         this.a = referencePoint;
-        this.SetPoints(this.a, carAngle, isCarAngleDegree);
+        this.setPoints(this.a, carAngle, isCarAngleDegree);
     }
     
     /**
@@ -33,7 +33,7 @@ public class RadarSensor extends Sensor {
      * @param carAngle car angle 
      * @param isCarAngleDegree
      */
-    public void SetPoints(Vector2D referencePoint, double carAngle, boolean isCarAngleDegree){
+    public void setPoints(Vector2D referencePoint, double carAngle, boolean isCarAngleDegree){
         
         if(!isCarAngleDegree){
             carAngle = Math.toDegrees(carAngle);
@@ -58,7 +58,7 @@ public class RadarSensor extends Sensor {
         this.b.add(this.a);
     }
     
-    public boolean IsPointInRange(Vector2D point){
+    public boolean isPointInRange(Vector2D point){
         double A = 1/2 * (-b.getY() * c.getX() + point.getY() * (-b.getX() + c.getX()) + point.getX() * (b.getY() - c.getY()) + b.getX() * c.getY());
         int sign = A < 0 ? -1 : 1;
         double s = (a.getY() * c.getX() - a.getX() * c.getY() + (c.getY() - a.getY()) * point.getX() + (a.getX() - c.getX()) * point.getY()) * sign;
@@ -69,5 +69,9 @@ public class RadarSensor extends Sensor {
     
     public void setA(Vector2D a){
         this.a = a;
+    }
+    
+    public void setReferencePoint(Vector2D vector){
+        this.setA(vector);
     }
 }
