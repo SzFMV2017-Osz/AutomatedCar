@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.automatedcar.sensor;
 
 import hu.oe.nik.szfmv.common.Vector2D;
+import java.util.ArrayList;
 
 /**
  *
@@ -9,69 +10,105 @@ import hu.oe.nik.szfmv.common.Vector2D;
  * http://jsfiddle.net/PerroAZUL/zdaY8/1/
  */
 public class RadarSensor extends Sensor {
-    
+
     private Vector2D a, b, c;
     private final double DISTANCE = 200;
     private final double REFERENCE_ANGLE = 60;
     
-    public RadarSensor(Vector2D referencePoint, double carAngle, boolean isCarAngleDegree){
-        super();
+    public RadarSensor(){
         
+    }
+
+    public RadarSensor(Vector2D referencePoint, double carAngle, boolean isCarAngleDegree) {
+        super();
+
         this.a = referencePoint;
         this.setPoints(this.a, carAngle, isCarAngleDegree);
     }
-    
+
     /**
-     *&nbsp;c . . b<br>
-     *&nbsp;&nbsp;&nbsp;.   .<br>
-     *&nbsp;&nbsp;&nbsp;&nbsp;a<br>
-     *&nbsp;&nbsp;&nbsp;-^-<br>
-     *&nbsp;&nbsp;&nbsp;| |<br>
-     *&nbsp;&nbsp;&nbsp;---<br>
-     * Sets "a" property to param referencePoint and calculates "b" and "c" point coordinates.
+     * &nbsp;c . . b<br>
+     * &nbsp;&nbsp;&nbsp;. .<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;a<br>
+     * &nbsp;&nbsp;&nbsp;-^-<br>
+     * &nbsp;&nbsp;&nbsp;| |<br>
+     * &nbsp;&nbsp;&nbsp;---<br>
+     * Sets "a" property to param referencePoint and calculates "b" and "c"
+     * point coordinates.
+     *
      * @param referencePoint car reference point
-     * @param carAngle car angle 
+     * @param carAngle car angle
      * @param isCarAngleDegree
      */
-    public void setPoints(Vector2D referencePoint, double carAngle, boolean isCarAngleDegree){
-        
-        if(!isCarAngleDegree){
+    public void setPoints(Vector2D referencePoint, double carAngle, boolean isCarAngleDegree) {
+
+        if (!isCarAngleDegree) {
             carAngle = Math.toDegrees(carAngle);
         }
-        
+
         this.setA(referencePoint);
-        
+
         double diagonal = DISTANCE / Math.cos(REFERENCE_ANGLE);
-        
+
         double bAngle = carAngle - (REFERENCE_ANGLE / 2);
         bAngle -= 270;
         this.b.setX(Math.cos(Math.toRadians(bAngle)) * diagonal);
         this.b.setY(Math.sin(Math.toRadians(bAngle)) * diagonal);
-        
+
         double cAngle = carAngle + (REFERENCE_ANGLE / 2);
         cAngle = 360 - cAngle;
         this.c.setX(Math.sin(Math.toRadians(bAngle)) * diagonal);
         this.c.setY(Math.cos(Math.toRadians(bAngle)) * diagonal);
-        
+
         // add to reference point
         this.c.add(this.a);
         this.b.add(this.a);
     }
-    
-    public boolean isPointInRange(Vector2D point){
-        double A = 1/2 * (-b.getY() * c.getX() + point.getY() * (-b.getX() + c.getX()) + point.getX() * (b.getY() - c.getY()) + b.getX() * c.getY());
+
+    public boolean isPointInRange(Vector2D point) {
+        double A = 1 / 2 * (-b.getY() * c.getX() + point.getY() * (-b.getX() + c.getX()) + point.getX() * (b.getY() - c.getY()) + b.getX() * c.getY());
         int sign = A < 0 ? -1 : 1;
         double s = (a.getY() * c.getX() - a.getX() * c.getY() + (c.getY() - a.getY()) * point.getX() + (a.getX() - c.getX()) * point.getY()) * sign;
         double t = (a.getX() * b.getY() - a.getY() * b.getX() + (a.getY() - b.getY()) * point.getX() + (b.getX() - a.getX()) * point.getY()) * sign;
-    
+
         return s > 0 && t > 0 && (s + t) < 2 * A * sign;
     }
-    
-    public void setA(Vector2D a){
+
+    public void setA(Vector2D a) {
         this.a = a;
     }
-    
-    public void setReferencePoint(Vector2D vector){
+
+    public void setReferencePoint(Vector2D vector) {
         this.setA(vector);
+    }
+
+    /**
+     * Get closest vectors to the given reference vector.
+     * @param points 
+     * @param referencePoint
+     * @return Returns more then one vectors if they are equally close.
+     */
+    public ArrayList<Vector2D> getClosestVectors(ArrayList<Vector2D> points, Vector2D referencePoint) {
+
+        ArrayList<Vector2D> closests = new ArrayList<>();
+        int i = 0;
+        double minDist = Double.POSITIVE_INFINITY;
+        
+        while (i < points.size()) {
+
+            double actDist = Math.sqrt(Math.pow((referencePoint.getX() - points.get(i).getX()), 2) + Math.pow((referencePoint.getY() - points.get(i).getY()), 2));
+
+            if (actDist < minDist) {
+                closests = new ArrayList<>();
+                closests.add(points.get(i));
+                minDist = actDist;
+            } else if (actDist == minDist) {
+                closests.add(points.get(i));
+                minDist = actDist;
+            }
+            i++;
+        }
+
+        return closests;
     }
 }
