@@ -5,6 +5,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PowertrainSystem;
+import hu.oe.nik.szfmv.automatedcar.sensor.RadarSensor;
 import hu.oe.nik.szfmv.automatedcar.steering.Steering;
 import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
@@ -21,6 +22,8 @@ public class AutomatedCar extends WorldObject {
 	private final double CIRCULAR_TRACK_LENGTH = 1080;
 	private boolean testMode = false;
 	private double positionOnTrack = 0;
+        
+        private RadarSensor radarSensor;
 
 	public AutomatedCar(int x, int y, double rotation, int width, int height, String imageFileName, ModelShape shape) {
 		super(x, y, rotation, width, height, imageFileName, shape);
@@ -30,6 +33,8 @@ public class AutomatedCar extends WorldObject {
 		powertrainSystem = new PowertrainSystem(x, y, new PorscheCharacteristics());
 		// The rest of the components use the VirtualFunctionBus to communicate,
 		// they do not communicate with the car itself
+                
+                this.radarSensor = new RadarSensor(new Vector2D(this.x, this.y), rotation, false);
 	}
 
 	public void initTestmode() {
@@ -55,6 +60,9 @@ public class AutomatedCar extends WorldObject {
 			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.POSX, x));
 			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.POSY, y));
 			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.STEERINGWHEEL, wheelAngle));
+                        
+            // update radarSensor coordinates
+            this.radarSensor.setPoints(new Vector2D(this.x, this.y), rotation, false);
 		} else {
 			this.positionOnTrack = this.positionOnTrack
 					+ (powertrainSystem.getSpeed() / this.VISUAL_CORRECTION) % this.CIRCULAR_TRACK_LENGTH;

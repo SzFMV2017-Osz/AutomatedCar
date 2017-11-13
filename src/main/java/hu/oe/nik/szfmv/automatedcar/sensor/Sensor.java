@@ -2,7 +2,7 @@ package hu.oe.nik.szfmv.automatedcar.sensor;
 
 /**
  *
- * @author Shy
+ * @author szum7
  */
 public abstract class Sensor {
     
