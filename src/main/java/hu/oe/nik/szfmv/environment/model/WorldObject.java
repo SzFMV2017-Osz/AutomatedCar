@@ -153,15 +153,7 @@ public abstract class WorldObject implements ICameraSensor {
         }
         AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotationRadian(), this.getX(),
                 this.getY());
-        PathIterator pathIterator = tempShape.getPathIterator(affineTransform);
-        Polygon polygon = new Polygon();
-        while (pathIterator.isDone()) {
-            double[] xy = new double[2];
-            pathIterator.currentSegment(xy);
-            polygon.addPoint((int) xy[0], (int) xy[1]);
-            pathIterator.next();
-        }
-        return polygon;
+        return affineTransform.createTransformedShape(tempShape);
     }
 
     @Override
