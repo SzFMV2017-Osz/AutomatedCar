@@ -4,7 +4,12 @@ package hu.oe.nik.szfmv.environment.detector;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
+import hu.oe.nik.szfmv.environment.object.Road;
+import hu.oe.nik.szfmv.environment.util.DetectedRoad;
+import hu.oe.nik.szfmv.environment.util.RoadType;
+import hu.oe.nik.szfmv.environment.xml.Utils;
 
 
 import java.awt.*;
@@ -34,6 +39,8 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
         return this.Y;
     }
 
+    public Vector2D getPosition(){return new Vector2D(this.X,this.Y);}
+
     public double getRotation() {
         return this.rotation;
     }
@@ -47,10 +54,7 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
     public void updateCameraPosition() {
         calculateCameraLocation(this.playerCar);
         updateDetectionRange();
-        logger.error("X: " + this.getX() + " Y:" + this.getY() + "" + this.getRotation());
-        logger.error( objectsInRange.size()+ "" );
-        logger.error( "LEFTRANGE: " + leftRange.getX() + " : " + leftRange.getY());
-        logger.error( "RIGHTRANGE: " + rightRange.getX() + " : " + rightRange.getY());
+
     }
 
     @Override
@@ -101,6 +105,9 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
 
     private void filterObjectsInRange()
     {
+        filteredRoadObjects.clear();
+        filteredRoadSignObjects.clear();
+
         for (WorldObject object : worldObjects ) {
             if (objectIsInRange(object))
             {
@@ -142,5 +149,42 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
         *objectPosition.getX() + (leftRange.getX() - cameraPosition.getX()) * objectPosition.getY()) * sign;
 
         return s > 0 && t > 0 && (s + t) < 2 * A * sign;
+    }
+
+    public DetectedRoad getDetectedRoadInfo()
+    {
+        Road road = null;
+        double distance = Double.MAX_VALUE;
+        DetectedRoad detectedRoad = new DetectedRoad();
+
+        for (WorldObject r : filteredRoadSignObjects){
+            double tempDistance = Utils.getVectorDistance(r.getPosition(),this.getPosition());
+            if (road == null || tempDistance<distance)
+            {
+                road = (Road)r;
+                distance = tempDistance;
+            }
+        }
+
+        if (road!=null) {
+
+            String imageName = road.getImageFileName();
+
+            if (imageName.contains("_6right"))
+                detectedRoad.roadDirection = RoadType.RIGHT;
+
+            if (imageName.contains("_6left"))
+                detectedRoad.roadDirection = RoadType.LEFT;
+
+            switch (imageName) {
+                case "road_2lane_6left.png":
+                case "road_2lane_6right.png":
+                case "road_2lanestraight.png":
+                    detectedRoad.lineKeepingPossible = true;
+                default:
+                    detectedRoad.lineKeepingPossible = false;
+            }
+        }
+        return detectedRoad;
     }
 }
