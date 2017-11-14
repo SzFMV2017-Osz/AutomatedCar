@@ -34,6 +34,7 @@ public class PowertrainSystem extends SystemComponent {
     private int y = 0;
     private int wheelAngle = 0;
     private double actualSpeed = 0;
+    private double acceleration = 0;
 
     public PowertrainSystem(int x, int y, Characteristics carCharacteristics) {
         super();
@@ -162,7 +163,7 @@ public class PowertrainSystem extends SystemComponent {
                         / (this.carSpecs.MAX_RPM - this.carSpecs.MIN_RPM));
         double rotationalForce = torqueOnWheels / (this.carSpecs.WHEEL_DIAMETER / 2)
                 - signumOfSpeed() * (this.carSpecs.MAX_BRAKE_FORCE * this.breakPedal / this.PEDAL_MAX_VALUE);
-        double acceleration = rotationalForce / this.carSpecs.WEIGHT_OF_CAR;
+        acceleration = rotationalForce / this.carSpecs.WEIGHT_OF_CAR;
         return this.MPS_TO_KMPH * acceleration / this.REFRESH_RATE;
     }
 
@@ -225,5 +226,9 @@ public class PowertrainSystem extends SystemComponent {
 
     public double getSpeed() {
         return this.actualSpeed;
+    }
+
+    public double getAcceleration() {
+        return acceleration;
     }
 }

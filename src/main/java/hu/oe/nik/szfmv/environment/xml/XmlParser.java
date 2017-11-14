@@ -71,4 +71,9 @@ public class XmlParser {
         log.info("Resultset is created with " + result.size() + " number of instances");
         return result;
     }
+
+    public static int[] getWorldDimensions() {
+        // TODO: read from XML
+        return new int[]{ 5120,3000};
+    }
 }
