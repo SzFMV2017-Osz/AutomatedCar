@@ -12,10 +12,14 @@ public class Vector2DTest {
     private static final Vector2D V3 = new Vector2D(-8, 6);
     private static final Vector2D V4 = new Vector2D(Math.cos(Math.PI / 3), Math.sin(Math.PI / 3));
     private static final Vector2D V5 = new Vector2D(-Math.cos(Math.PI / 4), -Math.sin(Math.PI / 4));
+    private static final Vector2D VX = new Vector2D(1, 0);
     private static final Vector2D NULL_VECTOR = new Vector2D(0, 0);
     private static final double V2_ANGLE = 45;
     private static final double V4_ANGLE = 60;
     private static final double V5_ANGLE = 225;
+    private static final double HALF_CIRCLE = 180;
+    private static final double FULL_CIRCLE = 360;
+    private static final double FULL_CIRCLERAD = Math.toRadians(FULL_CIRCLE);
     private static final double V5_ANGLERAD = Math.toRadians(V5_ANGLE);
     private static final double V1_ABS = Math.sqrt(50);
     private static final double V1_ABS_SQUARED = 50;
@@ -25,10 +29,6 @@ public class Vector2DTest {
     private static final Vector2D V1_MINUS_V3 = new Vector2D(13, -1);
     private static final double DOUBLE_COMPARISON_THRESHOLD = 0.000001;
     private static final double V1_XY_POSITION = 5.00;
-
-    @org.junit.Before
-    public void setUp() {
-    }
 
     @Test
     public void toStringTest() {
@@ -141,4 +141,19 @@ public class Vector2DTest {
         assertEquals(V2, Vector2D.getForwardVectorFromDeg(V2_ANGLE));
         assertEquals(V4, Vector2D.getForwardVectorFromDeg(V4_ANGLE));
     }
+
+    @Test
+    public void rotateRad() throws Exception {
+        assertEquals(V1, V5.copy().normalize().mult(V1.abs()).rotateRad(Math.PI));
+        assertEquals(NULL_VECTOR, NULL_VECTOR.copy().rotateRad(V5_ANGLERAD));
+        assertEquals(V5, VX.copy().rotateRad(V5_ANGLERAD - FULL_CIRCLERAD));
+    }
+
+    @Test
+    public void rotateDeg() throws Exception {
+        assertEquals(V1, V5.copy().normalize().mult(V1.abs()).rotateDeg(HALF_CIRCLE));
+        assertEquals(NULL_VECTOR, NULL_VECTOR.copy().rotateDeg(V5_ANGLE));
+        assertEquals(V5, VX.copy().rotateDeg(V5_ANGLE - FULL_CIRCLE));
+    }
+
 }

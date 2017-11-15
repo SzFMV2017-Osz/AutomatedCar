@@ -36,7 +36,8 @@ public class Vector2D {
     }
 
     /**
-     * Copy method for the vector object. Makes a copy of the vector in order to prevent old vector modification at further calculations.
+     * Copy method for the vector object. Makes a copy of the vector in order to prevent old vector modification at
+     * further calculations.
      *
      * @return Returns a newly instanced vector copy from the original vector.
      */
@@ -47,7 +48,8 @@ public class Vector2D {
     /**
      * Calculates the normal vector from the given vector.
      *
-     * @return Returns the same object but with normalized values. The direction stays the same while the magnitude of the vector equals with 1.
+     * @return Returns the same object but with normalized values. The direction stays the same while the magnitude of
+     * the vector equals with 1.
      */
     public Vector2D normalize() {
         double abs = this.abs();
@@ -68,7 +70,8 @@ public class Vector2D {
     }
 
     /**
-     * Calculates the squared magnitude of the vector. It provides better performance than Vector2D.abs() but the resulting value is the square of the vector's magnitude.
+     * Calculates the squared magnitude of the vector. It provides better performance than Vector2D.abs() but the
+     * resulting value is the square of the vector's magnitude.
      *
      * @return Returns the squared magnitude of the vector.
      */
@@ -184,6 +187,34 @@ public class Vector2D {
      */
     public double getAngleDeg() {
         return Math.toDegrees(getAngleRad());
+    }
+
+    /**
+     * Rotates the base vector by the given angle. Rotation direction is CCW for positive angle, CW for negative angle.
+     * @param angle The amount to rotate in radians.
+     * @return Returns the base vector. Mutable method.
+     */
+    public Vector2D rotateRad(double angle) {
+        double direction = this.getAngleRad() + angle;
+        double magnitude = this.abs();
+        Vector2D rotatedVector = Vector2D.getForwardVectorFromRad(direction).mult(magnitude);
+        this.x = rotatedVector.getX();
+        this.y = rotatedVector.getY();
+        return this;
+    }
+
+    /**
+     * Rotates the base vector by the given angle. Rotation direction is CCW for positive angle, CW for negative angle.
+     * @param angle The amount to rotate in degrees.
+     * @return Returns the base vector. Mutable method.
+     */
+    public Vector2D rotateDeg(double angle) {
+        double direction = this.getAngleDeg() + angle;
+        double magnitude = this.abs();
+        Vector2D rotatedVector = Vector2D.getForwardVectorFromDeg(direction).mult(magnitude);
+        this.x = rotatedVector.getX();
+        this.y = rotatedVector.getY();
+        return this;
     }
 
     public double getX() {
