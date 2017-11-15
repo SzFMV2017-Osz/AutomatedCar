@@ -1,6 +1,8 @@
 package hu.oe.nik.szfmv;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
+import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.factory.WorldObjectFactory;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
@@ -45,8 +47,8 @@ public class Main {
 
         userInterFace.init(world);
 
-        playerCar = new AutomatedCar(2560, 1500, (float)(Math.PI / 2), "car_2_white.png",
-                ModelShape.RECTENGULAR);
+        playerCar = new AutomatedCar(2500, 1500, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
+                                        (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
 
         world.addObjectToWorld(playerCar);
     }

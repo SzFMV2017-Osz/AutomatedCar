@@ -88,6 +88,11 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
             this.steeringWheelState = this.componentStateCalculator.turnTheSteeringwheelRight(this.steeringWheelState);
         }
 
+        if (!this.pressedKeyCodes.contains(KeyEvent.VK_RIGHT) && !this.pressedKeyCodes.contains(KeyEvent.VK_LEFT)) {
+//             don't turn the car
+            this.steeringWheelState = 0;
+        }
+
         if (this.pressedKeyCodes.contains(KeyEvent.VK_UP)) {
             // add gas
             this.gaspedalState = this.componentStateCalculator.addGas(this.gaspedalState);
@@ -124,11 +129,11 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
                     }
 
                     if (steeringWheelState > componentStateCalculator.basicSteeringWheelState) {
-                        steeringWheelState--;
+                        steeringWheelState -= 5;
                     }
 
                     if (steeringWheelState < componentStateCalculator.basicSteeringWheelState) {
-                        steeringWheelState++;
+                        steeringWheelState += 5;
                     }
                 } else {
                     this.cancel();
