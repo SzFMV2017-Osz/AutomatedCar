@@ -54,7 +54,6 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
     public void updateCameraPosition() {
         calculateCameraLocation(this.playerCar);
         updateDetectionRange();
-
     }
 
     @Override
@@ -178,11 +177,31 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
 
             switch (imageName) {
                 case "road_2lane_6left.png":
-                case "road_2lane_6right.png":
-                case "road_2lanestraight.png":
+                    detectedRoad.radiusLeft = 601.9930553878453;
+                    detectedRoad.radiusMiddle = 643.9930553878453;
+                    detectedRoad.radiusRight = 685.9930553878453;;
                     detectedRoad.lineKeepingPossible = true;
+                    detectedRoad.angleInDegrees = 6;
+                    break;
+                case "road_2lane_6right.png":
+                    detectedRoad.radiusLeft = 685.9930553878453;
+                    detectedRoad.radiusMiddle = 643.9930553878453;
+                    detectedRoad.radiusRight = 601.9930553878453;
+                    detectedRoad.lineKeepingPossible = true;
+                    detectedRoad.angleInDegrees = 6;
+                    break;
+                case "road_2lanestraight.png":
+                    detectedRoad.radiusLeft = 0;
+                    detectedRoad.radiusMiddle = 0;
+                    detectedRoad.radiusRight = 0;
+                    detectedRoad.lineKeepingPossible = true;
+                    detectedRoad.angleInDegrees = 0;
                 default:
+                    detectedRoad.radiusLeft = 0;
+                    detectedRoad.radiusMiddle = 0;
+                    detectedRoad.radiusRight = 0;
                     detectedRoad.lineKeepingPossible = false;
+                    detectedRoad.angleInDegrees = 0;
             }
         }
         return detectedRoad;
