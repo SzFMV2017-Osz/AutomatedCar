@@ -149,4 +149,7 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
                 + getImageFileName() + ", getShape()=" + getShape() + "]";
     }
 
+    public void setRot(double value) {
+        this.rotation = value;
+    }
 }

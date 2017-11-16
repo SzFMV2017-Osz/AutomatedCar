@@ -66,7 +66,7 @@ public class AutomatedCar extends MovingObject {
 		this.carWheelAngle = calculateCarWheelAngle(powertrainSystem.getSteeringWheel());
 		if (this.speed != 0) {
 			if (this.carWheelAngle == 0) {
-				Vector2DPlus delta = new Vector2DPlus(true, getRot() + (this.speed > 0 ? 0 : -Math.PI),
+				Vector2DPlus delta = new Vector2DPlus(true, getRotation() + (this.speed > 0 ? 0 : -Math.PI),
 						Math.abs(this.speed));
 				Vector2DPlus nextPos = delta.add(getX(), getY());
 				setPosition(new Vector2D(nextPos.getX(), nextPos.getY()));
@@ -99,7 +99,7 @@ public class AutomatedCar extends MovingObject {
 	}
 
 	private void calculateRotation(double angle) {
-		setRot(getRot() + (angle % (2 * Math.PI)));
+		setRot(getRotation() + (angle % (2 * Math.PI)));
 	}
 
 	private void calculateAngularSpeed() {
@@ -112,14 +112,14 @@ public class AutomatedCar extends MovingObject {
 			double vectorAngle;
 			Vector2DPlus frontWheelToExternalCenter;
 			if (this.carWheelAngle > 0) {
-				vectorAngle = getRot() + (Math.PI / 2) + this.carWheelAngle;
+				vectorAngle = getRotation() + (Math.PI / 2) + this.carWheelAngle;
 				frontWheelToExternalCenter = new Vector2DPlus(true, vectorAngle,
 						Math.abs(this.axialDistance / Math.sin(this.carWheelAngle)));
 				Vector2DPlus externalPoint = this.rearAxleCenterToRightFrontWheelCenter.add(this.rearAxleCenter)
 						.add(frontWheelToExternalCenter);
 				this.externalCenter.setValues(externalPoint.getX(), externalPoint.getY());
 			} else {
-				vectorAngle = getRot() - (Math.PI / 2) + this.carWheelAngle;
+				vectorAngle = getRotation() - (Math.PI / 2) + this.carWheelAngle;
 				frontWheelToExternalCenter = new Vector2DPlus(true, vectorAngle,
 						Math.abs(this.axialDistance / Math.sin(this.carWheelAngle)));
 				Vector2DPlus externalPoint = this.rearAxleCenterToLeftFrontWheelCenter.add(this.rearAxleCenter)
