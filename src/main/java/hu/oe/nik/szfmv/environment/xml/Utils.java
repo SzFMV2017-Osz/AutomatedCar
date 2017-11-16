@@ -39,7 +39,7 @@ public class Utils {
         // If angle is NaN as a result of transformedVectorLength=0,
         // Math.round() returns 0. It is correct in our cases.
         // angleInRad = Math.round(angleInRad * 100.0) / 100.0;
-        return -angleInRad;
+        return angleInRad;
         // double m13 = 0;
         // double m23 = 0;
         // double m33 = 1;

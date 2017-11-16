@@ -119,7 +119,7 @@ public class GameDisplayJPanel extends JPanel {
         translation.translate(scaledX, scaledY);
 
         AffineTransform rotation;
-        rotation = AffineTransform.getRotateInstance(object.getRotation(), offset.getX(), offset.getY());
+        rotation = AffineTransform.getRotateInstance(-object.getRotation(), offset.getX(), offset.getY());
 
         translation.concatenate(rotation);
 
