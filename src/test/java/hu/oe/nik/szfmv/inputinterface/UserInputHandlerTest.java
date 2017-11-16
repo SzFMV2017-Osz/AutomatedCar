@@ -29,8 +29,8 @@ public class UserInputHandlerTest {
             this.printGearState();
         }
 
-        private void printGearState(){
-            System.out.println("Gearshift is in position: " + this.gearState );
+        private void printGearState() {
+            System.out.println("Gearshift is in position: " + this.gearState);
         }
 
         public String getGearState() {

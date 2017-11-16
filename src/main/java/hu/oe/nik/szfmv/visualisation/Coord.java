@@ -38,8 +38,6 @@ public class Coord {
     }
 
     public boolean equals(Object obj) {
-        return (obj instanceof Coord)
-                && ((Coord) obj).x == this.x
-                && ((Coord) obj).y == this.y;
+        return (obj instanceof Coord) && ((Coord) obj).x == this.x && ((Coord) obj).y == this.y;
     }
 }
