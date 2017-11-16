@@ -13,7 +13,10 @@ public interface ICalculations {
 
     // state change calculation method signatures:
     int turnTheSteeringwheelLeft(int currentSteeringwheelState);
+
     int turnTheSteeringwheelRight(int currentSteeringwheelState);
+
     int addGas(int currentGaspedalState);
+
     int applyingBreak(int currentGaspedalState);
 }

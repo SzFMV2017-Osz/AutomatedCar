@@ -62,11 +62,43 @@ public class Road extends WorldObject {
     private int curvature;
     private boolean pedestrianCrossing;
 
+    /**
+     * @deprecated The width and height of the object must be based on the size of
+     *             the <code>imageName</code> referenced in the constructor
+     *             <p>
+     *             Use the following constructor instead:
+     *             {@link #Road(double x, double y, double rotation, String imageName, ModelShape shape)}
+     * 
+     * @param x
+     * @param y
+     * @param rotation
+     * @param width
+     * @param height
+     * @param objectType
+     * @param pedestrianCrossing
+     */
     public Road(int x, int y, float rotation, int width, int height, XmlObjectType objectType,
-                boolean pedestrianCrossing) {
+            boolean pedestrianCrossing) {
         super(x, y, rotation, width, height, getImageName(objectType), ModelShape.RECTANGULAR);
         this.pedestrianCrossing = pedestrianCrossing;
-        String[] explodedString = objectType.getXmlName().split("_");
+        initialize(objectType.getXmlName().split("_"));
+    }
+
+    /**
+     * width and height are based on the image size
+     * 
+     * @param x
+     * @param y
+     * @param rotation
+     * @param objectType
+     * @param pedestrianCrossing
+     */
+    public Road(int x, int y, float rotation, XmlObjectType objectType, boolean pedestrianCrossing) {
+        super(x, y, rotation, getImageName(objectType), ModelShape.RECTANGULAR);
+        initialize(objectType.getXmlName().split("_"));
+    }
+
+    private void initialize(String[] explodedString) {
         this.curvature = 0;
         if (Objects.equals(explodedString[0], "road")) {
             switch (explodedString[2]) {

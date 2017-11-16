@@ -31,9 +31,11 @@ public class WorldObjectCollection {
             if (object instanceof MovingObject) {
                 if (object instanceof Car) {
                     cars.add(object);
-                } else moving.add(object);
-            } else collidable.add(object);
-        } else { //roads
+                } else
+                    moving.add(object);
+            } else
+                collidable.add(object);
+        } else { // roads
             unmoving.add(object);
         }
     }
