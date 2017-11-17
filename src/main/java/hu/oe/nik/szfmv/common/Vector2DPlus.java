@@ -19,17 +19,12 @@ public class Vector2DPlus {
 	}
 
 	public Vector2DPlus(boolean polar, double angle, double distance) {
-		this.x = distance * Math.sin(angle);
-		this.y = -distance * Math.cos(angle);
+		this.x = distance * Math.cos(angle);
+		this.y = -distance * Math.sin(angle);
 	}
 
 	public double getAngle() {
-		double result = getX() < 0 ? 3 * Math.PI / 2 : Math.PI / 2;
-		if (getX() != 0) {
-			result += Math.atan(getY() / getX());
-		} else {
-			result = getY() < 0 ? 0 : Math.PI;
-		}
+		double result = Math.atan2(-y, x);
 		return result;
 	}
 
@@ -67,11 +62,12 @@ public class Vector2DPlus {
 		return new Vector2DPlus(-x, -y);
 	}
 
-	public void addAngle(double angle) {
+	public Vector2DPlus addAngle(double angle) {
 		double currentAngle = getAngle();
 		double distance = getAbs();
-		this.x = distance * Math.sin(currentAngle + angle);
-		this.y = -distance * Math.cos(currentAngle + angle);		
+		this.x = distance * Math.cos(currentAngle + angle);
+		this.y = -distance * Math.sin(currentAngle + angle);
+		return this;
 	}
 
 }

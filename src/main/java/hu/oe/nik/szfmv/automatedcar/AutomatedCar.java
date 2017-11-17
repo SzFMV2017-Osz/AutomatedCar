@@ -38,26 +38,18 @@ public class AutomatedCar extends MovingObject {
 		initialize();
 	}
 
-//    private void accelerate() {
-//        if (this.getCurrentSpeed().abs() > 0) {
-//            this.changeDirection(this.getCurrentSpeed().normalize().mult((float)powertrainSystem.getAcceleration()));
-//        } else {
-//            Vector2D vector =  Vector2D.getForwardVectorRadian(this.getRotation());
-//            this.changeDirection(vector.mult((float)powertrainSystem.getAcceleration()));
-//        }
-//    }
-
 	private void initialize() {
-		double distX, distY;
-		distX = getWidth() * MIDLINE_TO_WHEEL_ROTATION_AXIS_COEF;
-		distY = getHeight() * AXIAL_DISTANCE_RATE;
+		double height;
+		double width;
+		width = getWidth() * AXIAL_DISTANCE_RATE;
+		height = getHeight() * MIDLINE_TO_WHEEL_ROTATION_AXIS_COEF;
 		externalCenter = new Vector2DPlus(0, 0);
 		externalCenterToRearAxleCenter = new Vector2DPlus(0, 0);
-		this.carRefToRearAxleCenter = new Vector2DPlus(0, REF_POINT_TO_REAR_AXIS_COEF * getHeight());
+		this.carRefToRearAxleCenter = new Vector2DPlus(true, getRotation() + Math.PI, REF_POINT_TO_REAR_AXIS_COEF * getWidth());
 		this.rearAxleCenter = carRefToRearAxleCenter.add(getPosition());
-		this.rearAxleCenterToRightFrontWheelCenter = new Vector2DPlus(distX, -distY);
-		this.rearAxleCenterToLeftFrontWheelCenter = new Vector2DPlus(-distX, -distY);
-		this.axialDistance = distY;
+		this.rearAxleCenterToRightFrontWheelCenter = new Vector2DPlus(width, height).addAngle(getRotation());
+		this.rearAxleCenterToLeftFrontWheelCenter = new Vector2DPlus(width, -height).addAngle(getRotation());
+		this.axialDistance = width;
 	}
 
 	public void drive() {
@@ -136,7 +128,7 @@ public class AutomatedCar extends MovingObject {
 	}
 
 	private double calculateCarWheelAngle(double steeringWheel) {
-		return degreeToRadian(MAXIMUM_WHEEL_ANGLE) * steeringWheel / SIGNAL_MAX_VALUE;
+		return degreeToRadian(MAXIMUM_WHEEL_ANGLE) * -steeringWheel / SIGNAL_MAX_VALUE;
 	}
 
 	protected void doOnCollision() {

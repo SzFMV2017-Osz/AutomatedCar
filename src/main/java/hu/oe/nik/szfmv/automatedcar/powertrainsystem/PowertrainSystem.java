@@ -75,13 +75,11 @@ public class PowertrainSystem extends SystemComponent {
 
 	private void shiftingDownIfNeeded() {
 		int shiftingLevelChange = 0;
-		while (this.carSpecs.shiftingUpLevels[this.shiftingLevel + shiftingLevelChange] > Math
-				.abs(this.actualSpeed)) {
+		while (this.carSpecs.shiftingUpLevels[this.shiftingLevel + shiftingLevelChange] > Math.abs(this.actualSpeed)) {
 			shiftingLevelChange--;
 		}
 		if (shiftingLevelChange < 0) {
 			this.shiftingLevel += shiftingLevelChange;
-			System.out.format("Shifting level: %d\n", this.shiftingLevel);
 		}
 
 	}
@@ -94,7 +92,6 @@ public class PowertrainSystem extends SystemComponent {
 		}
 		if (shiftingLevelChange > 0) {
 			this.shiftingLevel += shiftingLevelChange;
-			System.out.format("Shifting level: %d\n", this.shiftingLevel);
 		}
 	}
 
@@ -192,11 +189,9 @@ public class PowertrainSystem extends SystemComponent {
 			case R:
 				this.direction = -1;
 				this.shiftingLevel = 7;
-				System.out.format("Shifting level: %d\n", this.shiftingLevel);
 				break;
 			case N:
 				this.shiftingLevel = 0;
-				System.out.format("Shifting level: %d\n", this.shiftingLevel);
 				break;
 			default:
 				break;
