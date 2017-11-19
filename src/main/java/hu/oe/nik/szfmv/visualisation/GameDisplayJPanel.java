@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,6 +78,9 @@ public class GameDisplayJPanel extends JPanel {
                 null);
 
         drawObjects(g2d,
+                world.getWorldObjectsFiltered().getCollidable(),
+                false);
+        drawObjects(g2d,
                 world.getWorldObjectsFiltered().getMoving(),
                 true);
         drawObjects(g2d,
@@ -142,9 +144,6 @@ public class GameDisplayJPanel extends JPanel {
         Graphics2D g2d = bg.createGraphics();
         drawObjects(g2d,
                 world.getWorldObjectsFiltered().getUnmoving(),
-                false);
-        drawObjects(g2d,
-                world.getWorldObjectsFiltered().getCollidable(),
                 false);
         return bg;
     }
