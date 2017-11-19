@@ -13,7 +13,7 @@ import hu.oe.nik.szfmv.environment.xml.Utils;
 
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
 public class WindscreenCamera extends SystemComponent implements ISensor {
@@ -28,8 +28,10 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
     private Point leftRange;
     private Point rightRange;
     private ArrayList<WorldObject> objectsInRange = new ArrayList<WorldObject>();
-    private ArrayList<WorldObject> filteredRoadObjects = new ArrayList<WorldObject>();
-    private ArrayList<WorldObject> filteredRoadSignObjects = new ArrayList<WorldObject>();
+    private HashMap<WorldObject, Double> filteredRoadObjects = new HashMap<WorldObject, Double>();
+    private LinkedHashMap<WorldObject, Double> filteredRoadSignObjectsHashMap = new LinkedHashMap<WorldObject, Double>();
+
+    public LinkedHashMap<WorldObject, Double> getFilteredRoadSignObjectsHashMap(){ return this.filteredRoadSignObjectsHashMap; }
 
     public double getX() {
         return this.X;
@@ -88,6 +90,15 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
         rotatePointAroundCameraPointByDegreeInDouble(rotation, leftRange);
     }
 
+    private double calculateDistanceOfRoadSign(Point roadSignsBottomLeftPoint)
+    {
+        double distance = Math.hypot(
+                Math.abs(this.getX() - roadSignsBottomLeftPoint.getX()),
+                Math.abs(this.getY() - roadSignsBottomLeftPoint.getY()));
+
+        return distance;
+    }
+
     private void rotatePointAroundCameraPointByDegreeInDouble(double angle, Point pointToRotate)
     {
         double x1 = pointToRotate.getX() - this.getX();
@@ -112,11 +123,13 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
             {
                 if (object.getImageFileName().contains("roadsign"))
                 {
-                    filteredRoadSignObjects.add(object);
+                    filteredRoadSignObjectsHashMap.put(object, calculateDistanceOfRoadSign(
+                            new Point((int)object.getPosition().getX(), (int)object.getPosition().getY())
+                    ));
                 }
                 else if (object.getImageFileName().contains("road"))
                 {
-                    filteredRoadObjects.add(object);
+                    filteredRoadSignObjectsHashMap.put(object, new Double(0));
                 }
             }
         }

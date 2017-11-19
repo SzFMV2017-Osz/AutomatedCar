@@ -78,10 +78,13 @@ public class RoadSign extends CollidableObject {
      */
     @Override
     public String toString() {
-        return "RoadSign [roadSignType=" + roadSignType + ", x=" + getX() + ", y=" + getY() + ", rotation="
+        return "RoadSign [roadSignType= " + roadSignType + "]" ;
+                /*
+                + ", x=" + getX() + ", y=" + getY() + ", rotation="
                 + getRotation() + ", isCollided()=" + isCollided() + ", getX()=" + getX() + ", getY()=" + getY()
                 + ", getRotation()=" + getRotation() + ", getWidth()=" + getWidth() + ", getHeight()=" + getHeight()
                 + ", getImageFileName()=" + getImageFileName() + ", getShape()=" + getShape() + "]";
+                */
     }
 
 }
