@@ -5,6 +5,7 @@ import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv.common.Vector2D;
+import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Road;
 import hu.oe.nik.szfmv.environment.util.DetectedRoad;
@@ -116,7 +117,7 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
     private void filterObjectsInRange()
     {
         filteredRoadObjects.clear();
-        filteredRoadSignObjects.clear();
+        filteredRoadSignObjectsHashMap.clear();
 
         for (WorldObject object : worldObjects ) {
             if (objectIsInRange(object))
@@ -129,7 +130,7 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
                 }
                 else if (object.getImageFileName().contains("road"))
                 {
-                    filteredRoadSignObjectsHashMap.put(object, new Double(0));
+                    filteredRoadObjects.put(object, new Double(0));
                 }
             }
         }
@@ -169,7 +170,11 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
         double distance = Double.MAX_VALUE;
         DetectedRoad detectedRoad = new DetectedRoad();
 
-        for (WorldObject r : filteredRoadSignObjects){
+     //   for (WorldObject r : filteredRoadObjects){
+        for (Map.Entry<WorldObject, Double> entry: filteredRoadObjects.entrySet())
+        {
+            WorldObject r = entry.getKey();
+
             double tempDistance = Utils.getVectorDistance(r.getPosition(),this.getPosition());
             if (road == null || tempDistance<distance)
             {
