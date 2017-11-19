@@ -1,24 +1,25 @@
 package hu.oe.nik.szfmv.inputinterface;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 
-public final class UserInputHandler extends SystemComponent implements KeyListener {
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public final class UserInputHandler extends SystemComponent implements KeyListener{
 
     private static final int decreasingTimePeriod = 14;
 
     private AutoTransmissionEnum autotransmissionState;
     private int steeringWheelState;
     private int gaspedalState;
+    private int breakpedalState;
 
     private ArrayList<Integer> pressedKeyCodes;
     private CarComponentStateCalculator componentStateCalculator;
@@ -35,7 +36,9 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         // starting states
         this.autotransmissionState = AutoTransmissionEnum.N;
         this.steeringWheelState = componentStateCalculator.basicSteeringWheelState;
-        this.gaspedalState = componentStateCalculator.minGaspedalState;
+        this.gaspedalState = componentStateCalculator.minPedalState;
+        this.breakpedalState = componentStateCalculator.minPedalState;
+
         this.isKeyPressingHappened = false;
     }
 
@@ -57,25 +60,21 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         if (this.pressedKeyCodes.contains(KeyEvent.VK_P)) {
             // set autotransmission to PARK mode
             this.autotransmissionState = AutoTransmissionEnum.P;
-            this.sendNewAutotransmissionState(this.autotransmissionState);
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_R)) {
             // set autotransmission to REVERSE mode
             this.autotransmissionState = AutoTransmissionEnum.R;
-            this.sendNewAutotransmissionState(this.autotransmissionState);
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_N)) {
             // set autotransmission to NEUTRAL mode
             this.autotransmissionState = AutoTransmissionEnum.N;
-            this.sendNewAutotransmissionState(this.autotransmissionState);
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_D)) {
             // set autotransmission to DRIVE mode
             this.autotransmissionState = AutoTransmissionEnum.D;
-            this.sendNewAutotransmissionState(this.autotransmissionState);
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_LEFT)) {
@@ -95,7 +94,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_DOWN)) {
             // applying break
-            this.gaspedalState = this.componentStateCalculator.applyingBreak(this.gaspedalState);
+            this.breakpedalState = this.componentStateCalculator.applyingBreak(this.breakpedalState);
         }
     }
 
@@ -117,18 +116,22 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
             @Override
             public void run() {
 
-                if (!isKeyPressingHappened) {
+                if (!isKeyPressingHappened){
 
-                    if (gaspedalState != componentStateCalculator.minGaspedalState) {
+                    if (gaspedalState != componentStateCalculator.minPedalState){
                         gaspedalState--;
                     }
 
-                    if (steeringWheelState > componentStateCalculator.basicSteeringWheelState) {
+                    if (breakpedalState != componentStateCalculator.minPedalState){
+                        breakpedalState--;
+                    }
+
+                    if (steeringWheelState > componentStateCalculator.basicSteeringWheelState){
                         steeringWheelState--;
                     }
 
                     if (steeringWheelState < componentStateCalculator.basicSteeringWheelState) {
-                        steeringWheelState++;
+                        steeringWheelState += 5;
                     }
                 } else {
                     this.cancel();
@@ -151,22 +154,23 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         VirtualFunctionBus.sendSignal(new Signal(SignalEnum.GASPEDAL, newGaspedalState));
     }
 
-    private void printCurrentCarComponentStates() {
-        System.out.println(
-                "The autotransmission state is: " + this.autotransmissionState + "\nThe steeringwheel state is: "
-                        + this.steeringWheelState + "\nThe gaspedal state is: " + this.gaspedalState);
+    private void sendNewBreakpedalState(int newBreakpedalState) {
+        VirtualFunctionBus.sendSignal(
+                new Signal(
+                        SignalEnum.BREAKPEDAL,
+                        newBreakpedalState
+                )
+        );
     }
 
-    // ezt hívja meg tőlünk folyamatosan a bus
     @Override
     public void loop() {
+        this.sendNewAutotransmissionState(this.autotransmissionState);
         this.sendNewSteeringWheelState(this.steeringWheelState);
         this.sendNewGaspedalState(this.gaspedalState);
-        // this.printCurrentCarComponentStates();
+        this.sendNewBreakpedalState(this.breakpedalState);
     }
 
-    // a busz itt dobálja minden Signal új állapotát, tehát innen tudjuk
-    // frissíteni a mi állapotváltozóinkat is
     @Override
     public void receiveSignal(Signal s) {
         switch (s.getId()) {
@@ -179,6 +183,10 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
             case GASPEDAL:
                 this.gaspedalState = (int) s.getData();
                 break;
+            case BREAKPEDAL:
+                this.breakpedalState = (int)s.getData();
+                break;
+
             default:
         }
     }

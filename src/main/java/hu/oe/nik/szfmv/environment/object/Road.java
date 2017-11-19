@@ -79,7 +79,7 @@ public class Road extends WorldObject {
      */
     public Road(int x, int y, float rotation, int width, int height, XmlObjectType objectType,
             boolean pedestrianCrossing) {
-        super(x, y, rotation, width, height, getImageName(objectType), ModelShape.RECTENGULAR);
+        super(x, y, rotation, width, height, getImageName(objectType), ModelShape.RECTANGULAR);
         this.pedestrianCrossing = pedestrianCrossing;
         initialize(objectType.getXmlName().split("_"));
     }
@@ -94,7 +94,7 @@ public class Road extends WorldObject {
      * @param pedestrianCrossing
      */
     public Road(int x, int y, float rotation, XmlObjectType objectType, boolean pedestrianCrossing) {
-        super(x, y, rotation, getImageName(objectType), ModelShape.RECTENGULAR);
+        super(x, y, rotation, getImageName(objectType), ModelShape.RECTANGULAR);
         initialize(objectType.getXmlName().split("_"));
     }
 

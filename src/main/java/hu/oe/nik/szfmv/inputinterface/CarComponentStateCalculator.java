@@ -4,9 +4,10 @@ public class CarComponentStateCalculator implements ICalculations {
 
     public int turnTheSteeringwheelLeft(int currentSteeringwheelState) {
         int output;
-        if (currentSteeringwheelState > maxLeftSteeringWheelState) {
+        if (currentSteeringwheelState > maxLeftSteeringWheelState){
             output = currentSteeringwheelState - 1;
-        } else {
+        }
+        else {
             output = maxLeftSteeringWheelState;
         }
         return output;
@@ -14,30 +15,30 @@ public class CarComponentStateCalculator implements ICalculations {
 
     public int turnTheSteeringwheelRight(int currentSteeringwheelState) {
         int output;
-        if (currentSteeringwheelState < maxRightSteeringWheelState) {
+        if (currentSteeringwheelState < maxRightSteeringWheelState){
             output = currentSteeringwheelState + 1;
-        } else {
+        }
+        else {
             output = maxRightSteeringWheelState;
         }
         return output;
     }
 
     public int addGas(int currentGaspedalState) {
-        int output;
-        if (currentGaspedalState < maxGaspedalState) {
-            output = currentGaspedalState + 2;
-        } else {
-            output = maxGaspedalState;
-        }
-        return output;
+        return pushPedal(currentGaspedalState);
     }
 
-    public int applyingBreak(int currentGaspedalState) {
+    public int applyingBreak(int currentBreakpedalState) {
+        return pushPedal(currentBreakpedalState);
+    }
+
+    private int pushPedal(int currentpedalState) {
         int output;
-        if (currentGaspedalState > minGaspedalState) {
-            output = currentGaspedalState - 1;
-        } else {
-            output = minGaspedalState;
+        if (currentpedalState < maxPedalState){
+            output = currentpedalState + 1;
+        }
+        else {
+            output = maxPedalState;
         }
         return output;
     }
