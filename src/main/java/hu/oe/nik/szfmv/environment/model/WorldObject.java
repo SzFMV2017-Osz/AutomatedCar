@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -28,6 +27,8 @@ public abstract class WorldObject implements ICameraSensor {
     Vector2D position;
     // objektum forgatása
     double rotation;
+    
+
 
     /**
      * object dimension in pixels
@@ -45,7 +46,7 @@ public abstract class WorldObject implements ICameraSensor {
      *             <p>
      *             Use the following constructor instead:
      *             {@link #WorldObject(double x, double y, double rotation, String imageName, ModelShape shape)}
-     *
+     * 
      * @param x
      * @param y
      * @param rotation
@@ -62,13 +63,15 @@ public abstract class WorldObject implements ICameraSensor {
         this.rotation = rotation;
         this.imageFileName = imageName;
         this.width = ImageResource.getWidth(imageName);
+        ;
         this.height = ImageResource.getHeight(imageName);
+        ;
         this.shape = shape;
     }
 
     /**
      * Width and height are set based on image size
-     *
+     * 
      * @param x
      * @param y
      * @param rotation
@@ -99,7 +102,7 @@ public abstract class WorldObject implements ICameraSensor {
     }
 
     /**
-     *
+     * 
      * @return objects' width in pixel
      */
     public int getWidth() {
@@ -107,7 +110,7 @@ public abstract class WorldObject implements ICameraSensor {
     }
 
     /**
-     *
+     * 
      * @return objects' height in pixel
      */
     public int getHeight() {
@@ -122,9 +125,6 @@ public abstract class WorldObject implements ICameraSensor {
         return Utils.convertPixelToMeter(this.getHeight());
     }
 
-    public double getRotationRadian() {
-        return this.getRotation() * Math.PI / 180;
-    }
 
     public Vector2D getPosition() {
         return position;
@@ -144,21 +144,13 @@ public abstract class WorldObject implements ICameraSensor {
             case ELLIPSE:
                 tempShape = new Ellipse2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
                 break;
-            case RECTENGULAR:
+            case RECTANGULAR:
                 tempShape = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
                 break;
         }
-        AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotationRadian(), this.getX(),
+        AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotation(), this.getX(),
                 this.getY());
-        PathIterator pathIterator = tempShape.getPathIterator(affineTransform);
-        Polygon polygon = new Polygon();
-        while (pathIterator.isDone()) {
-            double[] xy = new double[2];
-            pathIterator.currentSegment(xy);
-            polygon.addPoint((int) xy[0], (int) xy[1]);
-            pathIterator.next();
-        }
-        return polygon;
+        return affineTransform.createTransformedShape(tempShape);
     }
 
     @Override

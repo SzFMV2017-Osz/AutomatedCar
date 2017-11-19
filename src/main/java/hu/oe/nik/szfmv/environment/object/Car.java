@@ -37,7 +37,7 @@ public class Car extends MovingObject implements IDriveable {
      */
     @Deprecated
     private Car(int x, int y, float rotation, int width, int height, String imageFileName, int weight) {
-        super(x, y, rotation, width, height, imageFileName, weight, ModelShape.RECTENGULAR);
+        super(x, y, rotation, width, height, imageFileName, weight, ModelShape.RECTANGULAR);
     }
 
     /**
@@ -50,7 +50,7 @@ public class Car extends MovingObject implements IDriveable {
      * @param weight
      */
     public Car(int x, int y, float rotation, String imageFileName, int weight) {
-        super(x, y, rotation, imageFileName, weight, ModelShape.RECTENGULAR);
+        super(x, y, rotation, imageFileName, weight, ModelShape.RECTANGULAR);
     }
 
     @Override
@@ -59,22 +59,12 @@ public class Car extends MovingObject implements IDriveable {
     }
 
     @Override
-    public void turn(float angle) {
-       double rotation = this.getRotation()+angle;
-       Vector2D vector = Vector2D.getForwardVector(rotation).mult(this.getCurrentSpeed().abs());
-       this.changeDirection(vector);
-       
+    public void turn(double scale) {
     }
 
     @Override
     public void accelerate(double scale) {
         log.info("acclerate car to scale: " + scale);
-        if (this.getCurrentSpeed().abs() > 0) {
-            this.changeDirection(this.getCurrentSpeed().mult(scale));
-        } else {
-            Vector2D vector =  Vector2D.getForwardVector(this.getRotation());
-            this.changeDirection(vector.mult(scale));
-        }
     }
 
     @Override
