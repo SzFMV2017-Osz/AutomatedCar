@@ -126,9 +126,9 @@ public class SensorObjectFactory {
                 -ultrasoundSensorDistance};
 
         double[] YCoords = new double[] {
-                carHeight*1/10,
-                (int)Math.round(carHeight*1/10 - ((double)ultrasoundSensorDistance) * Math.tan(ultrasoundSensorViewAngle /2)),
-                (int)Math.round(carHeight*1/10 + ((double)ultrasoundSensorDistance) * Math.tan(ultrasoundSensorViewAngle /2)) };
+                car.getHeight()*1/10,
+                (int)Math.round(car.getHeight()*1/10 - ((double)ultrasoundSensorDistance) * Math.tan(ultrasoundSensorViewAngle /2)),
+                (int)Math.round(car.getHeight()*1/10 + ((double)ultrasoundSensorDistance) * Math.tan(ultrasoundSensorViewAngle /2)) };
 
         Sensor sensor = new Sensor(
                 XCoords,
@@ -146,9 +146,9 @@ public class SensorObjectFactory {
                 -ultrasoundSensorDistance};
 
         double[] YCoords = new double[] {
-                carHeight*9/10,
-                (int)Math.round(carHeight*9/10 - ultrasoundSensorDistance * Math.tan(ultrasoundSensorViewAngle /2)),
-                (int)Math.round(carHeight*9/10 + ultrasoundSensorDistance * Math.tan(ultrasoundSensorViewAngle /2)) };
+                car.getHeight()*9/10,
+                (int)Math.round(car.getHeight()*9/10 - ultrasoundSensorDistance * Math.tan(ultrasoundSensorViewAngle /2)),
+                (int)Math.round(car.getHeight()*9/10 + ultrasoundSensorDistance * Math.tan(ultrasoundSensorViewAngle /2)) };
 
         Sensor sensor = new Sensor(
                 XCoords,
@@ -161,14 +161,14 @@ public class SensorObjectFactory {
 
     private static Sensor createUltrasonicRSF(AutomatedCar car) {
         double[] XCoords = new double[] {
-                carWidth,
-                carWidth + ultrasoundSensorDistance,
-                carWidth + ultrasoundSensorDistance};
+                car.getWidth(),
+                car.getWidth() + ultrasoundSensorDistance,
+                car.getWidth() + ultrasoundSensorDistance};
 
         double[] YCoords = new double[] {
-                carHeight*1/10,
-                (int)Math.round(carHeight*1/10 - ultrasoundSensorDistance * Math.tan(ultrasoundSensorViewAngle /2)),
-                (int)Math.round(carHeight*1/10 + ultrasoundSensorDistance * Math.tan(ultrasoundSensorViewAngle /2)) };
+                car.getHeight()*1/10,
+                (int)Math.round(car.getHeight()*1/10 - ultrasoundSensorDistance * Math.tan(ultrasoundSensorViewAngle /2)),
+                (int)Math.round(car.getHeight()*1/10 + ultrasoundSensorDistance * Math.tan(ultrasoundSensorViewAngle /2)) };
 
         Sensor sensor = new Sensor(
                 XCoords,
@@ -181,14 +181,14 @@ public class SensorObjectFactory {
 
     private static Sensor createUltrasonicRSB(AutomatedCar car) {
         double[] XCoords = new double[] {
-                carWidth,
-                carWidth + ultrasoundSensorDistance,
-                carWidth + ultrasoundSensorDistance};
+                car.getWidth(),
+                car.getWidth() + ultrasoundSensorDistance,
+                car.getWidth() + ultrasoundSensorDistance};
 
         double[] YCoords = new double[] {
-                carHeight*9/10,
-                (int)Math.round(carHeight*9/10 - ultrasoundSensorDistance * Math.tan(ultrasoundSensorViewAngle /2)),
-                (int)Math.round(carHeight*9/10 + ultrasoundSensorDistance * Math.tan(ultrasoundSensorViewAngle /2)) };
+                car.getHeight()*9/10,
+                (int)Math.round(car.getHeight()*9/10 - ultrasoundSensorDistance * Math.tan(ultrasoundSensorViewAngle /2)),
+                (int)Math.round(car.getHeight()*9/10 + ultrasoundSensorDistance * Math.tan(ultrasoundSensorViewAngle /2)) };
 
         Sensor sensor = new Sensor(
                 XCoords,
@@ -201,9 +201,9 @@ public class SensorObjectFactory {
 
     private static Sensor createUltrasonicFL(AutomatedCar car) {
         double[] XCoords = new double[] {
-                carWidth*1/4,
-                (int)Math.round(carWidth*1/4 - ultrasoundSensorDistance*Math.tan(ultrasoundSensorViewAngle/2)),
-                (int)Math.round(carWidth*1/4 + ultrasoundSensorDistance*Math.tan(ultrasoundSensorViewAngle/2))};
+                car.getWidth()*1/4,
+                (int)Math.round(car.getWidth()*1/4 - ultrasoundSensorDistance*Math.tan(ultrasoundSensorViewAngle/2)),
+                (int)Math.round(car.getWidth()*1/4 + ultrasoundSensorDistance*Math.tan(ultrasoundSensorViewAngle/2))};
 
         double[] YCoords = new double[] {
                 0,
@@ -221,9 +221,9 @@ public class SensorObjectFactory {
 
     private static Sensor createUltrasonicFR(AutomatedCar car) {
         double[] XCoords = new double[] {
-                carWidth*3/4,
-                (int)Math.round(carWidth*3/4 - ultrasoundSensorDistance*Math.tan(ultrasoundSensorViewAngle/2)),
-                (int)Math.round(carWidth*3/4 + ultrasoundSensorDistance*Math.tan(ultrasoundSensorViewAngle/2))};
+                car.getWidth()*3/4,
+                (int)Math.round(car.getWidth()*3/4 - ultrasoundSensorDistance*Math.tan(ultrasoundSensorViewAngle/2)),
+                (int)Math.round(car.getWidth()*3/4 + ultrasoundSensorDistance*Math.tan(ultrasoundSensorViewAngle/2))};
 
         double[] YCoords = new double[] {
                 0,
@@ -241,14 +241,14 @@ public class SensorObjectFactory {
 
     private static Sensor createUltrasonicRL(AutomatedCar car) {
         double[] XCoords = new double[] {
-                carWidth*1/4,
-                (int)Math.round(carWidth*1/4 - ultrasoundSensorDistance*Math.tan(ultrasoundSensorViewAngle/2)),
-                (int)Math.round(carWidth*1/4 + ultrasoundSensorDistance*Math.tan(ultrasoundSensorViewAngle/2))};
+                car.getWidth()*1/4,
+                (int)Math.round(car.getWidth()*1/4 - ultrasoundSensorDistance*Math.tan(ultrasoundSensorViewAngle/2)),
+                (int)Math.round(car.getWidth()*1/4 + ultrasoundSensorDistance*Math.tan(ultrasoundSensorViewAngle/2))};
 
         double[] YCoords = new double[] {
-                carHeight,
-                carHeight + ultrasoundSensorDistance,
-                carHeight + ultrasoundSensorDistance};
+                car.getHeight(),
+                car.getHeight() + ultrasoundSensorDistance,
+                car.getHeight() + ultrasoundSensorDistance};
 
         Sensor sensor = new Sensor(
                 XCoords,
@@ -261,14 +261,14 @@ public class SensorObjectFactory {
 
     private static Sensor createUltrasonicRR(AutomatedCar car) {
         double[] XCoords = new double[] {
-                carWidth*3/4,
-                (int)Math.round(carWidth*3/4 - ultrasoundSensorDistance*Math.tan(ultrasoundSensorViewAngle/2)),
-                (int)Math.round(carWidth*3/4 + ultrasoundSensorDistance*Math.tan(ultrasoundSensorViewAngle/2))};
+                car.getWidth()*3/4,
+                (int)Math.round(car.getWidth()*3/4 - ultrasoundSensorDistance*Math.tan(ultrasoundSensorViewAngle/2)),
+                (int)Math.round(car.getWidth()*3/4 + ultrasoundSensorDistance*Math.tan(ultrasoundSensorViewAngle/2))};
 
         double[] YCoords = new double[] {
-                carHeight,
-                carHeight + ultrasoundSensorDistance,
-                carHeight + ultrasoundSensorDistance};
+                car.getHeight(),
+                car.getHeight() + ultrasoundSensorDistance,
+                car.getHeight() + ultrasoundSensorDistance};
 
         Sensor sensor = new Sensor(
                 XCoords,
@@ -281,9 +281,9 @@ public class SensorObjectFactory {
 
     private static Sensor createRadar(AutomatedCar car) {
         double[] XCoords = new double[] {
-                carWidth*1/2,
-                (int)Math.round(carWidth*1/2 - radarSensorDistance *Math.tan(radarSensorViewAngle /2)),
-                (int)Math.round(carWidth*1/2 + radarSensorDistance *Math.tan(radarSensorViewAngle /2))};
+                car.getWidth()*1/2,
+                (int)Math.round(car.getWidth()*1/2 - radarSensorDistance *Math.tan(radarSensorViewAngle /2)),
+                (int)Math.round(car.getWidth()*1/2 + radarSensorDistance *Math.tan(radarSensorViewAngle /2))};
 
         double[] YCoords = new double[] {
                 0,
@@ -301,14 +301,14 @@ public class SensorObjectFactory {
 
     private static Sensor createCamera(AutomatedCar car) {
         double[] XCoords = new double[] {
-                carWidth*1/2,
-                (int)Math.round(carWidth*1/2 - cameraSensorDistance *Math.tan(cameraSensorViewAngle /2)),
-                (int)Math.round(carWidth*1/2 + cameraSensorDistance *Math.tan(cameraSensorViewAngle /2))};
+                car.getWidth()*1/2,
+                (int)Math.round(car.getWidth()*1/2 - cameraSensorDistance *Math.tan(cameraSensorViewAngle /2)),
+                (int)Math.round(car.getWidth()*1/2 + cameraSensorDistance *Math.tan(cameraSensorViewAngle /2))};
 
         double[] YCoords = new double[] {
-                carHeight*1/3,
-                carHeight*1/3-cameraSensorDistance,
-                carHeight*1/3-cameraSensorDistance};
+                car.getHeight()*1/3,
+                car.getHeight()*1/3-cameraSensorDistance,
+                car.getHeight()*1/3-cameraSensorDistance};
 
         Sensor sensor = new Sensor(
                 XCoords,
