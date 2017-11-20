@@ -65,6 +65,12 @@
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>2.5.0</version>
         </dependency>
+        <!--For building JFormsDesigner *.form code-->
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>ideauidesigner-maven-plugin</artifactId>
+            <version>1.0-beta-1</version>
+        </dependency>
     </dependencies>
 
     <properties>
