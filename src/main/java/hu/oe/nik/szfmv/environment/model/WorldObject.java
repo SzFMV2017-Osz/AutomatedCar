@@ -125,16 +125,9 @@ public abstract class WorldObject implements ICameraSensor {
         return Utils.convertPixelToMeter(this.getHeight());
     }
 
-    public double getRotationRadian() {
-        return this.getRotation() * Math.PI / 180;
-    }
 
     public Vector2D getPosition() {
         return position;
-    }
-
-    public void setPosition(Vector2D position) {
-        this.position = position;
     }
 
     public String getImageFileName() {
@@ -144,14 +137,14 @@ public abstract class WorldObject implements ICameraSensor {
     public Shape getShape() {
         Shape tempShape = null;
         switch (this.shape) {
-        case ELLIPSE:
-            tempShape = new Ellipse2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-            break;
-        case RECTENGULAR:
-            tempShape = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-            break;
+            case ELLIPSE:
+                tempShape = new Ellipse2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+                break;
+            case RECTENGULAR:
+                tempShape = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+                break;
         }
-        AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotationRadian(), this.getX(),
+        AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotation(), this.getX(),
                 this.getY());
         PathIterator pathIterator = tempShape.getPathIterator(affineTransform);
         Polygon polygon = new Polygon();

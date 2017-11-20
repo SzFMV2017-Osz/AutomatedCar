@@ -12,8 +12,6 @@ import org.apache.logging.log4j.Logger;
 
 public class ImageResource {
 
-    private static final Logger log = LogManager.getLogger(ImageResource.class);
-
     public static final String TREE_NAME = "automatedCar.tree";
 
     public static final String WHITE_CAR_1_NAME = "automatedCar.car.white.1";
@@ -44,11 +42,14 @@ public class ImageResource {
     public static final String ROAD_STRAIGHT_NAME = "automatedCar.road.straight";
     public static final String ROAD_T_LEFT_NAME = "automatedCar.road.t.left";
     public static final String ROAD_T_RIGHT_NAME = "automatedCar.road.t.right";
-
+    
     private static final String NOT_EXISTS = "automatedCar.notExists";
 
-    private static Properties imageProperties;
     private static final String IMAGE_PROPERTIES_FILE = "imageFiles.properties";
+
+    private static final Logger log = LogManager.getLogger(ImageResource.class);
+
+    private static Properties imageProperties;
 
     /**
      * returns an image filename from properties of a given key

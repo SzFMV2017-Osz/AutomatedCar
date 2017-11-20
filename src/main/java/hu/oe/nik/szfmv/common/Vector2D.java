@@ -55,12 +55,32 @@ public class Vector2D {
         return new Vector2D(Math.cos(Math.toRadians(angle)), Math.sin(Math.toRadians(angle)));
     }
 
+    public static Vector2D getForwardVectorRadian(double radian) {
+        return new Vector2D(Math.cos(radian), Math.sin(radian));
+    }
+
     public Vector2D getForwardVector() {
         return Vector2D.getForwardVector(this.getAngle());
     }
 
+    /**
+     * WARN: this may be not accurate, see: {@link java.lang.Math#toDegrees}
+     * 
+     * @see java.lang.Math#toDegrees
+     * @return
+     */
     public double getAngle() {
-        return Math.toDegrees(Math.atan(y / x));
+        return Math.toDegrees(getAngleRadian());
+    }
+
+    public double getAngleRadian() {
+        double result = getX() < 0 ? 3 * Math.PI / 2 : Math.PI / 2;
+        if (getX() != 0) {
+            result += Math.atan(getY() / getX());
+        } else {
+            result = getY() < 0 ? 0 : Math.PI;
+        }
+        return result;
     }
 
     public double getX() {

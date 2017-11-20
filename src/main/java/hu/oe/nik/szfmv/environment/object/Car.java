@@ -59,19 +59,16 @@ public class Car extends MovingObject implements IDriveable {
     }
 
     @Override
-    public void turn(float angle) {
-        // TODO Auto-generated method stub
+    public void turn(double scale) {
     }
 
     @Override
-    public void accelerate(int scale) {
+    public void accelerate(double scale) {
         log.info("acclerate car to scale: " + scale);
-        Vector2D v = new Vector2D(scale, scale);
-        chageDirection(v);
     }
 
     @Override
-    public void slow(int scale) {
+    public void slow(double scale) {
         // TODO Auto-generated method stub
 
     }
@@ -136,27 +133,27 @@ public class Car extends MovingObject implements IDriveable {
         public CarBuilder color(String color) {
             String type = "";
             switch (color.toLowerCase()) {
-            case "white":
-                type = ImageResource.WHITE_CAR_1_NAME;
-                break;
-            case "black":
-                type = ImageResource.BLACK_CAR_NAME;
-                break;
-            case "blue":
-                type = ImageResource.BLUE_CAR_1_NAME;
-                break;
-            case "red":
-                type = ImageResource.RED_CAR_1_NAME;
-                break;
-            case "white2":
-                type = ImageResource.WHITE_CAR_2_NAME;
-                break;
-            case "blue2":
-                type = ImageResource.BLUE_CAR_2_NAME;
-                break;
-            case "red2":
-                type = ImageResource.RED_CAR_2_NAME;
-                break;
+                case "white":
+                    type = ImageResource.WHITE_CAR_1_NAME;
+                    break;
+                case "black":
+                    type = ImageResource.BLACK_CAR_NAME;
+                    break;
+                case "blue":
+                    type = ImageResource.BLUE_CAR_1_NAME;
+                    break;
+                case "red":
+                    type = ImageResource.RED_CAR_1_NAME;
+                    break;
+                case "white2":
+                    type = ImageResource.WHITE_CAR_2_NAME;
+                    break;
+                case "blue2":
+                    type = ImageResource.BLUE_CAR_2_NAME;
+                    break;
+                case "red2":
+                    type = ImageResource.RED_CAR_2_NAME;
+                    break;
 
             }
             imageFileName = ImageResource.getImageOf(type);

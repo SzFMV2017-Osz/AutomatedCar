@@ -16,8 +16,8 @@ public class XmlObjectTest {
         assertEquals(XmlObjectType.ROAD_STRAIGHT, o.getType());
         assertEquals(10, o.getX(), 0);
         assertEquals(100, o.getY(), 0);
-        double rotation = Utils.radianToDegree(Utils.convertMatrixToRadians(0, 1, -1, 0));
-        assertEquals(rotation, o.getRotation(), 0);
+        double rotation = -1*Utils.convertMatrixToRadians(0, 1, -1, 0);
+        assertEquals(rotation, o.getRotation(), 3);
     }
 
     @Test(expected = IllegalArgumentException.class)

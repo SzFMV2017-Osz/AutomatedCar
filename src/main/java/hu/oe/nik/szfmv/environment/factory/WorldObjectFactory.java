@@ -31,30 +31,30 @@ public class WorldObjectFactory {
         int rootType = xmlObject.getType().getRootType();
         switch (rootType) {
 
-        case XmlObjectType.ROAD_TYPE:
-            rtrn = createRoad(xmlObject);
-            break;
-
-        case XmlObjectType.ROADSIGN_TYPE:
-            rtrn = createRoadSign(xmlObject);
-            break;
-
-        case XmlObjectType.MISC_TYPE:
-            switch (xmlObject.getType()) {
-            case TREE:
-                rtrn = createTree(xmlObject);
+            case XmlObjectType.ROAD_TYPE:
+                rtrn = createRoad(xmlObject);
                 break;
+
+            case XmlObjectType.ROADSIGN_TYPE:
+                rtrn = createRoadSign(xmlObject);
+                break;
+
+            case XmlObjectType.MISC_TYPE:
+                switch (xmlObject.getType()) {
+                    case TREE:
+                        rtrn = createTree(xmlObject);
+                        break;
+                    default:
+                        String message = "misc type :" + xmlObject.getType() + " does not exists";
+                        log.error(message);
+                        throw new IllegalArgumentException(message);
+                }
+                break;
+
             default:
-                String message = "misc type :" + xmlObject.getType() + " does not exists";
+                String message = "rootType " + rootType + " does not exists";
                 log.error(message);
                 throw new IllegalArgumentException(message);
-            }
-            break;
-
-        default:
-            String message = "rootType " + rootType + " does not exists";
-            log.error(message);
-            throw new IllegalArgumentException(message);
         }
         return rtrn;
 
@@ -100,32 +100,32 @@ public class WorldObjectFactory {
         int weight = Integer.MAX_VALUE;
 
         switch (xmlObject.getType()) {
-        case ROADSIGN_PARKING_RIGHT:
-            imageFileName = ImageResource.ROADSIGN_PARKING_RIGHT_NAME;
-            type = RoadSignType.PARKING_RIGHT;
+            case ROADSIGN_PARKING_RIGHT:
+                imageFileName = ImageResource.ROADSIGN_PARKING_RIGHT_NAME;
+                type = RoadSignType.PARKING_RIGHT;
 
-            break;
-        case ROADSIGN_STOP:
-            imageFileName = ImageResource.ROADSIGN_STOP_NAME;
-            type = RoadSignType.STOP;
+                break;
+            case ROADSIGN_STOP:
+                imageFileName = ImageResource.ROADSIGN_STOP_NAME;
+                type = RoadSignType.STOP;
 
-            break;
-        case ROADSIGN_SPEED_60:
-            imageFileName = ImageResource.ROADSIGN_SPEED_60_NAME;
-            type = RoadSignType.SPEED_60;
+                break;
+            case ROADSIGN_SPEED_60:
+                imageFileName = ImageResource.ROADSIGN_SPEED_60_NAME;
+                type = RoadSignType.SPEED_60;
 
-            break;
-        case ROADSIGN_SPEED_50:
-            imageFileName = ImageResource.ROADSIGN_SPEED_50_NAME;
-            type = RoadSignType.SPEED_50;
+                break;
+            case ROADSIGN_SPEED_50:
+                imageFileName = ImageResource.ROADSIGN_SPEED_50_NAME;
+                type = RoadSignType.SPEED_50;
 
-            break;
-        case ROADSIGN_SPEED_40:
-            imageFileName = ImageResource.ROADSIGN_SPEED_40_NAME;
-            type = RoadSignType.SPEED_40;
-            break;
-        default:
-            throw new IllegalArgumentException("road type :" + xmlObject.getType() + " does not exists");
+                break;
+            case ROADSIGN_SPEED_40:
+                imageFileName = ImageResource.ROADSIGN_SPEED_40_NAME;
+                type = RoadSignType.SPEED_40;
+                break;
+            default:
+                throw new IllegalArgumentException("road type :" + xmlObject.getType() + " does not exists");
         }
 
         // weight is max value assuming that object has infinite impulse on

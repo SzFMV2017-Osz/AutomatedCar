@@ -71,4 +71,19 @@ public class XmlParser {
         log.info("Resultset is created with " + result.size() + " number of instances");
         return result;
     }
+
+    public static int[] getWorldDimensions(String filename) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException {
+        File xmlFile = new File(ClassLoader.getSystemResource(filename).getFile());
+        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFile);
+
+        NodeList entriesNodeList = (NodeList) xpath.evaluate("//Scene", document,
+                XPathConstants.NODESET);
+        
+        Node objectNode = entriesNodeList.item(0);
+        
+        Double height = (Double)xpath.evaluate("@height", objectNode, XPathConstants.NUMBER);
+        Double width =  (Double) xpath.evaluate("@width", objectNode, XPathConstants.NUMBER);
+//        return new int[]{ 5120,3000};
+        return new int[] {width.intValue(),height.intValue()};
+    }
 }

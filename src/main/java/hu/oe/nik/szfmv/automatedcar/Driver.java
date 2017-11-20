@@ -96,22 +96,22 @@ public class Driver extends SystemComponent {
         // Prints elapsed time and revolution in test drive mode
         if (testDriveMode) {
             switch (s.getId()) {
-            case SPEED:
-                this.actualSpeed = (double) s.getData();
-                break;
-            case REVOLUTION:
-                this.revolution = (double) s.getData();
-                break;
-            default:
-                break;
+                case SPEED:
+                    this.actualSpeed = (double) s.getData();
+                    break;
+                case REVOLUTION:
+                    this.revolution = (double) s.getData();
+                    break;
+                default:
+                    break;
             }
         } else {
             switch (s.getId()) {
-            case AUTOTRANSMISSION:
-                System.out.format("Gearbox state is %s\n", s.getData());
-                break;
-            default:
-                break;
+                case AUTOTRANSMISSION:
+                    System.out.format("Gearbox state is %s\n", s.getData());
+                    break;
+                default:
+                    break;
             }
         }
     }

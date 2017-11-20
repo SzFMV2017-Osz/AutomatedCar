@@ -34,6 +34,7 @@ public class PowertrainSystem extends SystemComponent {
     private int y = 0;
     private int wheelAngle = 0;
     private double actualSpeed = 0;
+    private double acceleration = 0;
 
     public PowertrainSystem(int x, int y, Characteristics carCharacteristics) {
         super();
@@ -48,27 +49,27 @@ public class PowertrainSystem extends SystemComponent {
     public void loop() {
         this.deltaSpeed = this.calculateDeltaSpeed();
         switch (this.autoTransmission) {
-        case D:
+            case D:
 
-            // Calculating shifting level
-            if (deltaSpeed > 0) {
-                this.shiftingUpIfNeeded();
-            } else if (deltaSpeed < 0) {
-                this.shiftingDownIfNeeded();
-            }
-            // Updating actual speed and revolution
-            this.doSpeedAdjustment(this.carSpecs.FORWARD_MAX_SPEED);
-            break;
-        case R:
-            // Updating actual speed and revolution
-            this.doSpeedAdjustment(this.carSpecs.REVERSE_MAX_SPEED);
-            break;
-        case N:
-            // Updating actual speed and revolution
-            this.doSpeedAdjustment(Double.MAX_VALUE);
-            break;
-        default:
-            break;
+                // Calculating shifting level
+                if (deltaSpeed > 0) {
+                    this.shiftingUpIfNeeded();
+                } else if (deltaSpeed < 0) {
+                    this.shiftingDownIfNeeded();
+                }
+                // Updating actual speed and revolution
+                this.doSpeedAdjustment(this.carSpecs.FORWARD_MAX_SPEED);
+                break;
+            case R:
+                // Updating actual speed and revolution
+                this.doSpeedAdjustment(this.carSpecs.REVERSE_MAX_SPEED);
+                break;
+            case N:
+                // Updating actual speed and revolution
+                this.doSpeedAdjustment(Double.MAX_VALUE);
+                break;
+            default:
+                break;
         }
         this.sendSignals();
     }
@@ -162,7 +163,7 @@ public class PowertrainSystem extends SystemComponent {
                         / (this.carSpecs.MAX_RPM - this.carSpecs.MIN_RPM));
         double rotationalForce = torqueOnWheels / (this.carSpecs.WHEEL_DIAMETER / 2)
                 - signumOfSpeed() * (this.carSpecs.MAX_BRAKE_FORCE * this.breakPedal / this.PEDAL_MAX_VALUE);
-        double acceleration = rotationalForce / this.carSpecs.WEIGHT_OF_CAR;
+        acceleration = rotationalForce / this.carSpecs.WEIGHT_OF_CAR;
         return this.MPS_TO_KMPH * acceleration / this.REFRESH_RATE;
     }
 
@@ -173,37 +174,37 @@ public class PowertrainSystem extends SystemComponent {
     @Override
     public void receiveSignal(Signal s) {
         switch (s.getId()) {
-        case GASPEDAL:
-            this.gasPedal = (int) s.getData();
-            this.expectedRevolution = this.carSpecs.MIN_RPM
-                    + (this.carSpecs.MAX_RPM - this.carSpecs.MIN_RPM) * this.gasPedal / this.PEDAL_MAX_VALUE;
-            break;
-        case BREAKPEDAL:
-            this.breakPedal = (int) s.getData();
-            break;
-        case AUTOTRANSMISSION:
-            this.autoTransmission = (AutoTransmissionEnum) s.getData();
-            switch (this.autoTransmission) {
-            case D:
-                this.direction = 1;
-                this.shiftingLevel = 0;
-                this.shiftingUpIfNeeded();
+            case GASPEDAL:
+                this.gasPedal = (int) s.getData();
+                this.expectedRevolution = this.carSpecs.MIN_RPM
+                        + (this.carSpecs.MAX_RPM - this.carSpecs.MIN_RPM) * this.gasPedal / this.PEDAL_MAX_VALUE;
                 break;
-            case R:
-                this.direction = -1;
-                this.shiftingLevel = 7;
-                System.out.format("Shifting level: %d\n", this.shiftingLevel);
+            case BREAKPEDAL:
+                this.breakPedal = (int) s.getData();
                 break;
-            case N:
-                this.shiftingLevel = 0;
-                System.out.format("Shifting level: %d\n", this.shiftingLevel);
+            case AUTOTRANSMISSION:
+                this.autoTransmission = (AutoTransmissionEnum) s.getData();
+                switch (this.autoTransmission) {
+                    case D:
+                        this.direction = 1;
+                        this.shiftingLevel = 0;
+                        this.shiftingUpIfNeeded();
+                        break;
+                    case R:
+                        this.direction = -1;
+                        this.shiftingLevel = 7;
+                        System.out.format("Shifting level: %d\n", this.shiftingLevel);
+                        break;
+                    case N:
+                        this.shiftingLevel = 0;
+                        System.out.format("Shifting level: %d\n", this.shiftingLevel);
+                        break;
+                    default:
+                        break;
+                }
                 break;
             default:
-                break;
-            }
-            break;
-        default:
-            // ignore other signals
+                // ignore other signals
         }
     }
 
@@ -225,5 +226,9 @@ public class PowertrainSystem extends SystemComponent {
 
     public double getSpeed() {
         return this.actualSpeed;
+    }
+
+    public double getAcceleration() {
+        return acceleration;
     }
 }
