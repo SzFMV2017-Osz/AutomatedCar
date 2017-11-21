@@ -280,30 +280,18 @@ public class GameDisplayJPanel extends JPanel {
     */
 
     public static void changeCameraSensorDebugMode() {
-        if (cameraSensorDebugMode)
-            cameraSensorDebugMode = false;
-        else
-            cameraSensorDebugMode = true;
+        cameraSensorDebugMode = !cameraSensorDebugMode;
     }
 
     public static void changeRadarSensorDebugMode() {
-        if (radarSensorDebugMode)
-            radarSensorDebugMode = false;
-        else
-            radarSensorDebugMode = true;
+        radarSensorDebugMode = !radarSensorDebugMode;
     }
 
     public static void changeSensorSensorDebugMode() {
-        if (sensorSensorDebugMode)
-            sensorSensorDebugMode = false;
-        else
-            sensorSensorDebugMode = true;
+        sensorSensorDebugMode = !sensorSensorDebugMode;
     }
 
     public static void changeSensorDebugMode() {
-        if (isSensorDebugMode)
-            isSensorDebugMode = false;
-        else
-            isSensorDebugMode = true;
+        isSensorDebugMode = !isSensorDebugMode;
     }
 }
