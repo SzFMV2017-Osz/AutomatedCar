@@ -5,6 +5,7 @@ import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.visualisation.GameDisplayJPanel;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -95,6 +96,22 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         if (this.pressedKeyCodes.contains(KeyEvent.VK_DOWN)) {
             // applying break
             this.breakpedalState = this.componentStateCalculator.applyingBreak(this.breakpedalState);
+        }
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_0) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD0)) {
+            GameDisplayJPanel.changeSensorDebugMode();
+        }
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_1) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD1)) {
+            GameDisplayJPanel.changeCameraSensorDebugMode();
+        }
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_2) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD2)) {
+            GameDisplayJPanel.changeRadarSensorDebugMode();
+        }
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_3) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD3)) {
+            GameDisplayJPanel.changeSensorSensorDebugMode();
         }
     }
 

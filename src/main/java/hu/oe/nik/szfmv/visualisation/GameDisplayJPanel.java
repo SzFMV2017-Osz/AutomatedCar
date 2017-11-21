@@ -32,10 +32,10 @@ public class GameDisplayJPanel extends JPanel {
 
     private final RoadConstants roadConst;
 
-    private boolean isSensorDebugMode = true;
-    private boolean cameraSensorDebugMode = true;
-    private boolean radarSensorDebugMode = true;
-    private boolean sensorSensorDebugMode = true;
+    private static boolean isSensorDebugMode = false;
+    private static boolean cameraSensorDebugMode = true;
+    private static boolean radarSensorDebugMode = true;
+    private static boolean sensorSensorDebugMode = true;
 
     //need height/width because this.getHeight/Width is 0 at constructor time
     public GameDisplayJPanel(World gameWorld, double scale, int width, int height) {
@@ -52,13 +52,13 @@ public class GameDisplayJPanel extends JPanel {
 
         for (WorldObject activeSensor : world.getWorldObjectsFiltered().getSensors()) {
 
-            if (isCameraSensorDebugMode() && ((Sensor)activeSensor).getType() == SensorType.CAMERA) {
+            if (cameraSensorDebugMode && ((Sensor)activeSensor).getType() == SensorType.CAMERA) {
                 activeSensors.add(activeSensor);
             }
-            if (isRadarSensorDebugMode() && ((Sensor)activeSensor).getType() == SensorType.RADAR) {
+            if (radarSensorDebugMode && ((Sensor)activeSensor).getType() == SensorType.RADAR) {
                 activeSensors.add(activeSensor);
             }
-            if (isSensorSensorDebugMode() && ((Sensor)activeSensor).getType().toString().contains("ULTRASONIC")) {
+            if (sensorSensorDebugMode && ((Sensor)activeSensor).getType().toString().contains("ULTRASONIC")) {
                 activeSensors.add(activeSensor);
             }
 
@@ -87,7 +87,7 @@ public class GameDisplayJPanel extends JPanel {
                 world.getWorldObjectsFiltered().getCars(),
                 true);
 
-        if (isSensorDebugMode()) {
+        if (isSensorDebugMode) {
             drawSensors(g2d, DebugSensor());
         }
     }
@@ -245,6 +245,7 @@ public class GameDisplayJPanel extends JPanel {
             return c;
     }
 
+    /*
     public boolean isCameraSensorDebugMode() {
         return cameraSensorDebugMode;
     }
@@ -275,5 +276,34 @@ public class GameDisplayJPanel extends JPanel {
 
     public void setSensorDebugMode(boolean sensorDebugMode) {
         isSensorDebugMode = sensorDebugMode;
+    }
+    */
+
+    public static void changeCameraSensorDebugMode() {
+        if (cameraSensorDebugMode)
+            cameraSensorDebugMode = false;
+        else
+            cameraSensorDebugMode = true;
+    }
+
+    public static void changeRadarSensorDebugMode() {
+        if (radarSensorDebugMode)
+            radarSensorDebugMode = false;
+        else
+            radarSensorDebugMode = true;
+    }
+
+    public static void changeSensorSensorDebugMode() {
+        if (sensorSensorDebugMode)
+            sensorSensorDebugMode = false;
+        else
+            sensorSensorDebugMode = true;
+    }
+
+    public static void changeSensorDebugMode() {
+        if (isSensorDebugMode)
+            isSensorDebugMode = false;
+        else
+            isSensorDebugMode = true;
     }
 }
