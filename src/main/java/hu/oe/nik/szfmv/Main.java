@@ -4,10 +4,12 @@ import hu.oe.nik.szfmv.environment.detector.WindscreenCamera;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.model.WorldObjectCollection;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.environment.factory.SensorObjectFactory;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
 import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.factory.WorldObjectFactory;
 import hu.oe.nik.szfmv.environment.model.World;
+import hu.oe.nik.szfmv.environment.object.Sensor;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 import hu.oe.nik.szfmv.environment.xml.XmlObject;
 import hu.oe.nik.szfmv.environment.xml.XmlParser;
@@ -60,6 +62,16 @@ public class Main {
         WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
 
         world.addObjectToWorld(playerCar);
+
+        addSensorsToWorld(playerCar, world);
+    }
+
+    private static void addSensorsToWorld(AutomatedCar playerCar, World world) {
+        List<Sensor> sensors = SensorObjectFactory.createAllSensor(playerCar);
+
+        for (Sensor item : sensors) {
+            world.addObjectToWorld(item);
+        }
     }
 
     private static void mainLoop() {
