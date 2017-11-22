@@ -8,6 +8,7 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
 import java.awt.geom.Area;
 
 import static org.junit.Assert.assertEquals;
@@ -28,7 +29,7 @@ public class CollisionDetectionTest {
         this.treeMock = new TreeMock(0, 0, 0F, "tree.png", 50);
 
         this.automatedCarMock = new AutomatedCarMock(
-                100, 100, 0F, "car_2_white.png", ModelShape.RECTENGULAR
+                100, 100, 0F, "car_2_white.png", ModelShape.RECTANGULAR
         );
     }
 
@@ -48,7 +49,12 @@ public class CollisionDetectionTest {
         boolean areTheyIntersecting = this.treeMock.isIntersects(this.automatedCarMock);
         assertEquals(areTheyIntersecting, false);
 
-        this.automatedCarMock.setPosition(this.automatedCarMock.getPosition().add(new Vector2D(-100, -100)));
+        this.automatedCarMock.setPosition(this.automatedCarMock.getPosition().add(new Vector2D(-200, -200)));
+
+        Shape treeMockShape = this.treeMock.getShape();
+        Shape automatedCarMockShape = this.automatedCarMock.getShape();
+
+
         assertEquals(this.treeMock.isIntersects(this.automatedCarMock), true);
     }
 
@@ -76,6 +82,13 @@ public class CollisionDetectionTest {
             return !areaFromThisObject.isEmpty();
         }
 
+//        public Boolean apply(Shape shape, Shape shape2) {
+//            Area areaA = new Area(shape);
+//            Area areaB = new Area(shape2);
+//            areaA.intersect(areaB);
+//            return !areaA.isEmpty();
+//        }
+
         @Override
         protected void doOnCollision() {
             // assertEquals(this.isCollided(), false);
@@ -86,7 +99,7 @@ public class CollisionDetectionTest {
 
         @SuppressWarnings("WeakerAccess")
         public AutomatedCarMock(int x, int y, float rotation, String imageName, ModelShape shape) {
-            super(x, y, rotation, imageName, shape);
+            super(x, y, rotation, imageName, 1500, shape);
         }
     }
 }
