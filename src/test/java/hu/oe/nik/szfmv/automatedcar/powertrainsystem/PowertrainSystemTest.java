@@ -32,7 +32,7 @@ public class PowertrainSystemTest {
 		w = new World(800, 600);
 
 		// create an automated car
-		playerCar = new AutomatedCar(340, 0, 0, 102, 208, "car_2_white.png", ModelShape.RECTANGULAR);
+		playerCar = new AutomatedCar(340, 0, 0, 102, 208, "car_2_white.png", ModelShape.RECTANGULAR, w);
 
 		// place a driver into the car for demonstrating the signal sending mechanism
 		driver = new Driver();
