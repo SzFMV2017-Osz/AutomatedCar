@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv.environment.model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import hu.oe.nik.szfmv.environment.detector.ISensor;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 
 /**
@@ -12,7 +13,7 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
  * @author hunkak
  *
  */
-public abstract class CollidableObject extends WorldObject {
+public abstract class CollidableObject extends WorldObject implements ISensor {
 
     private static final Logger log = LogManager.getLogger(CollidableObject.class);
 
@@ -22,9 +23,44 @@ public abstract class CollidableObject extends WorldObject {
     // TODO: bináris vagy skálázható érték legyen?
     private boolean collided;
 
+    /**
+     * 
+     * @deprecated The width and height of the object must be based on the size of
+     *             the <code>imageName</code> referenced in the constructor
+     *             <p>
+     *             Use the following constructor instead:
+     *             {@link #CollidableObject(double x, double y, double rotation, String imageName, ModelShape shape)}
+     * 
+     * @param x
+     * @param y
+     * @param rotation
+     * @param width
+     * @param height
+     * @param imageFileName
+     * @param weight
+     * @param shape
+     */
+    @Deprecated
     public CollidableObject(int x, int y, float rotation, int width, int height, String imageFileName, int weight,
             ModelShape shape) {
         super(x, y, rotation, width, height, imageFileName, shape);
+
+        this.weight = weight;
+        this.collided = false;
+    }
+
+    /**
+     * width and height are set based on image size
+     * 
+     * @param x
+     * @param y
+     * @param rotation
+     * @param imageFileName
+     * @param weight
+     * @param shape
+     */
+    public CollidableObject(int x, int y, float rotation, String imageFileName, int weight, ModelShape shape) {
+        super(x, y, rotation, imageFileName, shape);
 
         this.weight = weight;
         this.collided = false;
@@ -53,15 +89,15 @@ public abstract class CollidableObject extends WorldObject {
     }
 
     /*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
-        return "CollidableObject [weight=" + weight + ", collided=" + collided + ", x=" + x + ", y=" + y + ", rotation="
-                + rotation + ", getWidth()=" + getWidth() + ", getHeight()=" + getHeight() + ", getImageFileName()="
-                + getImageFileName() + ", getShape()=" + getShape() + "]";
+        return "CollidableObject [weight=" + weight + ", collided=" + collided + ", x=" + this.getX() + ", y="
+                + this.getY() + ", rotation=" + this.getRotation() + ", getWidth()=" + getWidth() + ", getHeight()="
+                + getHeight() + ", getImageFileName()=" + getImageFileName() + ", getShape()=" + getShape() + "]";
     }
 
 }

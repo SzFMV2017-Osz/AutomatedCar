@@ -199,14 +199,9 @@ public class RadarSensor extends Sensor {
     }
         
     public void setVisuals(){
-        this.visualA.setX(this.a.getX());
-        this.visualA.setY(this.a.getY());
-        
-        this.visualB.setX(this.b.getX());
-        this.visualB.setY(this.b.getY());
-        
-        this.visualC.setX(this.c.getX());
-        this.visualC.setY(this.c.getY());        
+        this.visualA.setPosition(this.a);
+        this.visualB.setPosition(this.b);
+        this.visualC.setPosition(this.c);      
     }
     
     @Override

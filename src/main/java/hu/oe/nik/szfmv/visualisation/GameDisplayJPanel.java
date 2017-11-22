@@ -22,10 +22,8 @@ public class GameDisplayJPanel extends JPanel {
     private World world;
     private double scale;
 
-    private HashMap<String, Image>
-            imageCache = new HashMap<>();
-    private HashMap<WorldObject, WorldObjectDisplayState>
-            transformCache = new HashMap<>();
+    private HashMap<String, Image> imageCache = new HashMap<>();
+    private HashMap<WorldObject, WorldObjectDisplayState> transformCache = new HashMap<>();
 
     private final RoadConstants roadConst;
 
@@ -39,22 +37,14 @@ public class GameDisplayJPanel extends JPanel {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        //roads (unmoving) lowest priority, draw first
-        //  (so later they are drawn over)
-        //cars highest priority, draw last
+        // roads (unmoving) lowest priority, draw first
+        // (so later they are drawn over)
+        // cars highest priority, draw last
 
-        drawObjects(g2d,
-                world.getWorldObjectsFiltered().getUnmoving(),
-                false);
-        drawObjects(g2d,
-                world.getWorldObjectsFiltered().getCollidable(),
-                false);
-        drawObjects(g2d,
-                world.getWorldObjectsFiltered().getMoving(),
-                true);
-        drawObjects(g2d,
-                world.getWorldObjectsFiltered().getCars(),
-                true);
+        drawObjects(g2d, world.getWorldObjectsFiltered().getUnmoving(), false);
+        drawObjects(g2d, world.getWorldObjectsFiltered().getCollidable(), false);
+        drawObjects(g2d, world.getWorldObjectsFiltered().getMoving(), true);
+        drawObjects(g2d, world.getWorldObjectsFiltered().getCars(), true);
     }
 
     private void drawObjects(Graphics2D g2d, List<WorldObject> objects, boolean centerAnchorPoint) {
@@ -75,14 +65,14 @@ public class GameDisplayJPanel extends JPanel {
 
     private Image getScaledImage(WorldObject object) throws IOException {
         String filename = object.getImageFileName();
-        //HashMap.get returns null if the key doesn't exist
+        // HashMap.get returns null if the key doesn't exist
         Image image = imageCache.get(filename);
 
-        //if it exists in the HashMap, return it
+        // if it exists in the HashMap, return it
         if (image != null)
             return image;
 
-        //else, get the image file, insert it into imageCache
+        // else, get the image file, insert it into imageCache
         // then return it
         image = makeScaledImage(object, filename);
         imageCache.put(filename, image);
@@ -90,23 +80,19 @@ public class GameDisplayJPanel extends JPanel {
     }
 
     private Image makeScaledImage(WorldObject object, String filename) throws IOException {
-        BufferedImage rawImage = ImageIO.read(new File(
-                ClassLoader.getSystemResource(
-                        object.getImageFileName()).getFile()));
-        Image image = rawImage.getScaledInstance(
-                (int) Math.round(rawImage.getWidth() * scale),
-                (int) Math.round(rawImage.getHeight() * scale),
-                BufferedImage.SCALE_DEFAULT);
+        BufferedImage rawImage = ImageIO
+                .read(new File(ClassLoader.getSystemResource(object.getImageFileName()).getFile()));
+        Image image = rawImage.getScaledInstance((int) Math.round(rawImage.getWidth() * scale),
+                (int) Math.round(rawImage.getHeight() * scale), BufferedImage.SCALE_DEFAULT);
         return image;
     }
 
     private AffineTransform getTransform(WorldObject object, boolean centerAnchorPoint) throws IOException {
         WorldObjectDisplayState prevState = transformCache.get(object);
-        //not in cache yet
+        // not in cache yet
         if (prevState == null) {
             AffineTransform t = makeTransform(object, centerAnchorPoint);
-            WorldObjectDisplayState state =
-                    WorldObjectDisplayState.createState(object, t);
+            WorldObjectDisplayState state = WorldObjectDisplayState.createState(object, t);
             transformCache.put(object, state);
             return t;
         } else if (prevState.isChanged()) {
@@ -124,9 +110,7 @@ public class GameDisplayJPanel extends JPanel {
             offset = getOffset(object);
         } else {
             Image img = getScaledImage(object);
-            offset = new Coord(
-                    (int) Math.round(img.getWidth(null) / 2.0),
-                    (int) Math.round(img.getHeight(null) / 2.0));
+            offset = new Coord((int) Math.round(img.getWidth(null) / 2.0), (int) Math.round(img.getHeight(null) / 2.0));
         }
 
         AffineTransform translation = new AffineTransform();
@@ -135,10 +119,7 @@ public class GameDisplayJPanel extends JPanel {
         translation.translate(scaledX, scaledY);
 
         AffineTransform rotation;
-        rotation = AffineTransform.getRotateInstance(
-                object.getRotation(),
-                offset.getX(),
-                offset.getY());
+        rotation = AffineTransform.getRotateInstance(-object.getRotation(), offset.getX(), offset.getY());
 
         translation.concatenate(rotation);
 

@@ -9,7 +9,7 @@ public class XmlObject {
 
     /**
      * get the builder utility of XmlObject class
-     *
+     * 
      * @return the builder
      */
     public static XmlObjectBuilder builder() {
@@ -27,7 +27,7 @@ public class XmlObject {
 
     /**
      * the checked type of the xml object
-     *
+     * 
      * @return
      */
     public XmlObjectType getType() {
@@ -36,7 +36,7 @@ public class XmlObject {
 
     /**
      * the x coordinate in pixels
-     *
+     * 
      * @return
      */
     public int getX() {
@@ -45,7 +45,7 @@ public class XmlObject {
 
     /**
      * the y coordinate in pixels
-     *
+     * 
      * @return
      */
     public int getY() {
@@ -54,7 +54,7 @@ public class XmlObject {
 
     /**
      * the rotation in angles IMPORTANT: 0° is horizontal right
-     *
+     * 
      * @return
      */
     public float getRotation() {
@@ -62,9 +62,9 @@ public class XmlObject {
     }
 
     /*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
@@ -72,14 +72,13 @@ public class XmlObject {
     }
 
     /**
-     * Applying builder pattern to build XmlObject with: - transformed rotation
-     * in degrees - type checked DOM objects
-     *
+     * Applying builder pattern to build XmlObject with: - transformed rotation in
+     * degrees - type checked DOM objects
+     * 
      * @author kalmankostenszky
      *
      */
     public static class XmlObjectBuilder {
-
         private boolean typeSet;
         private boolean rotationSet;
         private boolean positionSet;
@@ -96,10 +95,10 @@ public class XmlObject {
 
         /**
          * converts the string xml type attribute to type checked XmlObjectType
-         *
-         * @throws IllegalArgumentException if cannoit convert type attribute to
-         * enum
-         *
+         * 
+         * @throws IllegalArgumentException
+         *             if cannoit convert type attribute to enum
+         * 
          * @param type
          * @return
          */
@@ -114,7 +113,7 @@ public class XmlObject {
 
         /**
          * sets the position of the XmlObject
-         *
+         * 
          * @param x
          * @param y
          * @return
@@ -129,7 +128,7 @@ public class XmlObject {
 
         /**
          * sets the position of the XmlObject
-         *
+         * 
          * @param x
          * @param y
          * @return
@@ -140,12 +139,12 @@ public class XmlObject {
 
         /**
          * set the rotation of the XmlObject from 2x2 matrix to angle in degrees
-         *
+         * 
          * @param rotation
          * @return
          */
         public XmlObjectBuilder rotation(double[][] rotation) {
-            instance.rotation = (float) Utils.radianToDegree(Utils.convertMatrixToRadians(rotation));
+            instance.rotation = (float) Utils.convertMatrixToRadians(rotation);
             rotationSet = true;
             log.info("setting rotation from {{" + rotation[0][0] + "," + rotation[0][1] + "},{" + rotation[1][0] + ","
                     + rotation[1][1] + "}} to " + instance.rotation);
@@ -154,22 +153,27 @@ public class XmlObject {
 
         /**
          * set the rotation of the XmlObject from 2dmatrix to angle in degrees
-         *
-         * @param m11 [0][0]
-         * @param m12 [0][1]
-         * @param m21 [1][0]
-         * @param m22 [1][1]
+         * 
+         * @param m11
+         *            [0][0]
+         * @param m12
+         *            [0][1]
+         * @param m21
+         *            [1][0]
+         * @param m22
+         *            [1][1]
          * @return
          */
         public XmlObjectBuilder rotation(double m11, double m12, double m21, double m22) {
-            return rotation(new double[][]{{m11, m12}, {m21, m22}});
+            return rotation(new double[][] { { m11, m12 }, { m21, m22 } });
         }
 
         /**
          * returns the instence created from the xml
-         *
+         * 
          * @return
-         * @throws IllegalArgumentException if one of the parameters not set
+         * @throws IllegalArgumentException
+         *             if one of the parameters not set
          */
         public XmlObject build() {
             if (!typeSet || !rotationSet || !positionSet) {

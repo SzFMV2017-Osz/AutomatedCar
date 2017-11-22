@@ -11,8 +11,8 @@ package hu.oe.nik.szfmv.automatedcar.bus;
  * For the simulation environment let's assume that each frame contains a single
  * message, so we do not need to bother extracting signal data from frames.
  */
-public class Signal {
 
+public class Signal {
     // Signal identifier, a component can decide based on this value
     // whether the content of the signal shall be processed or not.
     private SignalEnum id;

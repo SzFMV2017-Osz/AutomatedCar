@@ -1,6 +1,6 @@
 package hu.oe.nik.szfmv.inputinterface;
 
-public class CarComponentStateCalculator implements ICalculations{
+public class CarComponentStateCalculator implements ICalculations {
 
     public int turnTheSteeringwheelLeft(int currentSteeringwheelState) {
         int output;
@@ -25,23 +25,20 @@ public class CarComponentStateCalculator implements ICalculations{
     }
 
     public int addGas(int currentGaspedalState) {
-        int output;
-        if (currentGaspedalState < maxGaspedalState){
-            output = currentGaspedalState + 2;
-        }
-        else {
-            output = maxGaspedalState;
-        }
-        return output;
+        return pushPedal(currentGaspedalState);
     }
 
-    public int applyingBreak(int currentGaspedalState) {
+    public int applyingBreak(int currentBreakpedalState) {
+        return pushPedal(currentBreakpedalState);
+    }
+
+    private int pushPedal(int currentpedalState) {
         int output;
-        if (currentGaspedalState > minGaspedalState){
-            output = currentGaspedalState - 1;
+        if (currentpedalState < maxPedalState){
+            output = currentpedalState + 1;
         }
         else {
-            output = minGaspedalState;
+            output = maxPedalState;
         }
         return output;
     }
