@@ -21,6 +21,6 @@ public class XmlParserTest {
         assertEquals(1700, r.get(0).getX(), 0);
         assertEquals(144, r.get(0).getY(), 0);
         double[][] matrix = { { 0, 1 }, { -1, 0 } };
-        assertEquals(Utils.radianToDegree(Utils.convertMatrixToRadians(matrix)), r.get(0).getRotation(), 0);
+        assertEquals(Utils.convertMatrixToRadians(matrix), r.get(0).getRotation(), 3);
     }
 }
