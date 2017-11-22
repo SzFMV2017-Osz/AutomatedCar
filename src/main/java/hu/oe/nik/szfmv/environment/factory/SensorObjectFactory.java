@@ -174,7 +174,7 @@ public class SensorObjectFactory {
                 XCoords,
                 YCoords,
                 car,
-                SensorType.ULTRASONIC_RSB
+                SensorType.ULTRASONIC_RSF
         );
         return sensor;
     }
@@ -314,7 +314,7 @@ public class SensorObjectFactory {
                 XCoords,
                 YCoords,
                 car,
-                SensorType.RADAR
+                SensorType.CAMERA
         );
         return sensor;
     }
