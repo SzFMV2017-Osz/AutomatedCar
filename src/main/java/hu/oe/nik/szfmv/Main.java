@@ -1,5 +1,8 @@
 package hu.oe.nik.szfmv;
 
+import hu.oe.nik.szfmv.environment.detector.WindscreenCamera;
+import hu.oe.nik.szfmv.environment.model.WorldObject;
+import hu.oe.nik.szfmv.environment.model.WorldObjectCollection;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
 import hu.oe.nik.szfmv.environment.factory.ImageResource;
@@ -49,6 +52,12 @@ public class Main {
 
         playerCar = new AutomatedCar(2500, 1500, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
                                         (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
+
+
+
+
+        //add WindscreenCamera to the world
+        WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
 
         world.addObjectToWorld(playerCar);
     }
