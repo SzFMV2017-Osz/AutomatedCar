@@ -8,7 +8,6 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
 import java.awt.geom.Area;
 
 import static org.junit.Assert.assertEquals;
@@ -49,12 +48,8 @@ public class CollisionDetectionTest {
         boolean areTheyIntersecting = this.treeMock.isIntersects(this.automatedCarMock);
         assertEquals(areTheyIntersecting, false);
 
+        // move the car into the tree
         this.automatedCarMock.setPosition(this.automatedCarMock.getPosition().add(new Vector2D(-200, -200)));
-
-        Shape treeMockShape = this.treeMock.getShape();
-        Shape automatedCarMockShape = this.automatedCarMock.getShape();
-
-
         assertEquals(this.treeMock.isIntersects(this.automatedCarMock), true);
     }
 
@@ -81,13 +76,6 @@ public class CollisionDetectionTest {
             areaFromThisObject.intersect(areaFromWorldObject);
             return !areaFromThisObject.isEmpty();
         }
-
-//        public Boolean apply(Shape shape, Shape shape2) {
-//            Area areaA = new Area(shape);
-//            Area areaB = new Area(shape2);
-//            areaA.intersect(areaB);
-//            return !areaA.isEmpty();
-//        }
 
         @Override
         protected void doOnCollision() {
