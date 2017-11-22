@@ -1,10 +1,11 @@
-package hu.oe.nik.szfmv.automatedcar.sensor;
+package hu.oe.nik.szfmv.environment.detector;
 
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
-import hu.oe.nik.szfmv.environment.util.ModelShape;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -12,50 +13,37 @@ import java.util.ArrayList;
  * https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
  * http://jsfiddle.net/PerroAZUL/zdaY8/1/
  */
-public class RadarSensor extends Sensor {
+public class RadarSensor implements IRadarSensor {
 
     /**
      * Reference point
      */
     private Vector2D a; 
     private Vector2D b, c;
-    private double rotation;
+    /**
+     * Should always be in degrees, not radian!
+     */
+    private double angle;
     private final double DISTANCE = 200;
     private final double REFERENCE_ANGLE = 60;
     
-    private SensorTestObject visualA;
-    private SensorTestObject visualB;
-    private SensorTestObject visualC;
+    private AutomatedCar car;
+    private List<WorldObject> worldObjects;
     
-    public RadarSensor() {        
-        this.a = new Vector2D();
-        this.b = new Vector2D();
-        this.c = new Vector2D();
-        this.rotation = -1;
-    }
-
     /**
-     * Sets all three points of the radar sensor triangle
-     * @param referencePoint
-     * @param carAngle in degree or radian (set isCarAngleDegree accordingly)
-     * @param isCarAngleDegree degree or radian
+     * Init un-calculated radar sensor. (points uninitialized. Use this.updatePoints()!)
+     * @param car
+     * @param worldObjects 
      */
-    public RadarSensor(Vector2D referencePoint, double carAngle, boolean isCarAngleDegree, World world) {
-        super();
+    public RadarSensor(AutomatedCar car, List<WorldObject> worldObjects){
+        this.car = car;
+        this.worldObjects = worldObjects;
         
         this.a = new Vector2D();
         this.b = new Vector2D();
         this.c = new Vector2D();
-        this.rotation = carAngle;        
         
-        this.visualA = new SensorTestObject(this.a.getX(), this.a.getY());
-        this.visualB = new SensorTestObject(this.a.getX(), this.a.getY());
-        this.visualC = new SensorTestObject(this.a.getX(), this.a.getY());
-        world.addObjectToWorld(visualA);
-        world.addObjectToWorld(visualB);
-        world.addObjectToWorld(visualC);
-
-        this.setPoints(this.a, this.rotation, isCarAngleDegree);
+        this.updateAngle();
     }
 
     /**
@@ -65,22 +53,16 @@ public class RadarSensor extends Sensor {
      * &nbsp;&nbsp;&nbsp;-^-<br>
      * &nbsp;&nbsp;&nbsp;| |<br>
      * &nbsp;&nbsp;&nbsp;---<br>
-     * Sets "a" property to param referencePoint and calculates "b" and "c"
-     * point coordinates.
+     * Sets "a" property to param referencePoint vector and calculates "b" and "c"
+     * vector coordinates.
      *
-     * @param referencePoint car reference point
-     * @param carAngle car angle
      * @param isCarAngleDegree
      */
-    public void setPoints(Vector2D referencePoint, double carAngle, boolean isCarAngleDegree) {
-
-        if (!isCarAngleDegree) {
-            carAngle = Math.toDegrees(carAngle);
-        }
+    public void updatePoints() {
 
         // store parameters
-        this.setA(referencePoint);
-        this.setRotation(carAngle);
+        this.updateReferencePoint(this.car.getPosition());
+        this.updateAngle();
         
         // calculations
         double bAngleCorrector = 270;
@@ -88,12 +70,12 @@ public class RadarSensor extends Sensor {
 
         double diagonal = DISTANCE / Math.cos(REFERENCE_ANGLE);
 
-        double bAngle = this.rotation - (REFERENCE_ANGLE / 2);
+        double bAngle = this.angle - (REFERENCE_ANGLE / 2);
         bAngle -= bAngleCorrector;
         this.b.setX(Math.cos(Math.toRadians(bAngle)) * diagonal);
         this.b.setY(Math.sin(Math.toRadians(bAngle)) * diagonal);
 
-        double cAngle = this.rotation + (REFERENCE_ANGLE / 2);
+        double cAngle = this.angle + (REFERENCE_ANGLE / 2);
         cAngle = cAngleCorrector - cAngle;
         this.c.setX(Math.sin(Math.toRadians(cAngle)) * diagonal);
         this.c.setY(Math.cos(Math.toRadians(cAngle)) * diagonal);
@@ -101,6 +83,10 @@ public class RadarSensor extends Sensor {
         // add to reference point
         this.c = this.c.add(this.a);
         this.b = this.b.add(this.a);
+    }
+    
+    private void updateAngle(){
+        this.angle = Math.toDegrees(this.car.getRotation());
     }
 
     public boolean isPointInRange(Vector2D point) {
@@ -115,10 +101,11 @@ public class RadarSensor extends Sensor {
     /**
      * Get closest vectors to the given reference vector.
      * @param points
-     * @param referencePoint
      * @return Returns more then one vectors if they are equally close.
      */
-    public ArrayList<Vector2D> getClosestVectors(ArrayList<Vector2D> points, Vector2D referencePoint) {
+    public ArrayList<Vector2D> getClosestVectors(ArrayList<Vector2D> points) {
+        
+        Vector2D referencePoint = this.a;
 
         ArrayList<Vector2D> closests = new ArrayList<>();
         int i = 0;
@@ -151,12 +138,13 @@ public class RadarSensor extends Sensor {
         ArrayList<Vector2D> closests = new ArrayList<>();
         int i = 0;
         double minDist = Double.POSITIVE_INFINITY;
+        Vector2D referencePoint = this.a;
 
         while (i < points.size()) {
 
             if (this.isPointInRange(points.get(i))) {
 
-                double actDist = Math.sqrt(Math.pow((this.a.getX() - points.get(i).getX()), 2) + Math.pow((this.a.getY() - points.get(i).getY()), 2));
+                double actDist = Math.sqrt(Math.pow((referencePoint.getX() - points.get(i).getX()), 2) + Math.pow((referencePoint.getY() - points.get(i).getY()), 2));
 
                 if (actDist < minDist) {
                     closests = new ArrayList<>();
@@ -166,20 +154,29 @@ public class RadarSensor extends Sensor {
                     closests.add(points.get(i));
                     minDist = actDist;
                 }
-            }
-            
+            }            
             i++;
         }
 
         return closests;
     }
-
-    public void setA(Vector2D a) {
-        this.a = a;
+    
+    public List<WorldObject> getClosestWorldObjects(){
+        
+        // TODO...
+        
+        return null;
     }
-
-    public void setReferencePoint(Vector2D vector) {
-        this.setA(vector);
+    
+    public List<WorldObject> getClosestWorldObjectsInRange(){
+        
+        // TODO...
+        
+        return null;
+    }
+    
+    private void updateReferencePoint(Vector2D a){
+        this.a = a;
     }
     
     public double getX(){
@@ -190,22 +187,17 @@ public class RadarSensor extends Sensor {
         return this.a.getY();
     }
     
-    public double getRotation(){
-        return this.rotation;
+    public double getAngle(){
+        return this.angle;
     }
     
-    private void setRotation(double rotation){
-        this.rotation = rotation;
-    }
-        
-    public void setVisuals(){
-        this.visualA.setPosition(this.a);
-        this.visualB.setPosition(this.b);
-        this.visualC.setPosition(this.c);      
+    @Override
+    public Vector2D getCurrentSpeed(){
+        return this.car.getCurrentSpeed();
     }
     
     @Override
     public String toString(){
-        return String.format("a: (%1d, %2d), b: (%3d, %4d), c: (%5d, %6d), rotation: %7d", this.a.getX(), this.a.getY(), this.b.getX(), this.b.getY(), this.c.getX(), this.c.getY(), this.rotation);
+        return String.format("a: (%1d, %2d), b: (%3d, %4d), c: (%5d, %6d), rotation: %7d", this.a.getX(), this.a.getY(), this.b.getX(), this.b.getY(), this.c.getX(), this.c.getY(), this.angle);
     }
 }
