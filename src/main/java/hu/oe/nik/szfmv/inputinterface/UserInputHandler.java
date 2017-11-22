@@ -1,31 +1,41 @@
 package hu.oe.nik.szfmv.inputinterface;
 
+import hu.oe.nik.szfmv.automatedcar.SystemComponent;
+import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
+import hu.oe.nik.szfmv.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
+import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import hu.oe.nik.szfmv.automatedcar.SystemComponent;
-import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
-import hu.oe.nik.szfmv.automatedcar.bus.Signal;
-import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
-import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-
+/**
+ * <h1>Class that handles keystrokes from the user</h1>
+ * <p></p>extends <code>SystemComponent</code> to write signals to the <code>VirtualFunctionBus</code>
+ * implements <i>KeyListener</i> java interface
+ * </p>
+ *
+ * @author danijanos
+ */
 public final class UserInputHandler extends SystemComponent implements KeyListener {
 
+    private static final Logger logger = LogManager.getLogger(UserInputHandler.class);
     private static final int DECREASING_TIME_PERIOD = 14;
 
     private AutoTransmissionEnum autotransmissionState;
+    private boolean isKeyPressingHappened;
     private int steeringWheelState;
     private int gaspedalState;
     private int breakpedalState;
 
     private ArrayList<Integer> pressedKeyCodes;
     private CarComponentStateCalculator componentStateCalculator;
-
     private Timer timer;
-    private boolean isKeyPressingHappened;
 
     public UserInputHandler() {
         super();
@@ -34,7 +44,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         this.timer = new Timer();
 
         // starting states
-        this.autotransmissionState = AutoTransmissionEnum.N;
+        this.sendNewAutotransmissionState(AutoTransmissionEnum.N);
         this.steeringWheelState = componentStateCalculator.BASIC_STEERING_WHEEL_STATE;
         this.gaspedalState = componentStateCalculator.MIN_PEDAL_STATE;
         this.breakpedalState = componentStateCalculator.MIN_PEDAL_STATE;
@@ -59,22 +69,22 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_P)) {
             // set autotransmission to PARK mode
-            this.autotransmissionState = AutoTransmissionEnum.P;
+            this.sendNewAutotransmissionState(AutoTransmissionEnum.P);
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_R)) {
             // set autotransmission to REVERSE mode
-            this.autotransmissionState = AutoTransmissionEnum.R;
+            this.sendNewAutotransmissionState(AutoTransmissionEnum.R);
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_N)) {
             // set autotransmission to NEUTRAL mode
-            this.autotransmissionState = AutoTransmissionEnum.N;
+            this.sendNewAutotransmissionState(AutoTransmissionEnum.N);
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_D)) {
             // set autotransmission to DRIVE mode
-            this.autotransmissionState = AutoTransmissionEnum.D;
+            this.sendNewAutotransmissionState(AutoTransmissionEnum.D);
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_LEFT)) {
@@ -116,31 +126,30 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
             @Override
             public void run() {
 
-                if (!isKeyPressingHappened){
+                if (!isKeyPressingHappened) {
 
-                    if (gaspedalState != componentStateCalculator.MIN_PEDAL_STATE){
+                    if (gaspedalState != componentStateCalculator.MIN_PEDAL_STATE) {
                         gaspedalState--;
                     }
 
-                    if (breakpedalState != componentStateCalculator.MIN_PEDAL_STATE){
+                    if (breakpedalState != componentStateCalculator.MIN_PEDAL_STATE) {
                         breakpedalState--;
                     }
 
-                    if (steeringWheelState > componentStateCalculator.BASIC_STEERING_WHEEL_STATE){
+                    if (steeringWheelState > componentStateCalculator.BASIC_STEERING_WHEEL_STATE) {
                         steeringWheelState--;
                     }
 
-                    if (steeringWheelState < componentStateCalculator.BASIC_STEERING_WHEEL_STATE){
+                    if (steeringWheelState < componentStateCalculator.BASIC_STEERING_WHEEL_STATE) {
                         steeringWheelState++;
                     }
-                }
-                else {
+                } else {
                     this.cancel();
                 }
             }
         };
 
-        timer.scheduleAtFixedRate(task,100, DECREASING_TIME_PERIOD);
+        timer.scheduleAtFixedRate(task, 100, DECREASING_TIME_PERIOD);
     }
 
     private void sendNewAutotransmissionState(AutoTransmissionEnum newTransmissionState) {
@@ -150,6 +159,11 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
                         newTransmissionState
                 )
         );
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("A new transmission state is sent to the VirtualBus by the user from the keyboard");
+            logger.info("sendNewAutotransmissionState invoked with param: " + newTransmissionState + "which is a " + newTransmissionState.getClass());
+        }
     }
 
     private void sendNewSteeringWheelState(int newSteeringWheelState) {
@@ -181,7 +195,6 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
 
     @Override
     public void loop() {
-        this.sendNewAutotransmissionState(this.autotransmissionState);
         this.sendNewSteeringWheelState(this.steeringWheelState);
         this.sendNewGaspedalState(this.gaspedalState);
         this.sendNewBreakpedalState(this.breakpedalState);
@@ -189,18 +202,18 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
 
     @Override
     public void receiveSignal(Signal s) {
-        switch (s.getId()){
+        switch (s.getId()) {
             case AUTOTRANSMISSION:
-                this.autotransmissionState = (AutoTransmissionEnum)s.getData();
+                this.autotransmissionState = (AutoTransmissionEnum) s.getData();
                 break;
             case STEERINGWHEEL:
-                this.steeringWheelState = (int)s.getData();
+                this.steeringWheelState = (int) s.getData();
                 break;
             case GASPEDAL:
-                this.gaspedalState = (int)s.getData();
+                this.gaspedalState = (int) s.getData();
                 break;
             case BREAKPEDAL:
-                this.breakpedalState = (int)s.getData();
+                this.breakpedalState = (int) s.getData();
                 break;
 
             default:
