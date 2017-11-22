@@ -38,4 +38,16 @@ public class WorldObjectCollection {
             unmoving.add(object);
         }
     }
+    
+    public void remove(WorldObject object){
+        if (object instanceof CollidableObject) {
+            if (object instanceof MovingObject) {
+                if (object instanceof Car) {
+                    cars.remove(object);
+                } else moving.remove(object);
+            } else collidable.remove(object);
+        } else { //roads
+            unmoving.remove(object);
+        }
+    }
 }

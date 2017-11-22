@@ -46,7 +46,7 @@ public class Main {
 
 		Car car = Car.builder().position(500, 500).rotation(0).dimension(100, 100).weight(1000).color("black").build();
 		AutomatedCar playerCar = new AutomatedCar(2560, 1500, Math.PI / 2, 102, 208, "car_2_white.png",
-				ModelShape.RECTANGULAR);
+				ModelShape.RECTANGULAR, w);
 		// add Car to the world
 		w.addObjectToWorld(car);
 		car.accelerate(-5);

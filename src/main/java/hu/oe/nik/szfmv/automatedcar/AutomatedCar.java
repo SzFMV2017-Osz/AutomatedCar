@@ -8,6 +8,7 @@ import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PowertrainSystem;
 import hu.oe.nik.szfmv.automatedcar.sensor.RadarSensor;
 import hu.oe.nik.szfmv.automatedcar.steering.Steering;
 import hu.oe.nik.szfmv.common.Vector2D;
+import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 
@@ -25,7 +26,7 @@ public class AutomatedCar extends WorldObject {
         
         private RadarSensor radarSensor;
 
-	public AutomatedCar(int x, int y, double rotation, int width, int height, String imageFileName, ModelShape shape) {
+	public AutomatedCar(int x, int y, double rotation, int width, int height, String imageFileName, ModelShape shape, World world) {
 		super(x, y, rotation, width, height, imageFileName, shape);
 
 		// Compose our car from brand new system components
@@ -34,7 +35,7 @@ public class AutomatedCar extends WorldObject {
 		// The rest of the components use the VirtualFunctionBus to communicate,
 		// they do not communicate with the car itself
                 
-                this.radarSensor = new RadarSensor(new Vector2D(this.x, this.y), rotation, false);
+                this.radarSensor = new RadarSensor(new Vector2D(this.x, this.y), rotation, false, world);
 	}
 
 	public void initTestmode() {
@@ -63,6 +64,9 @@ public class AutomatedCar extends WorldObject {
                         
             // update radarSensor coordinates
             this.radarSensor.setPoints(new Vector2D(this.x, this.y), rotation, false);
+            
+            this.radarSensor.setVisuals();
+            
 		} else {
 			this.positionOnTrack = this.positionOnTrack
 					+ (powertrainSystem.getSpeed() / this.VISUAL_CORRECTION) % this.CIRCULAR_TRACK_LENGTH;

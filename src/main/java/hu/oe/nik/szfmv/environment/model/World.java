@@ -39,6 +39,11 @@ public class World {
         worldObjects.add(o);
         worldObjectsFiltered.add(o);
     }
+    
+    public void removeObjectFromWorld(WorldObject o){
+        worldObjects.remove(o);
+        worldObjectsFiltered.remove(o);
+    }
 
     public WorldObjectCollection getWorldObjectsFiltered() {
         return worldObjectsFiltered;
