@@ -5,9 +5,9 @@ import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.visualisation.GameDisplayJPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import hu.oe.nik.szfmv.visualisation.GameDisplayJPanel;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -26,31 +26,29 @@ import java.util.TimerTask;
 public final class UserInputHandler extends SystemComponent implements KeyListener {
 
     private static final Logger logger = LogManager.getLogger(UserInputHandler.class);
-    private static final int DECREASING_TIME_PERIOD = 14;
 
-    private AutoTransmissionEnum autotransmissionState;
-    private boolean isKeyPressingHappened;
+    // constant declaration for timer tick:
+    private static final int DECREASING_TIME_PERIOD = 15;
+
     private int steeringWheelState;
     private int gaspedalState;
     private int breakpedalState;
 
+    private Timer timer;
     private ArrayList<Integer> pressedKeyCodes;
     private CarComponentStateCalculator componentStateCalculator;
-    private Timer timer;
 
     public UserInputHandler() {
         super();
+        this.timer = new Timer();
         this.pressedKeyCodes = new ArrayList<>();
         this.componentStateCalculator = new CarComponentStateCalculator();
-        this.timer = new Timer();
 
         // starting states
         this.sendNewAutotransmissionState(AutoTransmissionEnum.N);
         this.steeringWheelState = componentStateCalculator.BASIC_STEERING_WHEEL_STATE;
         this.gaspedalState = componentStateCalculator.MIN_PEDAL_STATE;
         this.breakpedalState = componentStateCalculator.MIN_PEDAL_STATE;
-
-        this.isKeyPressingHappened = false;
     }
 
     @Override
@@ -61,32 +59,38 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
     @Override
     public void keyPressed(KeyEvent userKeyPress) {
 
-        this.isKeyPressingHappened = true;
-
         // collecting simultaneous key presses
         if (!this.pressedKeyCodes.contains(userKeyPress.getKeyCode())) {
             pressedKeyCodes.add(userKeyPress.getKeyCode());
         }
 
+        /*----------------------
+         *  Transmissions
+         *----------------------*/
+
         if (this.pressedKeyCodes.contains(KeyEvent.VK_P)) {
-            // set autotransmission to PARK mode
+            // set auto transmission to PARK mode
             this.sendNewAutotransmissionState(AutoTransmissionEnum.P);
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_R)) {
-            // set autotransmission to REVERSE mode
+            // set auto transmission to REVERSE mode
             this.sendNewAutotransmissionState(AutoTransmissionEnum.R);
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_N)) {
-            // set autotransmission to NEUTRAL mode
+            // set auto transmission to NEUTRAL mode
             this.sendNewAutotransmissionState(AutoTransmissionEnum.N);
         }
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_D)) {
-            // set autotransmission to DRIVE mode
+            // set auto transmission to DRIVE mode
             this.sendNewAutotransmissionState(AutoTransmissionEnum.D);
         }
+
+        /*----------------------
+        *   Steering
+        *----------------------*/
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_LEFT)) {
             // turn the car left
@@ -98,6 +102,10 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
             this.steeringWheelState = this.componentStateCalculator.turnTheSteeringwheelRight(this.steeringWheelState);
         }
 
+        /*----------------------
+        *   Gas & Break
+        *----------------------*/
+
         if (this.pressedKeyCodes.contains(KeyEvent.VK_UP)) {
             // add gas
             this.gaspedalState = this.componentStateCalculator.addGas(this.gaspedalState);
@@ -107,6 +115,10 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
             // applying break
             this.breakpedalState = this.componentStateCalculator.applyingBreak(this.breakpedalState);
         }
+
+        /*----------------------
+        *   Sensor visualization toggles
+        *----------------------*/
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_0) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD0)) {
             GameDisplayJPanel.changeSensorDebugMode();
@@ -130,42 +142,91 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
 
         this.pressedKeyCodes.remove(new Integer(userKeyRelease.getKeyCode()));
 
-        // amíg nincs input, minden visszaáll alaphelyzetbe
-        if (this.pressedKeyCodes.isEmpty()) {
-            this.isKeyPressingHappened = false;
-            this.decreaseAllComponentStateToBase();
+        // non of the steering control buttons are pressed
+        if (!this.pressedKeyCodes.contains(KeyEvent.VK_LEFT) && !this.pressedKeyCodes.contains(KeyEvent.VK_RIGHT)) {
+            if (this.steeringWheelState != componentStateCalculator.BASE_STATE) {
+                this.setSteeringWheelToBasicState();
+            }
+        }
+
+        // the gas control button is released
+        if (!this.pressedKeyCodes.contains(KeyEvent.VK_UP)) {
+            if (this.gaspedalState > componentStateCalculator.BASE_STATE) {
+                this.setGasPedalToBasicState();
+            }
+        }
+
+        // the break control button is released
+        if (!this.pressedKeyCodes.contains(KeyEvent.VK_DOWN)) {
+            if (this.breakpedalState > componentStateCalculator.BASE_STATE) {
+                this.setBreakPedalToBasicState();
+            }
         }
     }
 
-    private void decreaseAllComponentStateToBase() {
-
+    private void setGasPedalToBasicState() {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-
-                if (!isKeyPressingHappened) {
-
-                    if (gaspedalState != componentStateCalculator.MIN_PEDAL_STATE) {
-                        gaspedalState--;
-                    }
-
-                    if (breakpedalState != componentStateCalculator.MIN_PEDAL_STATE) {
-                        breakpedalState--;
-                    }
-
-                    if (steeringWheelState > componentStateCalculator.BASIC_STEERING_WHEEL_STATE) {
-                        steeringWheelState--;
-                    }
-
-                    if (steeringWheelState < componentStateCalculator.BASIC_STEERING_WHEEL_STATE) {
-                        steeringWheelState++;
-                    }
+                // while a gas key pressing is not happened and the gas pedal doesn't reached it's base state
+                if (!pressedKeyCodes.contains(KeyEvent.VK_UP) && gaspedalState > componentStateCalculator.BASE_STATE) {
+                    gaspedalState--;
                 } else {
                     this.cancel();
                 }
             }
         };
+        // A timer which runs the timer task at a fixed rate
+        timer.scheduleAtFixedRate(task, 100, DECREASING_TIME_PERIOD);
+    }
 
+    private void setBreakPedalToBasicState() {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                // while the break key pressing is not happened and the break pedal doesn't reached it's base state
+                if (!pressedKeyCodes.contains(KeyEvent.VK_DOWN) && breakpedalState > componentStateCalculator.BASE_STATE) {
+                    breakpedalState--;
+                } else {
+                    this.cancel();
+                }
+            }
+        };
+        // A timer which runs the timer task at a fixed rate
+        timer.scheduleAtFixedRate(task, 100, DECREASING_TIME_PERIOD);
+    }
+
+    private void setSteeringWheelToBasicState() {
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+
+                // while there is no steering control buttons press the task runs
+                if (!pressedKeyCodes.contains(KeyEvent.VK_LEFT) && !pressedKeyCodes.contains(KeyEvent.VK_RIGHT)) {
+
+                    // the steering wheel reached its base state
+                    if (steeringWheelState == componentStateCalculator.BASE_STATE) {
+                        this.cancel();
+                    }
+
+                    // steering wheel was turned right
+                    if (steeringWheelState > componentStateCalculator.BASE_STATE) {
+                        steeringWheelState--;
+                    }
+
+                    // steering wheel was turned left
+                    if (steeringWheelState < componentStateCalculator.BASE_STATE) {
+                        steeringWheelState++;
+                    }
+                } else {
+                    this.cancel();
+                }
+
+            }
+        };
+
+        // A timer which runs the timer task at a fixed rate
         timer.scheduleAtFixedRate(task, 100, DECREASING_TIME_PERIOD);
     }
 
@@ -220,9 +281,6 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
     @Override
     public void receiveSignal(Signal s) {
         switch (s.getId()) {
-            case AUTOTRANSMISSION:
-                this.autotransmissionState = (AutoTransmissionEnum) s.getData();
-                break;
             case STEERINGWHEEL:
                 this.steeringWheelState = (int) s.getData();
                 break;

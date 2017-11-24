@@ -1,5 +1,10 @@
 package hu.oe.nik.szfmv.inputinterface;
 
+/**
+ * <h1>Class for car component state calculations</h1>
+ *
+ * @author danijanos
+ */
 public class CarComponentStateCalculator implements ICalculations {
 
     public int turnTheSteeringwheelLeft(int currentSteeringwheelState) {
