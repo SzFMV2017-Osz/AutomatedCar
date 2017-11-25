@@ -28,7 +28,7 @@ public class CollisionDetectionTest {
         this.treeMock = new TreeMock(0, 0, 0F, "tree.png", 50);
 
         this.automatedCarMock = new AutomatedCarMock(
-                100, 100, 0F, "car_2_white.png", ModelShape.RECTENGULAR
+                100, 100, 0F, "car_2_white.png", ModelShape.RECTANGULAR
         );
     }
 
@@ -48,7 +48,8 @@ public class CollisionDetectionTest {
         boolean areTheyIntersecting = this.treeMock.isIntersects(this.automatedCarMock);
         assertEquals(areTheyIntersecting, false);
 
-        this.automatedCarMock.setPosition(this.automatedCarMock.getPosition().add(new Vector2D(-100, -100)));
+        // move the car into the tree
+        this.automatedCarMock.setPosition(this.automatedCarMock.getPosition().add(new Vector2D(-200, -200)));
         assertEquals(this.treeMock.isIntersects(this.automatedCarMock), true);
     }
 
@@ -86,7 +87,7 @@ public class CollisionDetectionTest {
 
         @SuppressWarnings("WeakerAccess")
         public AutomatedCarMock(int x, int y, float rotation, String imageName, ModelShape shape) {
-            super(x, y, rotation, imageName, shape);
+            super(x, y, rotation, imageName, 1500, shape);
         }
     }
 }

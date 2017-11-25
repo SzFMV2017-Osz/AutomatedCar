@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.environment.xml;
 
+import hu.oe.nik.szfmv.common.Vector2D;
+
 public class Utils {
 
     /**
@@ -52,5 +54,10 @@ public class Utils {
 
     public static double radianToDegree(double rad) {
         return (rad * 180) / Math.PI;
+    }
+
+    public static double getVectorDistance(Vector2D first, Vector2D second)
+    {
+        return Math.hypot(first.getX()-second.getX(),first.getY()-second.getY());
     }
 }
