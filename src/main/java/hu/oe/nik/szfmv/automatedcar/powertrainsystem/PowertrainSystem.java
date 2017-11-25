@@ -135,7 +135,7 @@ public class PowertrainSystem extends SystemComponent {
 	private void calculateRevolution() {
 		double result;
 		if (this.autoTransmission.equals(AutoTransmissionEnum.N)) {
-			result = carSpecs.minRPM + (carSpecs.maxRPM - carSpecs.minRPM) * this.gasPedal / this.PEDAL_MAX_VALUE;
+			result = carSpecs.minRPM + (carSpecs.maxRPM - carSpecs.minRPM) * this.gasPedal / PEDAL_MAX_VALUE;
 		} else {
 			result = this.carSpecs.RPMSpeedConvRate * this.carSpecs.shiftingRatios[this.shiftingLevel]
 					* Math.abs(this.actualSpeed);
@@ -158,9 +158,9 @@ public class PowertrainSystem extends SystemComponent {
 						* (this.expectedRevolution - this.actualRevolution)
 						/ (this.carSpecs.maxRPM - this.carSpecs.minRPM));
 		double rotationalForce = torqueOnWheels / (this.carSpecs.wheelDiameter / 2)
-				- signumOfSpeed() * (this.carSpecs.maxBrakeForce * this.breakPedal / this.PEDAL_MAX_VALUE);
+				- signumOfSpeed() * (this.carSpecs.maxBrakeForce * this.breakPedal / PEDAL_MAX_VALUE);
 		double acceleration = rotationalForce / this.carSpecs.weightOfCar;
-		return this.MPS_TO_KMPH * acceleration / this.REFRESH_RATE;
+		return MPS_TO_KMPH * acceleration / REFRESH_RATE;
 	}
 
 	private double signumOfSpeed() {
@@ -173,7 +173,7 @@ public class PowertrainSystem extends SystemComponent {
 		case GASPEDAL:
 			this.gasPedal = (int) s.getData();
 			this.expectedRevolution = this.carSpecs.minRPM
-					+ (this.carSpecs.maxRPM - this.carSpecs.minRPM) * this.gasPedal / this.PEDAL_MAX_VALUE;
+					+ (this.carSpecs.maxRPM - this.carSpecs.minRPM) * this.gasPedal / PEDAL_MAX_VALUE;
 			break;
 		case BREAKPEDAL:
 			this.breakPedal = (int) s.getData();
