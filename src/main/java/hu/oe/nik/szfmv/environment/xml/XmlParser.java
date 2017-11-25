@@ -13,8 +13,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class XmlParser {
         log.info("Start parsing xml: " + filename);
 
         List<XmlObject> result = new ArrayList<>();
-        File xmlFile = new File(ClassLoader.getSystemResource(filename).getFile());
+        InputStream xmlFile = XmlParser.class.getClassLoader().getResourceAsStream(filename);
         Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFile);
 
         NodeList entriesNodeList = (NodeList) xpath.evaluate("//Scene/Objects/Object", document,
