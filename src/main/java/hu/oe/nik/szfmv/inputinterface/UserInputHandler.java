@@ -27,8 +27,8 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
 
     private static final Logger logger = LogManager.getLogger(UserInputHandler.class);
 
-    // constant declaration for timer tick:
-    private static final int DECREASING_TIME_PERIOD = 15;
+    // higher value means slower reset speed
+    private static final int STATE_RESET_SPEED = 20;
 
     private int steeringWheelState;
     private int gaspedalState;
@@ -177,7 +177,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
             }
         };
         // A timer which runs the timer task at a fixed rate
-        timer.scheduleAtFixedRate(task, 100, DECREASING_TIME_PERIOD);
+        timer.scheduleAtFixedRate(task, 100, STATE_RESET_SPEED);
     }
 
     private void setBreakPedalToBasicState() {
@@ -193,7 +193,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
             }
         };
         // A timer which runs the timer task at a fixed rate
-        timer.scheduleAtFixedRate(task, 100, DECREASING_TIME_PERIOD);
+        timer.scheduleAtFixedRate(task, 100, STATE_RESET_SPEED);
     }
 
     private void setSteeringWheelToBasicState() {
@@ -227,7 +227,7 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         };
 
         // A timer which runs the timer task at a fixed rate
-        timer.scheduleAtFixedRate(task, 100, DECREASING_TIME_PERIOD);
+        timer.scheduleAtFixedRate(task, 100, STATE_RESET_SPEED);
     }
 
     private void sendNewAutotransmissionState(AutoTransmissionEnum newTransmissionState) {
