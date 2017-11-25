@@ -52,6 +52,10 @@ public class Vector2DPlus {
 	public Vector2DPlus sub(Vector2DPlus vector2dPlus) {
 		return new Vector2DPlus(this.x - vector2dPlus.getX(), this.y - vector2dPlus.getY());
 	}
+	
+	public Vector2D getVector2D(){
+		return new Vector2D(this.x, this.y);
+	}
 
 	public void setValues(double x, double y) {
 		this.x = x;
