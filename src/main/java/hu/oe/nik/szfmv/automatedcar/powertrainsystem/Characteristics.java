@@ -10,12 +10,12 @@ public abstract class Characteristics {
     public final double finalDriveRatio;
     public final double[] shiftingUpLevels;
     public final double weightOfCar;
-    
-    public double getWeightOfCar() {
-		return weightOfCar;
-	}
 
-	public final double engineTorque;
+    public double getWeightOfCar() {
+        return weightOfCar;
+    }
+
+    public final double engineTorque;
     public final double engineBrakingTorque;
     public final double wheelDiameter;
     public final double minRPM;
