@@ -98,8 +98,17 @@ public class RadarSensor implements IRadarSensor {
         return s > 0 && t > 0 && (s + t) < 2 * A * sign;
     }
 
+    public boolean isObjectInRange(WorldObject point) {
+        double A = 1 / 2 * (-b.getY() * c.getX() + point.getY() * (-b.getX() + c.getX()) + point.getX() * (b.getY() - c.getY()) + b.getX() * c.getY());
+        int sign = A < 0 ? -1 : 1;
+        double s = (a.getY() * c.getX() - a.getX() * c.getY() + (c.getY() - a.getY()) * point.getX() + (a.getX() - c.getX()) * point.getY()) * sign;
+        double t = (a.getX() * b.getY() - a.getY() * b.getX() + (a.getY() - b.getY()) * point.getX() + (b.getX() - a.getX()) * point.getY()) * sign;
+
+        return s > 0 && t > 0 && (s + t) < 2 * A * sign;
+    }
+
     /**
-     * Get closest vectors to the given reference vector.
+     * Get closest vectors to the sensor's reference point
      * @param points
      * @return Returns more then one vectors if they are equally close.
      */
@@ -130,7 +139,7 @@ public class RadarSensor implements IRadarSensor {
     }
 
     /**
-     * Get closest vectors to the sensor's reference point
+     * Get closest vectors to the sensor's reference point, in the sensor's range
      * @param points
      * @return Returns more then one vectors if they are equally close.
      */
@@ -161,20 +170,74 @@ public class RadarSensor implements IRadarSensor {
         return closests;
     }
     
-    public List<WorldObject> getClosestWorldObjects(){
+    /**
+     * Get closest WorldObjects to the sensor's reference point
+     * @param objects
+     * @return Returns more then one WorldObjects if they are equally close.
+     */
+    public List<WorldObject> getClosestWorldObjects(List<WorldObject> objects){
         
-        // TODO...
-        
-        return null;
+        Vector2D referencePoint = this.a;
+
+        ArrayList<WorldObject> closests = new ArrayList<>();
+        int i = 0;
+        double minDist = Double.POSITIVE_INFINITY;
+
+        while (i < objects.size()) {
+
+            double actDist = Math.sqrt(Math.pow((referencePoint.getX() - objects.get(i).getX()), 2) + Math.pow((referencePoint.getY() - objects.get(i).getY()), 2));
+
+            if (actDist < minDist) {
+                closests = new ArrayList<>();
+                closests.add(objects.get(i));
+                minDist = actDist;
+            } else if (actDist == minDist) {
+                closests.add(objects.get(i));
+                minDist = actDist;
+            }
+            i++;
+        }
+
+        return closests;
     }
     
-    public List<WorldObject> getClosestWorldObjectsInRange(){
+    /**
+     * Get closest WorldObjects to the sensor's reference point, in the sensor's range
+     * @param objects
+     * @return Returns more then one WorldObjects if they are equally close.
+     */
+    public List<WorldObject> getClosestWorldObjectsInRange(List<WorldObject> objects){
         
-        // TODO...
-        
-        return null;
+        ArrayList<WorldObject> closests = new ArrayList<>();
+        int i = 0;
+        double minDist = Double.POSITIVE_INFINITY;
+        Vector2D referencePoint = this.a;
+
+        while (i < objects.size()) {
+
+            if (this.isObjectInRange(objects.get(i))) {
+
+                double actDist = Math.sqrt(Math.pow((referencePoint.getX() - objects.get(i).getX()), 2) + Math.pow((referencePoint.getY() - objects.get(i).getY()), 2));
+
+                if (actDist < minDist) {
+                    closests = new ArrayList<>();
+                    closests.add(objects.get(i));
+                    minDist = actDist;
+                } else if (actDist == minDist) {
+                    closests.add(objects.get(i));
+                    minDist = actDist;
+                }
+            }            
+            i++;
+        }
+
+        return closests;
     }
     
+    /**
+     * Private method, only in class should the reference point be updated
+     * @param a 
+     */
     private void updateReferencePoint(Vector2D a){
         this.a = a;
     }
