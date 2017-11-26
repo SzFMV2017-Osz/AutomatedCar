@@ -42,7 +42,7 @@ public class ImageResource {
     public static final String ROAD_STRAIGHT_NAME = "automatedCar.road.straight";
     public static final String ROAD_T_LEFT_NAME = "automatedCar.road.t.left";
     public static final String ROAD_T_RIGHT_NAME = "automatedCar.road.t.right";
-    
+
     private static final String NOT_EXISTS = "automatedCar.notExists";
 
     private static final String IMAGE_PROPERTIES_FILE = "imageFiles.properties";
@@ -53,7 +53,7 @@ public class ImageResource {
 
     /**
      * returns an image filename from properties of a given key
-     * 
+     *
      * @param key
      * @return
      * @throws IOException
@@ -74,9 +74,8 @@ public class ImageResource {
 
     /**
      * Initializes imageFiles.properties resource
-     * 
-     * @throws IOException
-     *             if image resources file not found
+     *
+     * @throws IOException if image resources file not found
      */
     private static void initProperties() throws IOException {
         log.info("initializing imageProperties...");
@@ -87,7 +86,7 @@ public class ImageResource {
 
     /**
      * the width of the image file in pixels referenced by the imageFileName i
-     * 
+     *
      * @param imageFileName
      * @return
      */
@@ -102,7 +101,7 @@ public class ImageResource {
 
     /**
      * the height of the image file in pixels referenced by the imageFileName i
-     * 
+     *
      * @param imageFileName
      * @return
      */

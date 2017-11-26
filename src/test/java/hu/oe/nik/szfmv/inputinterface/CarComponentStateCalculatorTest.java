@@ -18,8 +18,8 @@ public class CarComponentStateCalculatorTest {
 
     @Test
     public void testAddGasMethod() throws Exception {
-        assertEquals(this.carComponentStateCalculator.addGas(this.gaspedalState),1);
+        assertEquals(this.carComponentStateCalculator.addGas(this.gaspedalState), 1);
         this.gaspedalState = 100;
-        assertEquals(this.carComponentStateCalculator.addGas(this.gaspedalState),100);
+        assertEquals(this.carComponentStateCalculator.addGas(this.gaspedalState), 100);
     }
 }

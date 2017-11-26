@@ -6,6 +6,7 @@ import java.awt.geom.AffineTransform;
 
 //preserves a worldObject and its state
 class WorldObjectDisplayState {
+
     private WorldObject wo;
     private Coord c;
     private double rot;

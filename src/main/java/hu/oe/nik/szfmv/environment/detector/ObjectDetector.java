@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package hu.oe.nik.szfmv.environment.detector;
 
@@ -15,11 +15,11 @@ import org.apache.logging.log4j.Logger;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 
 /**
- * 
+ *
  * Class that scans a collection of <code>WorldObject</code>s with a given
  * <code>BiFunction</code> that is able to check whether to <code>Shape</code>s
  * are intersecting.
- * 
+ *
  * @author kalmankostenszky
  *
  */
@@ -32,11 +32,9 @@ public class ObjectDetector {
 
     /**
      * Creates a new detector
-     * 
-     * @param objects
-     *            the list of objects to scan
-     * @param isIntersecting
-     *            function that checks if to Shapes are intersecting
+     *
+     * @param objects the list of objects to scan
+     * @param isIntersecting function that checks if to Shapes are intersecting
      */
     public ObjectDetector(final Collection<WorldObject> objects,
             final BiFunction<Shape, Shape, Boolean> isIntersecting) {
@@ -47,7 +45,7 @@ public class ObjectDetector {
 
     /**
      * return a list of sonar detectable objects whitin a given triangle Shape
-     * 
+     *
      * @param triangle
      * @return
      */
@@ -59,7 +57,7 @@ public class ObjectDetector {
 
     /**
      * return a list of radar detectable objects whitin a given triangle Shape
-     * 
+     *
      * @param triangle
      * @return
      */
@@ -71,7 +69,7 @@ public class ObjectDetector {
 
     /**
      * return a list of camera detectable objects whitin a given triangle Shape
-     * 
+     *
      * @param triangle
      * @return
      */
@@ -82,12 +80,11 @@ public class ObjectDetector {
     }
 
     /**
-     * returns the objects of the world that are detectable by a specific sensor and
-     * found whitin the given triangle Shape
-     * 
+     * returns the objects of the world that are detectable by a specific sensor
+     * and found whitin the given triangle Shape
+     *
      * @param triangle
-     * @param type
-     *            sensor type
+     * @param type sensor type
      * @return
      */
     private <T> List<T> selectIntersecting(Shape triangle, Class<T> type) {

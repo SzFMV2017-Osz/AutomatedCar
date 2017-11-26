@@ -5,19 +5,19 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
 
 /**
  * kerékpárost reprezentáló objektum TODO: maghajtás bekötése
- * 
+ *
  * @author hunkak
  *
  */
 public class Cyclist extends MovingObject {
 
     /**
-     * @deprecated The width and height of the object must be based on the size of
-     *             the <code>imageName</code> referenced in the constructor
-     *             <p>
-     *             Use the following constructor instead:
-     *             {@link #Cyclist(double x, double y, double rotation, String imageName, ModelShape shape)}
-     * 
+     * @deprecated The width and height of the object must be based on the size
+     * of the <code>imageName</code> referenced in the constructor
+     * <p>
+     * Use the following constructor instead:
+     * {@link #Cyclist(double x, double y, double rotation, String imageName, ModelShape shape)}
+     *
      * @param x
      * @param y
      * @param rotation
@@ -32,7 +32,7 @@ public class Cyclist extends MovingObject {
 
     /**
      * width and height are set based on image size
-     * 
+     *
      * @param x
      * @param y
      * @param rotation

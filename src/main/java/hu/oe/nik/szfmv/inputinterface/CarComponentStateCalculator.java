@@ -4,10 +4,9 @@ public class CarComponentStateCalculator implements ICalculations {
 
     public int turnTheSteeringwheelLeft(int currentSteeringwheelState) {
         int output;
-        if (currentSteeringwheelState > maxLeftSteeringWheelState){
+        if (currentSteeringwheelState > maxLeftSteeringWheelState) {
             output = currentSteeringwheelState - 1;
-        }
-        else {
+        } else {
             output = maxLeftSteeringWheelState;
         }
         return output;
@@ -15,10 +14,9 @@ public class CarComponentStateCalculator implements ICalculations {
 
     public int turnTheSteeringwheelRight(int currentSteeringwheelState) {
         int output;
-        if (currentSteeringwheelState < maxRightSteeringWheelState){
+        if (currentSteeringwheelState < maxRightSteeringWheelState) {
             output = currentSteeringwheelState + 1;
-        }
-        else {
+        } else {
             output = maxRightSteeringWheelState;
         }
         return output;
@@ -34,10 +32,9 @@ public class CarComponentStateCalculator implements ICalculations {
 
     private int pushPedal(int currentpedalState) {
         int output;
-        if (currentpedalState < maxPedalState){
+        if (currentpedalState < maxPedalState) {
             output = currentpedalState + 1;
-        }
-        else {
+        } else {
             output = maxPedalState;
         }
         return output;

@@ -19,11 +19,10 @@ public class WorldObjectFactory {
 
     /**
      * creates a new world object of specific child from XmlObject
-     * 
+     *
      * @param xmlObject
      * @return
-     * @throws IOException
-     *             if image resources file not found
+     * @throws IOException if image resources file not found
      */
     public static WorldObject createWorldObject(XmlObject xmlObject) throws IOException {
 
@@ -62,9 +61,9 @@ public class WorldObjectFactory {
 
     /**
      * creates a tree
-     * 
+     *
      * TODO: set width and weight somehow
-     * 
+     *
      * @param xmlObject
      * @return
      */
@@ -84,9 +83,9 @@ public class WorldObjectFactory {
 
     /**
      * creates a roadsign
-     * 
+     *
      * TODO: set width and weight somehow
-     * 
+     *
      * @param xmlObject
      * @return
      */
@@ -138,8 +137,8 @@ public class WorldObjectFactory {
 
     /**
      * creates a piece of road
-     * 
-     * 
+     *
+     *
      * @param xmlObject
      * @return
      */

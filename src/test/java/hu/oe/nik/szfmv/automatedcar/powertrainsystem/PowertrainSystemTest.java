@@ -33,7 +33,7 @@ public class PowertrainSystemTest {
 
         // create an automated car
         playerCar = new AutomatedCar(2500, 1500, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
-				(int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
+                (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
 
         // place a driver into the car for demonstrating the signal sending
         // mechanism

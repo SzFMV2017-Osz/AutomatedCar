@@ -27,8 +27,6 @@ public abstract class WorldObject implements ICameraSensor {
     Vector2D position;
     // objektum forgatása
     double rotation;
-    
-
 
     /**
      * object dimension in pixels
@@ -41,12 +39,12 @@ public abstract class WorldObject implements ICameraSensor {
     private final String imageFileName;
 
     /**
-     * @deprecated The width and height of the object must be based on the size of
-     *             the <code>imageName</code> referenced in the constructor
-     *             <p>
-     *             Use the following constructor instead:
-     *             {@link #WorldObject(double x, double y, double rotation, String imageName, ModelShape shape)}
-     * 
+     * @deprecated The width and height of the object must be based on the size
+     * of the <code>imageName</code> referenced in the constructor
+     * <p>
+     * Use the following constructor instead:
+     * {@link #WorldObject(double x, double y, double rotation, String imageName, ModelShape shape)}
+     *
      * @param x
      * @param y
      * @param rotation
@@ -71,7 +69,7 @@ public abstract class WorldObject implements ICameraSensor {
 
     /**
      * Width and height are set based on image size
-     * 
+     *
      * @param x
      * @param y
      * @param rotation
@@ -102,7 +100,7 @@ public abstract class WorldObject implements ICameraSensor {
     }
 
     /**
-     * 
+     *
      * @return objects' width in pixel
      */
     public int getWidth() {
@@ -110,7 +108,7 @@ public abstract class WorldObject implements ICameraSensor {
     }
 
     /**
-     * 
+     *
      * @return objects' height in pixel
      */
     public int getHeight() {
@@ -124,7 +122,6 @@ public abstract class WorldObject implements ICameraSensor {
     public double getHeightInMeters() {
         return Utils.convertPixelToMeter(this.getHeight());
     }
-
 
     public Vector2D getPosition() {
         return position;
