@@ -7,8 +7,10 @@ package hu.oe.nik.szfmv.inputinterface;
  */
 public class CarComponentStateCalculator implements ICalculations {
 
-    // Higher value means less sensitive but quicker action response
+    // Higher value means less sensitive but quicker rotation
     private static final int STEERING_WHEEL_ROTATION_SENSITIVITY = 1;
+    // Higher value means more pressure, hence the pedal faster reaches its maximum state
+    private static final int PEDAL_PRESSURE_SENSITIVITY = 1;
 
     public int turnTheSteeringwheelLeft(int currentSteeringwheelState) {
         int output;
@@ -41,7 +43,7 @@ public class CarComponentStateCalculator implements ICalculations {
     private int pushPedal(int currentpedalState) {
         int output;
         if (currentpedalState < MAX_PEDAL_STATE){
-            output = currentpedalState + 1;
+            output = currentpedalState + PEDAL_PRESSURE_SENSITIVITY;
         }else {
             output = MAX_PEDAL_STATE;
         }
