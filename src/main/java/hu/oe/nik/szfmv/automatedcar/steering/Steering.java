@@ -10,7 +10,8 @@ public class Steering {
     double frameRateCoefficient = 0.0417;
 
     /**
-     * Get updated steering data based on steering keystrokes and current velocity.
+     * Get updated steering data based on steering keystrokes and current
+     * velocity.
      * 
      * @param steerLeft,
      *            left keystroke is pressed

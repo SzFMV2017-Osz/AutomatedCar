@@ -27,8 +27,6 @@ public abstract class WorldObject implements ICameraSensor {
     Vector2D position;
     // objektum forgatása
     double rotation;
-    
-
 
     /**
      * object dimension in pixels
@@ -41,8 +39,8 @@ public abstract class WorldObject implements ICameraSensor {
     private final String imageFileName;
 
     /**
-     * @deprecated The width and height of the object must be based on the size of
-     *             the <code>imageName</code> referenced in the constructor
+     * @deprecated The width and height of the object must be based on the size
+     *             of the <code>imageName</code> referenced in the constructor
      *             <p>
      *             Use the following constructor instead:
      *             {@link #WorldObject(double x, double y, double rotation, String imageName, ModelShape shape)}
@@ -125,7 +123,6 @@ public abstract class WorldObject implements ICameraSensor {
         return Utils.convertPixelToMeter(this.getHeight());
     }
 
-
     public Vector2D getPosition() {
         return position;
     }
@@ -141,12 +138,12 @@ public abstract class WorldObject implements ICameraSensor {
     public Shape getShape() {
         Shape tempShape = null;
         switch (this.shape) {
-            case ELLIPSE:
-                tempShape = new Ellipse2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-                break;
-            case RECTANGULAR:
-                tempShape = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-                break;
+        case ELLIPSE:
+            tempShape = new Ellipse2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+            break;
+        case RECTANGULAR:
+            tempShape = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+            break;
         }
         AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotation(), this.getX(),
                 this.getY());

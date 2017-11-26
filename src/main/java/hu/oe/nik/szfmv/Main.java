@@ -1,8 +1,6 @@
 package hu.oe.nik.szfmv;
 
 import hu.oe.nik.szfmv.environment.detector.WindscreenCamera;
-import hu.oe.nik.szfmv.environment.model.WorldObject;
-import hu.oe.nik.szfmv.environment.model.WorldObjectCollection;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.factory.SensorObjectFactory;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
@@ -28,39 +26,39 @@ import java.util.List;
 
 public class Main {
 
-	private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
-	private static final int CYCLE_PERIOD = 40;
-	private static CourseDisplay userInterFace;
-	private static AutomatedCar playerCar;
+    private static final int CYCLE_PERIOD = 40;
+    private static CourseDisplay userInterFace;
+    private static AutomatedCar playerCar;
 
-	public static void main(String[] args) {
-		init();
+    public static void main(String[] args) {
+        init();
 
-		mainLoop();
-	}
+        mainLoop();
+    }
 
-	private static void init() {
-		userInterFace = new CourseDisplay();
+    private static void init() {
+        userInterFace = new CourseDisplay();
 
-		// create the world
-		List<XmlObject> xmlObjects = readXmlObjects();
+        // create the world
+        List<XmlObject> xmlObjects = readXmlObjects();
 
-		World world = new World(XmlParser.getWorldDimensions()[0], XmlParser.getWorldDimensions()[1]);
+        World world = new World(XmlParser.getWorldDimensions()[0], XmlParser.getWorldDimensions()[1]);
 
-		populateWorld(xmlObjects, world);
+        populateWorld(xmlObjects, world);
 
-		userInterFace.init(world);
+        userInterFace.init(world);
 
-		playerCar = new AutomatedCar(2500, 1500, (float) Math.PI / 2, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
-				(int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
+        playerCar = new AutomatedCar(2500, 1500, (float) Math.PI / 2,
+                ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
+                (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
 
-
-        //add WindscreenCamera to the world
+        // add WindscreenCamera to the world
         WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
 
-		world.addObjectToWorld(playerCar);
-	
+        world.addObjectToWorld(playerCar);
+
         addSensorsToWorld(playerCar, world);
     }
 
@@ -72,41 +70,41 @@ public class Main {
         }
     }
 
-	private static void mainLoop() {
-		while (true) {
-			try {
-				playerCar.drive();
-				userInterFace.refreshFrame();
-				Thread.sleep(CYCLE_PERIOD);
-			} catch (InterruptedException e) {
-				logger.error(e.getMessage());
-			}
-		}
-	}
+    private static void mainLoop() {
+        while (true) {
+            try {
+                playerCar.drive();
+                userInterFace.refreshFrame();
+                Thread.sleep(CYCLE_PERIOD);
+            } catch (InterruptedException e) {
+                logger.error(e.getMessage());
+            }
+        }
+    }
 
-	private static void populateWorld(List<XmlObject> xmlObjects, World world) {
-		for (XmlObject item : xmlObjects) {
-			try {
-				world.addObjectToWorld(WorldObjectFactory.createWorldObject(item));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    private static void populateWorld(List<XmlObject> xmlObjects, World world) {
+        for (XmlObject item : xmlObjects) {
+            try {
+                world.addObjectToWorld(WorldObjectFactory.createWorldObject(item));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-	private static List<XmlObject> readXmlObjects() {
-		List<XmlObject> xmlObjects = new ArrayList<>();
-		try {
-			xmlObjects = XmlParser.parse("test_world.xml");
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (XPathExpressionException e) {
-			e.printStackTrace();
-		}
-		return xmlObjects;
-	}
+    private static List<XmlObject> readXmlObjects() {
+        List<XmlObject> xmlObjects = new ArrayList<>();
+        try {
+            xmlObjects = XmlParser.parse("test_world.xml");
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        }
+        return xmlObjects;
+    }
 }

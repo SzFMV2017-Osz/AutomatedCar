@@ -202,9 +202,9 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
                 break;
             case BREAKPEDAL:
                 this.breakpedalState = (int)s.getData();
-                break;
+            break;
 
-            default:
+        default:
         }
     }
 }

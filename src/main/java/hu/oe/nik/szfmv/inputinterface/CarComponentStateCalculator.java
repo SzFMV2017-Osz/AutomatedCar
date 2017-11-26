@@ -36,8 +36,7 @@ public class CarComponentStateCalculator implements ICalculations {
         int output;
         if (currentpedalState < maxPedalState){
             output = currentpedalState + 1;
-        }
-        else {
+        } else {
             output = maxPedalState;
         }
         return output;
