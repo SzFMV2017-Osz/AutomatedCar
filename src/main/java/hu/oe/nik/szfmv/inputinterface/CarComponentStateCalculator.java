@@ -42,9 +42,9 @@ public class CarComponentStateCalculator implements ICalculations {
 
     private int pushPedal(int currentpedalState) {
         int output;
-        if (currentpedalState < MAX_PEDAL_STATE){
+        if (currentpedalState < MAX_PEDAL_STATE) {
             output = currentpedalState + PEDAL_PRESSURE_SENSITIVITY;
-        }else {
+        } else {
             output = MAX_PEDAL_STATE;
         }
         return output;

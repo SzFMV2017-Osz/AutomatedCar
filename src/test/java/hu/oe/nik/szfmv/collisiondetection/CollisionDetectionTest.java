@@ -33,10 +33,17 @@ public class CollisionDetectionTest {
     }
 
     @Test
-    public void testCollision() throws Exception {
+    public void testTreeCollision() throws Exception {
         assertEquals(this.treeMock.isCollided(), false);
         this.treeMock.onCollision();
         assertEquals(this.treeMock.isCollided(), true);
+    }
+
+    @Test
+    public void testCarCollision() throws Exception {
+        assertEquals(this.automatedCarMock.isCollided(), false);
+        this.automatedCarMock.onCollision();
+        assertEquals(this.automatedCarMock.isCollided(), true);
     }
 
     @Test
