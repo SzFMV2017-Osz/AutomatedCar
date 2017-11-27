@@ -72,7 +72,7 @@ public class Main {
     }
 
     private static void mainLoop() {
-        while (true) {
+        while (!playerCar.isCollided()) {
             try {
                 playerCar.drive();
                 userInterFace.refreshFrame();
