@@ -7,6 +7,7 @@ import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.factory.SensorObjectFactory;
 import hu.oe.nik.szfmv.environment.factory.WorldObjectFactory;
 import hu.oe.nik.szfmv.environment.model.World;
+import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Sensor;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 import hu.oe.nik.szfmv.environment.xml.XmlObject;
@@ -85,7 +86,12 @@ public class Main {
     }
 
     private static void checkPlayerCarwasCollided() {
-
+        for (WorldObject object : world.getWorldObjectsFiltered().getCollidable()) {
+            playerCar.isIntersects(object);
+            if (playerCar.isCollided()) {
+                System.out.println("ütközött!");
+            }
+        }
     }
 
     private static void populateWorld(List<XmlObject> xmlObjects, World world) {
