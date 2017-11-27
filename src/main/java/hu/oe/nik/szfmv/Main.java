@@ -31,6 +31,7 @@ public class Main {
     private static final int CYCLE_PERIOD = 40;
     private static CourseDisplay userInterFace;
     private static AutomatedCar playerCar;
+    private static World world;
 
     public static void main(String[] args) {
         init();
@@ -44,7 +45,7 @@ public class Main {
         // create the world
         List<XmlObject> xmlObjects = readXmlObjects();
 
-        World world = new World(XmlParser.getWorldDimensions()[0], XmlParser.getWorldDimensions()[1]);
+        world = new World(XmlParser.getWorldDimensions()[0], XmlParser.getWorldDimensions()[1]);
 
         populateWorld(xmlObjects, world);
 
