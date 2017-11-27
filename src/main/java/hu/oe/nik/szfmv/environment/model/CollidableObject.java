@@ -5,6 +5,8 @@ import hu.oe.nik.szfmv.environment.util.ModelShape;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.geom.Area;
+
 /**
  * Ütközni képes objektumokat reprezentáló osztály TODO: ütközés detektálás
  * kialakítása (- vizualizációs csapattal egyeztetni)
@@ -57,6 +59,20 @@ public abstract class CollidableObject extends WorldObject implements ISensor {
 
     public int getWeight() {
         return weight;
+    }
+
+    /**
+     * Determines whether or not this <code>CollidableObject</code> and the specified
+     * <code>WorldObject</code> intersect. Two objects intersect if
+     * their intersection is nonempty.
+     *
+     * @param worldObject the specified <code>WorldObject</code>
+     */
+    public void isIntersects(WorldObject worldObject) {
+        Area areaFromThisObject = new Area(this.getShape());
+        Area areaFromWorldObject = new Area(worldObject.getShape());
+        areaFromThisObject.intersect(areaFromWorldObject);
+        this.collided = !areaFromThisObject.isEmpty();
     }
 
     /*
