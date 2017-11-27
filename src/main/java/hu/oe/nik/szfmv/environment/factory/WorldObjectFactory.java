@@ -1,10 +1,5 @@
 package hu.oe.nik.szfmv.environment.factory;
 
-import java.io.IOException;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Road;
 import hu.oe.nik.szfmv.environment.object.RoadSign;
@@ -12,6 +7,10 @@ import hu.oe.nik.szfmv.environment.object.Tree;
 import hu.oe.nik.szfmv.environment.util.RoadSignType;
 import hu.oe.nik.szfmv.environment.xml.XmlObject;
 import hu.oe.nik.szfmv.environment.xml.XmlObjectType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 public class WorldObjectFactory {
 
@@ -76,7 +75,7 @@ public class WorldObjectFactory {
         int weight = Integer.MAX_VALUE;
         String imageFileName = ImageResource.getImageOf(ImageResource.TREE_NAME);
 
-        Tree t = new Tree(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), weight, imageFileName);
+        Tree t = new Tree(xmlObject.getX(), xmlObject.getY(), xmlObject.getRotation(), imageFileName, weight);
         log.info(t.toString());
 
         return t;
