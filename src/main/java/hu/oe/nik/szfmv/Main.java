@@ -80,7 +80,12 @@ public class Main {
             } catch (InterruptedException e) {
                 logger.error(e.getMessage());
             }
+            checkPlayerCarwasCollided();
         }
+    }
+
+    private static void checkPlayerCarwasCollided() {
+
     }
 
     private static void populateWorld(List<XmlObject> xmlObjects, World world) {
