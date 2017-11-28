@@ -10,8 +10,6 @@ import java.util.List;
 /**
  *
  * @author szum7
- * https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
- * http://jsfiddle.net/PerroAZUL/zdaY8/1/
  */
 public class RadarSensor implements IRadarSensor {
 
@@ -28,16 +26,14 @@ public class RadarSensor implements IRadarSensor {
     private final double REFERENCE_ANGLE = 60;
     
     private AutomatedCar car;
-    private List<WorldObject> worldObjects;
     
     /**
      * Init un-calculated radar sensor. (points uninitialized. Use this.updatePoints()!)
      * @param car
      * @param worldObjects 
      */
-    public RadarSensor(AutomatedCar car, List<WorldObject> worldObjects){
+    public RadarSensor(AutomatedCar car){
         this.car = car;
-        this.worldObjects = worldObjects;
         
         this.a = new Vector2D();
         this.b = new Vector2D();
@@ -53,10 +49,9 @@ public class RadarSensor implements IRadarSensor {
      * &nbsp;&nbsp;&nbsp;-^-<br>
      * &nbsp;&nbsp;&nbsp;| |<br>
      * &nbsp;&nbsp;&nbsp;---<br>
-     * Sets "a" property to param referencePoint vector and calculates "b" and "c"
+     * Sets "a" property to the referencePoint vector and calculates "b" and "c"
      * vector coordinates.
      *
-     * @param isCarAngleDegree
      */
     public void updatePoints() {
 
