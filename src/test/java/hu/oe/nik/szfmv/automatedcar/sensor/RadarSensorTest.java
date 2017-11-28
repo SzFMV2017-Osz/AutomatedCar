@@ -20,7 +20,7 @@ public class RadarSensorTest {
         points.add(new Vector2D(10, 20)); // closest vector
         points.add(new Vector2D(50, 50));
         
-        RadarSensor radarSensor = new RadarSensor(new AutomatedCar(0, 0, 0, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME), 10, ModelShape.RECTANGULAR), null);
+        RadarSensor radarSensor = new RadarSensor(new AutomatedCar(0, 0, 0, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME), 10, ModelShape.RECTANGULAR));
         radarSensor.updatePoints();
         ArrayList<Vector2D> closests = radarSensor.getClosestVectors(points);
         
