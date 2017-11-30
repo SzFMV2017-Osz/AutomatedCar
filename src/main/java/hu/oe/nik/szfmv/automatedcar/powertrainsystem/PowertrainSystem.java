@@ -25,7 +25,7 @@ public class PowertrainSystem extends SystemComponent {
 
     @Override
     public void loop() {
-        //TODO write this
+        // TODO write this
     }
 
     @Override

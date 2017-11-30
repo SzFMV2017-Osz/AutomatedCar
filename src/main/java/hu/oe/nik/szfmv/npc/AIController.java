@@ -1,25 +1,27 @@
 package hu.oe.nik.szfmv.npc;
 
+import hu.oe.nik.szfmv.environment.model.MovingObject;
+
 public abstract class AIController {
 
-    private IMovable movableObject;
+    protected IControllable controlledObject;
 
     public AIController() {
     }
 
-    public AIController(IMovable object) {
-        movableObject = object;
+    public AIController(IControllable object) {
+        controlledObject = object;
     }
 
     public void tick() {
 
     }
 
-    public IMovable getMovableObject() {
-        return movableObject;
+    public IControllable getControlledObject() {
+        return controlledObject;
     }
 
-    public void setMovableObject(IMovable movableObject) {
-        this.movableObject = movableObject;
+    public void setControlledObject(IControllable object) {
+        this.controlledObject = object;
     }
 }

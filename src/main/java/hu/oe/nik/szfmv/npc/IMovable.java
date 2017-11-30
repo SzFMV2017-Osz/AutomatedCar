@@ -2,9 +2,9 @@ package hu.oe.nik.szfmv.npc;
 
 import hu.oe.nik.szfmv.common.Vector2D;
 
-public interface IMovable {
+public interface IMovable extends  IControllable{
 
-    void move(Vector2D target);
+    void move();
 
     double getMaxSpeed();
 

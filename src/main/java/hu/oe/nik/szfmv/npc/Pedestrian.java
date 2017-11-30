@@ -1,75 +1,24 @@
 package hu.oe.nik.szfmv.npc;
 
 import hu.oe.nik.szfmv.common.Vector2D;
-import hu.oe.nik.szfmv.environment.WorldObject;
+import hu.oe.nik.szfmv.environment.factory.ImageResource;
+import hu.oe.nik.szfmv.environment.model.MovingObject;
+import hu.oe.nik.szfmv.environment.util.ModelShape;
 
-public class Pedestrian extends WorldObject implements IMovable {
+public class Pedestrian extends MovingObject implements IWalkable {
 
-    private Vector2D dest1;
-    private Vector2D dest2;
-    private Vector2D actualDest;
-    private boolean toDest2;
-    private double mass;
     private double maxSpeed;
-    private double maxTurnAngle;
-    private Vector2D velocity = new Vector2D();
+    // TODO: include in WorldObject
+    private Vector2D position;
 
-
-    public Pedestrian(int x, int y, Vector2D dest1, Vector2D dest2, String imageFileName) {
-        super(x, y, imageFileName);
-        this.dest1 = dest1;
-        this.dest2 = dest2;
-        toDest2 = true;
-        this.actualDest = dest2;
-    }
-
-    public Pedestrian(int x, int y, String imageFileName) {
-        super(x, y, imageFileName);
-        dest1 = new Vector2D();
-        dest2 = new Vector2D();
-        actualDest = dest1;
+    public Pedestrian (int x, int y, float rotation, int width, int height, String imageFileName, int weight) {
+        super(x, y, rotation, width, height, imageFileName, weight, ModelShape.RECTENGULAR);
+        position = new Vector2D(x, y);
+        maxSpeed = 5;
     }
 
     @Override
-    public void move(Vector2D target) {
-        if (!getPosition().equals(target)) {
-            Vector2D direction = target.sub(getPosition());
-            Vector2D newPosition;
-            if ((maxSpeed * maxSpeed) < direction.absSquared()) {
-                moveTowardsTarget(direction);
-            } else {
-                moveToTarget(target, direction);
-            }
-        } else {
-            velocity.setX(0);
-            velocity.setY(0);
-        }
-    }
-
-    private void moveToTarget(Vector2D target, Vector2D direction) {
-        velocity = direction;
-        x = (int) target.getX();
-        y = (int) target.getY();
-        rotation = (float) direction.getAngle();
-    }
-
-    private void moveTowardsTarget(Vector2D direction) {
-        Vector2D newPosition;
-        velocity = direction.normalize().mult(maxSpeed);
-        newPosition = getPosition().add(velocity);
-        x = (int) newPosition.getX();
-        y = (int) newPosition.getY();
-        rotation = (float) direction.getAngle();
-    }
-
-    @Override
-    public int getX() {
-        return this.x;
-    }
-
-    @Override
-    public int getY() {
-        return this.y;
+    protected void doOnCollision() {
     }
 
     @Override
@@ -78,42 +27,45 @@ public class Pedestrian extends WorldObject implements IMovable {
     }
 
     @Override
-    public double getMaxTurnAngle() {
-        return this.maxTurnAngle;
-    }
-
-    @Override
-    public double getMass() {
-        return this.mass;
-    }
-
-    @Override
     public void setMaxSpeed(double maxSpeed) {
         this.maxSpeed = maxSpeed;
     }
 
     @Override
-    public void setMaxTurnAngle(double maxTurnAngle) {
-        this.maxTurnAngle = maxTurnAngle;
-    }
-
-    @Override
-    public void setMass(double mass) {
-        this.mass = mass;
-    }
-
-    @Override
     public Vector2D getPosition() {
-        return new Vector2D(this.x, this.y);
+//        return new Vector2D(getX(), getY());
+        return position;
     }
 
     @Override
     public Vector2D getForwardVector() {
-        return Vector2D.getForwardVector(this.rotation);
+        return Vector2D.getForwardVector(getRotation());
     }
 
     @Override
-    public Vector2D getVelocity() {
-        return velocity;
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
     }
+
+    @Override
+    public void moveTo(Vector2D target) {
+        if (!getPosition().equals(target)) {
+            Vector2D direction = target.copy().sub(getPosition());
+            if ((maxSpeed * maxSpeed) < direction.absSquared()) {
+                changeDirection(direction.copy().normalize().mult(maxSpeed).sub(getCurrentSpeed()));
+            } else {
+                changeDirection(direction.copy().sub(getCurrentSpeed()));
+            }
+            move();
+        }
+    }
+
+    @Override
+    public void move() {
+        position =position.add(getCurrentSpeed());
+        this.x = (int) position.getX();
+        this.y = (int) position.getY();
+    }
+
+
 }
