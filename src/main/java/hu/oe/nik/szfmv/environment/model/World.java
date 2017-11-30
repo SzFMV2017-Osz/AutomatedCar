@@ -7,10 +7,10 @@ public class World {
     private int width = 0;
     private int height = 0;
     private List<WorldObject> worldObjects = new ArrayList<>();
+    private WorldObjectCollection worldObjectsFiltered = new WorldObjectCollection();
 
     public World(int width, int height) {
         this.width = width;
-        //this.valami;
         this.height = height;
     }
 
@@ -36,5 +36,10 @@ public class World {
 
     public void addObjectToWorld(WorldObject o) {
         worldObjects.add(o);
+        worldObjectsFiltered.add(o);
+    }
+
+    public WorldObjectCollection getWorldObjectsFiltered() {
+        return worldObjectsFiltered;
     }
 }

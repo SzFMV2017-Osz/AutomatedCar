@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="hu.oe.nik.szfmv.visualisation.Dashboard">
   <grid id="27dc6" binding="jPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
     <constraints>
-      <xy x="20" y="20" width="573" height="30"/>
+      <xy x="20" y="20" width="885" height="31"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -13,10 +13,10 @@
           <text value="Kormány:"/>
         </properties>
       </component>
-      <component id="4efeb" class="javax.swing.JLabel">
+      <component id="4efeb" class="javax.swing.JLabel" binding="SteeringWheelLabel">
         <constraints/>
         <properties>
-          <text value="123"/>
+          <text value=""/>
         </properties>
       </component>
       <component id="1d20a" class="javax.swing.JLabel">
@@ -25,7 +25,7 @@
           <text value="Gáz:"/>
         </properties>
       </component>
-      <component id="fc824" class="javax.swing.JLabel">
+      <component id="fc824" class="javax.swing.JLabel" binding="GasPedalLabel">
         <constraints/>
         <properties>
           <text value="123"/>
@@ -37,7 +37,7 @@
           <text value="Fék:"/>
         </properties>
       </component>
-      <component id="706d" class="javax.swing.JLabel">
+      <component id="706d" class="javax.swing.JLabel" binding="BrakePedalLabel">
         <constraints/>
         <properties>
           <text value="123"/>
@@ -49,16 +49,10 @@
           <text value="X:"/>
         </properties>
       </component>
-      <component id="b707" class="javax.swing.JLabel">
+      <component id="b707" class="javax.swing.JLabel" binding="PosXLabel">
         <constraints/>
         <properties>
           <text value="123"/>
-        </properties>
-      </component>
-      <component id="de29" class="javax.swing.JLabel">
-        <constraints/>
-        <properties>
-          <text value="Gáz:"/>
         </properties>
       </component>
       <component id="7bf1f" class="javax.swing.JLabel">
@@ -67,7 +61,7 @@
           <text value="Y:"/>
         </properties>
       </component>
-      <component id="d0f" class="javax.swing.JLabel">
+      <component id="d0f" class="javax.swing.JLabel" binding="PosYLabel">
         <constraints/>
         <properties>
           <text value="123"/>
@@ -79,7 +73,7 @@
           <text value="Sebesség:"/>
         </properties>
       </component>
-      <component id="50e4f" class="javax.swing.JLabel">
+      <component id="50e4f" class="javax.swing.JLabel" binding="SpeedLabel">
         <constraints/>
         <properties>
           <text value="123"/>
@@ -91,7 +85,7 @@
           <text value="Fordulatszám:"/>
         </properties>
       </component>
-      <component id="22e7e" class="javax.swing.JLabel">
+      <component id="22e7e" class="javax.swing.JLabel" binding="RevolutionLabel">
         <constraints/>
         <properties>
           <text value="123"/>
@@ -103,10 +97,34 @@
           <text value="Irányjelző:"/>
         </properties>
       </component>
-      <component id="4a278" class="javax.swing.JLabel">
+      <component id="4a278" class="javax.swing.JLabel" binding="IndexLabel">
         <constraints/>
         <properties>
           <text value="123"/>
+        </properties>
+      </component>
+      <component id="f272c" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="Transmission:"/>
+        </properties>
+      </component>
+      <component id="8df76" class="javax.swing.JLabel" binding="TransmissionLabel">
+        <constraints/>
+        <properties>
+          <text value="Label"/>
+        </properties>
+      </component>
+      <component id="a7bd9" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="LastRoadSign"/>
+        </properties>
+      </component>
+      <component id="625f7" class="javax.swing.JLabel" binding="LastRoadSignLabel">
+        <constraints/>
+        <properties>
+          <text value="Label"/>
         </properties>
       </component>
     </children>

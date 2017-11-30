@@ -9,10 +9,10 @@ public interface IDriveable {
 
     // TODO: vezérlést megvalósító csapttal egyeztetni.EZEK CSAK PÉLDÁK
 
-    void turn(float angle);
+    void turn(double scale);
 
-    void accelerate(int scale);
+    void accelerate(double scale);
 
-    void slow(int scale);
+    void slow(double scale);
 
 }
