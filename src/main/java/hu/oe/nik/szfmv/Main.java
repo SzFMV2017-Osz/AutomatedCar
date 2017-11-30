@@ -16,10 +16,10 @@ import hu.oe.nik.szfmv.environment.xml.XmlObject;
 import hu.oe.nik.szfmv.environment.xml.XmlParser;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Car;
-import hu.oe.nik.szfmv.environment.util.Vector;
 import hu.oe.nik.szfmv.environment.xml.XmlObject;
 import hu.oe.nik.szfmv.environment.xml.XmlParser;
-import hu.oe.nik.szfmv.npc.*;
+//import hu.oe.nik.szfmv.npc.*;
+import hu.oe.nik.szfmv.environment.object.*;
 import hu.oe.nik.szfmv.visualisation.CourseDisplay;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -57,7 +57,27 @@ public class Main {
         List<XmlObject> xmlObjects = readXmlObjects();
         // create the world
         //TODO: get this from xml
-        World w = new World(5120, 3000);
+        //World w = new World(5120, 3000);
+
+        World world = new World(XmlParser.getWorldDimensions()[0], XmlParser.getWorldDimensions()[1]);
+
+        populateWorld(xmlObjects, world);
+
+        userInterFace.init(world);
+
+        playerCar = new AutomatedCar(2500, 1500, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
+                (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
+
+
+
+
+        //add WindscreenCamera to the world
+        WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
+
+        world.addObjectToWorld(playerCar);
+
+        addSensorsToWorld(playerCar, world);
+
         // create an automated car
         Car car = Car.builder()
                 .position(1000, 1000)
@@ -66,7 +86,7 @@ public class Main {
                 .weight(1000).color("black").build();
         // add car to the world
         //!ONLY FOR TESTING!
-        testInitFromXml(w);
+//        testInitFromXml(w);
         Pedestrian p = new Pedestrian(1555, 486, 0, 5, 5, "man.png", 80);
         List<Vector2D> path = new ArrayList<>();
         path.add(new Vector2D(1555,80));
@@ -81,36 +101,17 @@ public class Main {
         System.out.println(nc.getForwardVector());
         NPCCarController ncc = null;
         try {
-            ncc = new NPCCarController(nc,w);
+            ncc = new NPCCarController(nc,world);
         }catch (Exception e)
         {
             logger.error(e.getMessage());
         }
-        w.addObjectToWorld(p);
-        w.addObjectToWorld(car);
-        w.addObjectToWorld(nc);
+        world.addObjectToWorld(p);
+        world.addObjectToWorld(car);
+        world.addObjectToWorld(nc);
         car.accelerate(-25);
         // init visualisation module with the world
-        vis.init(w);
-
-        World world = new World(XmlParser.getWorldDimensions()[0], XmlParser.getWorldDimensions()[1]);
-
-        populateWorld(xmlObjects, world);
-
-        userInterFace.init(world);
-
-        playerCar = new AutomatedCar(2500, 1500, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
-                                        (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
-
-
-
-
-        //add WindscreenCamera to the world
-        WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
-
-        world.addObjectToWorld(playerCar);
-
-        addSensorsToWorld(playerCar, world);
+        //vis.init(w);
     }
 
     private static void addSensorsToWorld(AutomatedCar playerCar, World world) {
@@ -125,6 +126,11 @@ public class Main {
         while (true) {
             try {
                 playerCar.drive();
+                //car.move();
+//                if (pc != null)
+//                pc.tick();
+//                if(nc != null)
+//                ncc.tick();
                 userInterFace.refreshFrame();
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
@@ -158,44 +164,44 @@ public class Main {
         }
         return xmlObjects;
     }
-        while (true) {
-            try {
-                //car.move();
-                if (pc != null)
-                pc.tick();
-                if(nc != null)
-                ncc.tick();
-                vis.refreshFrame();
-                Thread.sleep(CYCLE_PERIOD);
-            } catch (InterruptedException e) {
-                logger.error(e.getMessage());
-            }
-        }
-    }
+//        while (true) {
+//            try {
+//                //car.move();
+//                if (pc != null)
+//                pc.tick();
+//                if(nc != null)
+//                ncc.tick();
+//                vis.refreshFrame();
+//                Thread.sleep(CYCLE_PERIOD);
+//            } catch (InterruptedException e) {
+//                logger.error(e.getMessage());
+//            }
+//        }
+//    }
 
     //!ONLY FOR TESTING!
-    private static void testInitFromXml(World w) {
-        logger.log(Level.WARN, "@Team1: fix this, WorldObject initialization method is only for testing");
-        List<XmlObject> xmlo = new ArrayList<>();
-        try {
-            xmlo = XmlParser.parse("test_world.xml");
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
-
-        try {
-            for (XmlObject item : xmlo) {
-                w.addObjectToWorld(
-                        new WorldObject(
-                                item.getX(),
-                                item.getY(),
-                                -(float) ((double) item.getRotation() / 180 * Math.PI),
-                                10,
-                                10,
-                                item.getType().getXmlName() + ".png",
-                                null));
-            }
-        } catch (Exception e) {
-        }
-    }
+//    private static void testInitFromXml(World w) {
+//        logger.log(Level.WARN, "@Team1: fix this, WorldObject initialization method is only for testing");
+//        List<XmlObject> xmlo = new ArrayList<>();
+//        try {
+//            xmlo = XmlParser.parse("test_world.xml");
+//        } catch (Exception e) {
+//            logger.error(e.getMessage());
+//        }
+//
+//        try {
+//            for (XmlObject item : xmlo) {
+//                w.addObjectToWorld(
+//                        new WorldObject(
+//                                item.getX(),
+//                                item.getY(),
+//                                -(float) ((double) item.getRotation() / 180 * Math.PI),
+//                                10,
+//                                10,
+//                                item.getType().getXmlName() + ".png",
+//                                null));
+//            }
+//        } catch (Exception e) {
+//        }
+//    }
 }

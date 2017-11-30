@@ -101,6 +101,10 @@ public abstract class WorldObject implements ICameraSensor {
         return rotation;
     }
 
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
+    }
+
     /**
      * 
      * @return objects' width in pixel

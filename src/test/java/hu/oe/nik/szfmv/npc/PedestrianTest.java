@@ -1,6 +1,8 @@
 package hu.oe.nik.szfmv.npc;
+//package hu.oe.nik.szfmv.environment.o.*;
 
 import hu.oe.nik.szfmv.common.Vector2D;
+import hu.oe.nik.szfmv.environment.object.*;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 import org.junit.Test;
 import static junit.framework.Assert.assertEquals;
