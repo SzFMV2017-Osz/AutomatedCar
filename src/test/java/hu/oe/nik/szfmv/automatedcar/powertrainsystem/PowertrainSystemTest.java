@@ -66,7 +66,7 @@ public class PowertrainSystemTest {
 
         while (driver.getLoopCounter() < elapsedSeconds(3)) {
             try {
-                playerCar.drive();
+                playerCar.drive(new World(0,0));
                 vis.refreshFrame();
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
@@ -93,7 +93,7 @@ public class PowertrainSystemTest {
 
         while (driver.getLoopCounter() < elapsedSeconds(59)) {
             try {
-                playerCar.drive();
+                playerCar.drive(new World(0,0));
                 vis.refreshFrame();
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
@@ -118,7 +118,7 @@ public class PowertrainSystemTest {
 
         while (driver.getLoopCounter() < elapsedSeconds(15)) {
             try {
-                playerCar.drive();
+                playerCar.drive(new World(0,0));
                 vis.refreshFrame();
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
@@ -142,7 +142,7 @@ public class PowertrainSystemTest {
 
         while (driver.getLoopCounter() < elapsedSeconds(138)) {
             try {
-                playerCar.drive();
+                playerCar.drive(new World(0,0));
                 vis.refreshFrame();
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {

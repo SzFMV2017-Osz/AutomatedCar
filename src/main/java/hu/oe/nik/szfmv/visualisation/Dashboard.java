@@ -24,6 +24,8 @@ public class Dashboard extends SystemComponent {
     public JLabel PosYLabel;
     public JLabel IndexLabel;
     private JLabel LastRoadSignLabel;
+    private JLabel ParkingSensorLabel;
+    //private JLabel ParkingSensor;
     public JLabel EmptyLabel;
 
     private String gasPedalValue;
@@ -36,6 +38,7 @@ public class Dashboard extends SystemComponent {
     private String transmissionValue;
     private String indexValue;
     private String lastRoadSignValue;
+    private String parkingSensorSignValue;
 
     public Dashboard() {
     }
@@ -94,6 +97,9 @@ public class Dashboard extends SystemComponent {
 
             case LASTROADSIGN:
                 lastRoadSignValue = s.getData().toString();
+            case PARKINGSENSOR:
+                parkingSensorSignValue = !s.getData().toString().equals("0") ? "Vigyázz "+ s.getData().toString()+" m !!!" : "";
+                break;
 
         }
     }
@@ -134,6 +140,7 @@ public class Dashboard extends SystemComponent {
         PosYLabel.setText(posYValue);
         IndexLabel.setText(indexValue);
         LastRoadSignLabel.setText(lastRoadSignValue);
+        ParkingSensorLabel.setText(parkingSensorSignValue);
     }
 
     private String roundNumberString(Object signalData) {

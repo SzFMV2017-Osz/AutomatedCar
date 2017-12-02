@@ -1,12 +1,22 @@
 package hu.oe.nik.szfmv.automatedcar;
 
+import hu.oe.nik.szfmv.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PowertrainSystem;
 import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.common.Vector2DPlus;
 import hu.oe.nik.szfmv.environment.model.MovingObject;
+import hu.oe.nik.szfmv.environment.model.World;
+import hu.oe.nik.szfmv.environment.model.WorldObject;
+import hu.oe.nik.szfmv.environment.model.WorldObjectCollection;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
+
+import java.awt.geom.Area;
+import java.util.ArrayList;
+
+import static java.sql.DriverManager.println;
 
 public class AutomatedCar extends MovingObject {
 
@@ -60,7 +70,8 @@ public class AutomatedCar extends MovingObject {
 		this.axialDistance = distY;
 	}
 
-	public void drive() {
+	public void drive(World world) {
+
 		VirtualFunctionBus.loop();
 		this.speed = powertrainSystem.getSpeed() / VISUAL_CORRECTION;
 		this.carWheelAngle = calculateCarWheelAngle(powertrainSystem.getSteeringWheel());
@@ -78,6 +89,39 @@ public class AutomatedCar extends MovingObject {
 				calculateRotation(this.angularSpeed);
 			}
 		}
+		double distance = getDistance2Points(world.getWorldObjectsFiltered().getMoving().get(0).getX() - world.getWorldObjectsFiltered().getMoving().get(1).getX(),
+				world.getWorldObjectsFiltered().getMoving().get(0).getY() - world.getWorldObjectsFiltered().getMoving().get(1).getY());
+
+
+		if (distance <= 300)
+		{
+			if (this.speed < 0)
+			{
+				double distInMeters = getDistanceInMeters(distance);
+				VirtualFunctionBus.sendSignal(new Signal(SignalEnum.PARKINGSENSOR, distInMeters));
+			}
+			else
+			{
+				double distInMeters = getDistanceInMeters(distance);
+				VirtualFunctionBus.sendSignal(new Signal(SignalEnum.PARKINGSENSOR, distInMeters));
+			}
+		}
+		else
+		{
+			VirtualFunctionBus.sendSignal(new Signal(SignalEnum.PARKINGSENSOR, 0));
+		}
+
+	}
+
+	private double getDistance2Points(double x, double y)
+	{
+		return Math.hypot(x, y);
+	}
+
+	private double getDistanceInMeters(double distance)
+	{
+		double retValue = distance >= 250 ? 0.8 : 0.4;
+		return  retValue;
 	}
 
 	private void updateCarPoints() {

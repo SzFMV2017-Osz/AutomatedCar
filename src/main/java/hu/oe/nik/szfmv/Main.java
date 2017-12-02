@@ -33,6 +33,9 @@ public class Main {
     private static final int CYCLE_PERIOD = 40;
     private static CourseDisplay userInterFace;
     private static AutomatedCar playerCar;
+    private static AutomatedCar parkingCar1;
+    private static AutomatedCar parkingCar2;
+    static World world;
 
     public static void main(String[] args) {
         init();
@@ -46,7 +49,7 @@ public class Main {
         // create the world
         List<XmlObject> xmlObjects = readXmlObjects();
 
-        World world = new World(XmlParser.getWorldDimensions()[0], XmlParser.getWorldDimensions()[1]);
+        world = new World(XmlParser.getWorldDimensions()[0], XmlParser.getWorldDimensions()[1]);
 
         populateWorld(xmlObjects, world);
 
@@ -55,14 +58,19 @@ public class Main {
         playerCar = new AutomatedCar(2500, 1500, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
                                         (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
 
+        parkingCar1 = new AutomatedCar(530, 1850, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
+                (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
 
+        parkingCar2 = new AutomatedCar(530, 1220, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
+                (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
 
 
         //add WindscreenCamera to the world
         WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
 
         world.addObjectToWorld(playerCar);
-
+        world.addObjectToWorld(parkingCar1);
+        world.addObjectToWorld(parkingCar2);
         addSensorsToWorld(playerCar, world);
     }
 
@@ -77,7 +85,7 @@ public class Main {
     private static void mainLoop() {
         while (true) {
             try {
-                playerCar.drive();
+                playerCar.drive(world);
                 userInterFace.refreshFrame();
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
