@@ -23,16 +23,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-//import hu.oe.nik.szfmv.environment.model.WorldObject;
-
 public class Main {
 
     private static final Logger logger = LogManager.getLogger();
-
     private static final int CYCLE_PERIOD = 40;
+
     private static CourseDisplay userInterFace;
     private static AutomatedCar playerCar;
-    private static World world;
+    private static ArrayList<WorldObject> collidableObjects;
+    private static int numberOfCollidableObjects;
 
     public static void main(String[] args) {
         init();
@@ -46,7 +45,7 @@ public class Main {
         // create the world
         List<XmlObject> xmlObjects = readXmlObjects();
 
-        world = new World(XmlParser.getWorldDimensions()[0], XmlParser.getWorldDimensions()[1]);
+        World world = new World(XmlParser.getWorldDimensions()[0], XmlParser.getWorldDimensions()[1]);
 
         populateWorld(xmlObjects, world);
 
@@ -62,6 +61,9 @@ public class Main {
         world.addObjectToWorld(playerCar);
 
         addSensorsToWorld(playerCar, world);
+
+        collidableObjects = world.getWorldObjectsFiltered().getCollidable();
+        numberOfCollidableObjects = collidableObjects.size();
     }
 
     private static void addSensorsToWorld(AutomatedCar playerCar, World world) {
@@ -73,7 +75,7 @@ public class Main {
     }
 
     private static void mainLoop() {
-        while (!playerCar.isCollided()) {
+        while (!isPlayerCarCollided()) {
             try {
                 playerCar.drive();
                 userInterFace.refreshFrame();
@@ -81,16 +83,24 @@ public class Main {
             } catch (InterruptedException e) {
                 logger.error(e.getMessage());
             }
-            checkPlayerCarwasCollided();
         }
     }
 
-    private static void checkPlayerCarwasCollided() {
-        for (WorldObject object : world.getWorldObjectsFiltered().getCollidable()) {
-            playerCar.isIntersects(object);
-            if (playerCar.isCollided()) {
-                System.out.println("ütközött!");
-            }
+    /**
+     * Checks if the EGO car has a collision or not
+     */
+    private static boolean isPlayerCarCollided() {
+        logger.info("isPlayerCarCollided invoked");
+
+        // decision theorem:
+        int i = 0;
+        while (i < numberOfCollidableObjects && !playerCar.isCollided()) {
+            playerCar.isIntersects(collidableObjects.get(i++));
+        }
+        if (i < numberOfCollidableObjects) {
+            return true;
+        } else {
+            return false;
         }
     }
 
