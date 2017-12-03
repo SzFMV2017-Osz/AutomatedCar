@@ -33,13 +33,14 @@ public class RadarSensor implements IRadarSensor {
      * @param worldObjects 
      */
     public RadarSensor(AutomatedCar car){
+        // store properties
         this.car = car;
+        this.updateAngle(); // store in degree
         
+        // init point types
         this.a = new Vector2D();
         this.b = new Vector2D();
         this.c = new Vector2D();
-        
-        this.updateAngle();
     }
 
     /**
@@ -56,7 +57,7 @@ public class RadarSensor implements IRadarSensor {
     public void updatePoints() {
 
         // store parameters
-        this.updateReferencePoint(this.car.getPosition());
+        this.updateReferencePoint();
         this.updateAngle();
         
         // calculations
@@ -233,8 +234,26 @@ public class RadarSensor implements IRadarSensor {
      * Private method, only in class should the reference point be updated
      * @param a 
      */
-    private void updateReferencePoint(Vector2D a){
-        this.a = a;
+    private void updateReferencePoint() {
+
+        this.a.setX(this.car.getX());
+        this.a.setY(this.car.getY());
+
+        double triAngle = this.angle;
+        double carHalfDist = this.car.getHeight() / 2;
+
+        if (triAngle <= 90) {
+            this.a.add(new Vector2D(Math.sin(triAngle) * carHalfDist, Math.cos(triAngle) * carHalfDist));
+        } else if (triAngle <= 180) {
+            triAngle -= 90;
+            this.a.add(new Vector2D(Math.cos(triAngle) * carHalfDist, -1 * Math.sin(triAngle) * carHalfDist));
+        } else if (triAngle <= 270) {
+            triAngle -= 180;
+            this.a.add(new Vector2D(-1 * Math.sin(triAngle) * carHalfDist, -1 * Math.cos(triAngle) * carHalfDist));
+        } else {
+            triAngle -= 270; 
+            this.a.add(new Vector2D(-1 * Math.cos(triAngle) * carHalfDist, Math.sin(triAngle) * carHalfDist));
+        }
     }
     
     public double getX(){
@@ -256,6 +275,6 @@ public class RadarSensor implements IRadarSensor {
     
     @Override
     public String toString(){
-        return String.format("a: (%1d, %2d), b: (%3d, %4d), c: (%5d, %6d), rotation: %7d", this.a.getX(), this.a.getY(), this.b.getX(), this.b.getY(), this.c.getX(), this.c.getY(), this.angle);
+        return "a: (" + this.a.getX() + ", " + this.a.getY() + "), b: (" + this.b.getX() + ", " + this.b.getY() + "), c: (" + this.c.getX() + ", " + this.c.getY() + "), rotation: " + this.angle;
     }
 }
