@@ -133,6 +133,7 @@ public class Dashboard extends SystemComponent {
         PosXLabel.setText(posXValue);
         PosYLabel.setText(posYValue);
         IndexLabel.setText(indexValue);
+        if (LastRoadSignLabel != null)
         LastRoadSignLabel.setText(lastRoadSignValue);
     }
 
