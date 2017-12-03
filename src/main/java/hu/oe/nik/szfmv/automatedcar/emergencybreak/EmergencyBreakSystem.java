@@ -52,6 +52,11 @@ public class EmergencyBreakSystem extends SystemComponent {
 
     }
 
+    /**
+     * detect potential danger ahead
+     * 
+     * TODO: detect the speed of objects and calculate risk
+     */
     private void detectPotentialCollision() {
         List<IRadarSensor> objectsInRange = radar.getRadarObjectsInRange();
         double stoppingDistance = this.car.getCurrentSpeed().abs() / 9d;
