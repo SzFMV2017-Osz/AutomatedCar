@@ -71,7 +71,7 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
         }
 
         this.position = this.position.add(currentSpeed.div(24));
-        if (currentSpeed.abs() < 0) {
+        if (currentSpeed.abs() != 0) {
             this.rotation = this.currentSpeed.getAngleRad();
         }
     }
@@ -85,6 +85,10 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
             currentSpeed = currentSpeed.add(vector2d);
 
         }
+    }
+    
+    public void setPosition(Vector2D position) {
+        this.position = position;
     }
 
     /**

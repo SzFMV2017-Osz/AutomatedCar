@@ -163,9 +163,8 @@ public class Vector2D {
     }
 
     @Deprecated
-     * 
     public double getAngle() {
-        return Math.toDegrees(getAngleRadian());
+        return Math.toDegrees(Math.atan(y / x));
     }
 
     /**
@@ -187,7 +186,6 @@ public class Vector2D {
      */
     public double getAngleDeg() {
         return Math.toDegrees(getAngleRad());
-        return result;
     }
 
     /**

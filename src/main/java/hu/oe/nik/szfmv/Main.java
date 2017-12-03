@@ -55,12 +55,9 @@ public class Main {
         userInterFace.init(world);
 
         playerCar = new AutomatedCar(2500, 1500, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
-                                        (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
+                (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
 
-
-
-
-        //add WindscreenCamera to the world
+        // add WindscreenCamera to the world
         WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
         world.addObjectToWorld(playerCar);
 
@@ -73,9 +70,6 @@ public class Main {
         for (Sensor item : sensors) {
             world.addObjectToWorld(item);
         }
-            }        
-        
-        
     }
 
     private static void mainLoop() {
@@ -115,4 +109,16 @@ public class Main {
         }
         return xmlObjects;
     }
+
+    private static void createWorld() {
+        int[] dimensions;
+        try {
+            dimensions = XmlParser.getWorldDimensions("test_world.xml");
+            world = new World(dimensions[0], dimensions[1]);
+        } catch (XPathExpressionException | SAXException | IOException | ParserConfigurationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }
+
