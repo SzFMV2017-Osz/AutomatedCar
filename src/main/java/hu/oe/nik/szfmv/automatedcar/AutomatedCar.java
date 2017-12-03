@@ -5,6 +5,7 @@ import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PowertrainSystem;
 import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.common.Vector2DPlus;
+import hu.oe.nik.szfmv.environment.detector.RadarSensor;
 import hu.oe.nik.szfmv.environment.model.MovingObject;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 
@@ -29,11 +30,15 @@ public class AutomatedCar extends MovingObject {
     private Vector2DPlus rearAxleCenterToRightFrontWheelCenter;
     private Vector2DPlus carRefToRearAxleCenter;
     private Vector2DPlus externalCenterToRearAxleCenter;
+    
+    private RadarSensor radarSensor;
 
     public AutomatedCar(int x, int y, float rotation, String imageFileName, int weight, ModelShape shape) {
         super(x, y, rotation, imageFileName, weight, shape);
 
         powertrainSystem = new PowertrainSystem(x, y, new PorscheCharacteristics());
+        
+        this.radarSensor = new RadarSensor(this);
 
         initialize();
     }
@@ -77,6 +82,7 @@ public class AutomatedCar extends MovingObject {
                 calculateRotation(this.angularSpeed);
             }
         }
+        radarSensor.updatePoints();
     }
 
     private void updateCarPoints() {
