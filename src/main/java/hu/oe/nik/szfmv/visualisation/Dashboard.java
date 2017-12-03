@@ -23,6 +23,7 @@ public class Dashboard extends SystemComponent {
     public JLabel PosXLabel;
     public JLabel PosYLabel;
     public JLabel IndexLabel;
+    private JLabel LastRoadSignLabel;
     public JLabel EmptyLabel;
 
     private String gasPedalValue;
@@ -34,6 +35,7 @@ public class Dashboard extends SystemComponent {
     private String posYValue;
     private String transmissionValue;
     private String indexValue;
+    private String lastRoadSignValue;
 
     public Dashboard() {
     }
@@ -90,6 +92,9 @@ public class Dashboard extends SystemComponent {
                 indexValue = s.getData().toString();
                 break;
 
+            case LASTROADSIGN:
+                lastRoadSignValue = s.getData().toString();
+
         }
     }
 
@@ -128,6 +133,7 @@ public class Dashboard extends SystemComponent {
         PosXLabel.setText(posXValue);
         PosYLabel.setText(posYValue);
         IndexLabel.setText(indexValue);
+        LastRoadSignLabel.setText(lastRoadSignValue);
     }
 
     private String roundNumberString(Object signalData) {

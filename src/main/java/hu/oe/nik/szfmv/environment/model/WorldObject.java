@@ -1,19 +1,17 @@
 package hu.oe.nik.szfmv.environment.model;
 
-import java.awt.*;
-import java.awt.geom.*;
-
-import hu.oe.nik.szfmv.environment.xml.Utils;
-
-import java.awt.Shape;
-
 import hu.oe.nik.szfmv.common.Vector2D;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import hu.oe.nik.szfmv.environment.detector.ICameraSensor;
 import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
+import hu.oe.nik.szfmv.environment.xml.Utils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Világ elemeinek ős osztálya
@@ -29,6 +27,8 @@ public abstract class WorldObject implements ICameraSensor {
     Vector2D position;
     // objektum forgatása
     double rotation;
+    
+
 
     /**
      * object dimension in pixels
@@ -140,21 +140,13 @@ public abstract class WorldObject implements ICameraSensor {
             case ELLIPSE:
                 tempShape = new Ellipse2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
                 break;
-            case RECTENGULAR:
+            case RECTANGULAR:
                 tempShape = new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
                 break;
         }
         AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotation(), this.getX(),
                 this.getY());
-        PathIterator pathIterator = tempShape.getPathIterator(affineTransform);
-        Polygon polygon = new Polygon();
-        while (pathIterator.isDone()) {
-            double[] xy = new double[2];
-            pathIterator.currentSegment(xy);
-            polygon.addPoint((int) xy[0], (int) xy[1]);
-            pathIterator.next();
-        }
-        return polygon;
+        return affineTransform.createTransformedShape(tempShape);
     }
 
     @Override

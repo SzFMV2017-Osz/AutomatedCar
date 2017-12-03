@@ -37,7 +37,7 @@ public class Car extends MovingObject implements IDriveable {
      */
     @Deprecated
     private Car(int x, int y, float rotation, int width, int height, String imageFileName, int weight) {
-        super(x, y, rotation, width, height, imageFileName, weight, ModelShape.RECTENGULAR);
+        super(x, y, rotation, width, height, imageFileName, weight, ModelShape.RECTANGULAR);
     }
 
     /**
@@ -50,7 +50,7 @@ public class Car extends MovingObject implements IDriveable {
      * @param weight
      */
     public Car(int x, int y, float rotation, String imageFileName, int weight) {
-        super(x, y, rotation, imageFileName, weight, ModelShape.RECTENGULAR);
+        super(x, y, rotation, imageFileName, weight, ModelShape.RECTANGULAR);
     }
 
     @Override

@@ -1,12 +1,11 @@
 package hu.oe.nik.szfmv.environment;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import hu.oe.nik.szfmv.environment.xml.Utils;
 import hu.oe.nik.szfmv.environment.xml.XmlObject;
 import hu.oe.nik.szfmv.environment.xml.XmlObjectType;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class XmlObjectTest {
 
@@ -16,7 +15,7 @@ public class XmlObjectTest {
         assertEquals(XmlObjectType.ROAD_STRAIGHT, o.getType());
         assertEquals(10, o.getX(), 0);
         assertEquals(100, o.getY(), 0);
-        double rotation = -1*Utils.convertMatrixToRadians(0, 1, -1, 0);
+        double rotation = Utils.convertMatrixToRadians(0, 1, -1, 0);
         assertEquals(rotation, o.getRotation(), 3);
     }
 

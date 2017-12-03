@@ -21,7 +21,7 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
 
     protected static final Logger log = LogManager.getLogger(MovingObject.class);
 
-    // objektum pillantnyi sebess�ge
+    // objektum pillantnyi sebessége
     private Vector2D currentSpeed;
 
     /**
@@ -71,14 +71,14 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
         }
 
         this.position = this.position.add(currentSpeed.div(24));
-        if (currentSpeed.abs() != 0) {
-            this.rotation = this.currentSpeed.getAngleRadian();
+        if (currentSpeed.abs() < 0) {
+            this.rotation = this.currentSpeed.getAngleRad();
         }
     }
 
     /**
      * change currentspeed to the resultants of currentspeed and the given vectors
-     * @param vector
+     * @param vectors
      */
     protected void changeDirection(List<Vector2D> vectors) {
         for (Vector2D vector2d : vectors) {
@@ -130,7 +130,7 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
      * @deprecated
      * set the objects rotation via the {@link #changeDirection(Vector2D vector)} method
      * 
-     * @param angle
+     * @param radian
      */
     @Deprecated
     public void setRotationRadian(double radian) {
@@ -149,4 +149,7 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
                 + getImageFileName() + ", getShape()=" + getShape() + "]";
     }
 
+    public void setRot(double value) {
+        this.rotation = value;
+    }
 }

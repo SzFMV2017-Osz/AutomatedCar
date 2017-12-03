@@ -3,6 +3,7 @@ package hu.oe.nik.szfmv.automatedcar.powertrainsystem;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.Driver;
 import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
+import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 import hu.oe.nik.szfmv.visualisation.CourseDisplay;
@@ -31,7 +32,8 @@ public class PowertrainSystemTest {
         w = new World(800, 600);
 
         // create an automated car
-        playerCar = new AutomatedCar(340, 0, 0, "car_2_white.png");
+        playerCar = new AutomatedCar(2500, 1500, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
+				(int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
 
         // place a driver into the car for demonstrating the signal sending
         // mechanism

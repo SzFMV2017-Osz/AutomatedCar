@@ -1,14 +1,14 @@
 package hu.oe.nik.szfmv.automatedcar;
 
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * This is an example class for the SystemComponent.
@@ -23,7 +23,6 @@ public class Driver extends SystemComponent {
         return loopCounter;
     }
 
-    private LocalTime actualTime = null;
     private boolean testDriveMode = false;
     private double revolution = 0;
     private double previousSpeed = 0;
@@ -53,7 +52,7 @@ public class Driver extends SystemComponent {
 
         if (this.testDriveMode) {
             this.loopCounter++;
-            this.actualTime = LocalTime.now();
+            LocalTime actualTime = LocalTime.now();
             if ((this.loopCounter % 7) == 0
                     && Math.floor(100 * this.previousSpeed) != Math.floor(100 * this.actualSpeed)) {
                 this.printHMI();
