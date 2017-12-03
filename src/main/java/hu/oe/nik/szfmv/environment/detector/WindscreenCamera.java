@@ -1,6 +1,5 @@
 package hu.oe.nik.szfmv.environment.detector;
 
-
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
@@ -11,7 +10,6 @@ import hu.oe.nik.szfmv.environment.object.Road;
 import hu.oe.nik.szfmv.environment.util.DetectedRoad;
 import hu.oe.nik.szfmv.environment.util.RoadType;
 import hu.oe.nik.szfmv.environment.xml.Utils;
-
 
 import java.awt.*;
 import java.util.*;
@@ -32,7 +30,9 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
     private HashMap<WorldObject, Double> filteredRoadObjects = new HashMap<WorldObject, Double>();
     private LinkedHashMap<WorldObject, Double> filteredRoadSignObjectsHashMap = new LinkedHashMap<WorldObject, Double>();
 
-    public LinkedHashMap<WorldObject, Double> getFilteredRoadSignObjectsHashMap(){ return this.filteredRoadSignObjectsHashMap; }
+    public LinkedHashMap<WorldObject, Double> getFilteredRoadSignObjectsHashMap() {
+        return this.filteredRoadSignObjectsHashMap;
+    }
 
     public double getX() {
         return this.X;
@@ -42,7 +42,9 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
         return this.Y;
     }
 
-    public Vector2D getPosition(){return new Vector2D(this.X,this.Y);}
+    public Vector2D getPosition() {
+        return new Vector2D(this.X, this.Y);
+    }
 
     public double getRotation() {
         return this.rotation;
@@ -82,7 +84,7 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
     }
 
     private void setLeftRange() {
-        leftRange = new Point((int)this.getX() -150, (int)this.getY() -150);
+        leftRange = new Point((int) this.getX() - 150, (int) this.getY() - 150);
         rotatePointAroundCameraPointByDegreeInDouble(rotation, leftRange);
     }
 
@@ -91,17 +93,14 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
         rotatePointAroundCameraPointByDegreeInDouble(rotation, leftRange);
     }
 
-    private double calculateDistanceOfRoadSign(Point roadSignsBottomLeftPoint)
-    {
-        double distance = Math.hypot(
-                Math.abs(this.getX() - roadSignsBottomLeftPoint.getX()),
+    private double calculateDistanceOfRoadSign(Point roadSignsBottomLeftPoint) {
+        double distance = Math.hypot(Math.abs(this.getX() - roadSignsBottomLeftPoint.getX()),
                 Math.abs(this.getY() - roadSignsBottomLeftPoint.getY()));
 
         return distance;
     }
 
-    private void rotatePointAroundCameraPointByDegreeInDouble(double angle, Point pointToRotate)
-    {
+    private void rotatePointAroundCameraPointByDegreeInDouble(double angle, Point pointToRotate) {
         double x1 = pointToRotate.getX() - this.getX();
         double y1 = pointToRotate.getY() - this.getY();
 
@@ -114,76 +113,70 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
         pointToRotate.setLocation(newPointA, newPointB);
     }
 
-    private void filterObjectsInRange()
-    {
+    private void filterObjectsInRange() {
         filteredRoadObjects.clear();
         filteredRoadSignObjectsHashMap.clear();
 
-        for (WorldObject object : worldObjects ) {
-            if (objectIsInRange(object))
-            {
-                if (object.getImageFileName().contains("roadsign"))
-                {
+        for (WorldObject object : worldObjects) {
+            if (objectIsInRange(object)) {
+                if (object.getImageFileName().contains("roadsign")) {
                     filteredRoadSignObjectsHashMap.put(object, calculateDistanceOfRoadSign(
-                            new Point((int)object.getPosition().getX(), (int)object.getPosition().getY())
-                    ));
-                }
-                else if (object.getImageFileName().contains("road"))
-                {
+                            new Point((int) object.getPosition().getX(), (int) object.getPosition().getY())));
+                } else if (object.getImageFileName().contains("road")) {
                     filteredRoadObjects.put(object, new Double(0));
                 }
             }
         }
     }
 
-    private Boolean objectIsInRange(WorldObject object){
-        return (pointIsInRange(new Point((int)object.getX(), (int)object.getY())) ||
-                pointIsInRange(new Point((int)object.getX()+object.getWidth(),
-                        (int)object.getY()+object.getHeight())) ||
-                        pointIsInRange(new Point((int)object.getX(), (int)object.getY() + object.getHeight() )));
+    private Boolean objectIsInRange(WorldObject object) {
+        return (pointIsInRange(new Point((int) object.getX(), (int) object.getY()))
+                || pointIsInRange(
+                        new Point((int) object.getX() + object.getWidth(), (int) object.getY() + object.getHeight()))
+                || pointIsInRange(new Point((int) object.getX(), (int) object.getY() + object.getHeight())));
 
     }
 
-    private Boolean pointIsInRange(Point objectPoint)
-    {
-        Point objectPosition = new Point((int)objectPoint.getX(), (int)objectPoint.getY());
-        Point cameraPosition = new Point((int)this.getX(), (int)this.getY());
+    private Boolean pointIsInRange(Point objectPoint) {
+        Point objectPosition = new Point((int) objectPoint.getX(), (int) objectPoint.getY());
+        Point cameraPosition = new Point((int) this.getX(), (int) this.getY());
 
-        double A = 1/2 * (-leftRange.getY()*rightRange.getX() + cameraPosition.getY()* (-leftRange.getX() + rightRange.getX())
-                + cameraPosition.getX() * (leftRange.getY() - rightRange.getY()) +leftRange.getX() * rightRange.getX());
+        double A = 1 / 2
+                * (-leftRange.getY() * rightRange.getX()
+                        + cameraPosition.getY() * (-leftRange.getX() + rightRange.getX())
+                        + cameraPosition.getX() * (leftRange.getY() - rightRange.getY())
+                        + leftRange.getX() * rightRange.getX());
 
         int sign = A < 0 ? -1 : 1;
 
-        double s = (cameraPosition.getY()*rightRange.getX() - cameraPosition.getX() * rightRange.getY() +
-                (rightRange.getY() - cameraPosition.getY())*objectPosition.getX()
-        + (cameraPosition.getX() - rightRange.getX() * objectPosition.getY())) * sign;
+        double s = (cameraPosition.getY() * rightRange.getX() - cameraPosition.getX() * rightRange.getY()
+                + (rightRange.getY() - cameraPosition.getY()) * objectPosition.getX()
+                + (cameraPosition.getX() - rightRange.getX() * objectPosition.getY())) * sign;
 
-        double t = (cameraPosition.getX() * leftRange.getY() - cameraPosition.getY() * leftRange.getX() + (cameraPosition.getY() - leftRange.getY())
-        *objectPosition.getX() + (leftRange.getX() - cameraPosition.getX()) * objectPosition.getY()) * sign;
+        double t = (cameraPosition.getX() * leftRange.getY() - cameraPosition.getY() * leftRange.getX()
+                + (cameraPosition.getY() - leftRange.getY()) * objectPosition.getX()
+                + (leftRange.getX() - cameraPosition.getX()) * objectPosition.getY()) * sign;
 
         return s > 0 && t > 0 && (s + t) < 2 * A * sign;
     }
 
-    public DetectedRoad getDetectedRoadInfo()
-    {
+    public DetectedRoad getDetectedRoadInfo() {
         Road road = null;
         double distance = Double.MAX_VALUE;
         DetectedRoad detectedRoad = new DetectedRoad();
 
-     //   for (WorldObject r : filteredRoadObjects){
-        for (Map.Entry<WorldObject, Double> entry: filteredRoadObjects.entrySet())
-        {
+        // for (WorldObject r : filteredRoadObjects){
+        for (Map.Entry<WorldObject, Double> entry : filteredRoadObjects.entrySet()) {
             WorldObject r = entry.getKey();
 
-            double tempDistance = Utils.getVectorDistance(r.getPosition(),this.getPosition());
-            if (road == null || tempDistance<distance)
-            {
-                road = (Road)r;
+            double tempDistance = Utils.getVectorDistance(r.getPosition(), this.getPosition());
+            if (road == null || tempDistance < distance) {
+                road = (Road) r;
                 distance = tempDistance;
             }
         }
 
-        if (road!=null) {
+        if (road != null) {
 
             String imageName = road.getImageFileName();
 
@@ -197,7 +190,8 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
                 case "road_2lane_6left.png":
                     detectedRoad.radiusLeft = 601.9930553878453;
                     detectedRoad.radiusMiddle = 643.9930553878453;
-                    detectedRoad.radiusRight = 685.9930553878453;;
+                    detectedRoad.radiusRight = 685.9930553878453;
+                    ;
                     detectedRoad.lineKeepingPossible = true;
                     detectedRoad.angleInDegrees = 6;
                     break;
@@ -223,5 +217,11 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
             }
         }
         return detectedRoad;
+    }
+
+    public List<ICameraSensor> getCameraObjectsInRange() {
+        ObjectDetector detector = new ObjectDetector(worldObjects, new CollisionDetection());
+        return detector.getCameraObjects(new Polygon(new int[] { (int) this.X, this.leftRange.x, this.rightRange.x },
+                new int[] { (int) this.Y, this.leftRange.y, this.rightRange.y }, 3));
     }
 }

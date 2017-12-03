@@ -141,4 +141,8 @@ public class AutomatedCar extends MovingObject {
 
 	protected void doOnCollision() {
 	}
+	
+	public PowertrainSystem getPowerTrainSystem() {
+	    return this.powertrainSystem;
+	}
 }
