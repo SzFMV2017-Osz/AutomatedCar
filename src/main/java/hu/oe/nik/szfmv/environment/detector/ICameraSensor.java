@@ -1,5 +1,5 @@
 package hu.oe.nik.szfmv.environment.detector;
 
-public interface ICameraSensor {
+public interface ICameraSensor extends IRadarSensor{
 
 }

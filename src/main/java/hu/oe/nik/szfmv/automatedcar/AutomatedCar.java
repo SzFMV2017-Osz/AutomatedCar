@@ -80,7 +80,8 @@ public class AutomatedCar extends MovingObject {
 		}
 	}
 
-	private void updateCarPoints() {
+
+    private void updateCarPoints() {
 		if (this.carWheelAngle != 0) {
 			Vector2DPlus modifCoord;
 			this.modifyVectorsDirection(this.angularSpeed);

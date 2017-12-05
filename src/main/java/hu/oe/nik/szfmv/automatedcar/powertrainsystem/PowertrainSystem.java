@@ -5,11 +5,8 @@ import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
-import hu.oe.nik.szfmv.automatedcar.emergencybreak.EmergencyBreakListener;
-import hu.oe.nik.szfmv.automatedcar.emergencybreak.EmergencyBreakSystem;
-import hu.oe.nik.szfmv.automatedcar.emergencybreak.EmergencyType;
 
-public class PowertrainSystem extends SystemComponent implements EmergencyBreakListener {
+public class PowertrainSystem extends SystemComponent {
 
 	// Parameters needed for drawing
 	private static final double REFRESH_RATE = 25;
@@ -176,6 +173,14 @@ public class PowertrainSystem extends SystemComponent implements EmergencyBreakL
 	@Override
 	public void receiveSignal(Signal s) {
 		switch (s.getId()) {
+		case AEB_INTERVENE:
+		     this.gasPedal = 0;
+		     this.shiftingLevel = 0;
+		    /*
+		     * TODO: change this to perform a slow down of 9m/s^2 
+		     */
+		    this.breakPedal = this.PEDAL_MAX_VALUE;
+		    break;
 		case GASPEDAL:
 			this.gasPedal = (int) s.getData();
 			this.expectedRevolution = this.carSpecs.minRPM
@@ -232,17 +237,5 @@ public class PowertrainSystem extends SystemComponent implements EmergencyBreakL
 	public double getSpeed() {
 		return this.actualSpeed;
 	}
-
-    @Override
-    public void onEmergency(EmergencyBreakSystem system, EmergencyType type) {
-        if (type == EmergencyType.AEB_ACTIVATED) {
-            if (this.actualSpeed < 9d) {
-                doSpeedAdjustment(this.actualSpeed/24d) ;
-            } else {
-                doSpeedAdjustment(9d/24d);
-            }
-        }
-        
-    }
 
 }

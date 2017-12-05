@@ -156,4 +156,5 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
     public void setRot(double value) {
         this.rotation = value;
     }
+    
 }

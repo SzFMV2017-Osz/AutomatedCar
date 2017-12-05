@@ -2,22 +2,45 @@ package hu.oe.nik.szfmv.automatedcar.emergencybreak;
 
 import java.awt.Polygon;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
+import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.common.Vector2D;
-import hu.oe.nik.szfmv.environment.detector.CollisionDetection;
 import hu.oe.nik.szfmv.environment.detector.IRadarSensor;
 import hu.oe.nik.szfmv.environment.detector.RadarSensor;
 
 public class EmergencyBreakSystem extends SystemComponent {
 
-    List<EmergencyBreakListener> emercencyBreakListeners;
+    private static final Logger log = LogManager.getLogger(EmergencyBreakSystem.class);
+    /**
+     * it is 70 km/h
+     */
+    private static final double MAX_ALLOWED_SPEED = 19.5;
+    
+    /**
+     * it is 0,75 m
+     */
+    private static final double MIN_ALLOWED_DISTANCE = 37.5;
+    
+    /**
+     * it is 9 m/s^2
+     */
+    private static final double MAX_BREAK_SLOW = 9.0;
+    
     private AutomatedCar car;
     private RadarSensor radar;
+    private List<Distanceparameters> distanceParameters;
 
     /**
      * 
@@ -25,21 +48,12 @@ public class EmergencyBreakSystem extends SystemComponent {
      * @param radar
      */
     public EmergencyBreakSystem(AutomatedCar car, RadarSensor radar) {
-
-        emercencyBreakListeners = new ArrayList<>();
-        registerListener(car.getPowerTrainSystem());
+        this.distanceParameters = new ArrayList<>();
         this.car = car;
         this.radar = radar;
 
         VirtualFunctionBus.registerComponent(this);
-    }
 
-    /**
-     * 
-     * @param listener
-     */
-    public void registerListener(EmergencyBreakListener listener) {
-        emercencyBreakListeners.add(listener);
     }
 
     /**
@@ -47,45 +61,85 @@ public class EmergencyBreakSystem extends SystemComponent {
      */
     @Override
     public void loop() {
+        if (car.getCurrentSpeed().abs() > MAX_ALLOWED_SPEED) {
+            VirtualFunctionBus.sendSignal(new Signal(SignalEnum.AEB_OFF, this));
+            return;
+        }
 
         detectPotentialCollision();
 
     }
 
     /**
-     * detect potential danger ahead
-     * 
-     * TODO: detect the speed of objects and calculate risk
+     * check if objects in range are on a collision track
      */
     private void detectPotentialCollision() {
-        List<IRadarSensor> objectsInRange = radar.getRadarObjectsInRange();
-        double stoppingDistance = this.car.getCurrentSpeed().abs() / 9d;
-        Vector2D carPosition = this.car.getPosition();
-
-        Polygon dangerZone = new Polygon(
-                new int[] { (int) carPosition.getX(), (int) carPosition.getX() + this.car.getWidth(), (int) (carPosition.getX()+stoppingDistance), (int) (carPosition.getX() + this.car.getWidth()+stoppingDistance)},
-                new int[] { (int) carPosition.getY(), (int) carPosition.getY() + this.car.getWidth(),(int) (carPosition.getY()+stoppingDistance),(int) (carPosition.getY() + this.car.getWidth()+stoppingDistance) }, 4);
+        List<IRadarSensor> inRange = radar.getRadarObjectsInRange();
+        this.distanceParameters.clear();
+        for (IRadarSensor iRadarSensor : inRange) {
+            this.distanceParameters.add(Distanceparameters.calculateDistanceParameters(car, iRadarSensor));
+        }
         
-        CollisionDetection detection = new CollisionDetection();
-        for (IRadarSensor iRadarSensor : objectsInRange) {
-            if (detection.apply(dangerZone, iRadarSensor.getShape())) {
-                onEmergency(EmergencyType.AEB_ACTIVATED);
-            }
+        /**
+         * no objects in sight of the radar --> AEB reamins inactive
+         */
+        if (distanceParameters.isEmpty()){
+            return;
         }
+        
+        /**
+         * remove objects where min distance is in the past:
+         *  that means the objects are moving away from each other
+         */
+        distanceParameters.removeIf(dp -> dp.minTime < 0);
+        distanceParameters.sort(null);
+        
+        /**
+         * if the min distance of the route is less than 0,75 m than it is a potential threat
+         * 
+         * it may avoid the oncoming traffic
+         * and also wh may avoid calculating the dimensions
+         * 
+         */
+        List<Distanceparameters> potentialThreats = distanceParameters.stream().filter(o -> o.minDistance < MIN_ALLOWED_DISTANCE).collect(Collectors.toList());
+        
+        /**
+         * no potential threat -->  AEB remains inactive
+         */
+        if (potentialThreats.isEmpty()){
+            return;
+        }
+        
+        /*
+         * the break distance is calculated regarding the car's current speed and max break deceleration
+         * an additional 5% is used just to be sure we break in time
+         */
+        double breakDistance = (car.getCurrentSpeed().abs()/MAX_BREAK_SLOW) *1.05;
+        
+        /*
+         * if there is an object whitin the break distance we activate the AEB
+         */
+        if (potentialThreats.stream().anyMatch(o -> distanceToCar(o) <= breakDistance)){ 
+            VirtualFunctionBus.sendSignal(new Signal(SignalEnum.AEB_INTERVENE,this));
+        } else {
+        /*
+         * else we just warn
+         */
+            VirtualFunctionBus.sendSignal(new Signal(SignalEnum.AEB_WARN,this));
+        }
+        
     }
+    
 
-    /**
-     * on emergency we notify all the listeners
-     */
-    private void onEmergency(EmergencyType type) {
-
-        for (EmergencyBreakListener emergencyBreakListener : emercencyBreakListeners) {
-            synchronized (emergencyBreakListener) {
-                if (emergencyBreakListener != null) {
-                    emergencyBreakListener.onEmergency(this, type);
-                }
-            }
-        }
+    private double distanceToCar(Distanceparameters o) {
+        
+        Vector2D futureDistance = o.getObject().getPosition().add(o.getObject().getCurrentSpeed().mult(o.getMinTime()));
+        
+        /**     _______________________
+         *  \  / (Ax-Bx)^2 + (Ay-By)^2
+         *   \/
+         */
+        return Math.sqrt(Math.pow(car.getPosition().getX() - futureDistance.getX(),2) +Math.pow(car.getPosition().getY() - futureDistance.getY(),2));
     }
 
     @Override

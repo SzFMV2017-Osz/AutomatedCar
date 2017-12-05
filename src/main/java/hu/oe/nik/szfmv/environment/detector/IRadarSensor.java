@@ -4,8 +4,9 @@ import java.awt.Shape;
 
 import hu.oe.nik.szfmv.common.Vector2D;
 
-public interface IRadarSensor {
+public interface IRadarSensor extends ISensor{
     Vector2D getCurrentSpeed();
+    
 
-    Shape getShape();
+
 }

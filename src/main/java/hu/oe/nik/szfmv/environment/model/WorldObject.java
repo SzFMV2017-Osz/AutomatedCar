@@ -154,4 +154,6 @@ public abstract class WorldObject implements ICameraSensor {
         return "WorldObject [x=" + this.getX() + ", y=" + this.getY() + ", rotation=" + rotation + ", width=" + width
                 + ", height=" + height + ", shape=" + shape + ", imageFileName=" + imageFileName + "]";
     }
+    
+    
 }

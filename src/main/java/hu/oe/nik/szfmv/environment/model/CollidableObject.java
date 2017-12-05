@@ -1,5 +1,7 @@
 package hu.oe.nik.szfmv.environment.model;
 
+import hu.oe.nik.szfmv.common.Vector2D;
+import hu.oe.nik.szfmv.environment.detector.IRadarSensor;
 import hu.oe.nik.szfmv.environment.detector.ISensor;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 import org.apache.logging.log4j.LogManager;
@@ -11,7 +13,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author hunkak
  */
-public abstract class CollidableObject extends WorldObject implements ISensor {
+public abstract class CollidableObject extends WorldObject implements IRadarSensor {
 
     private static final Logger log = LogManager.getLogger(CollidableObject.class);
 
@@ -71,4 +73,8 @@ public abstract class CollidableObject extends WorldObject implements ISensor {
                 + getHeight() + ", getImageFileName()=" + getImageFileName() + ", getShape()=" + getShape() + "]";
     }
 
+    @Override
+    public Vector2D getCurrentSpeed(){
+        return new Vector2D(0,0);
+    }
 }
