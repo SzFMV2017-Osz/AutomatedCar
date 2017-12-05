@@ -1,8 +1,5 @@
 package hu.oe.nik.szfmv.visualisation;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.inputinterface.UserInputHandler;
@@ -10,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -133,4 +129,7 @@ public class CourseDisplay {
         scale = ((double) sizeFrom) / sizeTo;
     }
 
+    public void printToScreenEgoCarWasCollided() {
+
+    }
 }
