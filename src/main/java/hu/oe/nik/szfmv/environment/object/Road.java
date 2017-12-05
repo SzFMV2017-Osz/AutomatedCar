@@ -157,4 +157,5 @@ public class Road extends WorldObject {
     public int getCurvature() {
         return curvature;
     }
+
 }

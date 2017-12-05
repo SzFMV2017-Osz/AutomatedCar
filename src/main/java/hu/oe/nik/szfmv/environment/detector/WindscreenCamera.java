@@ -224,4 +224,10 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
         return detector.getCameraObjects(new Polygon(new int[] { (int) this.X, this.leftRange.x, this.rightRange.x },
                 new int[] { (int) this.Y, this.leftRange.y, this.rightRange.y }, 3));
     }
+
+    @Override
+    public Shape getShape() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

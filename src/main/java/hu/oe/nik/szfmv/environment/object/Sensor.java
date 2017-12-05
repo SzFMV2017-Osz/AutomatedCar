@@ -3,7 +3,6 @@ package hu.oe.nik.szfmv.environment.object;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.detector.ISensor;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
-import hu.oe.nik.szfmv.environment.util.ModelShape;
 import hu.oe.nik.szfmv.environment.util.SensorType;
 
 import java.awt.*;
@@ -67,4 +66,5 @@ public class Sensor extends WorldObject implements ISensor {
         }
         return roundedPoints;
     }
+
 }
