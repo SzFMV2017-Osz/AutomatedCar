@@ -31,40 +31,40 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
     private LinkedHashMap<WorldObject, Double> filteredRoadSignObjectsHashMap = new LinkedHashMap<WorldObject, Double>();
 
     public LinkedHashMap<WorldObject, Double> getFilteredRoadSignObjectsHashMap() {
-	return this.filteredRoadSignObjectsHashMap;
+        return this.filteredRoadSignObjectsHashMap;
     }
 
     public double getX() {
-	return this.X;
+        return this.X;
     }
 
     public double getY() {
-	return this.Y;
+        return this.Y;
     }
 
     public Vector2D getPosition() {
-	return new Vector2D(this.X, this.Y);
+        return new Vector2D(this.X, this.Y);
     }
 
     public double getRotation() {
-	return this.rotation;
+        return this.rotation;
     }
 
     public WindscreenCamera(AutomatedCar playerCar, List<WorldObject> worldObjects) {
-	this.playerCar = playerCar;
-	this.worldObjects = worldObjects;
-	calculateCameraLocation(this.playerCar);
+        this.playerCar = playerCar;
+        this.worldObjects = worldObjects;
+        calculateCameraLocation(this.playerCar);
     }
 
     public void updateCameraPosition() {
-	calculateCameraLocation(this.playerCar);
-	updateDetectionRange();
+        calculateCameraLocation(this.playerCar);
+        updateDetectionRange();
     }
 
     @Override
     public void loop() {
-	updateCameraPosition();
-	filterObjectsInRange();
+        updateCameraPosition();
+        filterObjectsInRange();
     }
 
     @Override
@@ -73,149 +73,149 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
     }
 
     private void updateDetectionRange() {
-	setLeftRange();
-	setRightRange();
+        setLeftRange();
+        setRightRange();
     }
 
     private void calculateCameraLocation(AutomatedCar playerCar) {
-	X = playerCar.getX() + (playerCar.getWidth() / 2);
-	Y = playerCar.getY() + (playerCar.getHeight() / 3);
-	rotation = playerCar.getRotation();
+        X = playerCar.getX() + (playerCar.getWidth() / 2);
+        Y = playerCar.getY() + (playerCar.getHeight() / 3);
+        rotation = playerCar.getRotation();
     }
 
     private void setLeftRange() {
-	leftRange = new Point((int) this.getX() - 150, (int) this.getY() - 150);
-	rotatePointAroundCameraPointByDegreeInDouble(rotation, leftRange);
+        leftRange = new Point((int) this.getX() - 150, (int) this.getY() - 150);
+        rotatePointAroundCameraPointByDegreeInDouble(rotation, leftRange);
     }
 
     private void setRightRange() {
-	rightRange = new Point((int) this.getX() + 150, (int) this.getY() - 150);
-	rotatePointAroundCameraPointByDegreeInDouble(rotation, leftRange);
+        rightRange = new Point((int) this.getX() + 150, (int) this.getY() - 150);
+        rotatePointAroundCameraPointByDegreeInDouble(rotation, leftRange);
     }
 
     private double calculateDistanceOfRoadSign(Point roadSignsBottomLeftPoint) {
-	double distance = Math.hypot(
-		Math.abs(this.getX() - roadSignsBottomLeftPoint.getX()),
-		Math.abs(this.getY() - roadSignsBottomLeftPoint.getY()));
+        double distance = Math.hypot(
+                Math.abs(this.getX() - roadSignsBottomLeftPoint.getX()),
+                Math.abs(this.getY() - roadSignsBottomLeftPoint.getY()));
 
-	return distance;
+        return distance;
     }
 
     private void rotatePointAroundCameraPointByDegreeInDouble(double angle, Point pointToRotate) {
-	double x1 = pointToRotate.getX() - this.getX();
-	double y1 = pointToRotate.getY() - this.getY();
+        double x1 = pointToRotate.getX() - this.getX();
+        double y1 = pointToRotate.getY() - this.getY();
 
-	double x2 = x1 * Math.cos(angle) - y1 * Math.sin(angle);
-	double y2 = x1 * Math.sin(angle) + y1 * Math.cos(angle);
+        double x2 = x1 * Math.cos(angle) - y1 * Math.sin(angle);
+        double y2 = x1 * Math.sin(angle) + y1 * Math.cos(angle);
 
-	double newPointA = x2 + this.getX();
-	double newPointB = y2 + this.getY();
+        double newPointA = x2 + this.getX();
+        double newPointB = y2 + this.getY();
 
-	pointToRotate.setLocation(newPointA, newPointB);
+        pointToRotate.setLocation(newPointA, newPointB);
     }
 
     private void filterObjectsInRange() {
-	filteredRoadObjects.clear();
-	filteredRoadSignObjectsHashMap.clear();
+        filteredRoadObjects.clear();
+        filteredRoadSignObjectsHashMap.clear();
 
-	for (WorldObject object : worldObjects) {
-	    if (objectIsInRange(object)) {
-		if (object.getImageFileName().contains("roadsign")) {
-		    filteredRoadSignObjectsHashMap.put(object, calculateDistanceOfRoadSign(
-			    new Point((int) object.getPosition().getX(), (int) object.getPosition().getY())
-		    ));
-		} else if (object.getImageFileName().contains("road")) {
-		    filteredRoadObjects.put(object, new Double(0));
-		}
-	    }
-	}
+        for (WorldObject object : worldObjects) {
+            if (objectIsInRange(object)) {
+                if (object.getImageFileName().contains("roadsign")) {
+                    filteredRoadSignObjectsHashMap.put(object, calculateDistanceOfRoadSign(
+                            new Point((int) object.getPosition().getX(), (int) object.getPosition().getY())
+                    ));
+                } else if (object.getImageFileName().contains("road")) {
+                    filteredRoadObjects.put(object, new Double(0));
+                }
+            }
+        }
     }
 
     private Boolean objectIsInRange(WorldObject object) {
-	return (pointIsInRange(new Point((int) object.getX(), (int) object.getY()))
-		|| pointIsInRange(new Point((int) object.getX() + object.getWidth(),
-			(int) object.getY() + object.getHeight()))
-		|| pointIsInRange(new Point((int) object.getX(), (int) object.getY() + object.getHeight())));
+        return (pointIsInRange(new Point((int) object.getX(), (int) object.getY()))
+                || pointIsInRange(new Point((int) object.getX() + object.getWidth(),
+                        (int) object.getY() + object.getHeight()))
+                || pointIsInRange(new Point((int) object.getX(), (int) object.getY() + object.getHeight())));
 
     }
 
     private Boolean pointIsInRange(Point objectPoint) {
-	Point objectPosition = new Point((int) objectPoint.getX(), (int) objectPoint.getY());
-	Point cameraPosition = new Point((int) this.getX(), (int) this.getY());
+        Point objectPosition = new Point((int) objectPoint.getX(), (int) objectPoint.getY());
+        Point cameraPosition = new Point((int) this.getX(), (int) this.getY());
 
-	double A = 1 / 2 * (-leftRange.getY() * rightRange.getX() + cameraPosition.getY() * (-leftRange.getX() + rightRange.getX())
-		+ cameraPosition.getX() * (leftRange.getY() - rightRange.getY()) + leftRange.getX() * rightRange.getX());
+        double A = 1 / 2 * (-leftRange.getY() * rightRange.getX() + cameraPosition.getY() * (-leftRange.getX() + rightRange.getX())
+                + cameraPosition.getX() * (leftRange.getY() - rightRange.getY()) + leftRange.getX() * rightRange.getX());
 
-	int sign = A < 0 ? -1 : 1;
+        int sign = A < 0 ? -1 : 1;
 
-	double s = (cameraPosition.getY() * rightRange.getX() - cameraPosition.getX() * rightRange.getY()
-		+ (rightRange.getY() - cameraPosition.getY()) * objectPosition.getX()
-		+ (cameraPosition.getX() - rightRange.getX() * objectPosition.getY())) * sign;
+        double s = (cameraPosition.getY() * rightRange.getX() - cameraPosition.getX() * rightRange.getY()
+                + (rightRange.getY() - cameraPosition.getY()) * objectPosition.getX()
+                + (cameraPosition.getX() - rightRange.getX() * objectPosition.getY())) * sign;
 
-	double t = (cameraPosition.getX() * leftRange.getY() - cameraPosition.getY() * leftRange.getX() + (cameraPosition.getY() - leftRange.getY())
-		* objectPosition.getX() + (leftRange.getX() - cameraPosition.getX()) * objectPosition.getY()) * sign;
+        double t = (cameraPosition.getX() * leftRange.getY() - cameraPosition.getY() * leftRange.getX() + (cameraPosition.getY() - leftRange.getY())
+                * objectPosition.getX() + (leftRange.getX() - cameraPosition.getX()) * objectPosition.getY()) * sign;
 
-	return s > 0 && t > 0 && (s + t) < 2 * A * sign;
+        return s > 0 && t > 0 && (s + t) < 2 * A * sign;
     }
 
     public DetectedRoad getDetectedRoadInfo() {
-	Road road = null;
-	double distance = Double.MAX_VALUE;
-	DetectedRoad detectedRoad = new DetectedRoad();
+        Road road = null;
+        double distance = Double.MAX_VALUE;
+        DetectedRoad detectedRoad = new DetectedRoad();
 
-	//   for (WorldObject r : filteredRoadObjects){
-	for (Map.Entry<WorldObject, Double> entry : filteredRoadObjects.entrySet()) {
-	    WorldObject r = entry.getKey();
+        //   for (WorldObject r : filteredRoadObjects){
+        for (Map.Entry<WorldObject, Double> entry : filteredRoadObjects.entrySet()) {
+            WorldObject r = entry.getKey();
 
-	    double tempDistance = Utils.getVectorDistance(r.getPosition(), this.getPosition());
-	    if (road == null || tempDistance < distance) {
-		road = (Road) r;
-		distance = tempDistance;
-	    }
-	}
+            double tempDistance = Utils.getVectorDistance(r.getPosition(), this.getPosition());
+            if (road == null || tempDistance < distance) {
+                road = (Road) r;
+                distance = tempDistance;
+            }
+        }
 
-	if (road != null) {
+        if (road != null) {
 
-	    String imageName = road.getImageFileName();
+            String imageName = road.getImageFileName();
 
-	    if (imageName.contains("_6right")) {
-		detectedRoad.roadDirection = RoadType.RIGHT;
-	    }
+            if (imageName.contains("_6right")) {
+                detectedRoad.roadDirection = RoadType.RIGHT;
+            }
 
-	    if (imageName.contains("_6left")) {
-		detectedRoad.roadDirection = RoadType.LEFT;
-	    }
+            if (imageName.contains("_6left")) {
+                detectedRoad.roadDirection = RoadType.LEFT;
+            }
 
-	    switch (imageName) {
-		case "road_2lane_6left.png":
-		    detectedRoad.radiusLeft = 601.9930553878453;
-		    detectedRoad.radiusMiddle = 643.9930553878453;
-		    detectedRoad.radiusRight = 685.9930553878453;
-		    ;
-		    detectedRoad.lineKeepingPossible = true;
-		    detectedRoad.angleInDegrees = 6;
-		    break;
-		case "road_2lane_6right.png":
-		    detectedRoad.radiusLeft = 685.9930553878453;
-		    detectedRoad.radiusMiddle = 643.9930553878453;
-		    detectedRoad.radiusRight = 601.9930553878453;
-		    detectedRoad.lineKeepingPossible = true;
-		    detectedRoad.angleInDegrees = 6;
-		    break;
-		case "road_2lanestraight.png":
-		    detectedRoad.radiusLeft = 0;
-		    detectedRoad.radiusMiddle = 0;
-		    detectedRoad.radiusRight = 0;
-		    detectedRoad.lineKeepingPossible = true;
-		    detectedRoad.angleInDegrees = 0;
-		default:
-		    detectedRoad.radiusLeft = 0;
-		    detectedRoad.radiusMiddle = 0;
-		    detectedRoad.radiusRight = 0;
-		    detectedRoad.lineKeepingPossible = false;
-		    detectedRoad.angleInDegrees = 0;
-	    }
-	}
-	return detectedRoad;
+            switch (imageName) {
+                case "road_2lane_6left.png":
+                    detectedRoad.radiusLeft = 601.9930553878453;
+                    detectedRoad.radiusMiddle = 643.9930553878453;
+                    detectedRoad.radiusRight = 685.9930553878453;
+                    ;
+                    detectedRoad.lineKeepingPossible = true;
+                    detectedRoad.angleInDegrees = 6;
+                    break;
+                case "road_2lane_6right.png":
+                    detectedRoad.radiusLeft = 685.9930553878453;
+                    detectedRoad.radiusMiddle = 643.9930553878453;
+                    detectedRoad.radiusRight = 601.9930553878453;
+                    detectedRoad.lineKeepingPossible = true;
+                    detectedRoad.angleInDegrees = 6;
+                    break;
+                case "road_2lanestraight.png":
+                    detectedRoad.radiusLeft = 0;
+                    detectedRoad.radiusMiddle = 0;
+                    detectedRoad.radiusRight = 0;
+                    detectedRoad.lineKeepingPossible = true;
+                    detectedRoad.angleInDegrees = 0;
+                default:
+                    detectedRoad.radiusLeft = 0;
+                    detectedRoad.radiusMiddle = 0;
+                    detectedRoad.radiusRight = 0;
+                    detectedRoad.lineKeepingPossible = false;
+                    detectedRoad.angleInDegrees = 0;
+            }
+        }
+        return detectedRoad;
     }
 }

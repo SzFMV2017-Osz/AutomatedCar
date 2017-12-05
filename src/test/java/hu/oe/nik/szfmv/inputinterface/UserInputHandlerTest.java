@@ -12,8 +12,8 @@ public class UserInputHandlerTest {
 
     @Before
     public void setUp() throws Exception {
-	this.userInputHandler = new UserInputHandler();
-	this.newKeyEvent = KeyEvent.VK_D;
+        this.userInputHandler = new UserInputHandler();
+        this.newKeyEvent = KeyEvent.VK_D;
     }
 
     @Test

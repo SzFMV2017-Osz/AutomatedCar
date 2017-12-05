@@ -26,30 +26,30 @@ public class VirtualFunctionBus {
     }
 
     public static VirtualFunctionBus getInstance() {
-	return instance;
+        return instance;
     }
 
     public static void registerComponent(ISystemComponent comp) {
-	VirtualFunctionBus.components.add(comp);
-	logger.debug("System component " + comp.toString() + " is registered on the virtual function bus");
+        VirtualFunctionBus.components.add(comp);
+        logger.debug("System component " + comp.toString() + " is registered on the virtual function bus");
     }
 
     public static void sendSignal(Signal s) {
-	logger.debug("Broadcast signal " + s.toString());
+        logger.debug("Broadcast signal " + s.toString());
 
-	// Broadcast the signal to all system components
-	for (ISystemComponent comp : components) {
-	    comp.receiveSignal(s);
-	}
+        // Broadcast the signal to all system components
+        for (ISystemComponent comp : components) {
+            comp.receiveSignal(s);
+        }
     }
 
     public static void loop() {
 
-	// Once the virtual function bus has started components are called
-	// cyclically
-	for (ISystemComponent comp : components) {
-	    logger.debug("Calling cyclic function of " + comp.toString());
-	    comp.loop();
-	}
+        // Once the virtual function bus has started components are called
+        // cyclically
+        for (ISystemComponent comp : components) {
+            logger.debug("Calling cyclic function of " + comp.toString());
+            comp.loop();
+        }
     }
 }

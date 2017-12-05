@@ -6,7 +6,7 @@ public class WorldObjectTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-	/* stuff written here runs before the tests */
+        /* stuff written here runs before the tests */
     }
 
     @Test

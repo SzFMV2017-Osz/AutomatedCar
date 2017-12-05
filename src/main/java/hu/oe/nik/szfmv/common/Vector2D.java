@@ -10,8 +10,8 @@ public class Vector2D {
      * Base constructor, makes a null vector.
      */
     public Vector2D() {
-	this.x = 0;
-	this.y = 0;
+        this.x = 0;
+        this.y = 0;
     }
 
     /**
@@ -21,8 +21,8 @@ public class Vector2D {
      * @param y The y coordinate of the new vector.
      */
     public Vector2D(double x, double y) {
-	this.x = x;
-	this.y = y;
+        this.x = x;
+        this.y = y;
     }
 
     /**
@@ -31,8 +31,8 @@ public class Vector2D {
      * @param vector Vector that should be copied.
      */
     public Vector2D(Vector2D vector) {
-	this.x = vector.x;
-	this.y = vector.y;
+        this.x = vector.x;
+        this.y = vector.y;
     }
 
     /**
@@ -42,7 +42,7 @@ public class Vector2D {
      * @return Returns a newly instanced vector copy from the original vector.
      */
     public Vector2D copy() {
-	return new Vector2D(this);
+        return new Vector2D(this);
     }
 
     /**
@@ -52,12 +52,12 @@ public class Vector2D {
      * stays the same while the magnitude of the vector equals with 1.
      */
     public Vector2D normalize() {
-	double abs = this.abs();
-	if (abs != 0) {
-	    x /= abs;
-	    y /= abs;
-	}
-	return this;
+        double abs = this.abs();
+        if (abs != 0) {
+            x /= abs;
+            y /= abs;
+        }
+        return this;
     }
 
     /**
@@ -66,7 +66,7 @@ public class Vector2D {
      * @return Returns the value of the magnitude of the vector.
      */
     public double abs() {
-	return Math.sqrt(x * x + y * y);
+        return Math.sqrt(x * x + y * y);
     }
 
     /**
@@ -77,7 +77,7 @@ public class Vector2D {
      * @return Returns the squared magnitude of the vector.
      */
     public double absSquared() {
-	return x * x + y * y;
+        return x * x + y * y;
     }
 
     /**
@@ -87,9 +87,9 @@ public class Vector2D {
      * @return Returns the base vector after the addition.
      */
     public Vector2D add(Vector2D vector) {
-	x += vector.x;
-	y += vector.y;
-	return this;
+        x += vector.x;
+        y += vector.y;
+        return this;
     }
 
     /**
@@ -99,9 +99,9 @@ public class Vector2D {
      * @return Returns the base vector after the subtraction.
      */
     public Vector2D sub(Vector2D vector) {
-	x -= vector.x;
-	y -= vector.y;
-	return this;
+        x -= vector.x;
+        y -= vector.y;
+        return this;
     }
 
     /**
@@ -112,9 +112,9 @@ public class Vector2D {
      * @return Returns the base vector after the multiplication.
      */
     public Vector2D mult(double value) {
-	x *= value;
-	y *= value;
-	return this;
+        x *= value;
+        y *= value;
+        return this;
     }
 
     /**
@@ -126,18 +126,18 @@ public class Vector2D {
      * @return Returns the base vector after the division.
      */
     public Vector2D div(double value) {
-	if (value != 0) {
-	    x /= value;
-	    y /= value;
-	    return this;
-	} else {
-	    throw new IllegalArgumentException("Vector divided by 0 is not allowed!");
-	}
+        if (value != 0) {
+            x /= value;
+            y /= value;
+            return this;
+        } else {
+            throw new IllegalArgumentException("Vector divided by 0 is not allowed!");
+        }
     }
 
     @Deprecated
     public static Vector2D getForwardVector(double angle) {
-	return new Vector2D(Math.cos(Math.toRadians(angle)), Math.sin(Math.toRadians(angle)));
+        return new Vector2D(Math.cos(Math.toRadians(angle)), Math.sin(Math.toRadians(angle)));
     }
 
     /**
@@ -149,7 +149,7 @@ public class Vector2D {
      * @return Unit vector pointing in the specified angle.
      */
     public static Vector2D getForwardVectorFromRad(double angleRad) {
-	return new Vector2D(Math.cos(angleRad), Math.sin(angleRad));
+        return new Vector2D(Math.cos(angleRad), Math.sin(angleRad));
     }
 
     /**
@@ -161,17 +161,17 @@ public class Vector2D {
      * @return Unit vector pointing in the specified angle.
      */
     public static Vector2D getForwardVectorFromDeg(double angleDeg) {
-	return new Vector2D(Math.cos(Math.toRadians(angleDeg)), Math.sin(Math.toRadians(angleDeg)));
+        return new Vector2D(Math.cos(Math.toRadians(angleDeg)), Math.sin(Math.toRadians(angleDeg)));
     }
 
     @Deprecated
     public Vector2D getForwardVector() {
-	return Vector2D.getForwardVector(this.getAngle());
+        return Vector2D.getForwardVector(this.getAngle());
     }
 
     @Deprecated
     public double getAngle() {
-	return Math.toDegrees(Math.atan(y / x));
+        return Math.toDegrees(Math.atan(y / x));
     }
 
     /**
@@ -180,11 +180,11 @@ public class Vector2D {
      * @return Returns the vector's direction angle in radians.
      */
     public double getAngleRad() {
-	double angle = Math.atan2(y, x);
-	if (y < 0) {
-	    angle += 2 * Math.PI;
-	}
-	return angle;
+        double angle = Math.atan2(y, x);
+        if (y < 0) {
+            angle += 2 * Math.PI;
+        }
+        return angle;
     }
 
     /**
@@ -193,7 +193,7 @@ public class Vector2D {
      * @return Returns the vector's direction angle in degrees.
      */
     public double getAngleDeg() {
-	return Math.toDegrees(getAngleRad());
+        return Math.toDegrees(getAngleRad());
     }
 
     /**
@@ -204,12 +204,12 @@ public class Vector2D {
      * @return Returns the base vector. Mutable method.
      */
     public Vector2D rotateRad(double angle) {
-	double direction = this.getAngleRad() + angle;
-	double magnitude = this.abs();
-	Vector2D rotatedVector = Vector2D.getForwardVectorFromRad(direction).mult(magnitude);
-	this.x = rotatedVector.getX();
-	this.y = rotatedVector.getY();
-	return this;
+        double direction = this.getAngleRad() + angle;
+        double magnitude = this.abs();
+        Vector2D rotatedVector = Vector2D.getForwardVectorFromRad(direction).mult(magnitude);
+        this.x = rotatedVector.getX();
+        this.y = rotatedVector.getY();
+        return this;
     }
 
     /**
@@ -220,28 +220,28 @@ public class Vector2D {
      * @return Returns the base vector. Mutable method.
      */
     public Vector2D rotateDeg(double angle) {
-	double direction = this.getAngleDeg() + angle;
-	double magnitude = this.abs();
-	Vector2D rotatedVector = Vector2D.getForwardVectorFromDeg(direction).mult(magnitude);
-	this.x = rotatedVector.getX();
-	this.y = rotatedVector.getY();
-	return this;
+        double direction = this.getAngleDeg() + angle;
+        double magnitude = this.abs();
+        Vector2D rotatedVector = Vector2D.getForwardVectorFromDeg(direction).mult(magnitude);
+        this.x = rotatedVector.getX();
+        this.y = rotatedVector.getY();
+        return this;
     }
 
     public double getX() {
-	return x;
+        return x;
     }
 
     public void setX(double x) {
-	this.x = x;
+        this.x = x;
     }
 
     public double getY() {
-	return y;
+        return y;
     }
 
     public void setY(double y) {
-	this.y = y;
+        this.y = y;
     }
 
     /**
@@ -251,7 +251,7 @@ public class Vector2D {
      */
     @Override
     public String toString() {
-	return "(" + x + ", " + y + ")";
+        return "(" + x + ", " + y + ")";
     }
 
     /**
@@ -263,13 +263,13 @@ public class Vector2D {
      */
     @Override
     public boolean equals(Object obj) {
-	Vector2D other = (Vector2D) obj;
-	if (other == null) {
-	    return false;
-	} else if (Math.abs(this.x - other.getX()) <= FLOAT_COMPARE_THRESHOLD
-		&& Math.abs(this.y - other.getY()) <= FLOAT_COMPARE_THRESHOLD) {
-	    return true;
-	}
-	return false;
+        Vector2D other = (Vector2D) obj;
+        if (other == null) {
+            return false;
+        } else if (Math.abs(this.x - other.getX()) <= FLOAT_COMPARE_THRESHOLD
+                && Math.abs(this.y - other.getY()) <= FLOAT_COMPARE_THRESHOLD) {
+            return true;
+        }
+        return false;
     }
 }

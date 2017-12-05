@@ -40,16 +40,16 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
     private CarComponentStateCalculator componentStateCalculator;
 
     public UserInputHandler() {
-	super();
-	this.timer = new Timer();
-	this.pressedKeyCodes = new ArrayList<>();
-	this.componentStateCalculator = new CarComponentStateCalculator();
+        super();
+        this.timer = new Timer();
+        this.pressedKeyCodes = new ArrayList<>();
+        this.componentStateCalculator = new CarComponentStateCalculator();
 
-	// starting states
-	this.sendNewAutotransmissionState(AutoTransmissionEnum.N);
-	this.steeringWheelState = componentStateCalculator.BASIC_STEERING_WHEEL_STATE;
-	this.gaspedalState = componentStateCalculator.MIN_PEDAL_STATE;
-	this.breakpedalState = componentStateCalculator.MIN_PEDAL_STATE;
+        // starting states
+        this.sendNewAutotransmissionState(AutoTransmissionEnum.N);
+        this.steeringWheelState = componentStateCalculator.BASIC_STEERING_WHEEL_STATE;
+        this.gaspedalState = componentStateCalculator.MIN_PEDAL_STATE;
+        this.breakpedalState = componentStateCalculator.MIN_PEDAL_STATE;
     }
 
     @Override
@@ -60,235 +60,235 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
     @Override
     public void keyPressed(KeyEvent userKeyPress) {
 
-	// collecting simultaneous key presses
-	if (!this.pressedKeyCodes.contains(userKeyPress.getKeyCode())) {
-	    pressedKeyCodes.add(userKeyPress.getKeyCode());
-	}
+        // collecting simultaneous key presses
+        if (!this.pressedKeyCodes.contains(userKeyPress.getKeyCode())) {
+            pressedKeyCodes.add(userKeyPress.getKeyCode());
+        }
 
-	/*----------------------
+        /*----------------------
          *  Transmissions
          *----------------------*/
-	if (this.pressedKeyCodes.contains(KeyEvent.VK_P)) {
-	    // set auto transmission to PARK mode
-	    this.sendNewAutotransmissionState(AutoTransmissionEnum.P);
-	}
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_P)) {
+            // set auto transmission to PARK mode
+            this.sendNewAutotransmissionState(AutoTransmissionEnum.P);
+        }
 
-	if (this.pressedKeyCodes.contains(KeyEvent.VK_R)) {
-	    // set auto transmission to REVERSE mode
-	    this.sendNewAutotransmissionState(AutoTransmissionEnum.R);
-	}
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_R)) {
+            // set auto transmission to REVERSE mode
+            this.sendNewAutotransmissionState(AutoTransmissionEnum.R);
+        }
 
-	if (this.pressedKeyCodes.contains(KeyEvent.VK_N)) {
-	    // set auto transmission to NEUTRAL mode
-	    this.sendNewAutotransmissionState(AutoTransmissionEnum.N);
-	}
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_N)) {
+            // set auto transmission to NEUTRAL mode
+            this.sendNewAutotransmissionState(AutoTransmissionEnum.N);
+        }
 
-	if (this.pressedKeyCodes.contains(KeyEvent.VK_D)) {
-	    // set auto transmission to DRIVE mode
-	    this.sendNewAutotransmissionState(AutoTransmissionEnum.D);
-	}
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_D)) {
+            // set auto transmission to DRIVE mode
+            this.sendNewAutotransmissionState(AutoTransmissionEnum.D);
+        }
 
-	/*----------------------
+        /*----------------------
         *   Steering
         *----------------------*/
-	if (this.pressedKeyCodes.contains(KeyEvent.VK_LEFT)) {
-	    // turn the car left
-	    this.steeringWheelState = this.componentStateCalculator.turnTheSteeringwheelLeft(this.steeringWheelState);
-	}
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_LEFT)) {
+            // turn the car left
+            this.steeringWheelState = this.componentStateCalculator.turnTheSteeringwheelLeft(this.steeringWheelState);
+        }
 
-	if (this.pressedKeyCodes.contains(KeyEvent.VK_RIGHT)) {
-	    // turn the car right
-	    this.steeringWheelState = this.componentStateCalculator.turnTheSteeringwheelRight(this.steeringWheelState);
-	}
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_RIGHT)) {
+            // turn the car right
+            this.steeringWheelState = this.componentStateCalculator.turnTheSteeringwheelRight(this.steeringWheelState);
+        }
 
-	/*----------------------
+        /*----------------------
         *   Gas & Break
         *----------------------*/
-	if (this.pressedKeyCodes.contains(KeyEvent.VK_UP)) {
-	    // add gas
-	    this.gaspedalState = this.componentStateCalculator.addGas(this.gaspedalState);
-	}
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_UP)) {
+            // add gas
+            this.gaspedalState = this.componentStateCalculator.addGas(this.gaspedalState);
+        }
 
-	if (this.pressedKeyCodes.contains(KeyEvent.VK_DOWN)) {
-	    // applying break
-	    this.breakpedalState = this.componentStateCalculator.applyingBreak(this.breakpedalState);
-	}
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_DOWN)) {
+            // applying break
+            this.breakpedalState = this.componentStateCalculator.applyingBreak(this.breakpedalState);
+        }
 
-	/*----------------------
+        /*----------------------
         *   Sensor visualization toggles
         *----------------------*/
-	if (this.pressedKeyCodes.contains(KeyEvent.VK_0) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD0)) {
-	    GameDisplayJPanel.changeSensorDebugMode();
-	}
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_0) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD0)) {
+            GameDisplayJPanel.changeSensorDebugMode();
+        }
 
-	if (this.pressedKeyCodes.contains(KeyEvent.VK_1) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD1)) {
-	    GameDisplayJPanel.changeCameraSensorDebugMode();
-	}
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_1) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD1)) {
+            GameDisplayJPanel.changeCameraSensorDebugMode();
+        }
 
-	if (this.pressedKeyCodes.contains(KeyEvent.VK_2) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD2)) {
-	    GameDisplayJPanel.changeRadarSensorDebugMode();
-	}
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_2) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD2)) {
+            GameDisplayJPanel.changeRadarSensorDebugMode();
+        }
 
-	if (this.pressedKeyCodes.contains(KeyEvent.VK_3) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD3)) {
-	    GameDisplayJPanel.changeSensorSensorDebugMode();
-	}
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_3) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD3)) {
+            GameDisplayJPanel.changeSensorSensorDebugMode();
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent userKeyRelease) {
 
-	this.pressedKeyCodes.remove(new Integer(userKeyRelease.getKeyCode()));
+        this.pressedKeyCodes.remove(new Integer(userKeyRelease.getKeyCode()));
 
-	// non of the steering control buttons are pressed
-	if (!this.pressedKeyCodes.contains(KeyEvent.VK_LEFT) && !this.pressedKeyCodes.contains(KeyEvent.VK_RIGHT)) {
-	    if (this.steeringWheelState != componentStateCalculator.BASE_STATE) {
-		this.setSteeringWheelToBasicState();
-	    }
-	}
+        // non of the steering control buttons are pressed
+        if (!this.pressedKeyCodes.contains(KeyEvent.VK_LEFT) && !this.pressedKeyCodes.contains(KeyEvent.VK_RIGHT)) {
+            if (this.steeringWheelState != componentStateCalculator.BASE_STATE) {
+                this.setSteeringWheelToBasicState();
+            }
+        }
 
-	// the gas control button is released
-	if (!this.pressedKeyCodes.contains(KeyEvent.VK_UP)) {
-	    if (this.gaspedalState > componentStateCalculator.BASE_STATE) {
-		this.setGasPedalToBasicState();
-	    }
-	}
+        // the gas control button is released
+        if (!this.pressedKeyCodes.contains(KeyEvent.VK_UP)) {
+            if (this.gaspedalState > componentStateCalculator.BASE_STATE) {
+                this.setGasPedalToBasicState();
+            }
+        }
 
-	// the break control button is released
-	if (!this.pressedKeyCodes.contains(KeyEvent.VK_DOWN)) {
-	    if (this.breakpedalState > componentStateCalculator.BASE_STATE) {
-		this.setBreakPedalToBasicState();
-	    }
-	}
+        // the break control button is released
+        if (!this.pressedKeyCodes.contains(KeyEvent.VK_DOWN)) {
+            if (this.breakpedalState > componentStateCalculator.BASE_STATE) {
+                this.setBreakPedalToBasicState();
+            }
+        }
     }
 
     private void setGasPedalToBasicState() {
-	TimerTask task = new TimerTask() {
-	    @Override
-	    public void run() {
-		// while a gas key pressing is not happened and the gas pedal doesn't reached it's base state
-		if (!pressedKeyCodes.contains(KeyEvent.VK_UP) && gaspedalState > componentStateCalculator.BASE_STATE) {
-		    gaspedalState--;
-		} else {
-		    this.cancel();
-		}
-	    }
-	};
-	// A timer which runs the timer task at a fixed rate
-	timer.scheduleAtFixedRate(task, 100, DECREASING_TIME_PERIOD);
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                // while a gas key pressing is not happened and the gas pedal doesn't reached it's base state
+                if (!pressedKeyCodes.contains(KeyEvent.VK_UP) && gaspedalState > componentStateCalculator.BASE_STATE) {
+                    gaspedalState--;
+                } else {
+                    this.cancel();
+                }
+            }
+        };
+        // A timer which runs the timer task at a fixed rate
+        timer.scheduleAtFixedRate(task, 100, DECREASING_TIME_PERIOD);
     }
 
     private void setBreakPedalToBasicState() {
-	TimerTask task = new TimerTask() {
-	    @Override
-	    public void run() {
-		// while the break key pressing is not happened and the break pedal doesn't reached it's base state
-		if (!pressedKeyCodes.contains(KeyEvent.VK_DOWN) && breakpedalState > componentStateCalculator.BASE_STATE) {
-		    breakpedalState--;
-		} else {
-		    this.cancel();
-		}
-	    }
-	};
-	// A timer which runs the timer task at a fixed rate
-	timer.scheduleAtFixedRate(task, 100, DECREASING_TIME_PERIOD);
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                // while the break key pressing is not happened and the break pedal doesn't reached it's base state
+                if (!pressedKeyCodes.contains(KeyEvent.VK_DOWN) && breakpedalState > componentStateCalculator.BASE_STATE) {
+                    breakpedalState--;
+                } else {
+                    this.cancel();
+                }
+            }
+        };
+        // A timer which runs the timer task at a fixed rate
+        timer.scheduleAtFixedRate(task, 100, DECREASING_TIME_PERIOD);
     }
 
     private void setSteeringWheelToBasicState() {
 
-	TimerTask task = new TimerTask() {
-	    @Override
-	    public void run() {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
 
-		// while there is no steering control buttons press the task runs
-		if (!pressedKeyCodes.contains(KeyEvent.VK_LEFT) && !pressedKeyCodes.contains(KeyEvent.VK_RIGHT)) {
+                // while there is no steering control buttons press the task runs
+                if (!pressedKeyCodes.contains(KeyEvent.VK_LEFT) && !pressedKeyCodes.contains(KeyEvent.VK_RIGHT)) {
 
-		    // the steering wheel reached its base state
-		    if (steeringWheelState == componentStateCalculator.BASE_STATE) {
-			this.cancel();
-		    }
+                    // the steering wheel reached its base state
+                    if (steeringWheelState == componentStateCalculator.BASE_STATE) {
+                        this.cancel();
+                    }
 
-		    // steering wheel was turned right
-		    if (steeringWheelState > componentStateCalculator.BASE_STATE) {
-			steeringWheelState--;
-		    }
+                    // steering wheel was turned right
+                    if (steeringWheelState > componentStateCalculator.BASE_STATE) {
+                        steeringWheelState--;
+                    }
 
-		    // steering wheel was turned left
-		    if (steeringWheelState < componentStateCalculator.BASE_STATE) {
-			steeringWheelState++;
-		    }
-		} else {
-		    this.cancel();
-		}
+                    // steering wheel was turned left
+                    if (steeringWheelState < componentStateCalculator.BASE_STATE) {
+                        steeringWheelState++;
+                    }
+                } else {
+                    this.cancel();
+                }
 
-	    }
-	};
+            }
+        };
 
-	// A timer which runs the timer task at a fixed rate
-	timer.scheduleAtFixedRate(task, 100, DECREASING_TIME_PERIOD);
+        // A timer which runs the timer task at a fixed rate
+        timer.scheduleAtFixedRate(task, 100, DECREASING_TIME_PERIOD);
     }
 
     private void sendNewAutotransmissionState(AutoTransmissionEnum newTransmissionState) {
-	VirtualFunctionBus.sendSignal(
-		new Signal(
-			SignalEnum.AUTOTRANSMISSION,
-			newTransmissionState
-		)
-	);
+        VirtualFunctionBus.sendSignal(
+                new Signal(
+                        SignalEnum.AUTOTRANSMISSION,
+                        newTransmissionState
+                )
+        );
 
-	if (logger.isDebugEnabled()) {
-	    logger.debug("A new transmission state is sent to the VirtualBus by the user from the keyboard");
-	    logger.info("sendNewAutotransmissionState invoked with param: " + newTransmissionState + "which is a " + newTransmissionState.getClass());
-	}
+        if (logger.isDebugEnabled()) {
+            logger.debug("A new transmission state is sent to the VirtualBus by the user from the keyboard");
+            logger.info("sendNewAutotransmissionState invoked with param: " + newTransmissionState + "which is a " + newTransmissionState.getClass());
+        }
     }
 
     private void sendNewSteeringWheelState(int newSteeringWheelState) {
-	VirtualFunctionBus.sendSignal(
-		new Signal(
-			SignalEnum.STEERINGWHEEL,
-			newSteeringWheelState
-		)
-	);
+        VirtualFunctionBus.sendSignal(
+                new Signal(
+                        SignalEnum.STEERINGWHEEL,
+                        newSteeringWheelState
+                )
+        );
     }
 
     private void sendNewGaspedalState(int newGaspedalState) {
-	VirtualFunctionBus.sendSignal(
-		new Signal(
-			SignalEnum.GASPEDAL,
-			newGaspedalState
-		)
-	);
+        VirtualFunctionBus.sendSignal(
+                new Signal(
+                        SignalEnum.GASPEDAL,
+                        newGaspedalState
+                )
+        );
     }
 
     private void sendNewBreakpedalState(int newBreakpedalState) {
-	VirtualFunctionBus.sendSignal(
-		new Signal(
-			SignalEnum.BREAKPEDAL,
-			newBreakpedalState
-		)
-	);
+        VirtualFunctionBus.sendSignal(
+                new Signal(
+                        SignalEnum.BREAKPEDAL,
+                        newBreakpedalState
+                )
+        );
     }
 
     @Override
     public void loop() {
-	this.sendNewSteeringWheelState(this.steeringWheelState);
-	this.sendNewGaspedalState(this.gaspedalState);
-	this.sendNewBreakpedalState(this.breakpedalState);
+        this.sendNewSteeringWheelState(this.steeringWheelState);
+        this.sendNewGaspedalState(this.gaspedalState);
+        this.sendNewBreakpedalState(this.breakpedalState);
     }
 
     @Override
     public void receiveSignal(Signal s) {
-	switch (s.getId()) {
-	    case STEERINGWHEEL:
-		this.steeringWheelState = (int) s.getData();
-		break;
-	    case GASPEDAL:
-		this.gaspedalState = (int) s.getData();
-		break;
-	    case BREAKPEDAL:
-		this.breakpedalState = (int) s.getData();
-		break;
+        switch (s.getId()) {
+            case STEERINGWHEEL:
+                this.steeringWheelState = (int) s.getData();
+                break;
+            case GASPEDAL:
+                this.gaspedalState = (int) s.getData();
+                break;
+            case BREAKPEDAL:
+                this.breakpedalState = (int) s.getData();
+                break;
 
-	    default:
-	}
+            default:
+        }
     }
 }

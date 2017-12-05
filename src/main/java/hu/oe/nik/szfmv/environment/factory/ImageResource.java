@@ -59,17 +59,17 @@ public class ImageResource {
      * @throws IOException
      */
     public static String getImageOf(String key) {
-	if (imageProperties == null) {
-	    try {
-		initProperties();
-	    } catch (IOException e) {
-		String message = "The image resources file with name " + IMAGE_PROPERTIES_FILE
-			+ " does not exists int the system resources";
-		log.error(message);
-		throw new RuntimeException(message);
-	    }
-	}
-	return imageProperties.getProperty(key, imageProperties.getProperty(NOT_EXISTS));
+        if (imageProperties == null) {
+            try {
+                initProperties();
+            } catch (IOException e) {
+                String message = "The image resources file with name " + IMAGE_PROPERTIES_FILE
+                        + " does not exists int the system resources";
+                log.error(message);
+                throw new RuntimeException(message);
+            }
+        }
+        return imageProperties.getProperty(key, imageProperties.getProperty(NOT_EXISTS));
     }
 
     /**
@@ -78,10 +78,10 @@ public class ImageResource {
      * @throws IOException if image resources file not found
      */
     private static void initProperties() throws IOException {
-	log.info("initializing imageProperties...");
-	imageProperties = new Properties();
-	imageProperties.load(ClassLoader.getSystemResourceAsStream(IMAGE_PROPERTIES_FILE));
-	log.info("imageProperties initialized succesfully");
+        log.info("initializing imageProperties...");
+        imageProperties = new Properties();
+        imageProperties.load(ClassLoader.getSystemResourceAsStream(IMAGE_PROPERTIES_FILE));
+        log.info("imageProperties initialized succesfully");
     }
 
     /**
@@ -91,12 +91,12 @@ public class ImageResource {
      * @return
      */
     public static int getWidth(String imageFileName) {
-	try {
-	    return getBufferedImage(imageFileName).getWidth();
-	} catch (IOException e) {
-	    log.error("Can not find image: " + imageFileName + " in system resources... width is set to 0");
-	    return 0;
-	}
+        try {
+            return getBufferedImage(imageFileName).getWidth();
+        } catch (IOException e) {
+            log.error("Can not find image: " + imageFileName + " in system resources... width is set to 0");
+            return 0;
+        }
     }
 
     /**
@@ -106,17 +106,17 @@ public class ImageResource {
      * @return
      */
     public static int getHeight(String imageFileName) {
-	try {
-	    return getBufferedImage(imageFileName).getHeight();
-	} catch (IOException e) {
-	    log.error("Can not find image: " + imageFileName + " in system resources... height is set to 0");
-	    return 0;
+        try {
+            return getBufferedImage(imageFileName).getHeight();
+        } catch (IOException e) {
+            log.error("Can not find image: " + imageFileName + " in system resources... height is set to 0");
+            return 0;
 
-	}
+        }
     }
 
     private static BufferedImage getBufferedImage(String imageFileName) throws IOException {
-	log.info("getBufferedImage invoked with params: " + imageFileName);
-	return ImageIO.read(new File(ClassLoader.getSystemResource(imageFileName).getFile()));
+        log.info("getBufferedImage invoked with params: " + imageFileName);
+        return ImageIO.read(new File(ClassLoader.getSystemResource(imageFileName).getFile()));
     }
 }

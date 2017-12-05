@@ -32,9 +32,9 @@ public class ObjectDetectorTest {
 
     int counter = 0;
     public BiFunction<Shape, Shape, Boolean> every2 = (a, b) -> {
-	synchronized (this) {
-	    return ++counter % 2 == 0 ? true : false;
-	}
+        synchronized (this) {
+            return ++counter % 2 == 0 ? true : false;
+        }
     };
 
     List<WorldObject> list;
@@ -43,100 +43,100 @@ public class ObjectDetectorTest {
 
     @Before
     public void createList() throws IOException {
-	list = new ArrayList<>();
-	list.add(WorldObjectFactory.createWorldObject(XmlObject.builder().position(0, 0).rotation(0, 0, 0, 0)
-		.type(XmlObjectType.ROAD_90_RIGHT.getXmlName()).build()));
-	list.add(WorldObjectFactory.createWorldObject(XmlObject.builder().position(0, 0).rotation(0, 0, 0, 0)
-		.type(XmlObjectType.ROAD_45_LEFT.getXmlName()).build()));
-	list.add(WorldObjectFactory.createWorldObject(XmlObject.builder().position(0, 0).rotation(0, 0, 0, 0)
-		.type(XmlObjectType.ROADSIGN_STOP.getXmlName()).build()));
-	list.add(WorldObjectFactory.createWorldObject(XmlObject.builder().position(0, 0).rotation(0, 0, 0, 0)
-		.type(XmlObjectType.ROADSIGN_SPEED_40.getXmlName()).build()));
-	list.add(WorldObjectFactory.createWorldObject(
-		XmlObject.builder().position(0, 0).rotation(0, 0, 0, 0).type(XmlObjectType.TREE.getXmlName()).build()));
-	list.add(WorldObjectFactory.createWorldObject(
-		XmlObject.builder().position(1, 1).rotation(0, 0, 0, 0).type(XmlObjectType.TREE.getXmlName()).build()));
-	list.add(Car.builder().color("red").position(0, 0).rotation(0).weight(0).build());
-	list.add(Car.builder().color("white").position(0, 0).rotation(0).weight(0).build());
+        list = new ArrayList<>();
+        list.add(WorldObjectFactory.createWorldObject(XmlObject.builder().position(0, 0).rotation(0, 0, 0, 0)
+                .type(XmlObjectType.ROAD_90_RIGHT.getXmlName()).build()));
+        list.add(WorldObjectFactory.createWorldObject(XmlObject.builder().position(0, 0).rotation(0, 0, 0, 0)
+                .type(XmlObjectType.ROAD_45_LEFT.getXmlName()).build()));
+        list.add(WorldObjectFactory.createWorldObject(XmlObject.builder().position(0, 0).rotation(0, 0, 0, 0)
+                .type(XmlObjectType.ROADSIGN_STOP.getXmlName()).build()));
+        list.add(WorldObjectFactory.createWorldObject(XmlObject.builder().position(0, 0).rotation(0, 0, 0, 0)
+                .type(XmlObjectType.ROADSIGN_SPEED_40.getXmlName()).build()));
+        list.add(WorldObjectFactory.createWorldObject(
+                XmlObject.builder().position(0, 0).rotation(0, 0, 0, 0).type(XmlObjectType.TREE.getXmlName()).build()));
+        list.add(WorldObjectFactory.createWorldObject(
+                XmlObject.builder().position(1, 1).rotation(0, 0, 0, 0).type(XmlObjectType.TREE.getXmlName()).build()));
+        list.add(Car.builder().color("red").position(0, 0).rotation(0).weight(0).build());
+        list.add(Car.builder().color("white").position(0, 0).rotation(0).weight(0).build());
 
-	counter = 0;
+        counter = 0;
     }
 
     @Test
     public void biFunctions() {
-	Ellipse2D t = new Ellipse2D.Double();
-	Ellipse2D u = new Ellipse2D.Double();
-	assertTrue(all.apply(t, u));
-	assertFalse(none.apply(t, u));
+        Ellipse2D t = new Ellipse2D.Double();
+        Ellipse2D u = new Ellipse2D.Double();
+        assertTrue(all.apply(t, u));
+        assertFalse(none.apply(t, u));
 
     }
 
     @Test
     public void getAll() {
-	ObjectDetector detector = new ObjectDetector(list, all);
+        ObjectDetector detector = new ObjectDetector(list, all);
 
-	List<ISensor> sonarable = detector.getSonarObjects(triangle);
-	assertEquals("number of sonar detectables should be 6", 6, sonarable.size());
+        List<ISensor> sonarable = detector.getSonarObjects(triangle);
+        assertEquals("number of sonar detectables should be 6", 6, sonarable.size());
 
-	List<ICameraSensor> camerable = detector.getCameraObjects(triangle);
-	assertEquals("number of camera detectables should be 8", 8, camerable.size());
+        List<ICameraSensor> camerable = detector.getCameraObjects(triangle);
+        assertEquals("number of camera detectables should be 8", 8, camerable.size());
 
-	List<IRadarSensor> radarable = detector.getRadarObjects(triangle);
-	assertEquals("number of radarable detectables should be 2", 2, radarable.size());
+        List<IRadarSensor> radarable = detector.getRadarObjects(triangle);
+        assertEquals("number of radarable detectables should be 2", 2, radarable.size());
     }
 
     @Test
     public void getNone() {
-	ObjectDetector detector = new ObjectDetector(list, none);
+        ObjectDetector detector = new ObjectDetector(list, none);
 
-	List<ISensor> sonarable = detector.getSonarObjects(triangle);
-	assertEquals("number of sonar detectables should be 0", 0, sonarable.size());
+        List<ISensor> sonarable = detector.getSonarObjects(triangle);
+        assertEquals("number of sonar detectables should be 0", 0, sonarable.size());
 
-	List<ICameraSensor> camerable = detector.getCameraObjects(triangle);
-	assertEquals("number of camera detectables should be 0", 0, camerable.size());
+        List<ICameraSensor> camerable = detector.getCameraObjects(triangle);
+        assertEquals("number of camera detectables should be 0", 0, camerable.size());
 
-	List<IRadarSensor> radarable = detector.getRadarObjects(triangle);
-	assertEquals("number of radarable detectables should be 0", 0, radarable.size());
+        List<IRadarSensor> radarable = detector.getRadarObjects(triangle);
+        assertEquals("number of radarable detectables should be 0", 0, radarable.size());
     }
 
     @Test
     public void getEvery2Sonar() {
-	assertEquals("base list size must be 8", 8, list.size());
-	ObjectDetector detector = new ObjectDetector(list, every2);
-	List<ISensor> sonarable = detector.getSonarObjects(triangle);
-	assertEquals("number of sonar detectables should be 3", 3, sonarable.size());
+        assertEquals("base list size must be 8", 8, list.size());
+        ObjectDetector detector = new ObjectDetector(list, every2);
+        List<ISensor> sonarable = detector.getSonarObjects(triangle);
+        assertEquals("number of sonar detectables should be 3", 3, sonarable.size());
     }
 
     @Test
     public void getEvery2Camera() {
-	assertEquals("base list size must be 8", 8, list.size());
-	ObjectDetector detector = new ObjectDetector(list, every2);
+        assertEquals("base list size must be 8", 8, list.size());
+        ObjectDetector detector = new ObjectDetector(list, every2);
 
-	List<ICameraSensor> camerable = detector.getCameraObjects(triangle);
-	assertEquals("number of camera detectables should be 4", 4, camerable.size());
+        List<ICameraSensor> camerable = detector.getCameraObjects(triangle);
+        assertEquals("number of camera detectables should be 4", 4, camerable.size());
     }
 
     @Test
     public void getEvery2Radar() {
-	assertEquals("base list size must be 8", 8, list.size());
-	ObjectDetector detector = new ObjectDetector(list, every2);
-	List<IRadarSensor> radarable = detector.getRadarObjects(triangle);
-	assertEquals("number of radarable detectables should be 1", 1, radarable.size());
+        assertEquals("base list size must be 8", 8, list.size());
+        ObjectDetector detector = new ObjectDetector(list, every2);
+        List<IRadarSensor> radarable = detector.getRadarObjects(triangle);
+        assertEquals("number of radarable detectables should be 1", 1, radarable.size());
     }
 
     @Test
     public void getIfObjectsCollide() {
-	CollisionDetection cd = new CollisionDetection();
-	Shape s1 = new Ellipse2D.Double(0, 0, 10, 10);
-	Shape s2 = new Ellipse2D.Double(0, 0, 10, 10);
-	assertEquals("objects should collide (true)", true, cd.apply(s1, s2));
+        CollisionDetection cd = new CollisionDetection();
+        Shape s1 = new Ellipse2D.Double(0, 0, 10, 10);
+        Shape s2 = new Ellipse2D.Double(0, 0, 10, 10);
+        assertEquals("objects should collide (true)", true, cd.apply(s1, s2));
     }
 
     @Test
     public void getIfObjectsNotCollide() {
-	CollisionDetection cd = new CollisionDetection();
-	Shape s1 = new Ellipse2D.Double(0, 0, 10, 10);
-	Shape s2 = new Ellipse2D.Double(300, 300, 10, 10);
-	assertEquals("objects should not collide (false)", false, cd.apply(s1, s2));
+        CollisionDetection cd = new CollisionDetection();
+        Shape s1 = new Ellipse2D.Double(0, 0, 10, 10);
+        Shape s2 = new Ellipse2D.Double(300, 300, 10, 10);
+        assertEquals("objects should not collide (false)", false, cd.apply(s1, s2));
     }
 }

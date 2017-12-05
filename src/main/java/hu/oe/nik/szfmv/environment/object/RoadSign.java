@@ -33,9 +33,9 @@ public class RoadSign extends CollidableObject {
      */
     @Deprecated
     public RoadSign(int x, int y, float rotation, int width, int height, String imageFileName, int weight,
-	    RoadSignType roadSignType) {
-	super(x, y, rotation, width, height, imageFileName, weight, ModelShape.ELLIPSE);
-	this.roadSignType = roadSignType;
+            RoadSignType roadSignType) {
+        super(x, y, rotation, width, height, imageFileName, weight, ModelShape.ELLIPSE);
+        this.roadSignType = roadSignType;
     }
 
     /**
@@ -49,8 +49,8 @@ public class RoadSign extends CollidableObject {
      * @param roadSignType
      */
     public RoadSign(int x, int y, float rotation, String imageFileName, int weight, RoadSignType roadSignType) {
-	super(x, y, rotation, imageFileName, weight, ModelShape.ELLIPSE);
-	this.roadSignType = roadSignType;
+        super(x, y, rotation, imageFileName, weight, ModelShape.ELLIPSE);
+        this.roadSignType = roadSignType;
     }
 
     /*
@@ -60,14 +60,14 @@ public class RoadSign extends CollidableObject {
      */
     @Override
     protected void doOnCollision() {
-	// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
     }
 
     /**
      * @return the roadSignType
      */
     public RoadSignType getRoadSignType() {
-	return roadSignType;
+        return roadSignType;
     }
 
     /*
@@ -77,13 +77,13 @@ public class RoadSign extends CollidableObject {
      */
     @Override
     public String toString() {
-	return "RoadSign [roadSignType= " + roadSignType + "]";
-	/*
+        return "RoadSign [roadSignType= " + roadSignType + "]";
+        /*
                 + ", x=" + getX() + ", y=" + getY() + ", rotation="
                 + getRotation() + ", isCollided()=" + isCollided() + ", getX()=" + getX() + ", getY()=" + getY()
                 + ", getRotation()=" + getRotation() + ", getWidth()=" + getWidth() + ", getHeight()=" + getHeight()
                 + ", getImageFileName()=" + getImageFileName() + ", getShape()=" + getShape() + "]";
-	 */
+         */
     }
 
 }

@@ -43,10 +43,10 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
      */
     @Deprecated
     public MovingObject(int x, int y, float rotation, int width, int height, String imageFileName, int weight,
-	    ModelShape shape) {
-	super(x, y, rotation, width, height, imageFileName, weight, shape);
-	// TODO: this must be 0,0 so the object is steady
-	this.currentSpeed = new Vector2D(0, 0);
+            ModelShape shape) {
+        super(x, y, rotation, width, height, imageFileName, weight, shape);
+        // TODO: this must be 0,0 so the object is steady
+        this.currentSpeed = new Vector2D(0, 0);
     }
 
     /**
@@ -60,20 +60,20 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
      * @param shape
      */
     public MovingObject(int x, int y, float rotation, String imageFileName, int weight, ModelShape shape) {
-	super(x, y, rotation, imageFileName, weight, shape);
-	// TODO: this must be 0,0 so the object is steady
-	this.currentSpeed = new Vector2D(0, 0);
+        super(x, y, rotation, imageFileName, weight, shape);
+        // TODO: this must be 0,0 so the object is steady
+        this.currentSpeed = new Vector2D(0, 0);
     }
 
     public void move() {
-	if (log.isDebugEnabled()) {
-	    log.debug("move called");
-	}
+        if (log.isDebugEnabled()) {
+            log.debug("move called");
+        }
 
-	this.position = this.position.add(currentSpeed.div(24));
-	if (currentSpeed.abs() < 0) {
-	    this.rotation = this.currentSpeed.getAngleRad();
-	}
+        this.position = this.position.add(currentSpeed.div(24));
+        if (currentSpeed.abs() < 0) {
+            this.rotation = this.currentSpeed.getAngleRad();
+        }
     }
 
     /**
@@ -83,10 +83,10 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
      * @param vectors
      */
     protected void changeDirection(List<Vector2D> vectors) {
-	for (Vector2D vector2d : vectors) {
-	    currentSpeed = currentSpeed.add(vector2d);
+        for (Vector2D vector2d : vectors) {
+            currentSpeed = currentSpeed.add(vector2d);
 
-	}
+        }
     }
 
     /**
@@ -96,7 +96,7 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
      * @param vector
      */
     protected void changeDirection(Vector2D vector) {
-	currentSpeed = currentSpeed.add(vector);
+        currentSpeed = currentSpeed.add(vector);
 
     }
 
@@ -107,7 +107,7 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
      * objektum sebességének irányával (szögben)
      */
     public Vector2D getImpulse() {
-	return currentSpeed.mult(getWeight());
+        return currentSpeed.mult(getWeight());
     }
 
     /**
@@ -117,7 +117,7 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
      * pillanatnyi sebesség iránya (szögben)
      */
     public Vector2D getCurrentSpeed() {
-	return currentSpeed;
+        return currentSpeed;
     }
 
     /**
@@ -147,13 +147,13 @@ public abstract class MovingObject extends CollidableObject implements IRadarSen
      */
     @Override
     public String toString() {
-	return "MovingObject [currentSpeed=" + currentSpeed + ", x=" + this.getX() + ", y=" + this.getY()
-		+ ", rotation=" + this.getRotation() + ", isCollided()=" + isCollided() + ", getWeight()=" + getWeight()
-		+ ", getWidth()=" + getWidth() + ", getHeight()=" + getHeight() + ", getImageFileName()="
-		+ getImageFileName() + ", getShape()=" + getShape() + "]";
+        return "MovingObject [currentSpeed=" + currentSpeed + ", x=" + this.getX() + ", y=" + this.getY()
+                + ", rotation=" + this.getRotation() + ", isCollided()=" + isCollided() + ", getWeight()=" + getWeight()
+                + ", getWidth()=" + getWidth() + ", getHeight()=" + getHeight() + ", getImageFileName()="
+                + getImageFileName() + ", getShape()=" + getShape() + "]";
     }
 
     public void setRot(double value) {
-	this.rotation = value;
+        this.rotation = value;
     }
 }

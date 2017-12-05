@@ -27,7 +27,7 @@ public class Pedestrian extends MovingObject {
      * @param weight
      */
     public Pedestrian(int x, int y, float rotation, int width, int height, String imageFileName, int weight) {
-	super(x, y, rotation, width, height, imageFileName, weight, ModelShape.ELLIPSE);
+        super(x, y, rotation, width, height, imageFileName, weight, ModelShape.ELLIPSE);
     }
 
     /**
@@ -40,13 +40,13 @@ public class Pedestrian extends MovingObject {
      * @param weight
      */
     public Pedestrian(int x, int y, float rotation, String imageFileName, int weight) {
-	super(x, y, rotation, imageFileName, weight, ModelShape.ELLIPSE);
+        super(x, y, rotation, imageFileName, weight, ModelShape.ELLIPSE);
     }
 
     @Override
     protected void doOnCollision() {
-	log.debug("Pedestrian#doOnCollision");
-	// TODO Auto-generated method stub
+        log.debug("Pedestrian#doOnCollision");
+        // TODO Auto-generated method stub
     }
 
 }

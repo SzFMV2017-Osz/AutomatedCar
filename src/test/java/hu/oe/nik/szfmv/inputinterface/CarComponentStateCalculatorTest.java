@@ -12,14 +12,14 @@ public class CarComponentStateCalculatorTest {
 
     @Before
     public void setUp() throws Exception {
-	this.carComponentStateCalculator = new CarComponentStateCalculator();
-	this.gaspedalState = 0;
+        this.carComponentStateCalculator = new CarComponentStateCalculator();
+        this.gaspedalState = 0;
     }
 
     @Test
     public void testAddGasMethod() throws Exception {
-	assertEquals(this.carComponentStateCalculator.addGas(this.gaspedalState), 1);
-	this.gaspedalState = 100;
-	assertEquals(this.carComponentStateCalculator.addGas(this.gaspedalState), 100);
+        assertEquals(this.carComponentStateCalculator.addGas(this.gaspedalState), 1);
+        this.gaspedalState = 100;
+        assertEquals(this.carComponentStateCalculator.addGas(this.gaspedalState), 100);
     }
 }

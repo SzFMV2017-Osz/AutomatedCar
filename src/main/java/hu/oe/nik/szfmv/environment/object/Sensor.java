@@ -12,12 +12,12 @@ import java.awt.geom.AffineTransform;
 public class Sensor extends WorldObject implements ISensor {
 
     public Sensor(double[] xPoints, double[] yPoints, AutomatedCar car, SensorType type) {
-	//TODO RENDBE TENNI AZ IAMGE RÉSZT. SENSOR ATALAKITAS SZUKSEGES AZ EGYSÉGES WORLDOBJECT KEZELESHEZ
-	super(0, 0, 0, "road_2lane_45left.png", null);
-	this.xPoints = xPoints;
-	this.yPoints = yPoints;
-	this.car = car;
-	this.type = type;
+        //TODO RENDBE TENNI AZ IAMGE RÉSZT. SENSOR ATALAKITAS SZUKSEGES AZ EGYSÉGES WORLDOBJECT KEZELESHEZ
+        super(0, 0, 0, "road_2lane_45left.png", null);
+        this.xPoints = xPoints;
+        this.yPoints = yPoints;
+        this.car = car;
+        this.type = type;
     }
 
     private AutomatedCar car;
@@ -27,43 +27,43 @@ public class Sensor extends WorldObject implements ISensor {
 
     @Override
     public double getX() {
-	return car.getX();
+        return car.getX();
     }
 
     @Override
     public Shape getShape() {
-	AffineTransform t = new AffineTransform();
-	t.rotate(car.getRotation(), car.getX(), car.getY());
+        AffineTransform t = new AffineTransform();
+        t.rotate(car.getRotation(), car.getX(), car.getY());
 
-	return t.createTransformedShape(new Polygon(
-		getRoundedPoints(xPoints),
-		getRoundedPoints(yPoints),
-		3));
+        return t.createTransformedShape(new Polygon(
+                getRoundedPoints(xPoints),
+                getRoundedPoints(yPoints),
+                3));
     }
 
     @Override
     public double getY() {
-	return car.getY();
+        return car.getY();
     }
 
     @Override
     public double getRotation() {
-	return car.getRotation();
+        return car.getRotation();
     }
 
     public AutomatedCar getCar() {
-	return car;
+        return car;
     }
 
     public SensorType getType() {
-	return type;
+        return type;
     }
 
     private int[] getRoundedPoints(double[] points) {
-	int[] roundedPoints = new int[points.length];
-	for (int i = 0; i < points.length; i++) {
-	    roundedPoints[i] = (int) Math.round(points[i]);
-	}
-	return roundedPoints;
+        int[] roundedPoints = new int[points.length];
+        for (int i = 0; i < points.length; i++) {
+            roundedPoints[i] = (int) Math.round(points[i]);
+        }
+        return roundedPoints;
     }
 }
