@@ -70,8 +70,8 @@ public class RadarSensor implements IRadarSensor {
     public void updatePoints() {
 
         // store parameters
-        this.updateReferencePoint();
         this.updateAngle();
+        this.updateReferencePoint();
         
         // calculations
         double bAngleCorrector = 270;
@@ -260,16 +260,16 @@ public class RadarSensor implements IRadarSensor {
         double carHalfDist = this.car.getHeight() / 2;
 
         if (triAngle <= 90) {
-            this.a.add(new Vector2D(Math.sin(triAngle) * carHalfDist, -1 * Math.cos(triAngle) * carHalfDist));
+            this.a.add(new Vector2D(Math.sin(Math.toRadians(triAngle)) * carHalfDist, -1 * Math.cos(Math.toRadians(triAngle)) * carHalfDist));
         } else if (triAngle <= 180) {
             triAngle -= 90;
-            this.a.add(new Vector2D(Math.cos(triAngle) * carHalfDist, Math.sin(triAngle) * carHalfDist));
+            this.a.add(new Vector2D(Math.cos(Math.toRadians(triAngle)) * carHalfDist, Math.sin(Math.toRadians(triAngle)) * carHalfDist));
         } else if (triAngle <= 270) {
             triAngle -= 180;
-            this.a.add(new Vector2D(-1 * Math.sin(triAngle) * carHalfDist, Math.cos(triAngle) * carHalfDist));
+            this.a.add(new Vector2D(-1 * Math.sin(Math.toRadians(triAngle)) * carHalfDist, Math.cos(Math.toRadians(triAngle)) * carHalfDist));
         } else {
             triAngle -= 270; 
-            this.a.add(new Vector2D(-1 * Math.cos(triAngle) * carHalfDist, -1 * Math.sin(triAngle) * carHalfDist));
+            this.a.add(new Vector2D(-1 * Math.cos(Math.toRadians(triAngle)) * carHalfDist, -1 * Math.sin(Math.toRadians(triAngle)) * carHalfDist));
         }
     }
     
