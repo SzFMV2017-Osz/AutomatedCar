@@ -4,6 +4,8 @@ import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
+import hu.oe.nik.szfmv.environment.object.Tree;
+import hu.oe.nik.szfmv.environment.util.ModelShape;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +27,8 @@ public class RadarSensor implements IRadarSensor {
     private final double DISTANCE = 200;
     private final double REFERENCE_ANGLE = 60;
     
+    public Tree vis1, vis2, vis3;
+    
     private AutomatedCar car;
     
     /**
@@ -32,15 +36,24 @@ public class RadarSensor implements IRadarSensor {
      * @param car
      * @param worldObjects 
      */
-    public RadarSensor(AutomatedCar car){
+    public RadarSensor(AutomatedCar car, World world){
         // store properties
         this.car = car;
         this.updateAngle(); // store in degree
+        System.out.println(this.car.getX());
+        System.out.println(this.car.getY());
         
         // init point types
         this.a = new Vector2D();
         this.b = new Vector2D();
         this.c = new Vector2D();
+        
+        this.vis1 = new Tree((int)a.getX(), (int)b.getY(), 0f, "not_exists.png", 20);
+        this.vis2 = new Tree((int)a.getX(), (int)b.getY(), 0f, "not_exists.png", 20);
+        this.vis3 = new Tree((int)a.getX(), (int)b.getY(), 0f, "not_exists.png", 20);
+        world.addObjectToWorld(vis1);
+        world.addObjectToWorld(vis2);
+        world.addObjectToWorld(vis3);
     }
 
     /**
@@ -79,6 +92,10 @@ public class RadarSensor implements IRadarSensor {
         // add to reference point
         this.c = this.c.add(this.a);
         this.b = this.b.add(this.a);
+        
+        this.vis1.setPosition(a);
+        this.vis2.setPosition(b);
+        this.vis3.setPosition(c);
     }
     
     private void updateAngle(){
@@ -235,24 +252,24 @@ public class RadarSensor implements IRadarSensor {
      * @param a 
      */
     private void updateReferencePoint() {
-
+        
         this.a.setX(this.car.getX());
         this.a.setY(this.car.getY());
-
+        
         double triAngle = this.angle;
         double carHalfDist = this.car.getHeight() / 2;
 
         if (triAngle <= 90) {
-            this.a.add(new Vector2D(Math.sin(triAngle) * carHalfDist, Math.cos(triAngle) * carHalfDist));
+            this.a.add(new Vector2D(Math.sin(triAngle) * carHalfDist, -1 * Math.cos(triAngle) * carHalfDist));
         } else if (triAngle <= 180) {
             triAngle -= 90;
-            this.a.add(new Vector2D(Math.cos(triAngle) * carHalfDist, -1 * Math.sin(triAngle) * carHalfDist));
+            this.a.add(new Vector2D(Math.cos(triAngle) * carHalfDist, Math.sin(triAngle) * carHalfDist));
         } else if (triAngle <= 270) {
             triAngle -= 180;
-            this.a.add(new Vector2D(-1 * Math.sin(triAngle) * carHalfDist, -1 * Math.cos(triAngle) * carHalfDist));
+            this.a.add(new Vector2D(-1 * Math.sin(triAngle) * carHalfDist, Math.cos(triAngle) * carHalfDist));
         } else {
             triAngle -= 270; 
-            this.a.add(new Vector2D(-1 * Math.cos(triAngle) * carHalfDist, Math.sin(triAngle) * carHalfDist));
+            this.a.add(new Vector2D(-1 * Math.cos(triAngle) * carHalfDist, -1 * Math.sin(triAngle) * carHalfDist));
         }
     }
     
