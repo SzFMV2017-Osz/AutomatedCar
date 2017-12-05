@@ -8,37 +8,37 @@ public class Coord {
     private double x, y;
 
     public Coord(int x, int y) {
-        this.x = x;
-        this.y = y;
+	this.x = x;
+	this.y = y;
     }
 
     public Coord(WorldObject wo) {
-        this.x = wo.getX();
-        this.y = wo.getY();
+	this.x = wo.getX();
+	this.y = wo.getY();
     }
 
     public void setY(int y) {
-        this.y = y;
+	this.y = y;
     }
 
     public void setX(int x) {
-        this.x = x;
+	this.x = x;
     }
 
     public void setValue(double x, double y) {
-        this.x = x;
-        this.y = y;
+	this.x = x;
+	this.y = y;
     }
 
     public double getX() {
-        return x;
+	return x;
     }
 
     public double getY() {
-        return y;
+	return y;
     }
 
     public boolean equals(Object obj) {
-        return (obj instanceof Coord) && ((Coord) obj).x == this.x && ((Coord) obj).y == this.y;
+	return (obj instanceof Coord) && ((Coord) obj).x == this.x && ((Coord) obj).y == this.y;
     }
 }

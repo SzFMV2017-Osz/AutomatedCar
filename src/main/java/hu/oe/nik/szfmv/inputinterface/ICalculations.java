@@ -2,7 +2,8 @@ package hu.oe.nik.szfmv.inputinterface;
 
 /**
  * <h1>An Interface for car component state calculations</h1>
- * <p>with constants</p>
+ * <p>
+ * with constants</p>
  *
  * @author danijanos
  */

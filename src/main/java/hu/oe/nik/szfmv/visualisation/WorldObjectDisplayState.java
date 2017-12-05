@@ -13,27 +13,27 @@ class WorldObjectDisplayState {
     private AffineTransform t;
 
     private WorldObjectDisplayState(WorldObject wo, Coord c, double rot, AffineTransform t) {
-        this.wo = wo;
-        this.c = c;
-        this.rot = rot;
-        this.t = t;
+	this.wo = wo;
+	this.c = c;
+	this.rot = rot;
+	this.t = t;
     }
 
     public static WorldObjectDisplayState createState(WorldObject object, AffineTransform t) {
-        return new WorldObjectDisplayState(object, new Coord(object), object.getRotation(), t);
+	return new WorldObjectDisplayState(object, new Coord(object), object.getRotation(), t);
     }
 
     public AffineTransform getTransform() {
-        return t;
+	return t;
     }
 
     public boolean isChanged() {
-        return !(wo.getX() == c.getX() && wo.getY() == c.getY() && wo.getRotation() == rot);
+	return !(wo.getX() == c.getX() && wo.getY() == c.getY() && wo.getRotation() == rot);
     }
 
     public void updateState(AffineTransform t) {
-        this.t = t;
-        this.c.setValue(wo.getX(), wo.getY());
-        this.rot = wo.getRotation();
+	this.t = t;
+	this.c.setValue(wo.getX(), wo.getY());
+	this.rot = wo.getRotation();
     }
 }

@@ -8,7 +8,6 @@ package hu.oe.nik.szfmv.environment.object;
 public interface IDriveable {
 
     // TODO: vezérlést megvalósító csapttal egyeztetni.EZEK CSAK PÉLDÁK
-
     void turn(double scale);
 
     void accelerate(double scale);

@@ -5,7 +5,7 @@ public enum SensorType {
     ULTRASONIC_LSF, ULTRASONIC_LSB, ULTRASONIC_RSF, ULTRASONIC_RSB
 
 
-   /*
+    /*
     Ultrasound sensors:
     FL  : front left
     FR  : front right

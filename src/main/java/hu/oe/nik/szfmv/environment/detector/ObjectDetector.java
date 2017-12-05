@@ -37,10 +37,10 @@ public class ObjectDetector {
      * @param isIntersecting function that checks if to Shapes are intersecting
      */
     public ObjectDetector(final Collection<WorldObject> objects,
-            final BiFunction<Shape, Shape, Boolean> isIntersecting) {
-        super();
-        this.objects = objects;
-        this.isIntersecting = isIntersecting;
+	    final BiFunction<Shape, Shape, Boolean> isIntersecting) {
+	super();
+	this.objects = objects;
+	this.isIntersecting = isIntersecting;
     }
 
     /**
@@ -51,8 +51,8 @@ public class ObjectDetector {
      */
     public List<ISensor> getSonarObjects(final Shape triangle) {
 
-        log.info("getSonarObjects invoked with param: " + triangle);
-        return selectIntersecting(triangle, ISensor.class);
+	log.info("getSonarObjects invoked with param: " + triangle);
+	return selectIntersecting(triangle, ISensor.class);
     }
 
     /**
@@ -63,8 +63,8 @@ public class ObjectDetector {
      */
     public List<IRadarSensor> getRadarObjects(final Shape triangle) {
 
-        log.info("getRadarObjects invoked with param: " + triangle);
-        return selectIntersecting(triangle, IRadarSensor.class);
+	log.info("getRadarObjects invoked with param: " + triangle);
+	return selectIntersecting(triangle, IRadarSensor.class);
     }
 
     /**
@@ -75,8 +75,8 @@ public class ObjectDetector {
      */
     public List<ICameraSensor> getCameraObjects(final Shape triangle) {
 
-        log.info("getCameraObjects invoked with param: " + triangle);
-        return selectIntersecting(triangle, ICameraSensor.class);
+	log.info("getCameraObjects invoked with param: " + triangle);
+	return selectIntersecting(triangle, ICameraSensor.class);
     }
 
     /**
@@ -89,15 +89,15 @@ public class ObjectDetector {
      */
     private <T> List<T> selectIntersecting(Shape triangle, Class<T> type) {
 
-        log.info("selectIntersecting is invoked for type: " + type.getName());
+	log.info("selectIntersecting is invoked for type: " + type.getName());
 
-        try {
-            return objects.parallelStream()
-                    .filter(o -> type.isInstance(o) && isIntersecting.apply(o.getShape(), triangle))
-                    .map(o -> type.cast(o)).collect(Collectors.toList());
-        } catch (ClassCastException e) {
-            log.error("Can not cast to: " + type.getName() + "... " + e.getLocalizedMessage());
-            return null;
-        }
+	try {
+	    return objects.parallelStream()
+		    .filter(o -> type.isInstance(o) && isIntersecting.apply(o.getShape(), triangle))
+		    .map(o -> type.cast(o)).collect(Collectors.toList());
+	} catch (ClassCastException e) {
+	    log.error("Can not cast to: " + type.getName() + "... " + e.getLocalizedMessage());
+	    return null;
+	}
     }
 }

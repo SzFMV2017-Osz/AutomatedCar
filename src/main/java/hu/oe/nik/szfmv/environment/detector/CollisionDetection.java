@@ -8,9 +8,9 @@ public class CollisionDetection implements BiFunction<Shape, Shape, Boolean> {
 
     @Override
     public Boolean apply(Shape shape, Shape shape2) {
-        Area areaA = new Area(shape);
-        Area areaB = new Area(shape2);
-        areaA.intersect(areaB);
-        return !areaA.isEmpty();
+	Area areaA = new Area(shape);
+	Area areaB = new Area(shape2);
+	areaA.intersect(areaB);
+	return !areaA.isEmpty();
     }
 }

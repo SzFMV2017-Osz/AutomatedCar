@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 //import hu.oe.nik.szfmv.environment.model.WorldObject;
-
 public class Main {
 
     private static final Logger logger = LogManager.getLogger();
@@ -35,80 +34,77 @@ public class Main {
     private static AutomatedCar playerCar;
 
     public static void main(String[] args) {
-        init();
+	init();
 
-        mainLoop();
+	mainLoop();
     }
 
     private static void init() {
-        userInterFace = new CourseDisplay();
+	userInterFace = new CourseDisplay();
 
-        // create the world
-        List<XmlObject> xmlObjects = readXmlObjects();
+	// create the world
+	List<XmlObject> xmlObjects = readXmlObjects();
 
-        World world = new World(XmlParser.getWorldDimensions()[0], XmlParser.getWorldDimensions()[1]);
+	World world = new World(XmlParser.getWorldDimensions()[0], XmlParser.getWorldDimensions()[1]);
 
-        populateWorld(xmlObjects, world);
+	populateWorld(xmlObjects, world);
 
-        userInterFace.init(world);
+	userInterFace.init(world);
 
-        playerCar = new AutomatedCar(2500, 1500, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
-                                        (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
+	playerCar = new AutomatedCar(2500, 1500, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
+		(int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
 
+	//add WindscreenCamera to the world
+	WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
 
+	world.addObjectToWorld(playerCar);
 
-
-        //add WindscreenCamera to the world
-        WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
-
-        world.addObjectToWorld(playerCar);
-
-        addSensorsToWorld(playerCar, world);
+	addSensorsToWorld(playerCar, world);
     }
 
     private static void addSensorsToWorld(AutomatedCar playerCar, World world) {
-        List<Sensor> sensors = SensorObjectFactory.createAllSensor(playerCar);
+	List<Sensor> sensors = SensorObjectFactory.createAllSensor(playerCar);
 
-        for (Sensor item : sensors) {
-            world.addObjectToWorld(item);
-        }
+	for (Sensor item : sensors) {
+	    world.addObjectToWorld(item);
+	}
     }
 
     private static void mainLoop() {
-        while (true) {
-            try {
-                playerCar.drive();
-                userInterFace.refreshFrame();
-                Thread.sleep(CYCLE_PERIOD);
-            } catch (InterruptedException e) {
-                logger.error(e.getMessage());
-            }
-        }
+	while (true) {
+	    try {
+		playerCar.drive();
+		userInterFace.refreshFrame();
+		Thread.sleep(CYCLE_PERIOD);
+	    } catch (InterruptedException e) {
+		logger.error(e.getMessage());
+	    }
+	}
     }
 
     private static void populateWorld(List<XmlObject> xmlObjects, World world) {
-        for (XmlObject item : xmlObjects) {
-            try {
-                world.addObjectToWorld(WorldObjectFactory.createWorldObject(item));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+	for (XmlObject item : xmlObjects) {
+	    try {
+		world.addObjectToWorld(WorldObjectFactory.createWorldObject(item));
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
+	}
     }
 
     private static List<XmlObject> readXmlObjects() {
-        List<XmlObject> xmlObjects = new ArrayList<>();
-        try {
-            xmlObjects = XmlParser.parse("test_world.xml");
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (XPathExpressionException e) {
-            e.printStackTrace();
-        }
-        return xmlObjects;
+	List<XmlObject> xmlObjects = new ArrayList<>();
+	try {
+	    xmlObjects = XmlParser.parse("test_world.xml");
+	} catch (ParserConfigurationException e) {
+	    e.printStackTrace();
+	} catch (IOException e) {
+	    e.printStackTrace();
+	} catch (SAXException e) {
+	    e.printStackTrace();
+	} catch (XPathExpressionException e) {
+	    e.printStackTrace();
+	}
+	return xmlObjects;
     }
 }

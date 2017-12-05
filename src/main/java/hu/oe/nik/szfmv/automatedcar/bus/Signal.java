@@ -22,17 +22,17 @@ public class Signal {
 
     // Constructor for Signal
     public Signal(SignalEnum id, Object data) {
-        this.id = id;
-        this.data = data;
+	this.id = id;
+	this.data = data;
     }
 
     // Getter for Signal Id
     public SignalEnum getId() {
-        return id;
+	return id;
     }
 
     // Getter for Signal Value
     public Object getData() {
-        return data;
+	return data;
     }
 }

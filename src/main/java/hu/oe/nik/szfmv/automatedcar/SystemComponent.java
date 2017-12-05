@@ -11,6 +11,6 @@ public abstract class SystemComponent implements ISystemComponent {
 
     // Register components automatically during instantiation
     protected SystemComponent() {
-        VirtualFunctionBus.registerComponent(this);
+	VirtualFunctionBus.registerComponent(this);
     }
 }
