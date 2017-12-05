@@ -175,7 +175,6 @@ public class PowertrainSystem extends SystemComponent {
 		switch (s.getId()) {
 		case AEB_INTERVENE:
 		     this.gasPedal = 0;
-		     this.shiftingLevel = 0;
 		    /*
 		     * TODO: change this to perform a slow down of 9m/s^2 
 		     */

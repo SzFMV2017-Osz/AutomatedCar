@@ -29,9 +29,9 @@ public class EmergencyBreakSystem extends SystemComponent {
     private static final double MAX_ALLOWED_SPEED = 19.5;
     
     /**
-     * it is 0,75 m
+     * it is 1,25 m
      */
-    private static final double MIN_ALLOWED_DISTANCE = 37.5;
+    private static final double MIN_ALLOWED_DISTANCE = 62.5;
     
     /**
      * it is 9 m/s^2
