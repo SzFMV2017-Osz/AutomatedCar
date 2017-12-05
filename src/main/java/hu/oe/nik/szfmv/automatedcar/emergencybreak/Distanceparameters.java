@@ -13,12 +13,19 @@ public class Distanceparameters implements Comparable<Distanceparameters>{
     public static final Distanceparameters calculateDistanceParameters(AutomatedCar car, IRadarSensor radarObject) {
 
         double minTime = getMinTime(car, radarObject);
-        double minDistance = getMinDistance(car, radarObject, minTime);
+        double minDistance = getDistance(car, radarObject, minTime);
 
         return new Distanceparameters(radarObject, minDistance, minTime);
     }
 
-    private static double getMinDistance(AutomatedCar car, IRadarSensor radarObject, double minTime) {
+    /**
+     * the distance of two objects at a given time
+     * @param car object 1
+     * @param radarObject object 2
+     * @param minTime the time to calculate
+     * @return
+     */
+    private static double getDistance(AutomatedCar car, IRadarSensor radarObject, double minTime) {
         double carX = car.getPosition().getX();
         double carY = car.getPosition().getY();
         double carSpeedX = car.getCurrentSpeed().getX();
@@ -40,6 +47,15 @@ public class Distanceparameters implements Comparable<Distanceparameters>{
                 + Math.pow((minTime * carSpeedY - minTime * objectSpeedY + carY + objectY), 2));
     }
 
+    /**
+     * calculate the moment (t) when the distance between the route of two objects in minimal
+     * 
+     * https://gamedev.stackexchange.com/questions/97337/detect-if-two-objects-are-going-to-collide
+     * 
+     * @param car
+     * @param radarObject
+     * @return
+     */
     private static double getMinTime(AutomatedCar car, IRadarSensor radarObject) {
         double carX = car.getPosition().getX();
         double carY = car.getPosition().getY();
@@ -72,7 +88,7 @@ public class Distanceparameters implements Comparable<Distanceparameters>{
 
     public void recalculate(AutomatedCar car) {
         this.minTime = getMinTime(car, this.getObject());
-        this.minDistance = getMinDistance(car, this.getObject(), this.getMinTime());
+        this.minDistance = getDistance(car, this.getObject(), this.getMinTime());
     }
 
     public IRadarSensor getObject() {
