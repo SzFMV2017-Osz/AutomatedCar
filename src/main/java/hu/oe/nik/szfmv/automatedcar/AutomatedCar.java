@@ -34,12 +34,12 @@ public class AutomatedCar extends MovingObject {
     
     private RadarSensor radarSensor;
 
-    public AutomatedCar(int x, int y, float rotation, String imageFileName, int weight, ModelShape shape, World w) {
+    public AutomatedCar(int x, int y, float rotation, String imageFileName, int weight, ModelShape shape) {
         super(x, y, rotation, imageFileName, weight, shape);
 
         powertrainSystem = new PowertrainSystem(x, y, new PorscheCharacteristics());
         
-        this.radarSensor = new RadarSensor(this, w);
+        this.radarSensor = new RadarSensor(this);
 
         initialize();
     }
