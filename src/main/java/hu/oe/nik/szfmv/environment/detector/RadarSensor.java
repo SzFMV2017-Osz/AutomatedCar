@@ -2,9 +2,7 @@ package hu.oe.nik.szfmv.environment.detector;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.Vector2D;
-import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
-import hu.oe.nik.szfmv.environment.object.Tree;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +25,6 @@ public class RadarSensor implements IRadarSensor {
     private final double REFERENCE_ANGLE = 60;
 
     private AutomatedCar car;
-    
-    public Tree vis1, vis2, vis3;
 
     /**
      * Init un-calculated radar sensor. (points uninitialized. Use
@@ -37,7 +33,7 @@ public class RadarSensor implements IRadarSensor {
      * @param car
      * @param worldObjects
      */
-    public RadarSensor(AutomatedCar car, World world) {
+    public RadarSensor(AutomatedCar car) {
         // store properties
         this.car = car;
         this.updateAngle(); // store in degree
@@ -48,13 +44,6 @@ public class RadarSensor implements IRadarSensor {
         this.a = new Vector2D();
         this.b = new Vector2D();
         this.c = new Vector2D();
-        
-        this.vis1 = new Tree((int)a.getX(), (int)b.getY(), 0f, "not_exists.png", 20);
-        this.vis2 = new Tree((int)a.getX(), (int)b.getY(), 0f, "not_exists.png", 20);
-        this.vis3 = new Tree((int)a.getX(), (int)b.getY(), 0f, "not_exists.png", 20);
-        world.addObjectToWorld(vis1);
-        world.addObjectToWorld(vis2);
-        world.addObjectToWorld(vis3);
     }
 
     /**
@@ -93,10 +82,6 @@ public class RadarSensor implements IRadarSensor {
         // add to reference point
         this.c = this.c.add(this.a);
         this.b = this.b.add(this.a);
-        
-        this.vis1.setPosition(a);
-        this.vis2.setPosition(b);
-        this.vis3.setPosition(c);
     }
 
     private void updateAngle() {
