@@ -43,9 +43,9 @@ public class EmergencyBreakSystem extends SystemComponent {
     private List<Distanceparameters> distanceParameters;
 
     /**
-     * 
-     * @param car
-     * @param radar
+     * creates a new emergencybreaksystem
+     * @param car that is handled by the break system
+     * @param radar the radr on front of the car
      */
     public EmergencyBreakSystem(AutomatedCar car, RadarSensor radar) {
         this.distanceParameters = new ArrayList<>();

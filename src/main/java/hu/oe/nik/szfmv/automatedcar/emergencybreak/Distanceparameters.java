@@ -68,10 +68,9 @@ public class Distanceparameters implements Comparable<Distanceparameters>{
         double objectSpeedY = radarObject.getCurrentSpeed().getY();
 
         /**
-         * [Ax * Avx - Avx * Bx - (Ax - Bx) * Avx] + [Ay * Avy - Avy * By - (Ay
-         * - By) * Bvy] -
-         * ---------------------------------------------------------------------------------
-         * [Avx^2 - 2 * Avx * Bvx + Bvx^2] + [Avy^2 - 2 * Avy * Bvy + Bvy^2]
+         *      [Ax * Avx - Avx * Bx - (Ax - Bx) * Avx] + [Ay * Avy - Avy * By - (Ay- By) * Bvy]
+         * -    ---------------------------------------------------------------------------------
+         *              [Avx^2 - 2 * Avx * Bvx + Bvx^2] + [Avy^2 - 2 * Avy * Bvy + Bvy^2]
          */
         return -(carX * carSpeedX - carSpeedX * objectX - (carX - objectX) * objectSpeedX + carY * carSpeedY
                 - carSpeedY * objectY - (carY - objectY) * objectSpeedY)
