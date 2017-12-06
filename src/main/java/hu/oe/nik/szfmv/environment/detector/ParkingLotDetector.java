@@ -1,30 +1,54 @@
 package hu.oe.nik.szfmv.environment.detector;
 
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
+import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.util.IndexEnum;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class ParkingLotDetector extends SystemComponent{
+import java.util.ArrayList;
+import java.util.List;
 
-    public  ParkingLotDetector(ObjectDetector objDetector)
-    {
-        this.objectDetector = objDetector;
+public class ParkingLotDetector extends SystemComponent {
+
+    public ParkingLotDetector(AutomatedCar playerCar, List<WorldObject> worldObjects) {
+        this.playerCar = playerCar;
+        this.worldObjects = worldObjects;
+        this.isActive = false;
     }
 
-    private ObjectDetector objectDetector;
+    private static final Logger log = LogManager.getLogger();
+
+    private Boolean isActive;
+    private String sideToCheck;
     private String lastRoadSignValue;
     private IndexEnum indexValue;
     private int posX;
     private int posY;
+    private WindscreenCamera detector;
+    private AutomatedCar playerCar;
+    private List<WorldObject> worldObjects;
 
     @Override
     public void loop() {
-        if(indexValue!= IndexEnum.STRAIGHT)
+      /* if (indexValue != IndexEnum.STRAIGHT)
             SearchParkingLot(indexValue);
+            */
     }
 
-    private void SearchParkingLot(IndexEnum indexValue) {
+    public ArrayList<WorldObject> getDetectedObjectsRelevantToParking()
+    {
+        this. detector = new WindscreenCamera(this.playerCar, this.worldObjects, true);
+
+        if (this.detector != null) {
+            return this.detector.GetWorldObjectsInRangeForPatkingLotDetection();
+        }
+
+        else
+            return null;
 
     }
 
@@ -42,13 +66,27 @@ public class ParkingLotDetector extends SystemComponent{
                 posY = Integer.parseInt(s.getData().toString());
                 break;
 
-            case INDEX:
-                indexValue = (IndexEnum)s.getData();
-                break;
-
             case LASTROADSIGN:
                 lastRoadSignValue = s.getData().toString();
 
+            case PARKINGDETECTION:
+                turnOnParkingDetectionIfIndexIsOn();
         }
     }
+
+
+
+    private void turnOnParkingDetectionIfIndexIsOn()
+    {
+        if (!isActive)  //Would need information about the index's state, but it's not implemented...
+        {
+            isActive = true;
+            log.error("TURNED ON PARK DETECT");
+        }
+        else
+        {
+           isActive = false;
+        }
+    }
+
 }

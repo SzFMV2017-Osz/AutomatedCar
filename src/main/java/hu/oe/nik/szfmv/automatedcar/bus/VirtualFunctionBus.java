@@ -37,7 +37,7 @@ public class VirtualFunctionBus {
     public static void sendSignal(Signal s) {
         logger.debug("Broadcast signal " + s.toString());
 
-        // Broadcast the signal to all system components
+        // Broadcast the signal to all system compononents
         for (ISystemComponent comp : components) {
             comp.receiveSignal(s);
         }

@@ -135,6 +135,10 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         if (this.pressedKeyCodes.contains(KeyEvent.VK_3) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD3)) {
             GameDisplayJPanel.changeSensorSensorDebugMode();
         }
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_5) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD5)) {
+            sendToggleParkingDetection();
+        }
     }
 
     @Override
@@ -267,6 +271,15 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
                 new Signal(
                         SignalEnum.BREAKPEDAL,
                         newBreakpedalState
+                )
+        );
+    }
+
+    private void sendToggleParkingDetection() {
+        VirtualFunctionBus.sendSignal(
+                new Signal(
+                        SignalEnum.PARKINGDETECTION,
+                        null
                 )
         );
     }

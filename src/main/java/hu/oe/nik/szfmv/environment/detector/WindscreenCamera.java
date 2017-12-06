@@ -5,6 +5,7 @@ import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv.common.Vector2D;
+import hu.oe.nik.szfmv.environment.model.CollidableObject;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Road;
@@ -16,6 +17,7 @@ import hu.oe.nik.szfmv.environment.xml.Utils;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.function.DoubleToLongFunction;
 
 public class WindscreenCamera extends SystemComponent implements ISensor {
 
@@ -24,13 +26,16 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
     public double rotation;
     public List<WorldObject> worldObjects;
 
+    private static Double ID;
+
     private static final org.apache.logging.log4j.Logger logger = org.apache.logging.log4j.LogManager.getLogger();
     private AutomatedCar playerCar;
     private Point leftRange;
     private Point rightRange;
-    private ArrayList<WorldObject> objectsInRange = new ArrayList<WorldObject>();
+    private HashMap<Double,WorldObject> objectsInRange = new HashMap<Double, WorldObject>();
     private HashMap<WorldObject, Double> filteredRoadObjects = new HashMap<WorldObject, Double>();
     private LinkedHashMap<WorldObject, Double> filteredRoadSignObjectsHashMap = new LinkedHashMap<WorldObject, Double>();
+    private Boolean isParkingLotDetector;
 
     public LinkedHashMap<WorldObject, Double> getFilteredRoadSignObjectsHashMap(){ return this.filteredRoadSignObjectsHashMap; }
 
@@ -48,9 +53,10 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
         return this.rotation;
     }
 
-    public WindscreenCamera(AutomatedCar playerCar, List<WorldObject> worldObjects) {
+    public WindscreenCamera(AutomatedCar playerCar, List<WorldObject> worldObjects, Boolean isParkingLotDetector) {
         this.playerCar = playerCar;
         this.worldObjects = worldObjects;
+        this.isParkingLotDetector = isParkingLotDetector;
         calculateCameraLocation(this.playerCar);
     }
 
@@ -63,6 +69,7 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
     public void loop() {
         updateCameraPosition();
         filterObjectsInRange();
+        removeOldObjectsFromObjectsInRange();
     }
 
     @Override
@@ -83,11 +90,21 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
 
     private void setLeftRange() {
         leftRange = new Point((int)this.getX() -150, (int)this.getY() -150);
+
+        if (isParkingLotDetector) {
+            rotatePointAroundCameraPointByDegreeInDouble(rotation + 90, leftRange);
+            return;
+        }
         rotatePointAroundCameraPointByDegreeInDouble(rotation, leftRange);
     }
 
     private void setRightRange() {
         rightRange = new Point((int) this.getX() + 150, (int) this.getY() - 150);
+
+        if (isParkingLotDetector) {
+            rotatePointAroundCameraPointByDegreeInDouble(rotation + 90, leftRange);
+            return;
+        }
         rotatePointAroundCameraPointByDegreeInDouble(rotation, leftRange);
     }
 
@@ -114,14 +131,29 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
         pointToRotate.setLocation(newPointA, newPointB);
     }
 
+    public ArrayList<WorldObject> GetWorldObjectsInRangeForPatkingLotDetection()
+    {
+        ArrayList<WorldObject> filteredObjectsForParkingLotDetector = new ArrayList<WorldObject>();
+
+        for (WorldObject worldObject : objectsInRange.values())
+        {
+            if(worldObject instanceof CollidableObject)
+            {
+                filteredObjectsForParkingLotDetector.add(worldObject);
+            }
+        }
+
+        return filteredObjectsForParkingLotDetector;
+    }
+
     private void filterObjectsInRange()
     {
-        filteredRoadObjects.clear();
-        filteredRoadSignObjectsHashMap.clear();
-
         for (WorldObject object : worldObjects ) {
             if (objectIsInRange(object))
             {
+                objectsInRange.put(ID, object);
+                ID++;
+
                 if (object.getImageFileName().contains("roadsign"))
                 {
                     filteredRoadSignObjectsHashMap.put(object, calculateDistanceOfRoadSign(
@@ -132,6 +164,17 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
                 {
                     filteredRoadObjects.put(object, new Double(0));
                 }
+            }
+        }
+    }
+
+    private void removeOldObjectsFromObjectsInRange()
+    {
+        for (WorldObject objectToRemove : objectsInRange.values())
+        {
+            if (!(objectIsInRange(objectToRemove)))
+            {
+                objectsInRange.remove(objectToRemove);
             }
         }
     }

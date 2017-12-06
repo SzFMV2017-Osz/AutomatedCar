@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv;
 
+import hu.oe.nik.szfmv.environment.detector.ParkingLotDetector;
 import hu.oe.nik.szfmv.environment.detector.WindscreenCamera;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.model.WorldObjectCollection;
@@ -59,7 +60,9 @@ public class Main {
 
 
         //add WindscreenCamera to the world
-        WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
+        WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects(), false);
+
+        ParkingLotDetector parkingLotDetector = new ParkingLotDetector(playerCar, world.getWorldObjects());
 
         world.addObjectToWorld(playerCar);
 
