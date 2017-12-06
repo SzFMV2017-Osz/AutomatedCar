@@ -39,7 +39,7 @@ public class Distanceparameters implements Comparable<Distanceparameters>{
         /**           _____________________________________
          * \        /
          *  \      / (tmin * Avx - tmin * Bvx + Ax + Bx)^2
-         *   \    /  -------------------------------------
+         *   \    /                    +
          *    \  /   (tmin * Avy - tmin * Bvy + Ay + By)^2
          *     \/
          */
