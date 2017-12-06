@@ -130,7 +130,7 @@ public class CourseDisplay {
         scale = ((double) sizeFrom) / sizeTo;
     }
 
-    public void printToScreenEgoCarWasCollided() {
+    public void printToScreenEgoCarWasCollided(String collidedObject) {
 
         JLabel label = new JLabel("Car collided!", JLabel.CENTER);
         label.setAlignmentX(0);

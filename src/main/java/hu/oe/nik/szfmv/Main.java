@@ -84,7 +84,7 @@ public class Main {
                 logger.error(e.getMessage());
             }
         }
-        userInterFace.printToScreenEgoCarWasCollided();
+        userInterFace.printToScreenEgoCarWasCollided(theCollidedObject);
     }
 
     /**
