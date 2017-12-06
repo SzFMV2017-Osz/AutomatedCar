@@ -13,7 +13,7 @@ public class Sensor extends WorldObject implements ISensor {
 
     public Sensor(double[] xPoints, double[] yPoints, AutomatedCar car, SensorType type) {
         //TODO RENDBE TENNI AZ IAMGE RÉSZT. SENSOR ATALAKITAS SZUKSEGES AZ EGYSÉGES WORLDOBJECT KEZELESHEZ
-        super(0, 0, 0, "road_2lane_45left.png", null);
+        super(0, 0, 0, "tree.png", null);
         this.xPoints = xPoints;
         this.yPoints = yPoints;
         this.car = car;
@@ -35,6 +35,7 @@ public class Sensor extends WorldObject implements ISensor {
     public Shape getShape() {
         AffineTransform t = new AffineTransform();
         t.rotate(car.getRotation(), car.getX(), car.getY());
+        t.translate(car.getX(), car.getY());
 
         return t.createTransformedShape(new Polygon(
                 getRoundedPoints(xPoints),

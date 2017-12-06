@@ -8,12 +8,16 @@ import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Road;
+import hu.oe.nik.szfmv.environment.object.Sensor;
 import hu.oe.nik.szfmv.environment.util.DetectedRoad;
 import hu.oe.nik.szfmv.environment.util.RoadType;
+import hu.oe.nik.szfmv.environment.util.SensorType;
 import hu.oe.nik.szfmv.environment.xml.Utils;
+import javafx.scene.Camera;
 
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
 
@@ -23,6 +27,7 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
     public double Y;
     public double rotation;
     public List<WorldObject> worldObjects;
+    public Sensor camera;
 
     private static final org.apache.logging.log4j.Logger logger = org.apache.logging.log4j.LogManager.getLogger();
     private AutomatedCar playerCar;
@@ -52,6 +57,17 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
         this.playerCar = playerCar;
         this.worldObjects = worldObjects;
         calculateCameraLocation(this.playerCar);
+        connectCamera();
+    }
+
+    private void connectCamera() {
+        for (WorldObject object : worldObjects) {
+            if (object instanceof Sensor) {
+                if (((Sensor) object).getType() == SensorType.CAMERA) {
+                    camera = (Sensor) object;
+                }
+            }
+        }
     }
 
     public void updateCameraPosition() {
@@ -120,24 +136,28 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
         filteredRoadSignObjectsHashMap.clear();
 
         for (WorldObject object : worldObjects ) {
-            if (objectIsInRange(object))
-            {
-                if (object.getImageFileName().contains("roadsign"))
+            if (object.getImageFileName().contains("road")) {
+                Shape cameraShape = (Shape) camera.getShape();
+                Rectangle2D roadShape = (Rectangle2D) object.getShape().getBounds();
+
+                if (cameraShape.intersects(roadShape)) {
+                    filteredRoadObjects.put(object, new Double(0));
+                }
+            }
+            else if (object.getImageFileName().contains("roadsign")) {
+                if (objectIsInRange(object))
                 {
                     filteredRoadSignObjectsHashMap.put(object, calculateDistanceOfRoadSign(
                             new Point((int)object.getPosition().getX(), (int)object.getPosition().getY())
                     ));
-                }
-                else if (object.getImageFileName().contains("road"))
-                {
-                    filteredRoadObjects.put(object, new Double(0));
                 }
             }
         }
     }
 
     private Boolean objectIsInRange(WorldObject object){
-        return (pointIsInRange(new Point((int)object.getX(), (int)object.getY())) ||
+        return (
+                pointIsInRange(new Point((int)object.getX(), (int)object.getY())) ||
                 pointIsInRange(new Point((int)object.getX()+object.getWidth(),
                         (int)object.getY()+object.getHeight())) ||
                         pointIsInRange(new Point((int)object.getX(), (int)object.getY() + object.getHeight() )));
@@ -208,12 +228,13 @@ public class WindscreenCamera extends SystemComponent implements ISensor {
                     detectedRoad.lineKeepingPossible = true;
                     detectedRoad.angleInDegrees = 6;
                     break;
-                case "road_2lanestraight.png":
+                case "road_2lane_straight.png":
                     detectedRoad.radiusLeft = 0;
                     detectedRoad.radiusMiddle = 0;
                     detectedRoad.radiusRight = 0;
                     detectedRoad.lineKeepingPossible = true;
                     detectedRoad.angleInDegrees = 0;
+                    break;
                 default:
                     detectedRoad.radiusLeft = 0;
                     detectedRoad.radiusMiddle = 0;

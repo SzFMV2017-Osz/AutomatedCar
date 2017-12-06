@@ -51,17 +51,20 @@ public class LaneKeeping implements ISystemComponent{
         }
         else {
             isLaneKeepingPossible = false;
+            isLaneKeepingActive = false;
         }
     }
 
     private void calcSteeringWheelState() {
         DetectedRoad road = windscreenCamera.getDetectedRoadInfo();
         if (road.roadDirection == RoadType.RIGHT) {
-            // LANE KEEPING MEGVALÓSÍTÁS....
-
+            System.out.println("Right turn!");
         }
         else if (road.roadDirection == RoadType.LEFT){
-            // LANE KEEPING MEGVALÓSÍTÁS....
+            System.out.println("Left turn!");
+        }
+        else {
+            System.out.println("Straight!");
         }
     }
 

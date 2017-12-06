@@ -56,7 +56,7 @@ public class Main {
         playerCar = new AutomatedCar(2500, 1500, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
                                         (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
 
-
+        addSensorsToWorld(playerCar, world);
 
 
         //add WindscreenCamera to the world
@@ -65,7 +65,7 @@ public class Main {
 
         world.addObjectToWorld(playerCar);
 
-        addSensorsToWorld(playerCar, world);
+
     }
 
     private static void addSensorsToWorld(AutomatedCar playerCar, World world) {
