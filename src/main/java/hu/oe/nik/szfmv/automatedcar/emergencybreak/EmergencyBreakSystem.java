@@ -29,9 +29,10 @@ public class EmergencyBreakSystem extends SystemComponent {
     private static final double MAX_ALLOWED_SPEED = 19.5;
     
     /**
-     * it is 1,25 m
+     * it is 2,5 m
+     * a regular traffic lane's width is between 2,75 and 3 m 
      */
-    private static final double MIN_ALLOWED_DISTANCE = 62.5;
+    private static final double MIN_ALLOWED_DISTANCE = 125;
     
     /**
      * it is 9 m/s^2
