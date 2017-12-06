@@ -98,6 +98,7 @@ public class Main {
             playerCar.isIntersects(collidableObjects.get(i++));
         }
         if (i < numberOfCollidableObjects) {
+            System.out.println(collidableObjects.get(i).getImageFileName());
             return true;
         } else {
             return false;
