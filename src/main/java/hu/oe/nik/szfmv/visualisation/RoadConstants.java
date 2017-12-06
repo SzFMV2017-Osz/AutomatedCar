@@ -26,8 +26,9 @@ public class RoadConstants {
         roadOffsets.put("road_2lane_45right.png", new Coord(RoadConstants.roadWidth, 371));
         roadOffsets.put("road_2lane_90left.png", new Coord(525 - RoadConstants.roadWidth, 525));
         roadOffsets.put("road_2lane_90right.png", new Coord(RoadConstants.roadWidth, 525));
-        roadOffsets.put("road_2lane_6left", new Coord(367 - RoadConstants.roadWidth, 367));
-        roadOffsets.put("road_2lane_6right", new Coord(RoadConstants.roadWidth, 367));
+        //roadOffsets.put("road_2lane_6left.png", new Coord(367 - RoadConstants.roadWidth, 368));
+        roadOffsets.put("road_2lane_6left.png", new Coord(368, 368));
+        roadOffsets.put("road_2lane_6right.png", new Coord(RoadConstants.roadWidth, 368));
         roadOffsets.put("road_2lane_rotary.png", new Coord(0, 1400 / 2 + 350 / 2));
         roadOffsets.put("road_2lane_straight.png", new Coord(0, 0));
         roadOffsets.put("road_2lane_tjunctionleft.png", new Coord(875, 0));

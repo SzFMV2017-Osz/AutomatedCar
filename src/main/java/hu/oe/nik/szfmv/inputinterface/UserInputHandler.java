@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.inputinterface;
 
+import hu.oe.nik.szfmv.automatedcar.LaneKeeping;
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
@@ -11,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -134,6 +136,14 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
 
         if (this.pressedKeyCodes.contains(KeyEvent.VK_3) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD3)) {
             GameDisplayJPanel.changeSensorSensorDebugMode();
+        }
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_L)) {
+            LaneKeeping.changeIsLaneKeepingTurnedOn();
+        }
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_LEFT) || this.pressedKeyCodes.contains(KeyEvent.VK_RIGHT)) {
+            LaneKeeping.turnLaneKeepingOff();
         }
     }
 

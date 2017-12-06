@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.visualisation;
 
+import hu.oe.nik.szfmv.automatedcar.LaneKeeping;
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
@@ -24,6 +25,8 @@ public class Dashboard extends SystemComponent {
     public JLabel PosYLabel;
     public JLabel IndexLabel;
     private JLabel LastRoadSignLabel;
+    private JLabel LaneKeepingPossible;
+    private JLabel LaneKeepingActive;
     public JLabel EmptyLabel;
 
     private String gasPedalValue;
@@ -123,6 +126,14 @@ public class Dashboard extends SystemComponent {
         return roundNumberString(signalData) + "°";
     }
 
+    private String isLaneKeepingActiveToString() {
+        return LaneKeeping.isIsLaneKeepingTurnedOn() ? "Y" : "N";
+    }
+
+    private String isLaneKeepingPossibleToString() {
+        return LaneKeeping.isIsLaneKeepingPossible() ? "Y" : "N";
+    }
+
     private void refreshDisplayedValues() {
         GasPedalLabel.setText(gasPedalValue);
         BrakePedalLabel.setText(brakePedalValue);
@@ -134,6 +145,8 @@ public class Dashboard extends SystemComponent {
         PosYLabel.setText(posYValue);
         IndexLabel.setText(indexValue);
         LastRoadSignLabel.setText(lastRoadSignValue);
+        LaneKeepingActive.setText(isLaneKeepingActiveToString());
+        LaneKeepingPossible.setText(isLaneKeepingPossibleToString());
     }
 
     private String roundNumberString(Object signalData) {

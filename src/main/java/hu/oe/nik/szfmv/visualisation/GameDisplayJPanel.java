@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv.visualisation;
 
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Sensor;
@@ -226,11 +227,18 @@ public class GameDisplayJPanel extends JPanel {
         translation.translate(scaledX, scaledY);
 
         AffineTransform rotation;
-        rotation = AffineTransform.getRotateInstance(
-                -object.getRotation(),
-                offset.getX(),
-                offset.getY());
-
+        if (object instanceof AutomatedCar) {
+            rotation = AffineTransform.getRotateInstance(
+                    object.getRotation(),
+                    offset.getX(),
+                    offset.getY());
+        }
+        else {
+            rotation = AffineTransform.getRotateInstance(
+                    -object.getRotation(),
+                    offset.getX(),
+                    offset.getY());
+        }
         translation.concatenate(rotation);
 
         return translation;

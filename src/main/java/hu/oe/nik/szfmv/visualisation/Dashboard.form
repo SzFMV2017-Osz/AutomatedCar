@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="hu.oe.nik.szfmv.visualisation.Dashboard">
   <grid id="27dc6" binding="jPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
     <constraints>
-      <xy x="20" y="20" width="885" height="31"/>
+      <xy x="20" y="20" width="1025" height="31"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -122,6 +122,30 @@
         </properties>
       </component>
       <component id="625f7" class="javax.swing.JLabel" binding="LastRoadSignLabel">
+        <constraints/>
+        <properties>
+          <text value="Label"/>
+        </properties>
+      </component>
+      <component id="61e3d" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="Lanekeeping possible"/>
+        </properties>
+      </component>
+      <component id="a72f6" class="javax.swing.JLabel" binding="LaneKeepingPossible">
+        <constraints/>
+        <properties>
+          <text value="Label"/>
+        </properties>
+      </component>
+      <component id="bf93f" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="Lanekeeping Active"/>
+        </properties>
+      </component>
+      <component id="d8fe7" class="javax.swing.JLabel" binding="LaneKeepingActive">
         <constraints/>
         <properties>
           <text value="Label"/>

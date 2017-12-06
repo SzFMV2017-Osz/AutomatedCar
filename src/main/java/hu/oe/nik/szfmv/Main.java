@@ -1,5 +1,6 @@
 package hu.oe.nik.szfmv;
 
+import hu.oe.nik.szfmv.automatedcar.LaneKeeping;
 import hu.oe.nik.szfmv.environment.detector.WindscreenCamera;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.model.WorldObjectCollection;
@@ -60,6 +61,7 @@ public class Main {
 
         //add WindscreenCamera to the world
         WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
+        LaneKeeping laneKeeping = new LaneKeeping(windscreenCamera);
 
         world.addObjectToWorld(playerCar);
 
@@ -99,7 +101,7 @@ public class Main {
     private static List<XmlObject> readXmlObjects() {
         List<XmlObject> xmlObjects = new ArrayList<>();
         try {
-            xmlObjects = XmlParser.parse("test_world.xml");
+            xmlObjects = XmlParser.parse("lane_keeping_test_world.xml");
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (IOException e) {
