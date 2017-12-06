@@ -97,7 +97,11 @@ public class Main {
         while (i < numberOfCollidableObjects && !playerCar.isCollided()) {
             playerCar.isIntersects(collidableObjects.get(i++));
         }
-        return i < numberOfCollidableObjects;
+        if (i < numberOfCollidableObjects) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private static void populateWorld(List<XmlObject> xmlObjects, World world) {
