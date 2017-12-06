@@ -13,6 +13,7 @@ public class LaneKeeping implements ISystemComponent{
     private static boolean isLaneKeepingPossible;
     private int steeringWheelState;
     WindscreenCamera windscreenCamera;
+    private double speed;
 
     public LaneKeeping(WindscreenCamera windscreenCamera) {
         this.windscreenCamera = windscreenCamera;
@@ -58,20 +59,34 @@ public class LaneKeeping implements ISystemComponent{
     private void calcSteeringWheelState() {
         DetectedRoad road = windscreenCamera.getDetectedRoadInfo();
         if (road.roadDirection == RoadType.RIGHT) {
-            System.out.println("Right turn!");
+            if (speed < 30) {
+                steeringWheelState = 8;
+            }
+            else {
+                steeringWheelState = 5;
+            }
+
         }
         else if (road.roadDirection == RoadType.LEFT){
-            System.out.println("Left turn!");
+            if (speed < 30) {
+                steeringWheelState = -8;
+            }
+            else {
+                steeringWheelState = -5;
+            }
         }
         else {
-            System.out.println("Straight!");
+            steeringWheelState = 0;
         }
     }
 
 
     @Override
     public void receiveSignal(Signal s) {
-
+        SignalEnum signalType = s.getId();
+        if (signalType == SignalEnum.SPEED) {
+            speed = (double)s.getData();
+        }
     }
 
     private void sendNewSteeringWheelState(int newSteeringWheelState) {
