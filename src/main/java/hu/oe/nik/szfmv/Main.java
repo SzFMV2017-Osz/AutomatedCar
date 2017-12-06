@@ -99,7 +99,7 @@ public class Main {
             playerCar.isIntersects(collidableObjects.get(i++));
         }
         if (i < numberOfCollidableObjects) {
-            theCollidedObject = collidableObjects.get(i).toString();
+            theCollidedObject = collidableObjects.get(i).getWorldObjectName();
             return true;
         } else {
             return false;

@@ -80,11 +80,10 @@ public abstract class CollidableObject extends WorldObject implements ISensor {
      * 
      * @see java.lang.Object#toString()
      */
-    @Override
+    /*@Override
     public String toString() {
         return "CollidableObject [weight=" + weight + ", collided=" + collided + ", x=" + this.getX() + ", y="
                 + this.getY() + ", rotation=" + this.getRotation() + ", getWidth()=" + getWidth() + ", getHeight()="
                 + getHeight() + ", getImageFileName()=" + getImageFileName() + ", getShape()=" + getShape() + "]";
-    }
-
+    }*/
 }
