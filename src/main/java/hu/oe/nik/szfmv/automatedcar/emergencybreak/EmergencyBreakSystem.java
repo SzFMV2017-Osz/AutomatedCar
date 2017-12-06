@@ -111,15 +111,15 @@ public class EmergencyBreakSystem extends SystemComponent {
         }
         
         /*
-         * the break distance is calculated regarding the car's current speed and max break deceleration
+         * the stopping time is calculated regarding the car's current speed and max break deceleration
          * an additional 5% is used just to be sure we break in time
          */
-        double breakDistance = (car.getCurrentSpeed().abs()/MAX_BREAK_SLOW) *1.05;
+        double stopTime = (car.getCurrentSpeed().abs()/MAX_BREAK_SLOW) *1.05;
         
         /*
          * if there is an object whitin the break distance we activate the AEB
          */
-        if (potentialThreats.stream().anyMatch(o -> distanceToCar(o) <= breakDistance)){ 
+        if (potentialThreats.stream().anyMatch(o -> o.getMinTime() <= stopTime)){ 
             VirtualFunctionBus.sendSignal(new Signal(SignalEnum.AEB_INTERVENE,this));
         } else {
         /*
@@ -168,15 +168,15 @@ public class EmergencyBreakSystem extends SystemComponent {
         }
 
         /*
-         * the break distance is calculated regarding the car's current speed and max break deceleration
+         * the stopping time is calculated regarding the car's current speed and max break deceleration
          * an additional 5% is used just to be sure we break in time
          */
-        double breakDistance = (car.getCurrentSpeed().abs()/MAX_BREAK_SLOW) *1.05;
+        double stopTime = (car.getCurrentSpeed().abs()/MAX_BREAK_SLOW) *1.05;
 
         /*
          * if there is an object whitin the break distance we activate the AEB
          */
-        if (potentialThreats.stream().anyMatch(o -> distanceToCar(o) <= breakDistance)){
+        if (potentialThreats.stream().anyMatch(o -> o.getMinTime() <= stopTime)){
             VirtualFunctionBus.sendSignal(new Signal(SignalEnum.AEB_INTERVENE,this));
             return true;
         } else {
@@ -188,16 +188,6 @@ public class EmergencyBreakSystem extends SystemComponent {
         return false;
     }
 
-    private double distanceToCar(Distanceparameters o) {
-        
-        Vector2D futureDistance = o.getObject().getPosition().add(o.getObject().getCurrentSpeed().mult(o.getMinTime()));
-        
-        /**     _______________________
-         *  \  / (Ax-Bx)^2 + (Ay-By)^2
-         *   \/
-         */
-        return Math.sqrt(Math.pow(car.getPosition().getX() - futureDistance.getX(),2) +Math.pow(car.getPosition().getY() - futureDistance.getY(),2));
-    }
 
     @Override
     public void receiveSignal(Signal s) {
