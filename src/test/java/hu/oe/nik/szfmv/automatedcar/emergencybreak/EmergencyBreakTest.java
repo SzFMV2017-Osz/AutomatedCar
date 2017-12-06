@@ -29,22 +29,26 @@ public class EmergencyBreakTest {
     private MockCarMoving movingmockCar;
     private RadarSensor mockSensor;
     private RadarSensor movingmockSensor;
-    private Tree mockTree;
-    List<WorldObject> worldObjects;
+    private Tree mockTree,movingTree;
+    List<WorldObject> worldObjects,movingWorldObjects;
     @Before
     public void createObject(){
         this.mockCar=new AutomatedCar(2500, 1500, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
                 (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
         this.mockTree=new Tree(2600,1500,0,"tree.png", 50);
+        this.movingTree=new Tree(25,10,0,"tree.png", 50);
         worldObjects=new ArrayList<>();
+        movingWorldObjects=new ArrayList<>();
         worldObjects.addAll(Arrays.asList(mockTree));
+        movingWorldObjects.addAll(Arrays.asList(movingTree));
         this.mockSensor=new RadarSensor(mockCar,worldObjects);
         this.emergencyBreak=new EmergencyBreakSystem(mockCar,mockSensor);
-        this.movingmockCar=new MockCarMoving(2550, 1500, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
+        this.movingmockCar=new MockCarMoving(0, 0, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
                 (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
-        this.movingmockSensor=new RadarSensor(movingmockCar,worldObjects);
+        this.movingmockSensor=new RadarSensor(movingmockCar,movingWorldObjects);
         this.movingemergencyBreak=new EmergencyBreakSystem(movingmockCar,movingmockSensor);
     }
+
     @Test
     public void testStandingSignal(){
         mockSensor.updateRadarPosition();
