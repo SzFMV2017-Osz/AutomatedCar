@@ -86,7 +86,7 @@ public class EmergencyBreakSystem extends SystemComponent {
         if (distanceParameters.isEmpty()){
             return;
         }
-        
+
         /**
          * remove objects where min distance is in the past:
          *  that means the objects are moving away from each other
@@ -127,9 +127,66 @@ public class EmergencyBreakSystem extends SystemComponent {
          */
             VirtualFunctionBus.sendSignal(new Signal(SignalEnum.AEB_WARN,this));
         }
-        
+
     }
     
+    public boolean DetectPotentialCollision() {
+        List<IRadarSensor> inRange = radar.getRadarObjectsInRange();
+        this.distanceParameters.clear();
+        for (IRadarSensor iRadarSensor : inRange) {
+            this.distanceParameters.add(Distanceparameters.calculateDistanceParameters(car, iRadarSensor));
+        }
+
+        /**
+         * no objects in sight of the radar --> AEB reamins inactive
+         */
+        if (distanceParameters.isEmpty()){
+            return false;
+        }
+
+        /**
+         * remove objects where min distance is in the past:
+         *  that means the objects are moving away from each other
+         */
+        distanceParameters.removeIf(dp -> dp.minTime < 0);
+        distanceParameters.sort(null);
+
+        /**
+         * if the min distance of the route is less than 0,75 m than it is a potential threat
+         *
+         * it may avoid the oncoming traffic
+         * and also wh may avoid calculating the dimensions
+         *
+         */
+        List<Distanceparameters> potentialThreats = distanceParameters.stream().filter(o -> o.minDistance < MIN_ALLOWED_DISTANCE).collect(Collectors.toList());
+
+        /**
+         * no potential threat -->  AEB remains inactive
+         */
+        if (potentialThreats.isEmpty()){
+            return false;
+        }
+
+        /*
+         * the break distance is calculated regarding the car's current speed and max break deceleration
+         * an additional 5% is used just to be sure we break in time
+         */
+        double breakDistance = (car.getCurrentSpeed().abs()/MAX_BREAK_SLOW) *1.05;
+
+        /*
+         * if there is an object whitin the break distance we activate the AEB
+         */
+        if (potentialThreats.stream().anyMatch(o -> distanceToCar(o) <= breakDistance)){
+            VirtualFunctionBus.sendSignal(new Signal(SignalEnum.AEB_INTERVENE,this));
+            return true;
+        } else {
+        /*
+         * else we just warn
+         */
+            VirtualFunctionBus.sendSignal(new Signal(SignalEnum.AEB_WARN,this));
+        }
+        return false;
+    }
 
     private double distanceToCar(Distanceparameters o) {
         

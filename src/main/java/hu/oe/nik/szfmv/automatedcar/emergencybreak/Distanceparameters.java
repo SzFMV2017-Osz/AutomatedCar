@@ -43,8 +43,8 @@ public class Distanceparameters implements Comparable<Distanceparameters>{
          *    \  /   (tmin * Avy - tmin * Bvy + Ay + By)^2
          *     \/
          */
-        return Math.sqrt(Math.pow((minTime * carSpeedX - minTime * objectSpeedX + carX + objectX), 2)
-                + Math.pow((minTime * carSpeedY - minTime * objectSpeedY + carY + objectY), 2));
+        return (Math.sqrt(Math.pow((minTime * carSpeedX - minTime * objectSpeedX + carX + objectX), 2)
+                + Math.pow((minTime * carSpeedY - minTime * objectSpeedY + carY + objectY), 2)));
     }
 
     /**
