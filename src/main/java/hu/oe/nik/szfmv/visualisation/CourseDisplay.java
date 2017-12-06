@@ -135,7 +135,7 @@ public class CourseDisplay {
         JLabel label = new JLabel("Car collided with: " + collidedObject + "!", JLabel.CENTER);
         label.setAlignmentX(0);
         label.setAlignmentY(0);
-        label.setFont(new Font("Calibri", Font.BOLD, 20));
+        label.setFont(new Font("Calibri", Font.BOLD, 30));
         label.setForeground(Color.RED);
         frame.add(label);
 
