@@ -132,7 +132,7 @@ public class CourseDisplay {
 
     public void printToScreenEgoCarWasCollided() {
 
-        JLabel label = new JLabel("EGO car was collided!", JLabel.CENTER);
+        JLabel label = new JLabel("Car collided!", JLabel.CENTER);
         label.setAlignmentX(0);
         label.setAlignmentY(0);
         label.setFont(new Font("Calibri", Font.BOLD, 70));
