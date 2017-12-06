@@ -1,90 +1,114 @@
 package hu.oe.nik.szfmv;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
-import hu.oe.nik.szfmv.automatedcar.Driver;
-import hu.oe.nik.szfmv.environment.model.World;
+import hu.oe.nik.szfmv.environment.detector.WindscreenCamera;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
-import hu.oe.nik.szfmv.environment.object.Car;
+import hu.oe.nik.szfmv.environment.model.WorldObjectCollection;
+import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.environment.factory.SensorObjectFactory;
+import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
+import hu.oe.nik.szfmv.environment.factory.ImageResource;
+import hu.oe.nik.szfmv.environment.factory.WorldObjectFactory;
+import hu.oe.nik.szfmv.environment.model.World;
+import hu.oe.nik.szfmv.environment.object.Sensor;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 import hu.oe.nik.szfmv.environment.xml.XmlObject;
 import hu.oe.nik.szfmv.environment.xml.XmlParser;
 import hu.oe.nik.szfmv.visualisation.CourseDisplay;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+//import hu.oe.nik.szfmv.environment.model.WorldObject;
 
 public class Main {
 
-	private static final Logger logger = LogManager.getLogger();
-	private static final int CYCLE_PERIOD = 40;
+    private static final Logger logger = LogManager.getLogger();
 
-	public static void main(String[] args) {
-		CourseDisplay vis = new CourseDisplay();
+    private static final int CYCLE_PERIOD = 40;
+    private static CourseDisplay userInterFace;
+    private static AutomatedCar playerCar;
 
-		// create the world
-		// TODO: get this from xml
-		World w = new World(5120, 3000);
-		// create an automated car
+    public static void main(String[] args) {
+        init();
 
-		// !ONLY FOR TESTING!
-		testInitFromXml(w);
+        mainLoop();
+    }
 
-		// init visualisation module with the world
-		vis.init(w);
+    private static void init() {
+        userInterFace = new CourseDisplay();
 
-		// create an automated car
-		AutomatedCar playerCar = new AutomatedCar(340, 0, 0, 102, 208, "car_2_white.png", ModelShape.RECTENGULAR);
-		// place a driver into the car for demonstrating the signal sending mechanism
-		Driver testDriver = new Driver();
-		Car car = Car.builder().position(500, 500).rotation(0).dimension(100, 100).weight(1000).color("black").build();
-		// add playerCar to the world
-		w.addObjectToWorld(playerCar);
-		// add Car to the world
-		w.addObjectToWorld(car);
-		car.accelerate(-25);
-		// Test drive mode
-		testDriver.runTestDrive();
-		// Enable circular test track
-		playerCar.initTestmode();
-		while (true) {
-			try {
-				car.move();
-				playerCar.drive();
-				vis.refreshFrame();
-				Thread.sleep(CYCLE_PERIOD);
-			} catch (InterruptedException e) {
-				logger.error(e.getMessage());
-			}
-		}
-	}
+        // create the world
+        List<XmlObject> xmlObjects = readXmlObjects();
 
-	// !ONLY FOR TESTING!
-	private static void testInitFromXml(World w) {
-        logger.log(Level.WARN, "@Team1: fix this, WorldObject initialization method is only for testing");
-        List<XmlObject> xmlo = new ArrayList<>();
-        try {
-            xmlo = XmlParser.parse("test_world.xml");
-        } catch (Exception e) {
-            logger.error(e.getMessage());
+        World world = new World(XmlParser.getWorldDimensions()[0], XmlParser.getWorldDimensions()[1]);
+
+        populateWorld(xmlObjects, world);
+
+        userInterFace.init(world);
+
+        playerCar = new AutomatedCar(2500, 1500, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
+                                        (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
+
+
+
+
+        //add WindscreenCamera to the world
+        WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
+
+        world.addObjectToWorld(playerCar);
+
+        addSensorsToWorld(playerCar, world);
+    }
+
+    private static void addSensorsToWorld(AutomatedCar playerCar, World world) {
+        List<Sensor> sensors = SensorObjectFactory.createAllSensor(playerCar);
+
+        for (Sensor item : sensors) {
+            world.addObjectToWorld(item);
         }
+    }
 
-        try {
-            for (XmlObject item : xmlo) {
-                w.addObjectToWorld(
-                        new WorldObject(
-                                item.getX(),
-                                item.getY(),
-                                -(float) ((double) item.getRotation() / 180 * Math.PI),
-                                10,
-                                10,
-                                item.getType().getXmlName() + ".png",
-                                null));
-	            }
-        } catch (Exception e) {
+    private static void mainLoop() {
+        while (true) {
+            try {
+                playerCar.drive();
+                userInterFace.refreshFrame();
+                Thread.sleep(CYCLE_PERIOD);
+            } catch (InterruptedException e) {
+                logger.error(e.getMessage());
+            }
         }
+    }
+
+    private static void populateWorld(List<XmlObject> xmlObjects, World world) {
+        for (XmlObject item : xmlObjects) {
+            try {
+                world.addObjectToWorld(WorldObjectFactory.createWorldObject(item));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static List<XmlObject> readXmlObjects() {
+        List<XmlObject> xmlObjects = new ArrayList<>();
+        try {
+            xmlObjects = XmlParser.parse("test_world.xml");
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        }
+        return xmlObjects;
     }
 }
