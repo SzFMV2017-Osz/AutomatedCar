@@ -1,8 +1,5 @@
 package hu.oe.nik.szfmv.visualisation;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.inputinterface.UserInputHandler;
@@ -10,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
-
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -29,6 +26,7 @@ public class CourseDisplay {
         frame.repaint();
 
     }
+
     double distance = 0;
     Vector2D prev;
     Vector2D current;
@@ -57,22 +55,21 @@ public class CourseDisplay {
         frame.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int x=e.getX();
-                int y=e.getY();
-                System.out.println(x+","+y);//these co-ords are relative to the component
+                int x = e.getX();
+                int y = e.getY();
+                System.out.println(x + "," + y);//these co-ords are relative to the component
 
 
-                current = new Vector2D(x,y);
+                current = new Vector2D(x, y);
 
-                if (prev !=null)
-                {
-                    System.out.println("Curr dist: "+Math.abs(Math.hypot(prev.getX()-current.getX(),prev.getY()-current.getY())));//these co-ords are relative to the component
-                    distance+= Math.abs(Math.hypot(prev.getX()-current.getX(),prev.getY()-current.getY()));
+                if (prev != null) {
+                    System.out.println("Curr dist: " + Math.abs(Math.hypot(prev.getX() - current.getX(), prev.getY() - current.getY())));//these co-ords are relative to the component
+                    distance += Math.abs(Math.hypot(prev.getX() - current.getX(), prev.getY() - current.getY()));
                 }
 
 
                 prev = current;
-                System.out.println("dist: "+distance);//these co-ords are relative to the component
+                System.out.println("dist: " + distance);//these co-ords are relative to the component
             }
 
             @Override
@@ -133,4 +130,17 @@ public class CourseDisplay {
         scale = ((double) sizeFrom) / sizeTo;
     }
 
+    public void printToScreenEgoCarWasCollided() {
+
+        JLabel label = new JLabel("Car collided!", JLabel.CENTER);
+        label.setAlignmentX(0);
+        label.setAlignmentY(0);
+        label.setFont(new Font("Calibri", Font.BOLD, 70));
+        label.setForeground(Color.red);
+        frame.add(label);
+
+        frame.invalidate();
+        frame.validate();
+        frame.repaint();
+    }
 }

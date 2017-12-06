@@ -2,7 +2,6 @@ package hu.oe.nik.szfmv;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
-import hu.oe.nik.szfmv.environment.detector.WindscreenCamera;
 import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.factory.SensorObjectFactory;
 import hu.oe.nik.szfmv.environment.factory.WorldObjectFactory;
@@ -55,8 +54,8 @@ public class Main {
                 (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
 
 
-        //add WindscreenCamera to the world
-        WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
+        // add WindscreenCamera to the world
+        // WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
 
         world.addObjectToWorld(playerCar);
 
@@ -84,6 +83,7 @@ public class Main {
                 logger.error(e.getMessage());
             }
         }
+        userInterFace.printToScreenEgoCarWasCollided();
     }
 
     /**
@@ -97,11 +97,7 @@ public class Main {
         while (i < numberOfCollidableObjects && !playerCar.isCollided()) {
             playerCar.isIntersects(collidableObjects.get(i++));
         }
-        if (i < numberOfCollidableObjects) {
-            return true;
-        } else {
-            return false;
-        }
+        return i < numberOfCollidableObjects;
     }
 
     private static void populateWorld(List<XmlObject> xmlObjects, World world) {
@@ -118,13 +114,7 @@ public class Main {
         List<XmlObject> xmlObjects = new ArrayList<>();
         try {
             xmlObjects = XmlParser.parse("test_world.xml");
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (XPathExpressionException e) {
+        } catch (ParserConfigurationException | IOException | SAXException | XPathExpressionException e) {
             e.printStackTrace();
         }
         return xmlObjects;
