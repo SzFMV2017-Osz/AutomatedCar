@@ -31,6 +31,7 @@ public class Main {
     private static AutomatedCar playerCar;
     private static ArrayList<WorldObject> collidableObjects;
     private static int numberOfCollidableObjects;
+    private static String theCollidedObject;
 
     public static void main(String[] args) {
         init();
@@ -98,7 +99,7 @@ public class Main {
             playerCar.isIntersects(collidableObjects.get(i++));
         }
         if (i < numberOfCollidableObjects) {
-            System.out.println(collidableObjects.get(i).toString());
+            theCollidedObject = collidableObjects.get(i).toString();
             return true;
         } else {
             return false;
