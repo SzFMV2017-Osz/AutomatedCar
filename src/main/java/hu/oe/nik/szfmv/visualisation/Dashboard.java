@@ -8,10 +8,8 @@ import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 
 import javax.swing.*;
 
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.math.RoundingMode;
 
 public class Dashboard extends SystemComponent {
     private JPanel jPanel;
@@ -127,7 +125,7 @@ public class Dashboard extends SystemComponent {
     }
 
     private String isLaneKeepingActiveToString() {
-        return LaneKeeping.isIsLaneKeepingTurnedOn() ? "Y" : "N";
+        return LaneKeeping.isIsLaneKeepingActive() ? "Y" : "N";
     }
 
     private String isLaneKeepingPossibleToString() {

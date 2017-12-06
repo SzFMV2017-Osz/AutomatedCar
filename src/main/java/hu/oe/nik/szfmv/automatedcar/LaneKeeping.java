@@ -9,9 +9,9 @@ import hu.oe.nik.szfmv.environment.util.RoadType;
 
 public class LaneKeeping implements ISystemComponent{
 
-    private static boolean isLaneKeepingTurnedOn;
+    private static boolean isLaneKeepingActive;
     private static boolean isLaneKeepingPossible;
-    private int steeringWheelState = 40;
+    private int steeringWheelState;
     WindscreenCamera windscreenCamera;
 
     public LaneKeeping(WindscreenCamera windscreenCamera) {
@@ -20,11 +20,11 @@ public class LaneKeeping implements ISystemComponent{
     }
 
     public static void changeIsLaneKeepingTurnedOn() {
-        if (isLaneKeepingTurnedOn) {
-            isLaneKeepingTurnedOn = false;
+        if (!isLaneKeepingActive && isLaneKeepingPossible) {
+            isLaneKeepingActive = true;
         }
         else {
-            isLaneKeepingTurnedOn = true;
+            isLaneKeepingActive = false;
         }
     }
 
@@ -32,19 +32,19 @@ public class LaneKeeping implements ISystemComponent{
         return isLaneKeepingPossible;
     }
 
-    public static boolean isIsLaneKeepingTurnedOn() {
-        return isLaneKeepingTurnedOn;
+    public static boolean isIsLaneKeepingActive() {
+        return isLaneKeepingActive;
     }
 
     public static void turnLaneKeepingOff() {
-        isLaneKeepingTurnedOn = false;
+        isLaneKeepingActive = false;
     }
 
     @Override
     public void loop() {
         if (windscreenCamera.getDetectedRoadInfo().lineKeepingPossible) {
             isLaneKeepingPossible = true;
-            if (isLaneKeepingTurnedOn) {
+            if (isLaneKeepingActive) {
                 calcSteeringWheelState();
                 this.sendNewSteeringWheelState(this.steeringWheelState);
             }
