@@ -1,6 +1,8 @@
 package hu.oe.nik.szfmv;
 
+import hu.oe.nik.szfmv.automatedcar.adaptivetempomat.AdaptiveTempomat;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
+import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
 import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.factory.SensorObjectFactory;
@@ -31,6 +33,8 @@ public class Main {
     private static AutomatedCar playerCar;
     private static ArrayList<WorldObject> collidableObjects;
     private static int numberOfCollidableObjects;
+
+    private static AdaptiveTempomat adaptiveTempomat;
 
     public static void main(String[] args) {
         init();
@@ -63,6 +67,14 @@ public class Main {
 
         collidableObjects = world.getWorldObjectsFiltered().getCollidable();
         numberOfCollidableObjects = collidableObjects.size();
+
+        // Register tempomat on the bus
+        Main.adaptiveTempomat = new AdaptiveTempomat();
+//        VirtualFunctionBus.registerComponent(Main.adaptiveTempomat);
+
+        // DELETE
+//        Main.adaptiveTempomat.turnOn();
+        // DELETE
     }
 
     private static void addSensorsToWorld(AutomatedCar playerCar, World world) {

@@ -4,13 +4,12 @@ import hu.oe.nik.szfmv.automatedcar.SystemComponent;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.VirtualFunctionBus;
+import hu.oe.nik.szfmv.automatedcar.adaptivetempomat.TempomatStatus;
 
 import javax.swing.*;
 
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.math.RoundingMode;
 
 public class Dashboard extends SystemComponent {
     private JPanel jPanel;
@@ -24,6 +23,9 @@ public class Dashboard extends SystemComponent {
     public JLabel PosYLabel;
     public JLabel IndexLabel;
     private JLabel LastRoadSignLabel;
+    private JLabel TempomatStatus;
+    private JLabel TempomatTargetSpeed;
+    private JLabel TempomatFollowDistance;
     public JLabel EmptyLabel;
 
     private String gasPedalValue;
@@ -36,6 +38,9 @@ public class Dashboard extends SystemComponent {
     private String transmissionValue;
     private String indexValue;
     private String lastRoadSignValue;
+    private String tempomatStatusValue;
+    private String tempomatTargetSpeedValue;
+    private String tempomatFollowDistanceValue;
 
     public Dashboard() {
     }
@@ -94,8 +99,19 @@ public class Dashboard extends SystemComponent {
 
             case LASTROADSIGN:
                 lastRoadSignValue = s.getData().toString();
+                break;
+
+            case TEMPOMAT:
+                fetchTempomatStatus((TempomatStatus) s.getData());
+                break;
 
         }
+    }
+
+    private void fetchTempomatStatus(TempomatStatus status) {
+        tempomatStatusValue = status.isOn() ? "On" : "Off";
+        tempomatTargetSpeedValue = String.valueOf(status.getTargetSpeed());
+        tempomatFollowDistanceValue = String.valueOf(status.getFollowDistance());
     }
 
     private String gasPedalDataToString(Object signalData) {
@@ -134,6 +150,9 @@ public class Dashboard extends SystemComponent {
         PosYLabel.setText(posYValue);
         IndexLabel.setText(indexValue);
         LastRoadSignLabel.setText(lastRoadSignValue);
+        TempomatStatus.setText(tempomatStatusValue);
+        TempomatTargetSpeed.setText(tempomatTargetSpeedValue);
+        TempomatFollowDistance.setText(tempomatFollowDistanceValue);
     }
 
     private String roundNumberString(Object signalData) {

@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="hu.oe.nik.szfmv.visualisation.Dashboard">
   <grid id="27dc6" binding="jPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
     <constraints>
-      <xy x="20" y="20" width="885" height="31"/>
+      <xy x="20" y="20" width="1152" height="61"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -125,6 +125,42 @@
         <constraints/>
         <properties>
           <text value="Label"/>
+        </properties>
+      </component>
+      <component id="56b1a" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="TempomatStatus"/>
+        </properties>
+      </component>
+      <component id="7276a" class="javax.swing.JLabel" binding="TempomatStatus">
+        <constraints/>
+        <properties>
+          <text value="Label"/>
+        </properties>
+      </component>
+      <component id="cced6" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="TempomatTargetSpeed"/>
+        </properties>
+      </component>
+      <component id="26196" class="javax.swing.JLabel" binding="TempomatTargetSpeed">
+        <constraints/>
+        <properties>
+          <text value="0"/>
+        </properties>
+      </component>
+      <component id="a2d44" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="TempomatFollowDistance"/>
+        </properties>
+      </component>
+      <component id="70431" class="javax.swing.JLabel" binding="TempomatFollowDistance">
+        <constraints/>
+        <properties>
+          <text value="0.8"/>
         </properties>
       </component>
     </children>

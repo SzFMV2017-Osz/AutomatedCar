@@ -1,6 +1,7 @@
 package hu.oe.nik.szfmv.inputinterface;
 
 import hu.oe.nik.szfmv.automatedcar.SystemComponent;
+import hu.oe.nik.szfmv.automatedcar.adaptivetempomat.TempomatControlEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.AutoTransmissionEnum;
 import hu.oe.nik.szfmv.automatedcar.bus.Signal;
 import hu.oe.nik.szfmv.automatedcar.bus.SignalEnum;
@@ -137,6 +138,23 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
         if (this.pressedKeyCodes.contains(KeyEvent.VK_3) || this.pressedKeyCodes.contains(KeyEvent.VK_NUMPAD3)) {
             GameDisplayJPanel.changeSensorSensorDebugMode();
         }
+
+        /*----------------------
+        *   Tempomat controls
+        *----------------------*/
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_T)) {
+            VirtualFunctionBus.sendSignal(new Signal(SignalEnum.TEMPOMATCONTROL, TempomatControlEnum.TOGGLE));
+        }
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_PLUS)) {
+            VirtualFunctionBus.sendSignal(new Signal(SignalEnum.TEMPOMATCONTROL, TempomatControlEnum.INCREASE_TARGET_SPEED));
+        }
+
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_MINUS)) {
+            VirtualFunctionBus.sendSignal(new Signal(SignalEnum.TEMPOMATCONTROL, TempomatControlEnum.DECREASE_TARGET_SPEED));
+        }
+
     }
 
     @Override
