@@ -5,6 +5,7 @@ public enum TempomatControlEnum {
     TURN_ON,
     TURN_OFF,
     TOGGLE,
+    USEROVERRIDE,
     INCREASE_TARGET_SPEED,
     DECREASE_TARGET_SPEED
 }

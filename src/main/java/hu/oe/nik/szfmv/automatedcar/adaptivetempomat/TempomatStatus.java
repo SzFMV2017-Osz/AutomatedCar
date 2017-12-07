@@ -50,9 +50,19 @@ public class TempomatStatus {
         return getTargetSpeed();
     }
 
-    public void turnOn() {
+    public void turnOn(double currentSpeed) {
         VirtualFunctionBus.sendSignal(new Signal(SignalEnum.AUTOTRANSMISSION, AutoTransmissionEnum.D));
         this.isOn = true;
+
+        // Init tempomat
+        if (this.getTargetSpeed() < TempomatStatus.MIN_TARGET_SPEED) {
+            if (currentSpeed < TempomatStatus.MIN_TARGET_SPEED) {
+                this.setTargetSpeed(TempomatStatus.MIN_TARGET_SPEED);
+            } else {
+                this.setTargetSpeed(currentSpeed);
+            }
+        }
+        System.out.println(this.targetSpeed);
     }
 
     public void turnOff() {

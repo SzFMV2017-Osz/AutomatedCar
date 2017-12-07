@@ -9,9 +9,10 @@ public class AdaptiveTempomat extends SystemComponent {
 
     private TempomatStatus status;
     private double currentSpeed;
+    private int gasPedalState;
+    private boolean isOverrided;
 
     public AdaptiveTempomat() {
-//        VirtualFunctionBus.registerComponent(this);
         status = new TempomatStatus();
         this.status.turnOff();
     }
@@ -19,9 +20,16 @@ public class AdaptiveTempomat extends SystemComponent {
     @Override
     public void loop() {
         if (status.isOn()) {
-            VirtualFunctionBus.sendSignal(new Signal(SignalEnum.GASPEDAL, 100));
+            int delta = (int) (status.getTargetSpeed() - this.currentSpeed);
+            if (!isOverrided) {
+                delta = Math.min(100, Math.max(1, delta * 100));
+                System.out.println("Tempomat control: " + delta);
+                VirtualFunctionBus.sendSignal(new Signal(SignalEnum.GASPEDAL, delta));
+            } else {
+                System.out.println("User control.");
+            }
         }
-//        VirtualFunctionBus.sendSignal(new Signal(SignalEnum.TEMPOMAT, status));
+        VirtualFunctionBus.sendSignal(new Signal(SignalEnum.TEMPOMAT, status));
     }
 
     @Override
@@ -32,7 +40,7 @@ public class AdaptiveTempomat extends SystemComponent {
             if (tempomat != null) {
                 switch (tempomat) {
                     case TURN_ON:
-                        status.turnOn();
+                        status.turnOn(this.currentSpeed);
                         break;
                     case TURN_OFF:
                         status.turnOff();
@@ -43,13 +51,14 @@ public class AdaptiveTempomat extends SystemComponent {
                             status.turnOff();
                         } else {
                             System.out.println("Turning tempomat on...");
-                            status.turnOn();
+                            status.turnOn(this.currentSpeed);
                         }
                         break;
                 }
             }
         }
         if (status.isOn()) {
+            this.isOverrided = false;
             switch (s.getId()) {
                 case SPEED:
                     this.currentSpeed = (double) s.getData();
@@ -62,7 +71,13 @@ public class AdaptiveTempomat extends SystemComponent {
                         case DECREASE_TARGET_SPEED:
                             status.decreaseTargetSpeed();
                             break;
+                        case USEROVERRIDE: {
+                            this.isOverrided = true;
+                        }
                     }
+                    break;
+                case GASPEDAL:
+                    this.gasPedalState = (int) s.getData();
                 default:
             }
         }

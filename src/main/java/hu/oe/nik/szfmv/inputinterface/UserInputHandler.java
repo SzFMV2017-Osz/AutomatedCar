@@ -147,11 +147,11 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
             VirtualFunctionBus.sendSignal(new Signal(SignalEnum.TEMPOMATCONTROL, TempomatControlEnum.TOGGLE));
         }
 
-        if (this.pressedKeyCodes.contains(KeyEvent.VK_PLUS)) {
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_Q)) {
             VirtualFunctionBus.sendSignal(new Signal(SignalEnum.TEMPOMATCONTROL, TempomatControlEnum.INCREASE_TARGET_SPEED));
         }
 
-        if (this.pressedKeyCodes.contains(KeyEvent.VK_MINUS)) {
+        if (this.pressedKeyCodes.contains(KeyEvent.VK_A)) {
             VirtualFunctionBus.sendSignal(new Signal(SignalEnum.TEMPOMATCONTROL, TempomatControlEnum.DECREASE_TARGET_SPEED));
         }
 
@@ -278,6 +278,12 @@ public final class UserInputHandler extends SystemComponent implements KeyListen
                 new Signal(
                         SignalEnum.GASPEDAL,
                         newGaspedalState
+                )
+        );
+        VirtualFunctionBus.sendSignal(
+                new Signal(
+                        SignalEnum.TEMPOMATCONTROL,
+                        TempomatControlEnum.USEROVERRIDE
                 )
         );
     }
