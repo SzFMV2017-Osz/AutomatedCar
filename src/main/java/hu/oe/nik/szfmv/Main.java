@@ -31,6 +31,7 @@ public class Main {
     private static AutomatedCar playerCar;
     private static ArrayList<WorldObject> collidableObjects;
     private static int numberOfCollidableObjects;
+    private static String theCollidedObject;
 
     public static void main(String[] args) {
         init();
@@ -83,7 +84,7 @@ public class Main {
                 logger.error(e.getMessage());
             }
         }
-        userInterFace.printToScreenEgoCarWasCollided();
+        userInterFace.printToScreenEgoCarWasCollided(theCollidedObject);
     }
 
     /**
@@ -97,7 +98,12 @@ public class Main {
         while (i < numberOfCollidableObjects && !playerCar.isCollided()) {
             playerCar.isIntersects(collidableObjects.get(i++));
         }
-        return i < numberOfCollidableObjects;
+        if (i < numberOfCollidableObjects) {
+            theCollidedObject = collidableObjects.get(i).getWorldObjectName();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private static void populateWorld(List<XmlObject> xmlObjects, World world) {
