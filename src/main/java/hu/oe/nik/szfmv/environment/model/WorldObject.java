@@ -27,7 +27,6 @@ public abstract class WorldObject implements ICameraSensor {
     Vector2D position;
     // objektum forgatása
     double rotation;
-    
 
 
     /**
@@ -41,12 +40,6 @@ public abstract class WorldObject implements ICameraSensor {
     private final String imageFileName;
 
     /**
-     * @deprecated The width and height of the object must be based on the size of
-     *             the <code>imageName</code> referenced in the constructor
-     *             <p>
-     *             Use the following constructor instead:
-     *             {@link #WorldObject(double x, double y, double rotation, String imageName, ModelShape shape)}
-     * 
      * @param x
      * @param y
      * @param rotation
@@ -54,6 +47,11 @@ public abstract class WorldObject implements ICameraSensor {
      * @param height
      * @param imageName
      * @param shape
+     * @deprecated The width and height of the object must be based on the size of
+     * the <code>imageName</code> referenced in the constructor
+     * <p>
+     * Use the following constructor instead:
+     * {@link #WorldObject(double x, double y, double rotation, String imageName, ModelShape shape)}
      */
     @Deprecated
     public WorldObject(double x, double y, double rotation, int width, int height, String imageName, ModelShape shape) {
@@ -71,7 +69,7 @@ public abstract class WorldObject implements ICameraSensor {
 
     /**
      * Width and height are set based on image size
-     * 
+     *
      * @param x
      * @param y
      * @param rotation
@@ -102,7 +100,6 @@ public abstract class WorldObject implements ICameraSensor {
     }
 
     /**
-     * 
      * @return objects' width in pixel
      */
     public int getWidth() {
@@ -110,7 +107,6 @@ public abstract class WorldObject implements ICameraSensor {
     }
 
     /**
-     * 
      * @return objects' height in pixel
      */
     public int getHeight() {
@@ -151,6 +147,17 @@ public abstract class WorldObject implements ICameraSensor {
         AffineTransform affineTransform = AffineTransform.getRotateInstance(this.getRotation(), this.getX(),
                 this.getY());
         return affineTransform.createTransformedShape(tempShape);
+    }
+
+    /**
+     * gets a formatted object name
+     */
+    public String getWorldObjectName() {
+        if (imageFileName.endsWith(".png")) {
+            return imageFileName.substring(0, imageFileName.length() - 4);
+        } else {
+            return imageFileName;
+        }
     }
 
     @Override
