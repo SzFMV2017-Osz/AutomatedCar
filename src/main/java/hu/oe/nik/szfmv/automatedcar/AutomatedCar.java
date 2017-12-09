@@ -149,4 +149,8 @@ public class AutomatedCar extends MovingObject {
 
 	protected void doOnCollision() {
 	}
+        
+        public RadarSensor getRadarSensor(){
+            return this.radarSensor;
+        }
 }

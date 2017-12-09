@@ -21,7 +21,8 @@ public class RadarSensor implements IRadarSensor {
      * Should always be in degrees, not radian!
      */
     private double angle;
-    private final double DISTANCE = 200;
+    private final double pixelToMeterRatio = 3.67; // TODO ne legyen szükségünk átalakításra
+    private final double DISTANCE = 200 * pixelToMeterRatio;
     private final double REFERENCE_ANGLE = 60;
 
     private AutomatedCar car;
@@ -37,8 +38,6 @@ public class RadarSensor implements IRadarSensor {
         // store properties
         this.car = car;
         this.updateAngle(); // store in degree
-        System.out.println(this.car.getX());
-        System.out.println(this.car.getY());
 
         // init point types
         this.a = new Vector2D();
@@ -64,10 +63,10 @@ public class RadarSensor implements IRadarSensor {
         this.updateReferencePoint();
 
         // calculations
-        double bAngleCorrector = 270;
-        double cAngleCorrector = 360;
+        double bAngleCorrector = 90;
+        double cAngleCorrector = 180;
 
-        double diagonal = DISTANCE / Math.cos(REFERENCE_ANGLE);
+        double diagonal = DISTANCE / Math.cos(Math.toRadians(REFERENCE_ANGLE / 2));
 
         double bAngle = this.angle - (REFERENCE_ANGLE / 2);
         bAngle -= bAngleCorrector;
@@ -89,7 +88,7 @@ public class RadarSensor implements IRadarSensor {
     }
 
     public boolean isPointInRange(Vector2D point) {
-        double A = 1 / 2 * (-b.getY() * c.getX() + point.getY() * (-b.getX() + c.getX()) + point.getX() * (b.getY() - c.getY()) + b.getX() * c.getY());
+        double A = 1 / 2 * (-b.getY() * c.getX() + a.getY() * (-b.getX() + c.getX()) + a.getX() * (b.getY() - c.getY()) + b.getX() * c.getY());
         int sign = A < 0 ? -1 : 1;
         double s = (a.getY() * c.getX() - a.getX() * c.getY() + (c.getY() - a.getY()) * point.getX() + (a.getX() - c.getX()) * point.getY()) * sign;
         double t = (a.getX() * b.getY() - a.getY() * b.getX() + (a.getY() - b.getY()) * point.getX() + (b.getX() - a.getX()) * point.getY()) * sign;
@@ -98,7 +97,7 @@ public class RadarSensor implements IRadarSensor {
     }
 
     public boolean isObjectInRange(WorldObject point) {
-        double A = 1 / 2 * (-b.getY() * c.getX() + point.getY() * (-b.getX() + c.getX()) + point.getX() * (b.getY() - c.getY()) + b.getX() * c.getY());
+        double A = 1 / 2 * (-b.getY() * c.getX() + a.getY() * (-b.getX() + c.getX()) + a.getX() * (b.getY() - c.getY()) + b.getX() * c.getY());
         int sign = A < 0 ? -1 : 1;
         double s = (a.getY() * c.getX() - a.getX() * c.getY() + (c.getY() - a.getY()) * point.getX() + (a.getX() - c.getX()) * point.getY()) * sign;
         double t = (a.getX() * b.getY() - a.getY() * b.getX() + (a.getY() - b.getY()) * point.getX() + (b.getX() - a.getX()) * point.getY()) * sign;
