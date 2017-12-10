@@ -2,13 +2,13 @@ package hu.oe.nik.szfmv;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
+import hu.oe.nik.szfmv.environment.detector.WindscreenCamera;
 import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.factory.SensorObjectFactory;
 import hu.oe.nik.szfmv.environment.factory.WorldObjectFactory;
 import hu.oe.nik.szfmv.environment.model.World;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Sensor;
-import hu.oe.nik.szfmv.environment.object.Tree;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 import hu.oe.nik.szfmv.environment.xml.XmlObject;
 import hu.oe.nik.szfmv.environment.xml.XmlParser;
