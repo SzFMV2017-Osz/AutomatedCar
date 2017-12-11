@@ -24,29 +24,57 @@ public class RadarSensor implements IRadarSensor {
     private final double pixelToMeterRatio = 3.67; // TODO ne legyen szükségünk átalakításra
     private final double DISTANCE = 200 * pixelToMeterRatio;
     private final double REFERENCE_ANGLE = 60;
+    private List<WorldObject> worldObjects;
+    private List<WorldObject> worldObjectsInRange;
 
     private AutomatedCar car;
 
     /**
-     * Init un-calculated radar sensor. (points uninitialized. Use
-     * this.updatePoints()!)
+     * Init un-calculated radar sensor. (points uninitialized. Use this.update()!)
      *
      * @param car
      * @param worldObjects
      */
-    public RadarSensor(AutomatedCar car) {
+    public RadarSensor(AutomatedCar car, List<WorldObject> worldObjects) {
         // store properties
         this.car = car;
+        this.worldObjects = worldObjects;
         this.updateAngle(); // store in degree
 
-        // init point types
+        // init properties
         this.a = new Vector2D();
         this.b = new Vector2D();
-        this.c = new Vector2D();
+        this.c = new Vector2D();        
+        this.worldObjectsInRange = new ArrayList<WorldObject>();
     }
-
+    
     /**
-     * &nbsp;c . . b<br>
+     * &nbsp;b . . c<br>
+     * &nbsp;&nbsp;&nbsp;. .<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;a<br>
+     * &nbsp;&nbsp;&nbsp;-^-<br>
+     * &nbsp;&nbsp;&nbsp;| |<br>
+     * &nbsp;&nbsp;&nbsp;---<br>
+     * 1. Sets/updates "a" property to the referencePoint vector and calculates "b" and "c"
+     * vector coordinates.<br>
+     * 2. Sets/updates WorldObjectsInRange array property
+     */
+    public void update(){
+        this.updatePoints();
+        this.updateWorldObjectsInRange();
+    }
+    
+    private void updateWorldObjectsInRange(){
+        this.worldObjectsInRange = new ArrayList<WorldObject>();
+        for (WorldObject object : this.worldObjects) {
+            if (!object.getImageFileName().contains("road") && this.isObjectInRange(object)) {
+                this.worldObjectsInRange.add(object);
+            }
+        }
+    }
+    
+    /**
+     * &nbsp;b . . c<br>
      * &nbsp;&nbsp;&nbsp;. .<br>
      * &nbsp;&nbsp;&nbsp;&nbsp;a<br>
      * &nbsp;&nbsp;&nbsp;-^-<br>
@@ -54,9 +82,9 @@ public class RadarSensor implements IRadarSensor {
      * &nbsp;&nbsp;&nbsp;---<br>
      * Sets "a" property to the referencePoint vector and calculates "b" and "c"
      * vector coordinates.
-     *
+     * 
      */
-    public void updatePoints() {
+    private void updatePoints() {
 
         // store parameters
         this.updateAngle();
@@ -87,7 +115,7 @@ public class RadarSensor implements IRadarSensor {
         this.angle = Math.toDegrees(this.car.getRotation());
     }
 
-    public boolean isPointInRange(Vector2D point) {
+    private boolean isPointInRange(Vector2D point) {
         double A = 1 / 2 * (-b.getY() * c.getX() + a.getY() * (-b.getX() + c.getX()) + a.getX() * (b.getY() - c.getY()) + b.getX() * c.getY());
         int sign = A < 0 ? -1 : 1;
         double s = (a.getY() * c.getX() - a.getX() * c.getY() + (c.getY() - a.getY()) * point.getX() + (a.getX() - c.getX()) * point.getY()) * sign;
@@ -96,7 +124,7 @@ public class RadarSensor implements IRadarSensor {
         return s > 0 && t > 0 && (s + t) < 2 * A * sign;
     }
 
-    public boolean isObjectInRange(WorldObject point) {
+    private boolean isObjectInRange(WorldObject point) {
         double A = 1 / 2 * (-b.getY() * c.getX() + a.getY() * (-b.getX() + c.getX()) + a.getX() * (b.getY() - c.getY()) + b.getX() * c.getY());
         int sign = A < 0 ? -1 : 1;
         double s = (a.getY() * c.getX() - a.getX() * c.getY() + (c.getY() - a.getY()) * point.getX() + (a.getX() - c.getX()) * point.getY()) * sign;
@@ -275,6 +303,10 @@ public class RadarSensor implements IRadarSensor {
 
     public double getAngle() {
         return this.angle;
+    }
+    
+    public List<WorldObject> getWorldObjectsInRange(){
+        return this.worldObjectsInRange;
     }
 
     @Override

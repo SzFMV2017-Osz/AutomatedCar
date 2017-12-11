@@ -30,8 +30,6 @@ public class AutomatedCar extends MovingObject {
 	private Vector2DPlus rearAxleCenterToRightFrontWheelCenter;
 	private Vector2DPlus carRefToRearAxleCenter;
 	private Vector2DPlus externalCenterToRearAxleCenter;
-        
-        private RadarSensor radarSensor;
 
 	public AutomatedCar(int x, int y, float rotation, String imageFileName, int weight, ModelShape shape) {
 		super(x, y, rotation, imageFileName, weight, shape);
@@ -39,8 +37,6 @@ public class AutomatedCar extends MovingObject {
 		powertrainSystem = new PowertrainSystem(x, y, new PorscheCharacteristics());
 
 		initialize();
-                
-                this.radarSensor = new RadarSensor(this);
 	}
 
 //    private void accelerate() {
@@ -83,9 +79,6 @@ public class AutomatedCar extends MovingObject {
 				calculateRotation(this.angularSpeed);
 			}
 		}
-                
-                // sensors
-                radarSensor.updatePoints();
 	}
 
 	private void updateCarPoints() {
@@ -149,8 +142,4 @@ public class AutomatedCar extends MovingObject {
 
 	protected void doOnCollision() {
 	}
-        
-        public RadarSensor getRadarSensor(){
-            return this.radarSensor;
-        }
 }

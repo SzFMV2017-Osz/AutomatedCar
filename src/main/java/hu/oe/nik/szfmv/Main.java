@@ -6,6 +6,7 @@ import hu.oe.nik.szfmv.environment.model.WorldObjectCollection;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.environment.factory.SensorObjectFactory;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
+import hu.oe.nik.szfmv.environment.detector.RadarSensor;
 import hu.oe.nik.szfmv.environment.factory.ImageResource;
 import hu.oe.nik.szfmv.environment.factory.WorldObjectFactory;
 import hu.oe.nik.szfmv.environment.model.World;
@@ -34,6 +35,7 @@ public class Main {
     private static final int CYCLE_PERIOD = 40;
     private static CourseDisplay userInterFace;
     private static AutomatedCar playerCar;
+    private static RadarSensor radarSensor;
 
     public static void main(String[] args) {
         init();
@@ -58,6 +60,8 @@ public class Main {
 
         //add WindscreenCamera to the world
         WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
+        
+        radarSensor = new RadarSensor(playerCar, world.getWorldObjects());
 
         world.addObjectToWorld(playerCar);
 
@@ -77,6 +81,7 @@ public class Main {
             try {
                 playerCar.drive();
                 userInterFace.refreshFrame();
+                radarSensor.update();
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 logger.error(e.getMessage());
