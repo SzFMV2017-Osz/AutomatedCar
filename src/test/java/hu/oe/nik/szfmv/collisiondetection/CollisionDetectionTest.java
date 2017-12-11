@@ -2,13 +2,10 @@ package hu.oe.nik.szfmv.collisiondetection;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.Vector2D;
-import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Tree;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.awt.geom.Area;
 
 import static org.junit.Assert.assertEquals;
 
@@ -33,10 +30,17 @@ public class CollisionDetectionTest {
     }
 
     @Test
-    public void testCollision() throws Exception {
+    public void testTreeCollision() throws Exception {
         assertEquals(this.treeMock.isCollided(), false);
         this.treeMock.onCollision();
         assertEquals(this.treeMock.isCollided(), true);
+    }
+
+    @Test
+    public void testCarCollision() throws Exception {
+        assertEquals(this.automatedCarMock.isCollided(), false);
+        this.automatedCarMock.onCollision();
+        assertEquals(this.automatedCarMock.isCollided(), true);
     }
 
     @Test
@@ -45,12 +49,14 @@ public class CollisionDetectionTest {
         Vector2D currentPossition = this.automatedCarMock.getPosition();
         this.automatedCarMock.setPosition(currentPossition.add(new Vector2D(100, 100)));
 
-        boolean areTheyIntersecting = this.treeMock.isIntersects(this.automatedCarMock);
-        assertEquals(areTheyIntersecting, false);
+        this.treeMock.isIntersects(this.automatedCarMock);
+        boolean areTheyCollided = this.treeMock.isCollided();
+        assertEquals(areTheyCollided, false);
 
         // move the car into the tree
         this.automatedCarMock.setPosition(this.automatedCarMock.getPosition().add(new Vector2D(-200, -200)));
-        assertEquals(this.treeMock.isIntersects(this.automatedCarMock), true);
+        this.treeMock.isIntersects(this.automatedCarMock);
+        assertEquals(this.treeMock.isCollided(), true);
     }
 
     class TreeMock extends Tree {
@@ -58,23 +64,6 @@ public class CollisionDetectionTest {
         @SuppressWarnings("WeakerAccess")
         public TreeMock(int x, int y, float rotation, String imageFileName, int weight) {
             super(x, y, rotation, imageFileName, weight);
-        }
-
-        /**
-         * Determines whether or not this <code>CollidableObject</code> and the specified
-         * <code>WorldObject</code> intersect. Two objects intersect if
-         * their intersection is nonempty.
-         *
-         * @param worldObject the specified <code>WorldObject</code>
-         * @return <code>true</code> if the specified <code>WorldObject</code>
-         * and this <code>CollidableObject</code> intersect;
-         * <code>false</code> otherwise.
-         */
-        boolean isIntersects(WorldObject worldObject) {
-            Area areaFromThisObject = new Area(this.getShape());
-            Area areaFromWorldObject = new Area(worldObject.getShape());
-            areaFromThisObject.intersect(areaFromWorldObject);
-            return !areaFromThisObject.isEmpty();
         }
 
         @Override
