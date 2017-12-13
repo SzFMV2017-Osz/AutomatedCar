@@ -5,6 +5,7 @@ import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PorscheCharacteristics;
 import hu.oe.nik.szfmv.automatedcar.powertrainsystem.PowertrainSystem;
 import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.common.Vector2DPlus;
+import hu.oe.nik.szfmv.environment.detector.RadarSensor;
 import hu.oe.nik.szfmv.environment.model.MovingObject;
 import hu.oe.nik.szfmv.environment.util.ModelShape;
 

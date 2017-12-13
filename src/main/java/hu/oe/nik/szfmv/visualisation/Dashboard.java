@@ -133,7 +133,8 @@ public class Dashboard extends SystemComponent {
         PosXLabel.setText(posXValue);
         PosYLabel.setText(posYValue);
         IndexLabel.setText(indexValue);
-        LastRoadSignLabel.setText(lastRoadSignValue);
+        if(LastRoadSignLabel != null)
+            LastRoadSignLabel.setText(lastRoadSignValue);
     }
 
     private String roundNumberString(Object signalData) {
