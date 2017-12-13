@@ -2,6 +2,8 @@ package hu.oe.nik.szfmv.environment.detector;
 
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.Vector2D;
+import hu.oe.nik.szfmv.environment.model.CollidableObject;
+import hu.oe.nik.szfmv.environment.model.MovingObject;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
 import hu.oe.nik.szfmv.environment.object.Sensor;
 import hu.oe.nik.szfmv.environment.util.SensorType;
@@ -60,9 +62,12 @@ public class RadarSensor extends Sensor {
     
     private void updateWorldObjectsInRange(){
         this.worldObjectsInRange = new ArrayList<>();
-        this.worldObjects.stream().filter((object) -> (this.isWorldObjectInRange(object))).forEachOrdered((object) -> {
-            this.worldObjectsInRange.add(object);
-        });
+        for(WorldObject object : this.worldObjects){
+            if((object instanceof CollidableObject || object instanceof MovingObject) 
+                    && this.isWorldObjectInRange(object)){
+                this.worldObjectsInRange.add(object);
+            }
+        }
     }
     
     /**
@@ -183,9 +188,17 @@ public class RadarSensor extends Sensor {
     public Vector2D getC(){
         return new Vector2D(this.xPoints[2], this.yPoints[2]);
     }
+    
+    public List<WorldObject> getWorldObjectsInRange(){
+        return this.worldObjectsInRange;
+    }
 
     @Override
     public String toString() {
         return "a: (" + xPoints[0] + ", " + yPoints[0] + "), b: (" + xPoints[1] + ", " + yPoints[1] + "), c: (" + xPoints[2] + ", " + yPoints[2] + "), rotation: " + this.angle;
+    }
+    
+    public String getTestPrint(){
+        return "In-range world objects count = " + worldObjectsInRange.size();
     }
 }

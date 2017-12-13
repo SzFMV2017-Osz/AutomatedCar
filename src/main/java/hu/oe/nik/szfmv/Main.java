@@ -82,6 +82,7 @@ public class Main {
                 playerCar.drive();
                 userInterFace.refreshFrame();
                 radarSensor.update();
+                //System.out.println(radarSensor.getTestPrint());
                 Thread.sleep(CYCLE_PERIOD);
             } catch (InterruptedException e) {
                 logger.error(e.getMessage());
