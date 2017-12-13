@@ -22,8 +22,8 @@ public class Sensor extends WorldObject implements ISensor {
 
     private AutomatedCar car;
     private SensorType type;
-    private double[] xPoints;
-    private double[] yPoints;
+    protected double[] xPoints;
+    protected double[] yPoints;
 
     @Override
     public double getX() {

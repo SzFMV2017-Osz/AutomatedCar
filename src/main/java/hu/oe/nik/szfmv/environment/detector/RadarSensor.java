@@ -3,6 +3,8 @@ package hu.oe.nik.szfmv.environment.detector;
 import hu.oe.nik.szfmv.automatedcar.AutomatedCar;
 import hu.oe.nik.szfmv.common.Vector2D;
 import hu.oe.nik.szfmv.environment.model.WorldObject;
+import hu.oe.nik.szfmv.environment.object.Sensor;
+import hu.oe.nik.szfmv.environment.util.SensorType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,43 +12,35 @@ import java.util.List;
  *
  * @author szum7
  */
-public class RadarSensor implements IRadarSensor {
-
-    /**
-     * Reference point
-     */
-    private Vector2D a;
-    private Vector2D b, c;
+public class RadarSensor extends Sensor {
+    
     /**
      * Should always be in degrees, not radian!
      */
     private double angle;
-    private final double pixelToMeterRatio = 3.67; // TODO ne legyen szükségünk átalakításra
-    private final double DISTANCE = 200 * pixelToMeterRatio;
-    private final double REFERENCE_ANGLE = 60;
     private List<WorldObject> worldObjects;
     private List<WorldObject> worldObjectsInRange;
-
     private AutomatedCar car;
-
-    /**
-     * Init un-calculated radar sensor. (points uninitialized. Use this.update()!)
-     *
-     * @param car
-     * @param worldObjects
-     */
+    
+    private final double DISTANCE = 200;
+    private final double REFERENCE_ANGLE = 60;
+    
     public RadarSensor(AutomatedCar car, List<WorldObject> worldObjects) {
-        // store properties
+        super(new double[3], new double[3], car, SensorType.RADAR);
+        
         this.car = car;
         this.worldObjects = worldObjects;
-        this.updateAngle(); // store in degree
-
-        // init properties
-        this.a = new Vector2D();
-        this.b = new Vector2D();
-        this.c = new Vector2D();        
+        
+        this.xPoints = new double[3];
+        this.yPoints = new double[3];
         this.worldObjectsInRange = new ArrayList<WorldObject>();
+        
+        this.updatePoints();
     }
+    
+    public boolean isWorldObjectInRange(WorldObject object){
+        return this.getShape().intersects(object.getX(), object.getY(), object.getWidth(), object.getHeight());
+    } 
     
     /**
      * &nbsp;b . . c<br>
@@ -65,12 +59,10 @@ public class RadarSensor implements IRadarSensor {
     }
     
     private void updateWorldObjectsInRange(){
-        this.worldObjectsInRange = new ArrayList<WorldObject>();
-        for (WorldObject object : this.worldObjects) {
-            if (!object.getImageFileName().contains("road") && this.isObjectInRange(object)) {
-                this.worldObjectsInRange.add(object);
-            }
-        }
+        this.worldObjectsInRange = new ArrayList<>();
+        this.worldObjects.stream().filter((object) -> (this.isWorldObjectInRange(object))).forEachOrdered((object) -> {
+            this.worldObjectsInRange.add(object);
+        });
     }
     
     /**
@@ -83,7 +75,7 @@ public class RadarSensor implements IRadarSensor {
      * Sets "a" property to the referencePoint vector and calculates "b" and "c"
      * vector coordinates.
      * 
-     */
+     */    
     private void updatePoints() {
 
         // store parameters
@@ -96,226 +88,104 @@ public class RadarSensor implements IRadarSensor {
 
         double diagonal = DISTANCE / Math.cos(Math.toRadians(REFERENCE_ANGLE / 2));
 
+        // point b
         double bAngle = this.angle - (REFERENCE_ANGLE / 2);
         bAngle -= bAngleCorrector;
-        this.b.setX(Math.cos(Math.toRadians(bAngle)) * diagonal);
-        this.b.setY(Math.sin(Math.toRadians(bAngle)) * diagonal);
+        this.xPoints[1] = (Math.cos(Math.toRadians(bAngle)) * diagonal);
+        this.yPoints[1] = (Math.sin(Math.toRadians(bAngle)) * diagonal);
 
+        // point c
         double cAngle = this.angle + (REFERENCE_ANGLE / 2);
         cAngle = cAngleCorrector - cAngle;
-        this.c.setX(Math.sin(Math.toRadians(cAngle)) * diagonal);
-        this.c.setY(Math.cos(Math.toRadians(cAngle)) * diagonal);
+        this.xPoints[2] = (Math.sin(Math.toRadians(cAngle)) * diagonal);
+        this.yPoints[2] = (Math.cos(Math.toRadians(cAngle)) * diagonal);
 
-        // add to reference point
-        this.c = this.c.add(this.a);
-        this.b = this.b.add(this.a);
-    }
-
-    private void updateAngle() {
-        this.angle = Math.toDegrees(this.car.getRotation());
-    }
-
-    private boolean isPointInRange(Vector2D point) {
-        double A = 1 / 2 * (-b.getY() * c.getX() + a.getY() * (-b.getX() + c.getX()) + a.getX() * (b.getY() - c.getY()) + b.getX() * c.getY());
-        int sign = A < 0 ? -1 : 1;
-        double s = (a.getY() * c.getX() - a.getX() * c.getY() + (c.getY() - a.getY()) * point.getX() + (a.getX() - c.getX()) * point.getY()) * sign;
-        double t = (a.getX() * b.getY() - a.getY() * b.getX() + (a.getY() - b.getY()) * point.getX() + (b.getX() - a.getX()) * point.getY()) * sign;
-
-        return s > 0 && t > 0 && (s + t) < 2 * A * sign;
-    }
-
-    private boolean isObjectInRange(WorldObject point) {
-        double A = 1 / 2 * (-b.getY() * c.getX() + a.getY() * (-b.getX() + c.getX()) + a.getX() * (b.getY() - c.getY()) + b.getX() * c.getY());
-        int sign = A < 0 ? -1 : 1;
-        double s = (a.getY() * c.getX() - a.getX() * c.getY() + (c.getY() - a.getY()) * point.getX() + (a.getX() - c.getX()) * point.getY()) * sign;
-        double t = (a.getX() * b.getY() - a.getY() * b.getX() + (a.getY() - b.getY()) * point.getX() + (b.getX() - a.getX()) * point.getY()) * sign;
-
-        return s > 0 && t > 0 && (s + t) < 2 * A * sign;
+        // add to reference point to point b
+        this.xPoints[1] += this.xPoints[0];
+        this.yPoints[1] += this.yPoints[0];
+        // add to reference point to point c
+        this.xPoints[2] += this.xPoints[0];
+        this.yPoints[2] += this.yPoints[0];
     }
 
     /**
-     * Get closest vectors to the sensor's reference point
-     *
-     * @param points
-     * @return Returns more then one vectors if they are equally close.
-     */
-    public ArrayList<Vector2D> getClosestVectors(ArrayList<Vector2D> points) {
-
-        Vector2D referencePoint = this.a;
-
-        ArrayList<Vector2D> closests = new ArrayList<>();
-        int i = 0;
-        double minDist = Double.POSITIVE_INFINITY;
-
-        while (i < points.size()) {
-
-            double actDist = Math.sqrt(Math.pow((referencePoint.getX() - points.get(i).getX()), 2) + Math.pow((referencePoint.getY() - points.get(i).getY()), 2));
-
-            if (actDist < minDist) {
-                closests = new ArrayList<>();
-                closests.add(points.get(i));
-                minDist = actDist;
-            } else if (actDist == minDist) {
-                closests.add(points.get(i));
-                minDist = actDist;
-            }
-            i++;
-        }
-
-        return closests;
-    }
-
-    /**
-     * Get closest vectors to the sensor's reference point, in the sensor's
-     * range
-     *
-     * @param points
-     * @return Returns more then one vectors if they are equally close.
-     */
-    public ArrayList<Vector2D> getClosestVectorsInRange(ArrayList<Vector2D> points) {
-        ArrayList<Vector2D> closests = new ArrayList<>();
-        int i = 0;
-        double minDist = Double.POSITIVE_INFINITY;
-        Vector2D referencePoint = this.a;
-
-        while (i < points.size()) {
-
-            if (this.isPointInRange(points.get(i))) {
-
-                double actDist = Math.sqrt(Math.pow((referencePoint.getX() - points.get(i).getX()), 2) + Math.pow((referencePoint.getY() - points.get(i).getY()), 2));
-
-                if (actDist < minDist) {
-                    closests = new ArrayList<>();
-                    closests.add(points.get(i));
-                    minDist = actDist;
-                } else if (actDist == minDist) {
-                    closests.add(points.get(i));
-                    minDist = actDist;
-                }
-            }
-            i++;
-        }
-
-        return closests;
-    }
-
-    /**
-     * Get closest WorldObjects to the sensor's reference point
+     * Get closest WorldObjects to the sensor's reference point (car's front middle point)
      *
      * @param objects
-     * @return Returns more then one WorldObjects if they are equally close.
+     * @return Returns more then one WorldObjects if they are equally close and empty ArrayList, if no WorldObject is in range
      */
-    public List<WorldObject> getClosestWorldObjects(List<WorldObject> objects) {
-
-        Vector2D referencePoint = this.a;
-
+    public ArrayList<WorldObject> getClosestWorldObjectsInRange(){
+        
         ArrayList<WorldObject> closests = new ArrayList<>();
         int i = 0;
         double minDist = Double.POSITIVE_INFINITY;
-
-        while (i < objects.size()) {
-
-            double actDist = Math.sqrt(Math.pow((referencePoint.getX() - objects.get(i).getX()), 2) + Math.pow((referencePoint.getY() - objects.get(i).getY()), 2));
+        
+        while (i < this.worldObjectsInRange.size()) {
+            
+            double actDist = Math.sqrt(Math.pow((this.xPoints[0] - this.worldObjectsInRange.get(i).getX()), 2) + Math.pow((this.yPoints[0] - this.worldObjectsInRange.get(i).getY()), 2));
 
             if (actDist < minDist) {
                 closests = new ArrayList<>();
-                closests.add(objects.get(i));
+                closests.add(this.worldObjectsInRange.get(i));
                 minDist = actDist;
             } else if (actDist == minDist) {
-                closests.add(objects.get(i));
+                closests.add(this.worldObjectsInRange.get(i));
                 minDist = actDist;
             }
+            
             i++;
         }
-
         return closests;
     }
 
     /**
-     * Get closest WorldObjects to the sensor's reference point, in the sensor's
-     * range
-     *
-     * @param objects
-     * @return Returns more then one WorldObjects if they are equally close.
-     */
-    public List<WorldObject> getClosestWorldObjectsInRange(List<WorldObject> objects) {
-
-        ArrayList<WorldObject> closests = new ArrayList<>();
-        int i = 0;
-        double minDist = Double.POSITIVE_INFINITY;
-        Vector2D referencePoint = this.a;
-
-        while (i < objects.size()) {
-
-            if (this.isObjectInRange(objects.get(i))) {
-
-                double actDist = Math.sqrt(Math.pow((referencePoint.getX() - objects.get(i).getX()), 2) + Math.pow((referencePoint.getY() - objects.get(i).getY()), 2));
-
-                if (actDist < minDist) {
-                    closests = new ArrayList<>();
-                    closests.add(objects.get(i));
-                    minDist = actDist;
-                } else if (actDist == minDist) {
-                    closests.add(objects.get(i));
-                    minDist = actDist;
-                }
-            }
-            i++;
-        }
-
-        return closests;
-    }
-
-    /**
-     * Private method, only in class should the reference point be updated
-     *
-     * @param a
+     * Private method, the reference point should be updated only in-class
+     * 
      */
     private void updateReferencePoint() {
-
-        this.a.setX(this.car.getX());
-        this.a.setY(this.car.getY());
+        
+        this.xPoints[0] = this.car.getX();
+        this.yPoints[0] = this.car.getY();
 
         double triAngle = this.angle;
         double carHalfDist = this.car.getHeight() / 2;
 
         if (triAngle <= 90) {
-            this.a.add(new Vector2D(Math.sin(Math.toRadians(triAngle)) * carHalfDist, -1 * Math.cos(Math.toRadians(triAngle)) * carHalfDist));
+            this.xPoints[0] += Math.sin(Math.toRadians(triAngle)) * carHalfDist;
+            this.yPoints[0] -= Math.cos(Math.toRadians(triAngle)) * carHalfDist;
         } else if (triAngle <= 180) {
             triAngle -= 90;
-            this.a.add(new Vector2D(Math.cos(Math.toRadians(triAngle)) * carHalfDist, Math.sin(Math.toRadians(triAngle)) * carHalfDist));
+            this.xPoints[0] += Math.cos(Math.toRadians(triAngle)) * carHalfDist;
+            this.yPoints[0] += Math.sin(Math.toRadians(triAngle)) * carHalfDist;
         } else if (triAngle <= 270) {
             triAngle -= 180;
-            this.a.add(new Vector2D(-1 * Math.sin(Math.toRadians(triAngle)) * carHalfDist, Math.cos(Math.toRadians(triAngle)) * carHalfDist));
+            this.xPoints[0] -= Math.sin(Math.toRadians(triAngle)) * carHalfDist;
+            this.yPoints[0] += Math.cos(Math.toRadians(triAngle)) * carHalfDist;
         } else {
             triAngle -= 270;
-            this.a.add(new Vector2D(-1 * Math.cos(Math.toRadians(triAngle)) * carHalfDist, -1 * Math.sin(Math.toRadians(triAngle)) * carHalfDist));
+            this.xPoints[0] -= Math.cos(Math.toRadians(triAngle)) * carHalfDist;
+            this.yPoints[0] -= Math.sin(Math.toRadians(triAngle)) * carHalfDist;
         }
     }
 
-    public double getX() {
-        return this.a.getX();
-    }
-
-    public double getY() {
-        return this.a.getY();
-    }
-
-    public double getAngle() {
-        return this.angle;
+    private void updateAngle() {
+        this.angle = Math.toDegrees(this.car.getRotation());
     }
     
-    public List<WorldObject> getWorldObjectsInRange(){
-        return this.worldObjectsInRange;
+    public Vector2D getA(){
+        return new Vector2D(this.xPoints[0], this.yPoints[0]);
     }
-
-    @Override
-    public Vector2D getCurrentSpeed() {
-        return this.car.getCurrentSpeed();
+    
+    public Vector2D getB(){
+        return new Vector2D(this.xPoints[1], this.yPoints[1]);
+    }
+    
+    public Vector2D getC(){
+        return new Vector2D(this.xPoints[2], this.yPoints[2]);
     }
 
     @Override
     public String toString() {
-        return "a: (" + this.a.getX() + ", " + this.a.getY() + "), b: (" + this.b.getX() + ", " + this.b.getY() + "), c: (" + this.c.getX() + ", " + this.c.getY() + "), rotation: " + this.angle;
+        return "a: (" + xPoints[0] + ", " + yPoints[0] + "), b: (" + xPoints[1] + ", " + yPoints[1] + "), c: (" + xPoints[2] + ", " + yPoints[2] + "), rotation: " + this.angle;
     }
 }
