@@ -31,10 +31,13 @@ import java.util.List;
 public class Main {
 
     private static final Logger logger = LogManager.getLogger();
-
     private static final int CYCLE_PERIOD = 40;
+
     private static CourseDisplay userInterFace;
     private static AutomatedCar playerCar;
+    private static ArrayList<WorldObject> collidableObjects;
+    private static int numberOfCollidableObjects;
+    private static String theCollidedObject;
     private static RadarSensor radarSensor;
 
     public static void main(String[] args) {
@@ -55,17 +58,21 @@ public class Main {
 
         userInterFace.init(world);
 
-        playerCar = new AutomatedCar(2500, 2300, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
-                                        (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
+        playerCar = new AutomatedCar(2500, 1500, 0f, ImageResource.getImageOf(ImageResource.WHITE_CAR_2_NAME),
+                (int) new PorscheCharacteristics().getWeightOfCar(), ModelShape.RECTANGULAR);
 
-        //add WindscreenCamera to the world
-        WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
+
+        // add WindscreenCamera to the world
+        // WindscreenCamera windscreenCamera = new WindscreenCamera(playerCar, world.getWorldObjects());
         
         radarSensor = new RadarSensor(playerCar, world.getWorldObjects());
 
         world.addObjectToWorld(playerCar);
 
         addSensorsToWorld(playerCar, world);
+
+        collidableObjects = world.getWorldObjectsFiltered().getCollidable();
+        numberOfCollidableObjects = collidableObjects.size();
     }
 
     private static void addSensorsToWorld(AutomatedCar playerCar, World world) {
@@ -77,7 +84,7 @@ public class Main {
     }
 
     private static void mainLoop() {
-        while (true) {
+        while (!isPlayerCarCollided()) {
             try {
                 playerCar.drive();
                 userInterFace.refreshFrame();
@@ -87,6 +94,26 @@ public class Main {
             } catch (InterruptedException e) {
                 logger.error(e.getMessage());
             }
+        }
+        userInterFace.printToScreenEgoCarWasCollided(theCollidedObject);
+    }
+
+    /**
+     * Checks if the EGO car has a collision or not
+     */
+    private static boolean isPlayerCarCollided() {
+        logger.info("isPlayerCarCollided invoked");
+
+        // decision theorem:
+        int i = 0;
+        while (i < numberOfCollidableObjects && !playerCar.isCollided()) {
+            playerCar.isIntersects(collidableObjects.get(i++));
+        }
+        if (i < numberOfCollidableObjects) {
+            theCollidedObject = collidableObjects.get(i).getWorldObjectName();
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -104,13 +131,7 @@ public class Main {
         List<XmlObject> xmlObjects = new ArrayList<>();
         try {
             xmlObjects = XmlParser.parse("test_world.xml");
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (XPathExpressionException e) {
+        } catch (ParserConfigurationException | IOException | SAXException | XPathExpressionException e) {
             e.printStackTrace();
         }
         return xmlObjects;
